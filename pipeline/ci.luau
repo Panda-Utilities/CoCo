@@ -13,7 +13,7 @@ local buildConfigs = config.buildConfigs
 local buildConfig = buildConfigs[1]
 
 local readme = fs.readFile("README.md")
-local buildVers = readme:match("Version%s*`(.+?)`") or "ci"
+local buildVers = readme:match("Version%s*`(.-)`") or "ci"
 
 local srcResult = process.exec("darklua", {
 	"process",
