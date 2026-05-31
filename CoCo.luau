@@ -9,7 +9,7 @@
 --]]
 
 _P = {
-    genDate = "2026-05-31T01:00:05.810808241+00:00",
+    genDate = "2026-05-31T16:47:32.867823193+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -691,7 +691,61 @@ nil end,Parse=function(c)return c end,Autocomplete=function(c)local d={'default'
 ,'qe'}if not c or#c==0 then return d end local e,f=c:lower(),{}for g,h in
 ipairs(d)do if h:sub(1,#e)==e then table.insert(f,h)end end return f end})end
 end function a.G()local c=a.cache.G if not c then c={c=b()}a.cache.G=c end
-return c.c end end do local b=function()local b,c,d=a.g(),
+return c.c end end do local b=function()local b=a.a()local c,d,e,f,g,h,i,j,l=b.
+HttpService,a.g(),request or http_request or syn and syn.request,function(c)
+return c:gsub('([^%w%.%-%~])',function(d)return string.format('%%%02X',string.
+byte(d))end)end,100,{},{},{},function(c)if c>=1000000 then return string.format(
+'%.1fM',c/1000000)elseif c>=1000 then return string.format('%.1fK',c/1000)end
+return tostring(c)end j.formatNumber=l function j.buildBadgeStr(m)local n={}if m
+.verified then table.insert(n,'Verified')end if m.isPatched then table.insert(n,
+'Patched')end if m.key then table.insert(n,'Key')end if m.isUniversal then table
+.insert(n,'Universal')end if#n>0 then return' ['..table.concat(n,'] [')..']'end
+return''end function j.searchScripts(m)local n=
+'https://scriptblox.com/api/script/search?q='..f(m)if not e then return nil end
+local o,p=pcall(e,{Url=n,Method='GET'})if not o then return nil,'request_failed'
+end if not p or p.StatusCode~=200 or not p.Body then return nil,'bad_response'
+end local q,r=pcall(c.JSONDecode,c,p.Body)if q and r and r.result then return r.
+result end return nil,'parse_failed'end function j.formatResult(m)local n={}for
+o,p in ipairs(m)do local q,r,s,t,u=p.title or'Untitled',p.game and p.game.name
+or'Unknown',j.buildBadgeStr(p),l(p.views or 0),l(p.likes or 0)table.insert(n,
+string.format(' %d. %s',o,q))table.insert(n,string.format(
+'    Game: %s  |  Views: %s  |  Likes: %s%s',r,t,u,s))end return table.concat(n,
+'\n')end function j.runScript(m,n)local o,p,q,r,s,t=n.title or'Untitled',n.game
+and n.game.name or'Unknown',j.buildBadgeStr(n),l(n.views or 0),l(n.likes or 0),n
+.description and n.description:sub(1,200)or'No description'local u=string.
+format([[=== %s ===
+Game: %s
+Views: %s  |  Likes: %s%s
+Description: %s]],o,p,r,s
+,q,t)m:reply(u,d.Colors.TextAccent)local v=n.script if not v or v==''then return
+"Script '"..o.."' has no code."end local w,x=pcall(function()loadstring(v)()end)
+if not w then return'Failed to execute script: '..tostring(x)end return
+'Running: '..o end function j.cacheScript(m,n)if h[m]then h[m]=n return end h[m]
+=n table.insert(i,m)if#i>g then local o=table.remove(i,1)h[o]=nil end end
+function j.getCachedScript(m)return h[m]end function j.findScriptByPartialId(m)
+for n,o in pairs(h)do if n:sub(1,#m):lower()==m:lower()then return o end end
+return nil end return j end function a.H()local c=a.cache.H if not c then c={c=
+b()}a.cache.H=c end return c.c end end do local b=function()local b=a.H()return
+function(c)c:registerType('scriptblox',{Transform=function(d)return d end,
+Validate=function(d)return d~=nil end,Parse=function(d)return tostring(d)end,
+Autocomplete=function(d,e)if type(d)~='string'or#d<2 then return{},{IsPartial=
+true}end local f,g=pcall(b.searchScripts,d)if not f or not g or not g.scripts
+then return{},{IsPartial=false}end local h,i=d:lower(),{}for j,l in ipairs(g.
+scripts)do local m=l._id or l.id if l.title and m then b.cacheScript(m,l)local n
+,o=l.title:lower(),0 if n==h then o=5 elseif n:find('^'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=4 elseif n:find('[^%w]'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))or n:find('^'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=3 elseif n:find(h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'),1,true)then o=2 end table.insert(i,{
+script=l,id=m,score=o})end end table.sort(i,function(j,l)if j.score~=l.score
+then return j.score>l.score end return(j.script.views or 0)>(l.script.views or 0
+)end)local j={}for l,m in ipairs(i)do local n=m.script local o,p,q,r=b.
+formatNumber(n.views or 0),n.key and'Yes'or'No',(n.scriptType=='paid')and'No'or
+'Yes',n.isPatched and'Yes'or'No'table.insert(j,{title=m.id,name=n.title,metaDesc
+=string.format('Views: %s  |  Key: %s  |  Free: %s  |  Patched: %s',o,p,q,r)})
+end return j,{IsPartial=true}end})end end function a.I()local c=a.cache.I if not
+c then c={c=b()}a.cache.I=c end return c.c end end do local b=function()local b,
+c,d=a.g(),
 [[Argument Shorthands
 -------------------
 .   Me/Self
@@ -715,7 +769,7 @@ table.sort(g,function(h,i)return if h.Group and i.Group then h.Group<i.Group
 else h.Group end)local h for i,j in ipairs(g)do j.Group=j.Group or'No Group'if h
 ~=j.Group then e:reply(`\n{j.Group}\n{string.rep('-',#j.Group)}`)h=j.Group end e
 :reply(if j.Description then`{j.Name} - {j.Description}`else j.Name)end end
-return''end}end function a.H()local c=a.cache.H if not c then c={c=b()}a.cache.H
+return''end}end function a.J()local c=a.cache.J if not c then c={c=b()}a.cache.J
 =c end return c.c end end do local b=function()local b,c,d,e=a.c(),{},function(b
 )return(b:gsub('\\%$','___!CMDR_DOLLAR!___'))end,function(b)return(b:gsub(
 '___!CMDR_DOLLAR!___','$'))end function c.runCommandString(f,g)g=b.
@@ -737,9 +791,9 @@ l[m]=true local n,o,p,q,r=(g:match(`${m}(%b\{})`))if n then n=n:sub(2,#n-1)p,q,r
 'string'q=q or`Argument {m}`r=r or''table.insert(j,{Type=p,Name=q,Description=r,
 Optional=o})end end return{Name=h,Aliases={},Description=`<Alias> {i or g}`,
 Group='UserAlias',Args=j,Run=function(m)return c.runCommandString(m.Dispatcher,c
-.substituteArgs(g,m.RawArguments))end}end return c end function a.I()local c=a.
-cache.I if not c then c={c=b()}a.cache.I=c end return c.c end end do local b=
-function()local b=a.I()return{Name='alias',Aliases={},Description=
+.substituteArgs(g,m.RawArguments))end}end return c end function a.K()local c=a.
+cache.K if not c then c={c=b()}a.cache.K=c end return c.c end end do local b=
+function()local b=a.K()return{Name='alias',Aliases={},Description=
 [[Creates a new, single command out of a command and given arguments.]],Group=
 'DefaultUtil',Args={{Type='string',Name='Alias name',Description=
 "The key or input type you'd like to bind the command to."},{Type='string',Name=
@@ -747,8 +801,8 @@ function()local b=a.I()return{Name='alias',Aliases={},Description=
 [[The command text you want to run. Separate multiple commands with "&&". Accept arguments with $1, $2, $3, etc.]]
 }},ClientRun=function(c,d,e)c.CoCo.Registry:registerCommandObject(b.
 makeAliasCommand(d,e),true)return('Created alias %q'):format(d)end}end function
-a.J()local c=a.cache.J if not c then c={c=b()}a.cache.J=c end return c.c end end
-do local b=function()local b,c=a.I(),a.a()local d=c.UserInputService local e=
+a.L()local c=a.cache.L if not c then c={c=b()}a.cache.L=c end return c.c end end
+do local b=function()local b,c=a.K(),a.a()local d=c.UserInputService local e=
 function(e)if not e then e={}end local f,g,h=d:IsKeyDown(Enum.KeyCode.
 LeftControl),d:IsKeyDown(Enum.KeyCode.RightControl),e[Enum.KeyCode.LeftControl]
 ==true or e[Enum.KeyCode.RightControl]==true if h~=(f or g)then return false end
@@ -785,31 +839,31 @@ InputEnded:Connect(function(v)if v.KeyCode==g.key then u=true end end)elseif n==
 KeyCode~=g.key then return end if not e(g.modifiers)then return end s()end)t[#t+
 1]=d.InputEnded:Connect(function(u)if u.KeyCode==g.key then s()end end)end j[p]=
 {mode=n,key=g.key,modifiers=g.modifiers,command=h,args=m,connections=t}return(
-'Bound %q \u{2192} [%s] %s %s'):format(p,n,h,m)end}end function a.K()local c=a.
-cache.K if not c then c={c=b()}a.cache.K=c end return c.c end end do local b=
+'Bound %q \u{2192} [%s] %s %s'):format(p,n,h,m)end}end function a.M()local c=a.
+cache.M if not c then c={c=b()}a.cache.M=c end return c.c end end do local b=
 function()return{Name='clear',Aliases={},Description=
 'Clear all lines above the entry line of the CoCo window.',Group='DefaultUtil',
 Args={},ClientRun=function()local b=pcall(gethui)and gethui():FindFirstChild
 'CoCo'if not b then return''end local c=b:FindFirstChild'Frame'if c then local d
 =c:FindFirstChild'Line'for e,f in pairs(c:GetChildren())do if f~=d and f.Name==
-'Line'and f:IsA'TextBox'then f:Destroy()end end end return''end}end function a.L
-()local c=a.cache.L if not c then c={c=b()}a.cache.L=c end return c.c end end do
+'Line'and f:IsA'TextBox'then f:Destroy()end end end return''end}end function a.N
+()local c=a.cache.N if not c then c={c=b()}a.cache.N=c end return c.c end end do
 local b=function()return{Name='date',Aliases={'timestamp'},Description=
 'Convert a timestamp to a human-readable format.',Group='DefaultUtil',Args={{
 Type='number',Name='timestamp',Description=
 'A numerical representation of a specific moment in time.',Optional=true}},
 ClientRun=function(b,c)c=c or os.time()return`{os.date('%x',c)} {os.date('%X',c)
-}`end}end function a.M()local c=a.cache.M if not c then c={c=b()}a.cache.M=c end
+}`end}end function a.O()local c=a.cache.O if not c then c={c=b()}a.cache.O=c end
 return c.c end end do local b=function()return{Name='echo',Aliases={'='},
 Description='Echoes your text back to you.',Group='DefaultUtil',Args={{Type=
 'string',Name='Text',Description='The text.'}},Run=function(b,c)return c end}end
-function a.N()local c=a.cache.N if not c then c={c=b()}a.cache.N=c end return c.
+function a.P()local c=a.cache.P if not c then c={c=b()}a.cache.P=c end return c.
 c end end do local b=function()local b={}function b.new()local c,d={},false
 return function()if d then table.insert(c,coroutine.running())coroutine.yield()
 else d=true end return function()if#c>0 then coroutine.resume(table.remove(c,1))
-else d=false end end end end return b end function a.O()local c=a.cache.O if not
-c then c={c=b()}a.cache.O=c end return c.c end end do local b=function()local b,
-c,d=a.O(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.fromRGB(17,
+else d=false end end end end return b end function a.Q()local c=a.cache.Q if not
+c then c={c=b()}a.cache.Q=c end return c.c end end do local b=function()local b,
+c,d=a.Q(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.fromRGB(17,
 17,17),BackgroundTransparency=0.05,BorderColor3=Color3.fromRGB(17,17,17),
 BorderSizePixel=20,ClearTextOnFocus=false,MultiLine=true,Position=UDim2.new(0.5,
 0,0.5,0),Size=UDim2.new(0.5,0,0.4,0),Font=Enum.Font.Code,TextColor3=Color3.
@@ -826,8 +880,8 @@ Instance.new'ScreenGui'i.Name='CoCoEditBox'i.ResetOnSpawn=false local j=Instance
 Parent=pcall(gethui)and gethui()or Players.LocalPlayer:WaitForChild'PlayerGui'
 local l=coroutine.running()j.InputBegan:Connect(function(m)if m.UserInputType==
 Enum.UserInputType.MouseButton2 then coroutine.resume(l,j.Text:gsub('\n',g))i:
-Destroy()h()end end)return coroutine.yield()end}end function a.P()local c=a.
-cache.P if not c then c={c=b()}a.cache.P=c end return c.c end end do local b=
+Destroy()h()end end)return coroutine.yield()end}end function a.R()local c=a.
+cache.R if not c then c={c=b()}a.cache.R=c end return c.c end end do local b=
 function()return{Name='history',Aliases={},AutoExec={
 [[alias "!|Displays previous command from history." run ${history $1{number|Line Number}}]]
 ,
@@ -837,34 +891,34 @@ function()return{Name='history',Aliases={},AutoExec={
 'integer',Name='Line Number',Description=
 'Command line number (can be negative to go from end)'}},ClientRun=function(b,c)
 local d=b.Dispatcher:getHistory()if c<=0 then c=#d+c end return d[c]or''end}end
-function a.Q()local c=a.cache.Q if not c then c={c=b()}a.cache.Q=c end return c.
+function a.S()local c=a.cache.S if not c then c={c=b()}a.cache.S=c end return c.
 c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 'hover',Description='Returns the name of the player you are hovering over.',
 Group='DefaultUtil',Args={},ClientRun=function()local d=c.LocalPlayer:GetMouse()
 local e=d.Target if not e then return''end local f=c:GetPlayerFromCharacter(e:
-FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.R()
-local c=a.cache.R if not c then c={c=b()}a.cache.R=c end return c.c end end do
+FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.T()
+local c=a.cache.T if not c then c={c=b()}a.cache.T=c end return c.c end end do
 local b=function()return{Name='decode',Aliases={},Description=
 'Decodes a JSON Array into a comma-separated list',Group='DefaultUtil',Args={{
 Type='json',Name='JSON',Description='The JSON array.'}},ClientRun=function(b,c)
-if type(c)~='table'then c={c}end return table.concat(c,',')end}end function a.S(
-)local c=a.cache.S if not c then c={c=b()}a.cache.S=c end return c.c end end do
+if type(c)~='table'then c={c}end return table.concat(c,',')end}end function a.U(
+)local c=a.cache.U if not c then c={c=b()}a.cache.U=c end return c.c end end do
 local b=function()local b=a.a()local c=b.HttpService return{Name='encode',
 Aliases={},Description='Encodes a comma-separated list into a JSON array',Group=
 'DefaultUtil',Args={{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(d,e)return c:JSONEncode(e:split',')end
-}end function a.T()local c=a.cache.T if not c then c={c=b()}a.cache.T=c end
+}end function a.V()local c=a.cache.V if not c then c={c=b()}a.cache.V=c end
 return c.c end end do local b=function()return{Name='len',Aliases={},Description
 ='Returns the length of a comma-separated list',Group='DefaultUtil',Args={{Type=
 'string',Name='CSV',Description='The comma-separated list'}},Run=function(b,c)
-return#(c:split',')end}end function a.U()local c=a.cache.U if not c then c={c=b(
-)}a.cache.U=c end return c.c end end do local b=function()return{Name='keybind',
+return#(c:split',')end}end function a.W()local c=a.cache.W if not c then c={c=b(
+)}a.cache.W=c end return c.c end end do local b=function()return{Name='keybind',
 Aliases={'close','open'},Description=
 'Changes the keybind used to open/close the command menu.',Group='DefaultUtil',
 Args={{Type='userInput',Name='Key',Description=
 'The key to bind the menu toggle to.'}},ClientRun=function(b,c)local d=b.CoCo d:
 setActivationKeys{c}return('Menu keybind set to %s.'):format(c.Name or tostring(
-c))end}end function a.V()local c=a.cache.V if not c then c={c=b()}a.cache.V=c
+c))end}end function a.X()local c=a.cache.X if not c then c={c=b()}a.cache.X=c
 end return c.c end end do local b=function()return{Name='math',Aliases={},
 Description='Perform a math operation on 2 values.',Group='DefaultUtil',AutoExec
 ={[[alias "+|Perform an addition." math + $1{number|Number} $2{number|Number}]],
@@ -876,20 +930,20 @@ Description='Perform a math operation on 2 values.',Group='DefaultUtil',AutoExec
 Args={{Type='mathOperator',Name='Operation',Description='A math operation.'},{
 Type='number',Name='Value',Description='A number value.'},{Type='number',Name=
 'Value',Description='A number value.'}},ClientRun=function(b,c,d,e)return c.
-Perform(d,e)end}end function a.W()local c=a.cache.W if not c then c={c=b()}a.
-cache.W=c end return c.c end end do local b=function()return{Name='pick',Aliases
+Perform(d,e)end}end function a.Y()local c=a.cache.Y if not c then c={c=b()}a.
+cache.Y=c end return c.c end end do local b=function()return{Name='pick',Aliases
 ={},Description='Picks a value out of a comma-separated list.',Group=
 'DefaultUtil',Args={{Type='integer',Name='Index to pick',Description=
 'The index of the item you want to pick'},{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(b,c,d)return d:split','[c]or''end}end
-function a.X()local c=a.cache.X if not c then c={c=b()}a.cache.X=c end return c.
+function a.Z()local c=a.cache.Z if not c then c={c=b()}a.cache.Z=c end return c.
 c end end do local b=function()return{Name='rand',Aliases={},Description=
 'Returns a random number between min and max',Group='DefaultUtil',Args={{Type=
 'integer',Name='First number',Description=
 [[If second number is nil, random number is between 1 and this value. If second number is provided, number is between this number and the second number.]]
 },{Type='integer',Name='Second number',Description='The upper bound.',Optional=
 true}},Run=function(b,c,d)return tostring(d and math.random(c,d)or math.random(c
-))end}end function a.Y()local c=a.cache.Y if not c then c={c=b()}a.cache.Y=c end
+))end}end function a._()local c=a.cache._ if not c then c={c=b()}a.cache._=c end
 return c.c end end do local b=function()return{Name='replace',Aliases={'gsub',
 '//'},Description='Replaces text A with text B',Group='DefaultUtil',AutoExec={
 [[alias "map|Maps a CSV into another CSV" replace $1{string|CSV} ([^,]+) "$2{string|mapped value|Use %1 to insert the element}"]]
@@ -900,8 +954,8 @@ return c.c end end do local b=function()return{Name='replace',Aliases={'gsub',
 'Needle',Description='The string pattern search for.'},{Type='string',Name=
 'Replacement',Description=
 'The string to replace matches (%1 to insert matches).',Default=''}},Run=
-function(b,c,d,e)return c:gsub(d,e)end}end function a.Z()local c=a.cache.Z if
-not c then c={c=b()}a.cache.Z=c end return c.c end end do local b=function()
+function(b,c,d,e)return c:gsub(d,e)end}end function a.aa()local c=a.cache.aa if
+not c then c={c=b()}a.cache.aa=c end return c.c end end do local b=function()
 return{Name='resolve',Aliases={},Description=
 [[Resolves Argument Value Operators into lists. E.g., resolve players * gives you a list of all players.]]
 ,Group='DefaultUtil',AutoExec={
@@ -911,15 +965,15 @@ return{Name='resolve',Aliases={},Description=
 Name='Argument Value Operator',Description=
 'The value operator to resolve. One of: * ** . ? ?N, selectors (allies, enemies, friends, nearest, farthest, alive, dead, cursor, npcs), patterns (ageN, radN, groupN, #N), and +/\u{2212} set operations'
 ,Optional=true}end},Run=function(b)return table.concat(b:getArgument(2).
-RawSegments,',')end}end function a._()local c=a.cache._ if not c then c={c=b()}a
-.cache._=c end return c.c end end do local b=function()local b=a.I()return{Name=
-'run',Aliases={'>'},AutoExec={
+RawSegments,',')end}end function a.ab()local c=a.cache.ab if not c then c={c=b()
+}a.cache.ab=c end return c.c end end do local b=function()local b=a.K()return{
+Name='run',Aliases={'>'},AutoExec={
 [[alias "discard|Run a command and discard the output." replace ${run $1} .* \"\"]]
 },Description='Runs a given command string (replacing embedded commands).',Group
 ='DefaultUtil',Args={{Type='string',Name='Command',Description=
 'The command string to run'}},Run=function(c,d)return b.runCommandString(c.
-Dispatcher,d)end}end function a.aa()local c=a.cache.aa if not c then c={c=b()}a.
-cache.aa=c end return c.c end end do local b=function()local b,c=a.I(),{
+Dispatcher,d)end}end function a.ac()local c=a.cache.ac if not c then c={c=b()}a.
+cache.ac=c end return c.c end end do local b=function()local b,c=a.K(),{
 startsWith=function(b,c)if b:sub(1,#c)==c then return b:sub(#c+1)end end}return{
 Name='runif',Aliases={},Description=
 'Runs a given command string if a certain condition is met.',Group='DefaultUtil'
@@ -932,7 +986,7 @@ Description=
 ,Optional=true}},Run=function(d,e,f,g,h)local i=c[e]if not i then return(
 'Condition %q is not valid.'):format(e)end local j=i(g,f)if j then return d.
 Dispatcher:evaluateAndRun(b.runEmbeddedCommands(d.Dispatcher,h or j))end return
-''end}end function a.ab()local c=a.cache.ab if not c then c={c=b()}a.cache.ab=c
+''end}end function a.ad()local c=a.cache.ad if not c then c={c=b()}a.cache.ad=c
 end return c.c end end do local b=function()return{Name='run-lines',Aliases={},
 Description=
 [[Splits input by newlines and runs each line as its own command. This is used by the init-run command.]]
@@ -941,7 +995,7 @@ Description=
 end local d,e=b.Dispatcher:run('var','INIT_PRINT_OUTPUT')~='',c:gsub('\n+','\n')
 :split'\n'for f,g in ipairs(e)do if g:sub(1,1)=='#'then continue end local h=b.
 Dispatcher:evaluateAndRun(g)if d then b:reply(h)end end return''end}end function
-a.ac()local c=a.cache.ac if not c then c={c=b()}a.cache.ac=c end return c.c end
+a.ae()local c=a.cache.ae if not c then c={c=b()}a.cache.ae=c end return c.c end
 end do local b=function()return{Name='unbind',Aliases={},Description=
 'Unbinds a key combination previously bound with Bind.',Group='DefaultUtil',Args
 ={{Type='keycombo',Name='Combo',Description=
@@ -951,8 +1005,8 @@ local d,e=b:getStore'COCO_Binds',c.text local f=d[e]if f and f.connections then
 for g,h in ipairs(f.connections)do h:Disconnect()end if f.heartbeat then f.
 heartbeat:Disconnect()end d[e]=nil return('Unbound %q.'):format(e)end if d[c.key
 ]then d[c.key]:Disconnect()d[c.key]=nil return('Unbound %q.'):format(e)end
-return('%q is not bound.'):format(e)end}end function a.ad()local c=a.cache.ad if
-not c then c={c=b()}a.cache.ad=c end return c.c end end do local b=function()
+return('%q is not bound.'):format(e)end}end function a.af()local c=a.cache.af if
+not c then c={c=b()}a.cache.af=c end return c.c end end do local b=function()
 return{Name='var',Aliases={},Description='Gets a stored variable.',Group=
 'DefaultUtil',AutoExec={
 [[alias "init-edit|Edit your initialization script" edit ${var init} \\
@@ -961,20 +1015,45 @@ return{Name='var',Aliases={},Description='Gets a stored variable.',Group=
 [[alias "init-run|Re-runs the initialization script manually." run-lines ${var init}]]
 ,'init-run'},Args={{Type='storedKey',Name='Key',Description=
 [[The key to get, retrieved from your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
-}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.ae()
-local c=a.cache.ae if not c then c={c=b()}a.cache.ae=c end return c.c end end do
+}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.ag()
+local c=a.cache.ag if not c then c={c=b()}a.cache.ag=c end return c.c end end do
 local b=function()return{Name='var=',Aliases={},Description=
 'Sets a stored value.',Group='DefaultUtil',Args={{Type='storedKey',Name='Key',
 Description=
 [[The key to set, saved in your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
 },{Type='string',Name='Value',Description='Value or values to set.',Default=''}}
-,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.af()
-local c=a.cache.af if not c then c={c=b()}a.cache.af=c end return c.c end end do
+,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.ah()
+local c=a.cache.ah if not c then c={c=b()}a.cache.ah=c end return c.c end end do
+local b=function()local b,c=a.H(),a.g()return{Name='scriptblox',Aliases={'sb',
+'sblox'},Description=
+[[Search and run scripts from ScriptBlox. Autocomplete shows matching scripts as you type.]]
+,Group='DefaultUtil',Args={{Type='scriptblox',Name='query',Description=
+'Search query or script name'}},ClientRun=function(d,e)local f=e and e:match
+'^%s*(.-)%s*$'or e if not f or f==''then return
+'Usage: scriptblox <search query>'end local g=b.getCachedScript(f)if g then
+return b.runScript(d,g)end local h,i,j=f,f:match'^(.*)%s([^%s]+)$'if i and j and
+j:match'^[0-9a-fA-F]{8,}$'then local l=b.findScriptByPartialId(j)if l then
+return b.runScript(d,l)end local m,n=pcall(b.searchScripts,j)if m and n and n.
+scripts and#n.scripts>0 then local o=n.scripts[1]b.cacheScript(j,o)return b.
+runScript(d,o)end h=i end local l,m,n=pcall(b.searchScripts,h)if not l then
+return string.format('ScriptBlox search threw an error for %q: %s',h,tostring(m)
+)end if not m then local o=n=='bad_response'and'bad response'or n==
+'parse_failed'and'failed to parse response'or'request failed'return string.
+format('ScriptBlox API error for %q (%s).',h,o)end local o=m.scripts if not o or
+#o==0 then return string.format('No scripts found matching %q.',h)end for p,q in
+ipairs(o)do if q.title and q.title:lower()==h:lower()then return b.runScript(d,q
+)end end if#o==1 then return b.runScript(d,o[1])end d:reply(string.format(
+'=== ScriptBlox Results (%d found) ===',#o),c.Colors.TextAccent)d:reply(b.
+formatResult(o),c.Colors.TextPrimary)d:reply(
+[[Tip: Refine your query to get a single result and it will run automatically.]]
+,c.Colors.TextSecondary)return string.format(
+'Showing %d results for %q. Refine your search.',#o,h)end}end function a.ai()
+local c=a.cache.ai if not c then c={c=b()}a.cache.ai=c end return c.c end end do
 local b=function()return{Name='blink',Aliases={'b'},Description=
 'Teleports you to where your mouse is hovering.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c,d=b.Executor:GetMouse(),b.Executor.Character if not
 d then return"You don't have a character."end d:MoveTo(c.Hit.p)return'Blinked!'
-end}end function a.ag()local c=a.cache.ag if not c then c={c=b()}a.cache.ag=c
+end}end function a.aj()local c=a.cache.aj if not c then c={c=b()}a.cache.aj=c
 end return c.c end end do local b=function()local b,c,d,e,f,g,h,i,j,l,m,n=a.a(),
 {F=0,B=0,L=0,R=0,Q=0,E=0},{F=0,B=0,L=0,R=0,Q=0,E=0},0,{[Enum.KeyCode.W]='F',[
 Enum.KeyCode.S]='B',[Enum.KeyCode.A]='L',[Enum.KeyCode.D]='R',[Enum.KeyCode.Q]=
@@ -1030,8 +1109,8 @@ function h:flyMethod(v)self.method=v u()task.wait()t()end function h:flyStop()u(
 )end function h:flyToggle()if self.flying then u()else t()end end function h:
 setSpeed(v)if self.method=='cframe'then self.cFlySpeed=v elseif self.method==
 'vehicle'then self.vehicleFlySpeed=v else self.flySpeed=v end end return h end
-function a.ah()local c=a.cache.ah if not c then c={c=b()}a.cache.ah=c end return
-c.c end end do local b=function()local b=a.ah()return{Name='fly',Aliases={'f'},
+function a.ak()local c=a.cache.ak if not c then c={c=b()}a.cache.ak=c end return
+c.c end end do local b=function()local b=a.ak()return{Name='fly',Aliases={'f'},
 Description='Fly with WASD (and QE).',Group='DefaultDebug',Args={{Type=
 'flymethod',Name='action',Description=
 'velocity, speed, vehicle, cframe, or a number',Optional=true},{Type='number',
@@ -1047,16 +1126,16 @@ fly()end return('Speed set to %d.'):format(e)end return('Current speed: %d.'):
 format(b.speed)end if({default=true,qe=true})[d]then b.keyBinds=d return(
 'Keybinds: %s.'):format(d)end local h=tonumber(d)if h then b:setSpeed(h)if not b
 .flying then b:fly()end return('Speed set to %d.'):format(h)end return(
-'Unknown option %q.'):format(d)end}end function a.ai()local c=a.cache.ai if not
-c then c={c=b()}a.cache.ai=c end return c.c end end do local b=function()local b
+'Unknown option %q.'):format(d)end}end function a.al()local c=a.cache.al if not
+c then c={c=b()}a.cache.al=c end return c.c end end do local b=function()local b
 =a.a()local c=b.Players return{Name='position',Aliases={'pos'},Description=
 [[Returns Vector3 position of you or other players. Empty string is the player has no character.]]
 ,Group='DefaultDebug',Args={{Type='player',Name='Player',Description=
 [[The player to report the position of. Omit for your own position.]],Default=c.
 LocalPlayer}},ClientRun=function(d,e)local f=e.Character if not f or not f:
 FindFirstChild'HumanoidRootPart'then return''end return tostring(f.
-HumanoidRootPart.Position):gsub('%s','')end}end function a.aj()local c=a.cache.
-aj if not c then c={c=b()}a.cache.aj=c end return c.c end end do local b=
+HumanoidRootPart.Position):gsub('%s','')end}end function a.am()local c=a.cache.
+am if not c then c={c=b()}a.cache.am=c end return c.c end end do local b=
 function()return{Name='thru',Aliases={'t','through'},Description=
 [[Teleports you through whatever your mouse is hovering over, placing you equidistantly from the wall.]]
 ,Group='DefaultDebug',Args={{Type='number',Name='Extra distance',Description=
@@ -1064,17 +1143,17 @@ function()return{Name='thru',Aliases={'t','through'},Description=
 local d,e=b.Executor:GetMouse(),b.Executor.Character if not e or not e:
 FindFirstChild'HumanoidRootPart'then return"You don't have a character."end
 local f=e.HumanoidRootPart.Position local g=(d.Hit.p-f)e:MoveTo((g*2)+(g.unit*c)
-+f)return'Blinked!'end}end function a.ak()local c=a.cache.ak if not c then c={c=
-b()}a.cache.ak=c end return c.c end end do local b=function()return{Name=
++f)return'Blinked!'end}end function a.an()local c=a.cache.an if not c then c={c=
+b()}a.cache.an=c end return c.c end end do local b=function()return{Name=
 'version',Args={},Description='Shows the current version of CoCo',Group=
 'DefaultDebug',Run=function()return('CoCo Version %s'):format(_P.vers)end}end
-function a.al()local c=a.cache.al if not c then c={c=b()}a.cache.al=c end return
+function a.ao()local c=a.cache.ao if not c then c={c=b()}a.cache.ao=c end return
 c.c end end do local b=function()local b,c=a.a(),game:GetService
 'TeleportService'return{Name='rejoin',Aliases={'rj'},Description=
 'Rejoins the current server.',Group='DefaultDebug',Args={},ClientRun=function()
 local d=b.Players.LocalPlayer if not d then return'No local player.'end c:
-Teleport(game.PlaceId,d)return'Rejoining...'end}end function a.am()local c=a.
-cache.am if not c then c={c=b()}a.cache.am=c end return c.c end end do local b=
+Teleport(game.PlaceId,d)return'Rejoining...'end}end function a.ap()local c=a.
+cache.ap if not c then c={c=b()}a.cache.ap=c end return c.c end end do local b=
 function()local b,c=a.a(),game:GetService'TeleportService'local d=b.HttpService
 return{Name='serverhop',Aliases={'shop','hop'},Description=
 'Teleports you to another server of the same game.',Group='DefaultDebug',Args={}
@@ -1086,21 +1165,21 @@ h)local j,l=pcall(function()return d:GetAsync(i)end)if not j then return
 return'No server data found.'end for n,o in ipairs(m.data)do if o.id~=g and o.
 playing<o.maxPlayers then c:TeleportToPlaceInstance(f,o.id,e)return
 'Server hopping...'end end return'No other servers available.'end}end function a
-.an()local c=a.cache.an if not c then c={c=b()}a.cache.an=c end return c.c end
+.aq()local c=a.cache.aq if not c then c={c=b()}a.cache.aq=c end return c.c end
 end do local b=function()local b=a.a()local c,d=(b.RunService)return{Name=
 'noclip',Aliases={'nc'},Description='Toggle noclip (walk through walls).',Group=
 'DefaultDebug',Args={},ClientRun=function(e)if d then d:Disconnect()d=nil return
 'Noclip disabled.'end d=c.Stepped:Connect(function()local f=e.Executor.Character
 if not f then return end for g,h in ipairs(f:GetDescendants())do if h:IsA
 'BasePart'then h.CanCollide=false end end end)return'Noclip enabled.'end}end
-function a.ao()local c=a.cache.ao if not c then c={c=b()}a.cache.ao=c end return
+function a.ar()local c=a.cache.ar if not c then c={c=b()}a.cache.ar=c end return
 c.c end end do local b=function()return{Name='anchor',Aliases={'anc'},
 Description='Toggle anchor on your root part.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character if not c then return
 'No character.'end local d=c:FindFirstChild'HumanoidRootPart'or c:FindFirstChild
 'Torso'if not d then return'No root part found.'end d.Anchored=not d.Anchored
-return d.Anchored and'Anchored.'or'Unanchored.'end}end function a.ap()local c=a.
-cache.ap if not c then c={c=b()}a.cache.ap=c end return c.c end end do local b=
+return d.Anchored and'Anchored.'or'Unanchored.'end}end function a.as()local c=a.
+cache.as if not c then c={c=b()}a.cache.as=c end return c.c end end do local b=
 function()local b=a.a()local c,d=(b.RunService)return{Name='fov',Aliases={},
 Description='Set a custom FOV. Resets when toggled off.',Group='DefaultDebug',
 Args={{Type='number',Name='value',Description=
@@ -1108,29 +1187,30 @@ Args={{Type='number',Name='value',Description=
 (e,f)if not f or f<=0 then if d then d:Disconnect()d=nil end return
 'FOV override disabled.'end if d then d:Disconnect()end d=c.RenderStepped:
 Connect(function()local g=workspace.CurrentCamera if g then g.FieldOfView=f end
-end)return('FOV set to %d.'):format(f)end}end function a.aq()local c=a.cache.aq
-if not c then c={c=b()}a.cache.aq=c end return c.c end end do local b=function()
+end)return('FOV set to %d.'):format(f)end}end function a.at()local c=a.cache.at
+if not c then c={c=b()}a.cache.at=c end return c.c end end do local b=function()
 local b=a.l()return function(c)b()local d={a.m(),a.p(),a.q(),a.r(),a.s(),a.t(),a
-.u(),a.v(),a.w(),a.x(),a.y(),a.z(),a.A(),a.B(),a.C(),a.D(),a.E(),a.F(),a.G()}for
-e,f in ipairs(d)do f(c)end local e={a.H(),a.J(),a.K(),a.L(),a.M(),a.N(),a.P(),a.
-Q(),a.R(),a.S(),a.T(),a.U(),a.V(),a.W(),a.X(),a.Y(),a.Z(),a._(),a.aa(),a.ab(),a.
-ac(),a.ad(),a.ae(),a.af(),a.ag(),a.ai(),a.aj(),a.ak(),a.al(),a.am(),a.an(),a.ao(
-),a.ap(),a.aq()}for f,g in ipairs(e)do c.Registry:registerCommandObject(g)end
-end end function a.ar()local c=a.cache.ar if not c then c={c=b()}a.cache.ar=c
-end return c.c end end do local b=function()local b do b=setmetatable({},{
-__index=function(c,d)local e=c.Registry[d]if e and type(e)=='function'then
-return function(f,...)return e(c.Registry,...)end end end})local c=a.a()local d=
-c.Players b.Registry=a.e()(b)b.Dispatcher=a.j()(b,d.LocalPlayer)a.ar()(b)end
-return b end function a.as()local c=a.cache.as if not c then c={c=b()}a.cache.as
-=c end return c.c end end do local b=function()local b local c=function(c,...)
-local d=b b=nil c(...)b=d end local d,e=function()while true do c(coroutine.
-yield())end end,{}e.__index=e function e.new(f,g)return setmetatable({_connected
-=true,_signal=f,_fn=g,_next=false},e)end function e:Disconnect()self._connected=
-false if self._signal._handlerListHead==self then self._signal._handlerListHead=
-self._next else local f=self._signal._handlerListHead while f and f._next~=self
-do f=f._next end if f then f._next=self._next end end end setmetatable(e,{
-__index=function(f,g)error(('Attempt to get Connection::%s (not a valid member)'
-):format(tostring(g)),2)end,__newindex=function(f,g)error((
+.u(),a.v(),a.w(),a.x(),a.y(),a.z(),a.A(),a.B(),a.C(),a.D(),a.E(),a.F(),a.G(),a.
+I()}for e,f in ipairs(d)do f(c)end local e={a.J(),a.L(),a.M(),a.N(),a.O(),a.P(),
+a.R(),a.S(),a.T(),a.U(),a.V(),a.W(),a.X(),a.Y(),a.Z(),a._(),a.aa(),a.ab(),a.ac()
+,a.ad(),a.ae(),a.af(),a.ag(),a.ah(),a.ai(),a.aj(),a.al(),a.am(),a.an(),a.ao(),a.
+ap(),a.aq(),a.ar(),a.as(),a.at()}for f,g in ipairs(e)do c.Registry:
+registerCommandObject(g)end end end function a.au()local c=a.cache.au if not c
+then c={c=b()}a.cache.au=c end return c.c end end do local b=function()local b
+do b=setmetatable({},{__index=function(c,d)local e=c.Registry[d]if e and type(e)
+=='function'then return function(f,...)return e(c.Registry,...)end end end})
+local c=a.a()local d=c.Players b.Registry=a.e()(b)b.Dispatcher=a.j()(b,d.
+LocalPlayer)a.au()(b)end return b end function a.av()local c=a.cache.av if not c
+then c={c=b()}a.cache.av=c end return c.c end end do local b=function()local b
+local c=function(c,...)local d=b b=nil c(...)b=d end local d,e=function()while
+true do c(coroutine.yield())end end,{}e.__index=e function e.new(f,g)return
+setmetatable({_connected=true,_signal=f,_fn=g,_next=false},e)end function e:
+Disconnect()self._connected=false if self._signal._handlerListHead==self then
+self._signal._handlerListHead=self._next else local f=self._signal.
+_handlerListHead while f and f._next~=self do f=f._next end if f then f._next=
+self._next end end end setmetatable(e,{__index=function(f,g)error((
+'Attempt to get Connection::%s (not a valid member)'):format(tostring(g)),2)end,
+__newindex=function(f,g)error((
 'Attempt to set Connection::%s (not a valid member)'):format(tostring(g)),2)end}
 )local f={}f.__index=f function f.new()return(setmetatable({_handlerListHead=
 false},f))end function f:Connect(g)local h=e.new(self,g)if self._handlerListHead
@@ -1145,8 +1225,8 @@ h=self:Connect(function(...)if h._connected then h:Disconnect()end g(...)end)
 return h end setmetatable(f,{__index=function(g,h)error((
 'Attempt to get Signal::%s (not a valid member)'):format(tostring(h)),2)end,
 __newindex=function(g,h)error(('Attempt to set Signal::%s (not a valid member)')
-:format(tostring(h)),2)end})return f end function a.at()local c=a.cache.at if
-not c then c={c=b()}a.cache.at=c end return c.c end end do local b=function()
+:format(tostring(h)),2)end})return f end function a.aw()local c=a.cache.aw if
+not c then c={c=b()}a.cache.aw=c end return c.c end end do local b=function()
 local b,c,d=function(b,...)if type(b)=='thread'then coroutine.resume(b,...)
 return b else local c=coroutine.create(b)coroutine.resume(c,...)return c end end
 ,function(b)local c,d=coroutine.close(b)if not c then error(`[TASK] could not cancel thread\n\terror: {
@@ -1154,19 +1234,19 @@ d}`)end end,function(b)local c=os.clock()local d,e=(c+(b or 1))repeat e=os.
 clock()until e>=d return e-c end local e=function(e,f,...)local g=b(function(g,h
 ,...)d(g)if type(h)=='thread'then coroutine.resume(h,...)else h(...)end end,e,f,
 ...)return g end return table.freeze{cancel=c,spawn=b,defer=b,delay=e,wait=d}end
-function a.au()local c=a.cache.au if not c then c={c=b()}a.cache.au=c end return
+function a.ax()local c=a.cache.ax if not c then c={c=b()}a.cache.ax=c end return
 c.c end end do local b=function()local b=function(...)print(`\27[0;33m{table.
-concat({...},' ')}\27[0m`)end return b end function a.av()local c=a.cache.av if
-not c then c={c=b()}a.cache.av=c end return c.c end end do local b=function()
-local b,c,d=a.au(),a.av(),if game and game.ClassName=='DataModel'and game.
+concat({...},' ')}\27[0m`)end return b end function a.ay()local c=a.cache.ay if
+not c then c={c=b()}a.cache.ay=c end return c.c end end do local b=function()
+local b,c,d=a.ax(),a.ay(),if game and game.ClassName=='DataModel'and game.
 GraphicsQualityChangeRequest then'ROBLOX'elseif string.find(_VERSION,'Lune')then
 'LUNE'else'NONE'local e,f=warn or c,if task then task elseif d=='LUNE'then(
 require)'@lune/task'else b do local g=function(g,h)if not _G[g]then _G[g]=h end
 end if not _RUNTIME then g('_RUNTIME',d)_RUNTIME=d end if not warn then g('warn'
 ,e)warn=e end if not task then g('task',f)task=f end end return table.freeze{
 cancel=f.cancel,spawn=f.spawn,defer=f.defer,delay=f.delay,wait=f.wait,warn=e,
-runtime=d}end function a.aw()local c=a.cache.aw if not c then c={c=b()}a.cache.
-aw=c end return c.c end end do local b=function()local b,c,d,e,f=a.aw(),
+runtime=d}end function a.az()local c=a.cache.az if not c then c={c=b()}a.cache.
+az=c end return c.c end end do local b=function()local b,c,d,e,f=a.az(),
 [[Object is a %* and as such expected `true?` for the method name and instead got %*. Traceback: %*]]
 ,
 [[Object %* doesn't have method %*, are you sure you want to add it? Traceback: %*]]
@@ -1219,11 +1299,11 @@ function()b.cancel(s)end)end end end else local r,s=pcall(function()return((p)[q
 then table.clear(r)h[n]=nil end n.CurrentlyCleaning=false n.UnsafeThreadCleanup=
 o end end g.Cleanup=n function f:Destroy()n(self)table.clear(self)setmetatable(
 self,nil)end g.__call=n function g:__tostring()return'Janitor'end return f end
-function a.ax()local c=a.cache.ax if not c then c={c=b()}a.cache.ax=c end return
+function a.aA()local c=a.cache.aA if not c then c={c=b()}a.cache.aA=c end return
 c.c end end do local b=function()local b=function(b,c)local d=b for e,f in c do
 if b[e]==f then continue end if d==b then d=table.clone(b)end d[e]=f end return
-d end return b end function a.ay()local c=a.cache.ay if not c then c={c=b()}a.
-cache.ay=c end return c.c end end do local b=function()local b,c,d=a.ay(),{
+d end return b end function a.aB()local c=a.cache.aB if not c then c={c=b()}a.
+cache.aB=c end return c.c end end do local b=function()local b,c,d=a.aB(),{
 number=function(b,c)b[1]=c end,vector=function(b,c)b[1]=c end,table=function(b,c
 )for d,e in c do b[d]=e end end},{number=function(b)return b[1]end,vector=
 function(b)return b[1]end,table=function(b)return table.clone(b)end}local e,f,g,
@@ -1241,25 +1321,25 @@ end,function(j,l)for m,n in l.components do j.components[m]=n end j.value=i(l)j.
 dirty=nil end,function(j,l,m,n)for o,p in m.components do local q=(l.components[
 o])j.components[o]=q+(p-q)*n end j.dirty=true end return{create=e,copy=f,zero=g,
 setValue=j,addValue=l,getValue=i,recomputeValue=h,assign=m,lerp=n}end function a
-.az()local c=a.cache.az if not c then c={c=b()}a.cache.az=c end return c.c end
+.aC()local c=a.cache.aC if not c then c={c=b()}a.cache.aC=c end return c.c end
 end do local b=function()local b=function(b,c)local d,e={},0 local f=function(f)
 local g=table.find(d,f)if g then d[g]=d[e]d[e]=nil e-=1 end end local g,h,i,j=
 function(g)for h=e,1,-1 do c(d[h],g,f)end end,function(g,h)return c(g,h,f)end,
 function(g)if table.find(d,g)then return end table.insert(d,g)e+=1 end,function(
 )table.clear(d)e=0 end return{states=d,update=h,step=g,add=i,remove=f,clear=j}
-end return b end function a.aA()local c=a.cache.aA if not c then c={c=b()}a.
-cache.aA=c end return c.c end end do local b=function()local b,c=nil,(a.aw())
+end return b end function a.aD()local c=a.cache.aD if not c then c={c=b()}a.
+cache.aD=c end return c.c end end do local b=function()local b,c=nil,(a.az())
 local d=function(d,e,...)b=nil e(...)b=d end local e=function()while true do d(
 coroutine.yield())end end local f=function(f,...)local g=b or coroutine.create(e
-)b=nil coroutine.resume(g,g,f,...)end return f end function a.aB()local c=a.
-cache.aB if not c then c={c=b()}a.cache.aB=c end return c.c end end do local b=
-function()local b=a.aB()local c=function()local c,d={},0 local e,f=function(e)
+)b=nil coroutine.resume(g,g,f,...)end return f end function a.aE()local c=a.
+cache.aE if not c then c={c=b()}a.cache.aE=c end return c.c end end do local b=
+function()local b=a.aE()local c=function()local c,d={},0 local e,f=function(e)
 table.insert(c,e)d+=1 return function()local f=table.find(c,e)if f then c[f]=c[d
 ]c[d]=nil d-=1 end end end,function(...)for e=d,1,-1 do b(c[e],...)end end
-return e,f end return c end function a.aC()local c=a.cache.aC if not c then c={c
-=b()}a.cache.aC=c end return c.c end end do local b=function()return{}end
-function a.aD()local c=a.cache.aD if not c then c={c=b()}a.cache.aD=c end return
-c.c end end do local b=function()local b,c,d,e=a.az(),a.aA(),a.aC(),a.aD()local
+return e,f end return c end function a.aF()local c=a.cache.aF if not c then c={c
+=b()}a.cache.aF=c end return c.c end end do local b=function()return{}end
+function a.aG()local c=a.cache.aG if not c then c={c=b()}a.cache.aG=c end return
+c.c end end do local b=function()local b,c,d,e=a.aC(),a.aD(),a.aF(),a.aG()local
 f,g,h,i,j=b.getValue,b.recomputeValue,1e-3,62.5,{}(j).__index=j local l=function
 (l,m)if type(l)=='number'then return math.abs(l)<=m else local n=vector.abs(l)
 return math.max(n.x,n.y,n.z)<=m end end local m,n=c('Spring',function(m,n,o)if m
@@ -1306,13 +1386,13 @@ end if b.setValue(self.state.goal,o)then self:scheduleUpdate()end end function j
 halt()b.zero(self.state.velocity)end function j:onChange(o)return self.state.
 onChange(o)end function j:onComplete(o)return self.state.onComplete(o)end
 function j:destroy()self:stop()end return{scheduler=m,createSpring=n}end
-function a.aE()local c=a.cache.aE if not c then c={c=b()}a.cache.aE=c end return
-c.c end end do local b=function()a.aE()return{default={tension=170,friction=26},
+function a.aH()local c=a.cache.aH if not c then c={c=b()}a.cache.aH=c end return
+c.c end end do local b=function()a.aH()return{default={tension=170,friction=26},
 gentle={tension=120,friction=14},wobbly={tension=180,friction=12},stiff={tension
 =210,friction=20},slow={tension=280,friction=60},molasses={tension=280,friction=
 120},figmaGentle={tension=100,friction=15},figmaQuick={tension=300,friction=20},
 figmaBouncy={tension=600,friction=15},figmaSlow={tension=80,friction=20}}end
-function a.aF()local c=a.cache.aF if not c then c={c=b()}a.cache.aF=c end return
+function a.aI()local c=a.cache.aI if not c then c={c=b()}a.cache.aI=c end return
 c.c end end do local b=function()local b,c=math.pi,1.70158 local d,e,f,g,h,i,j,l
 ,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F=c*1.525,c+1,(2*b)/3,(2*b)/4.5,function(
 d)return d end,function(d)return if d==0 then 0 else 1 end,function(d)return d*d
@@ -1345,15 +1425,15 @@ quadOut=m,quadInOut=n,cubicIn=o,cubicOut=p,cubicInOut=q,quartIn=r,quartOut=s,
 quartInOut=t,quintIn=u,quintOut=v,quintInOut=w,sineIn=x,sineOut=y,sineInOut=z,
 expoIn=A,expoOut=B,expoInOut=C,circIn=D,circOut=E,circInOut=F,backIn=G,backOut=H
 ,backInOut=I,elasticIn=J,elasticOut=K,elasticInOut=L,bounceIn=N,bounceOut=M,
-bounceInOut=O}end function a.aG()local c=a.cache.aG if not c then c={c=b()}a.
-cache.aG=c end return c.c end end do local b=function()local b,c=a.aD(),function
+bounceInOut=O}end function a.aJ()local c=a.cache.aJ if not c then c={c=b()}a.
+cache.aJ=c end return c.c end end do local b=function()local b,c=a.aG(),function
 (b,c,d)local e=typeof(b)if e=='number'or e=='vector'then return b+(c-b)*d elseif
 e=='table'then local f=b for g,h in c do local i=b[g]if not i then continue end
 local j=i+(h-i)*d if f[g]~=j then if f==b then f=table.clone(b)end f[g]=j end
 end return f else error(`Unsupported type for interpolation: {e}`)end end return
-c end function a.aH()local c=a.cache.aH if not c then c={c=b()}a.cache.aH=c end
-return c.c end end do local b=function()local b,c,d,e,f,g,h=a.aG(),a.aH(),a.ay()
-,a.aA(),a.aC(),a.aD(),{}(h).__index=h local i=function(i,j,l)if j<0 then j=math.
+c end function a.aK()local c=a.cache.aK if not c then c={c=b()}a.cache.aK=c end
+return c.c end end do local b=function()local b,c,d,e,f,g,h=a.aJ(),a.aK(),a.aB()
+,a.aD(),a.aF(),a.aG(),{}(h).__index=h local i=function(i,j,l)if j<0 then j=math.
 huge end if j>1 and i>=1 then if l then return math.abs((i-1)%2-1)elseif i<j
 then return i%1 end return 1 end return i end local j,l=e('Tween',function(j,l,m
 )if j.complete then m(j)return j.position end j.elapsed+=l local n=math.clamp(j.
@@ -1384,8 +1464,8 @@ function h:setGoal(m,n)if n then self:configure(n)end local o=if type(m)==
 goal=o self:resumeFromCurrentPosition()end end function h:onChange(m)return self
 .state.onChange(m)end function h:onComplete(m)return self.state.onComplete(m)end
 function h:destroy()self:stop()end return{scheduler=j,createTween=l}end function
-a.aI()local c=a.cache.aI if not c then c={c=b()}a.cache.aI=c end return c.c end
-end do local b=function()local b,c,d,e,f,g=a.aA(),a.aC(),a.aE(),a.aI(),a.aD(),{}
+a.aL()local c=a.cache.aL if not c then c={c=b()}a.cache.aL=c end return c.c end
+end do local b=function()local b,c,d,e,f,g=a.aD(),a.aF(),a.aH(),a.aL(),a.aG(),{}
 (g).__index=g local h,i=b('Motion',function(h,i,j)if h.complete then j(h)return
 h.current:getPosition()end local l=h.current:step(i)if h.current:idle()then j(h)
 h.complete=true h.fireComplete(l)end return l end),function(h)local i=h if i==
@@ -1422,16 +1502,16 @@ self:scheduleUpdate()end end function g:tween(l,m)self:prepareTween()self.state.
 tween:setGoal(l,m)if not self.state.tween:idle()then self:scheduleUpdate()end
 end function g:onChange(l)return self.state.onChange(l)end function g:onComplete
 (l)return self.state.onComplete(l)end function g:destroy()self:stop()end return{
-scheduler=h,createMotion=j}end function a.aJ()local c=a.cache.aJ if not c then c
-={c=b()}a.cache.aJ=c end return c.c end end do local b=function()local b,c,d,e,f
-,g=a.aF(),a.aG(),a.aJ(),a.aE(),a.aI(),a.aD()return{config=b,easing=c,
+scheduler=h,createMotion=j}end function a.aM()local c=a.cache.aM if not c then c
+={c=b()}a.cache.aM=c end return c.c end end do local b=function()local b,c,d,e,f
+,g=a.aI(),a.aJ(),a.aM(),a.aH(),a.aL(),a.aG()return{config=b,easing=c,
 createMotion=d.createMotion,motionScheduler=d.scheduler,createSpring=e.
 createSpring,springScheduler=e.scheduler,createTween=f.createTween,
-tweenScheduler=f.scheduler}end function a.aK()local c=a.cache.aK if not c then c
-={c=b()}a.cache.aK=c end return c.c end end do local b=function()local b=a.aK()
-return b end function a.aL()local c=a.cache.aL if not c then c={c=b()}a.cache.aL
+tweenScheduler=f.scheduler}end function a.aN()local c=a.cache.aN if not c then c
+={c=b()}a.cache.aN=c end return c.c end end do local b=function()local b=a.aN()
+return b end function a.aO()local c=a.cache.aO if not c then c={c=b()}a.cache.aO
 =c end return c.c end end do local b=function()local b=a.a()local c,d,e,f,g,h,i,
-j,l=b.GuiService,b.UserInputService,b.RunService,b.Lighting,a.ax(),a.aL(),a.c(),
+j,l=b.GuiService,b.UserInputService,b.RunService,b.Lighting,a.aA(),a.aO(),a.c(),
 300,{Enum.UserInputType.MouseButton1,Enum.UserInputType.MouseButton2,Enum.
 UserInputType.Touch}local m,n,o={Valid=true,AutoComplete=nil,ProcessEntry=nil,
 OnTextChanged=nil,CoCo=nil,GuiRoot=nil,HistoryState=nil,Janitor=g.new()},-80,25
@@ -1502,132 +1582,140 @@ isVisible()then self:hide()end return end if self.CoCo.HideOnLostFocus and table
 Position,H.AbsolutePosition,H.AbsoluteSize if I.X<J.X or I.X>J.X+K.X or I.Y<J.Y
 or I.Y>J.Y+K.Y then self:hide()end elseif F.KeyCode==Enum.KeyCode.Down then self
 :selectVertical(1)elseif F.KeyCode==Enum.KeyCode.Up then self:selectVertical(-1)
-elseif F.KeyCode==Enum.KeyCode.Return then return elseif F.KeyCode==Enum.KeyCode
-.Tab then local H,I=self.AutoComplete:getSelectedItem(),self:getEntryText()if H
-and not(I:sub(#I,#I):match'%s'and self.AutoComplete.LastItem)then local J,K,L,M=
-H[2],true,(self.AutoComplete.Command)if L then local N=self.AutoComplete.Arg M=L
-.Alias K=self.AutoComplete.NumArgs~=#L.ArgumentDefinitions and self.AutoComplete
-.IsPartial==false local O=L.Arguments for P=1,#O do local Q=O[P]local R=Q.
-RawSegments if Q==N then R[#R]=J end local S=Q.Prefix..table.concat(R,',')if S:
-find' 'or S==''then S=('%q'):format(S)end M=('%s %s'):format(M,S)if Q==N then
-break end end else M=J end task.wait()self:setEntryText(M..(K and' 'or''))else
-task.wait()self:setEntryText(self:getEntryText())end else self:
-clearHistoryState()end end function m:destroy()self.Janitor:Destroy()x:Destroy()
-end local F=function()local F=C()if not F then return end m.Janitor:Add(F.
-TextBox.FocusLost:Connect(function(G)return m:loseFocus(G)end),'Disconnect')m.
-Janitor:Add(d.InputBegan:Connect(function(G,H)return m:beginInput(G,H)end),
-'Disconnect')m.Janitor:Add(F.TextBox:GetPropertyChangedSignal'Text':Connect(
-function()local G=A()if not G then return end G.CanvasPosition=Vector2.new(0,G.
-AbsoluteCanvasSize.Y)if F.TextBox.Text:match'\t'then F.TextBox.Text=F.TextBox.
-Text:gsub('\t','')return end if m.OnTextChanged then return m.OnTextChanged(F.
-TextBox.Text)end end),'Disconnect')local G=A()if G then m.Janitor:Add(G.
-ChildAdded:Connect(function()task.defer(m.updateWindowHeight)end),'Disconnect')
-end m.Janitor:Add(e.Heartbeat:Connect(function(H)local I=A()if not I then return
-end local J,K,L,M,N=p:step(H),q:step(H),r:step(H),u:step(H),v:step(H)I.Position=
-UDim2.new(0.025,0,0,o+J)I.BackgroundTransparency=K I.Size=UDim2.new(I.Size.X.
-Scale,I.Size.X.Offset,0,L)local O=workspace.CurrentCamera if O then O.
-FieldOfView=M end x.Size=N if not r:idle()then I.CanvasPosition=Vector2.new(0,y)
-end if I.Visible then local P=math.clamp((K-0.4)/0.6,0,1)for Q,R in ipairs(I:
-GetDescendants())do if R:IsA'TextBox'or R:IsA'TextLabel'then R.TextTransparency=
-P end end end if p:idle()and z then z=false I.Visible=false end end),
-'Disconnect')end task.spawn(function()while not A()do task.wait()end F()end)
-return m end function a.aM()local c=a.cache.aM if not c then c={c=b()}a.cache.aM
-=c end return c.c end end do local b=function()return function(b,c)local d,e,f=a
-.c(),a.ax(),a.a()local g,h,i=f.TweenService,{Items={},ItemOptions={},
-SelectedItem=0,Janitor=e.new()},c:WaitForChild'Autocomplete'local j,l,m,n=i:
-WaitForChild'TextButton',i:WaitForChild'Title',i:WaitForChild'Description',c:
-WaitForChild'Frame':WaitForChild'Entry'j.Parent=nil local o,p,q,r=i.
-ScrollBarThickness,TweenInfo.new(0.08,Enum.EasingStyle.Quad,Enum.EasingDirection
-.Out),function(o,p,q,r)o.Visible=q~=nil p.Text=q or''if r then p.Size=UDim2.new(
-0,p.TextBounds.X,o.Size.Y.Scale,o.Size.Y.Offset)end end,10 local s=function()i.
-Size=UDim2.new(0,math.max(l.Field.TextBounds.X+l.Field.Type.TextBounds.X+r,i.
-Size.X.Offset),0,math.min(i.UIListLayout.AbsoluteContentSize.Y,i.Parent.
-AbsoluteSize.Y-i.AbsolutePosition.Y-r))end local t=function(t)q(l,l.Field,t.name
-,true)q(l.Field.Type,l.Field.Type,t.type and': '..t.type:sub(1,1):upper()..t.
-type:sub(2),true)l.Field.Type.Position=UDim2.new(0,l.Field.Size.X.Offset,0,0)q(m
-,m.Label,t.description)m.Label.TextColor3=t.invalid and Color3.fromRGB(255,73,73
-)or Color3.fromRGB(255,255,255)m.Size=UDim2.new(1,0,0,40)while not m.Label.
-TextFits do m.Size=m.Size+UDim2.new(0,0,0,2)if m.Size.Y.Offset>500 then break
-end end i.UIListLayout:ApplyLayout()s()i.ScrollBarThickness=o end function h:
-show(u,v)v=v or{}for w,x in ipairs(self.Items)do if x.gui then x.gui:Destroy()
-end end self.SelectedItem=1 self.Items=u self.Prefix=v.prefix or''self.LastItem=
-v.isLast or false self.Command=v.command self.Arg=v.arg self.NumArgs=v.numArgs
-self.IsPartial=v.isPartial local w=200 i.ScrollBarThickness=0 for x,y in ipairs(
-self.Items)do local z,A,B=y[1],y[2],j:Clone()B.Name=z..A B.
-BackgroundTransparency=x==self.SelectedItem and 0.5 or 1 local C,D=string.find(A
-:lower(),z:lower(),1,true)if not C then C,D=1,0 end B.Typed.Text=string.rep(' ',
-C-1)..z B.Suggest.Text=string.sub(A,0,C-1)..string.rep(' ',#z)..string.sub(A,D+1
-)B.Parent=i B.LayoutOrder=x local E=math.max(B.Typed.TextBounds.X,B.Suggest.
-TextBounds.X)+20 if E>w then w=E end y.gui=B end i.UIListLayout:ApplyLayout()for
-x,y in ipairs(self.Items)do if y.gui then local z=y.gui.BackgroundTransparency y
-.gui.BackgroundTransparency=1 g:Create(y.gui,p,{BackgroundTransparency=z}):Play(
-)end end g:Create(i,p,{BackgroundTransparency=0.5}):Play()for x,y in ipairs(i:
-GetDescendants())do if y:IsA'TextLabel'or y:IsA'TextBox'then y.TextTransparency=
-1 g:Create(y,p,{TextTransparency=0}):Play()end end local x=n.TextBox.Text local
-y=d.splitString(x)if x:sub(#x,#x)==' 'and not v.at then y[#y+1]='e'end table.
-remove(y,#y)local z=(v.at and v.at or(#table.concat(y,' ')+1))*7 i.Position=
-UDim2.new(0,n.TextBox.AbsolutePosition.X-10+z,0,n.TextBox.AbsolutePosition.Y+30)
-i.Size=UDim2.new(0,w,0,i.UIListLayout.AbsoluteContentSize.Y)i.Visible=true t(
-self.Items[1]and self.Items[1].options or v)end function h:getSelectedItem()if i
-.Visible==false then return nil end return h.Items[h.SelectedItem]end function h
-:hide()local u=g:Create(i,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.
-EasingDirection.Out),{BackgroundTransparency=1})u.Completed:Connect(function()i.
-Visible=false end)u:Play()for v,w in ipairs(self.Items)do if w.gui then g:
-Create(w.gui,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),
-{BackgroundTransparency=1}):Play()end end for v,w in ipairs(i:GetDescendants())
-do if w:IsA'TextLabel'or w:IsA'TextBox'then g:Create(w,TweenInfo.new(0.06,Enum.
-EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=1}):Play()end end
-end function h:isVisible()return i.Visible end function h:select(u)if not i.
-Visible then return end self.SelectedItem=self.SelectedItem+u if self.
-SelectedItem>#self.Items then self.SelectedItem=1 elseif self.SelectedItem<1
-then self.SelectedItem=#self.Items end for v,w in ipairs(self.Items)do w.gui.
-BackgroundTransparency=v==self.SelectedItem and 0.5 or 1 end i.CanvasPosition=
-Vector2.new(0,math.max(0,l.Size.Y.Offset+m.Size.Y.Offset+self.SelectedItem*j.
-Size.Y.Offset-i.Size.Y.Offset))if self.Items[self.SelectedItem]and self.Items[
-self.SelectedItem].options then t(self.Items[self.SelectedItem].options or{})end
-end h.Janitor:Add(i.Parent:GetPropertyChangedSignal'AbsoluteSize':Connect(s),
-'Disconnect')function h:destroy()self.Janitor:Destroy()end return h end end
-function a.aN()local c=a.cache.aN if not c then c={c=b()}a.cache.aN=c end return
-c.c end end do local b=function()local b=a.c()return function(c,d)local e=a.aM()
-e.CoCo=c e.GuiRoot=d local f=d:FindFirstChild'CoCo'local g=a.aN()(c,f or d)e.
-AutoComplete=g function e.ProcessEntry(h)h=b.trimString(h)if#h==0 then return
-end e:addLine(e:getLabel()..' '..h,Color3.fromRGB(255,223,93))e:addLine(c.
-Dispatcher:evaluateAndRun(h))end function e.OnTextChanged(h)local i,j=c.
-Dispatcher:evaluate(h,c.Dispatcher._defaultExecutor,true),b.splitString(h)local
-l,m=table.remove(j,1),false if i then j=b.mashExcessArguments(j,#i.Object.Args)m
-=#j==#i.Object.Args end local n=l and#j>0 if h:sub(#h,#h):match'%s'and not m
-then n=true j[#j+1]=''end if i and n then local o,p=i:validate()e:
-setIsValidInput(o,('Validation errors: %s'):format(p or''))local q,r={},i:
-getArgument(#j)if r then local s,t=r.TextSegmentInProgress,false if r.
-RawSegmentsAreAutocomplete then for u,v in ipairs(r.RawSegments)do q[u]={v,v}end
-else local u,v=r:GetAutocomplete()v=v or{}t=v.IsPartial or false for w,x in
-ipairs(u)do q[w]={s,x}end end local u=true if#s>0 then u,p=r:Validate()end if
-not m and u then e:hideInvalidState()end return g:show(q,{at=m and#h-#s+(h:sub(#
-h,#h):match'%s'and-1 or 0),prefix=#r.RawSegments==1 and r.Prefix or'',isLast=#i.
-Arguments==#i.ArgumentDefinitions and#s>0,numArgs=#j,command=i,arg=r,name=r.Name
-..(r.Required and''or'?'),type=r.Type.DisplayName,description=(u==false and p)or
-r.Object.Description,invalid=not u,isPartial=t})end elseif l and#j==0 then e:
-setIsValidInput(true)local o,p=(c.Registry:getCommand(l))if o then p={o.Name,o.
-Name,options={name=o.Name,description=o.Description}}local q=o.Args and o.Args[1
-]if type(q)=='function'then q=q(i)end if q and(not q.Optional and q.Default==nil
-)then e:setIsValidInput(false,'This command has required arguments.')e:
-hideInvalidState()end end local q=p and{p}or{}for r,s in ipairs(c.Registry:
-getCommandNames())do if l:lower()==s:lower():sub(1,#l)and(p==nil or p[1]~=s)then
-local t=c.Registry:getCommand(s)q[#q+1]={l,s,options={name=t.Name,description=t.
-Description}}end end if#q>0 then return g:show(q)end e:setIsValidInput(false,(
+elseif F.KeyCode==Enum.KeyCode.Return then if self.AutoComplete and self.
+AutoComplete:isVisible()then local H=self.AutoComplete:getSelectedItem()if H
+then local I=self:getEntryText()local J=I:match'^(.*)[%s]'if J then if J~=H[2]
+then I=J..' '..H[2]end else I=H[2]end self:setEntryText(I)end end return elseif
+F.KeyCode==Enum.KeyCode.Tab then local H,I=self.AutoComplete:getSelectedItem(),
+self:getEntryText()if H and not(I:sub(#I,#I):match'%s'and self.AutoComplete.
+LastItem)then local J,K,L,M=H[2],true,(self.AutoComplete.Command)if L then local
+N=self.AutoComplete.Arg M=L.Alias K=self.AutoComplete.NumArgs~=#L.
+ArgumentDefinitions and self.AutoComplete.IsPartial==false local O=L.Arguments
+for P=1,#O do local Q=O[P]local R=Q.RawSegments if Q==N then R[#R]=J end local S
+=Q.Prefix..table.concat(R,',')if S:find' 'or S==''then S=('%q'):format(S)end M=(
+'%s %s'):format(M,S)if Q==N then break end end else M=J end task.wait()self:
+setEntryText(M..(K and' 'or''))else task.wait()self:setEntryText(self:
+getEntryText())end else self:clearHistoryState()end end function m:destroy()self
+.Janitor:Destroy()x:Destroy()end local F=function()local F=C()if not F then
+return end m.Janitor:Add(F.TextBox.FocusLost:Connect(function(G)return m:
+loseFocus(G)end),'Disconnect')m.Janitor:Add(d.InputBegan:Connect(function(G,H)
+return m:beginInput(G,H)end),'Disconnect')m.Janitor:Add(F.TextBox:
+GetPropertyChangedSignal'Text':Connect(function()local G=A()if not G then return
+end G.CanvasPosition=Vector2.new(0,G.AbsoluteCanvasSize.Y)if F.TextBox.Text:
+match'\t'then F.TextBox.Text=F.TextBox.Text:gsub('\t','')return end if m.
+OnTextChanged then return m.OnTextChanged(F.TextBox.Text)end end),'Disconnect')
+local G=A()if G then m.Janitor:Add(G.ChildAdded:Connect(function()task.defer(m.
+updateWindowHeight)end),'Disconnect')end m.Janitor:Add(e.Heartbeat:Connect(
+function(H)local I=A()if not I then return end local J,K,L,M,N=p:step(H),q:step(
+H),r:step(H),u:step(H),v:step(H)I.Position=UDim2.new(0.025,0,0,o+J)I.
+BackgroundTransparency=K I.Size=UDim2.new(I.Size.X.Scale,I.Size.X.Offset,0,L)
+local O=workspace.CurrentCamera if O then O.FieldOfView=M end x.Size=N if not r:
+idle()then I.CanvasPosition=Vector2.new(0,y)end if I.Visible then local P=math.
+clamp((K-0.4)/0.6,0,1)for Q,R in ipairs(I:GetDescendants())do if R:IsA'TextBox'
+or R:IsA'TextLabel'then R.TextTransparency=P end end end if p:idle()and z then z
+=false I.Visible=false end end),'Disconnect')end task.spawn(function()while not
+A()do task.wait()end F()end)return m end function a.aP()local c=a.cache.aP if
+not c then c={c=b()}a.cache.aP=c end return c.c end end do local b=function()
+return function(b,c)local d,e,f=a.c(),a.aA(),a.a()local g,h,i=f.TweenService,{
+Items={},ItemOptions={},SelectedItem=0,Janitor=e.new()},c:WaitForChild
+'Autocomplete'local j,l,m,n=i:WaitForChild'TextButton',i:WaitForChild'Title',i:
+WaitForChild'Description',c:WaitForChild'Frame':WaitForChild'Entry'j.Parent=nil
+local o,p,q,r=i.ScrollBarThickness,TweenInfo.new(0.08,Enum.EasingStyle.Quad,Enum
+.EasingDirection.Out),function(o,p,q,r)o.Visible=q~=nil p.Text=q or''if r then p
+.Size=UDim2.new(0,p.TextBounds.X,o.Size.Y.Scale,o.Size.Y.Offset)end end,10 local
+s=function()i.Size=UDim2.new(0,math.max(l.Field.TextBounds.X+l.Field.Type.
+TextBounds.X+r,i.Size.X.Offset),0,math.min(i.UIListLayout.AbsoluteContentSize.Y,
+i.Parent.AbsoluteSize.Y-i.AbsolutePosition.Y-r))end local t=function(t)q(l,l.
+Field,t.name,true)q(l.Field.Type,l.Field.Type,t.type and': '..t.type:sub(1,1):
+upper()..t.type:sub(2),true)l.Field.Type.Position=UDim2.new(0,l.Field.Size.X.
+Offset,0,0)q(m,m.Label,t.description)m.Label.TextColor3=t.invalid and Color3.
+fromRGB(255,73,73)or Color3.fromRGB(255,255,255)m.Size=UDim2.new(1,0,0,40)while
+not m.Label.TextFits do m.Size=m.Size+UDim2.new(0,0,0,2)if m.Size.Y.Offset>500
+then break end end i.UIListLayout:ApplyLayout()s()i.ScrollBarThickness=o end
+function h:show(u,v)v=v or{}for w,x in ipairs(self.Items)do if x.gui then x.gui:
+Destroy()end end self.SelectedItem=1 self.Items=u self.Prefix=v.prefix or''self.
+LastItem=v.isLast or false self.Command=v.command self.Arg=v.arg self.NumArgs=v.
+numArgs self.IsPartial=v.isPartial local w=200 i.ScrollBarThickness=0 for x,y in
+ipairs(self.Items)do local z,A=y[1],y[3]or y[2]local B,C=A,j:Clone()C.Name=z..
+tostring(B)C.BackgroundTransparency=x==self.SelectedItem and 0.5 or 1 local D,E=
+string.find(B:lower(),z:lower(),1,true)if not D then D,E=1,0 end C.Typed.Text=
+string.rep(' ',D-1)..z C.Suggest.Text=string.sub(B,0,D-1)..string.rep(' ',#z)..
+string.sub(B,E+1)C.Parent=i C.LayoutOrder=x local F=math.max(C.Typed.TextBounds.
+X,C.Suggest.TextBounds.X)+20 if F>w then w=F end y.gui=C end i.UIListLayout:
+ApplyLayout()for x,y in ipairs(self.Items)do if y.gui then local z=y.gui.
+BackgroundTransparency y.gui.BackgroundTransparency=1 g:Create(y.gui,p,{
+BackgroundTransparency=z}):Play()end end g:Create(i,p,{BackgroundTransparency=
+0.5}):Play()for x,y in ipairs(i:GetDescendants())do if y:IsA'TextLabel'or y:IsA
+'TextBox'then y.TextTransparency=1 g:Create(y,p,{TextTransparency=0}):Play()end
+end local x=n.TextBox.Text local y=d.splitString(x)if x:sub(#x,#x)==' 'and not v
+.at then y[#y+1]='e'end table.remove(y,#y)local z=(v.at and v.at or(#table.
+concat(y,' ')+1))*7 i.Position=UDim2.new(0,n.TextBox.AbsolutePosition.X-10+z,0,n
+.TextBox.AbsolutePosition.Y+30)i.Size=UDim2.new(0,w,0,i.UIListLayout.
+AbsoluteContentSize.Y)i.Visible=true t(self.Items[1]and self.Items[1].options or
+v)end function h:getSelectedItem()if i.Visible==false then return nil end return
+h.Items[h.SelectedItem]end function h:hide()local u=g:Create(i,TweenInfo.new(
+0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=1})
+u.Completed:Connect(function()i.Visible=false end)u:Play()for v,w in ipairs(self
+.Items)do if w.gui then g:Create(w.gui,TweenInfo.new(0.06,Enum.EasingStyle.Quad,
+Enum.EasingDirection.Out),{BackgroundTransparency=1}):Play()end end for v,w in
+ipairs(i:GetDescendants())do if w:IsA'TextLabel'or w:IsA'TextBox'then g:Create(w
+,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+TextTransparency=1}):Play()end end end function h:isVisible()return i.Visible
+end function h:select(u)if not i.Visible then return end self.SelectedItem=self.
+SelectedItem+u if self.SelectedItem>#self.Items then self.SelectedItem=1 elseif
+self.SelectedItem<1 then self.SelectedItem=#self.Items end for v,w in ipairs(
+self.Items)do w.gui.BackgroundTransparency=v==self.SelectedItem and 0.5 or 1 end
+i.CanvasPosition=Vector2.new(0,math.max(0,l.Size.Y.Offset+m.Size.Y.Offset+self.
+SelectedItem*j.Size.Y.Offset-i.Size.Y.Offset))if self.Items[self.SelectedItem]
+and self.Items[self.SelectedItem].options then t(self.Items[self.SelectedItem].
+options or{})end end h.Janitor:Add(i.Parent:GetPropertyChangedSignal
+'AbsoluteSize':Connect(s),'Disconnect')function h:destroy()self.Janitor:Destroy(
+)end return h end end function a.aQ()local c=a.cache.aQ if not c then c={c=b()}a
+.cache.aQ=c end return c.c end end do local b=function()local b=a.c()return
+function(c,d)local e=a.aP()e.CoCo=c e.GuiRoot=d local f=d:FindFirstChild'CoCo'
+local g=a.aQ()(c,f or d)e.AutoComplete=g function e.ProcessEntry(h)h=b.
+trimString(h)if#h==0 then return end e:addLine(e:getLabel()..' '..h,Color3.
+fromRGB(255,223,93))e:addLine(c.Dispatcher:evaluateAndRun(h))end local h,i=0.3
+function e.OnTextChanged(j)local l,m=c.Dispatcher:evaluate(j,c.Dispatcher.
+_defaultExecutor,true),b.splitString(j)local n,o=table.remove(m,1),false if l
+then m=b.mashExcessArguments(m,#l.Object.Args)o=#m==#l.Object.Args end local p=n
+and#m>0 if j:sub(#j,#j):match'%s'and not o then p=true m[#m+1]=''end if l and p
+then local q,r=l:validate()e:setIsValidInput(q,('Validation errors: %s'):format(
+r or''))if i then task.cancel(i)end g:hide()i=task.delay(h,function()i=nil local
+s,t=c.Dispatcher:evaluate(j,c.Dispatcher._defaultExecutor,true),b.splitString(j)
+local u,v=table.remove(t,1),false if s then t=b.mashExcessArguments(t,#s.Object.
+Args)v=#t==#s.Object.Args end local w=u and#t>0 if j:sub(#j,#j):match'%s'and not
+v then w=true t[#t+1]=''end if s and w then local x,y={},s:getArgument(#t)if y
+then local z,A=y.TextSegmentInProgress,false if y.RawSegmentsAreAutocomplete
+then for B,C in ipairs(y.RawSegments)do x[B]={C,C}end else local B,C=y:
+GetAutocomplete()C=C or{}A=C.IsPartial or false for D,E in ipairs(B)do if type(E
+)=='table'then x[D]={z,E.title,E.name or E.title,options={name=E.name or E.title
+,type='Script',description=E.metaDesc}}else x[D]={z,E}end end end g:show(x,{at=v
+and#j-#z+(j:sub(#j,#j):match'%s'and-1 or 0),prefix=#y.RawSegments==1 and y.
+Prefix or'',isLast=#s.Arguments==#s.ArgumentDefinitions and#z>0,numArgs=#t,
+command=s,arg=y,name=y.Name..(y.Required and''or'?'),type=y.Type.DisplayName,
+description=y.Object.Description,isPartial=A})end end end)elseif n and#m==0 then
+e:setIsValidInput(true)local q,r=(c.Registry:getCommand(n))if q then r={q.Name,q
+.Name,options={name=q.Name,description=q.Description}}local s=q.Args and q.Args[
+1]if type(s)=='function'then s=s(l)end if s and(not s.Optional and s.Default==
+nil)then e:setIsValidInput(false,'This command has required arguments.')e:
+hideInvalidState()end end local s=r and{r}or{}for t,u in ipairs(c.Registry:
+getCommandNames())do if n:lower()==u:lower():sub(1,#n)and(r==nil or r[1]~=u)then
+local v=c.Registry:getCommand(u)s[#s+1]={n,u,options={name=v.Name,description=v.
+Description}}end end if#s>0 then return g:show(s)end e:setIsValidInput(false,(
 [[%q is not a valid command name. Use the help command to see all available commands.]]
-):format(l))g:hide()end e:setIsValidInput(false,
-'Use the help command to see all available commands.')g:hide()end e:updateLabel(
-)e:updateWindowHeight()return{Window=e,AutoComplete=g}end end function a.aO()
-local c=a.cache.aO if not c then c={c=b()}a.cache.aO=c end return c.c end end do
-local b=function()local b,c=a.a(),a.aM()return function(d,e)d.Events.Message:
-Connect(function(f)local g=pcall(function()b.StarterGui:SetCore(
+):format(n))g:hide()else if i then task.cancel(i)i=nil end e:setIsValidInput(
+false,'Use the help command to see all available commands.')g:hide()end end e:
+updateLabel()e:updateWindowHeight()return{Window=e,AutoComplete=g}end end
+function a.aR()local c=a.cache.aR if not c then c={c=b()}a.cache.aR=c end return
+c.c end end do local b=function()local b,c=a.a(),a.aP()return function(d,e)d.
+Events.Message:Connect(function(f)local g=pcall(function()b.StarterGui:SetCore(
 'ChatMakeSystemMessage',{Text=('[Announcement] %s'):format(f),Color=Color3.
 fromRGB(249,217,56)})end)if not g then warn
 'CoCo: Failed to send chat announcement message.'end end)d.Events.AddLine:
-Connect(function(...)c:addLine(...)end)end end function a.aP()local c=a.cache.aP
-if not c then c={c=b()}a.cache.aP=c end return c.c end end do local b=function()
-local b,c=a.d(),a.at()return function(d,e)local f=a.aO()(d,e)d.ActivationKeys={[
+Connect(function(...)c:addLine(...)end)end end function a.aS()local c=a.cache.aS
+if not c then c={c=b()}a.cache.aS=c end return c.c end end do local b=function()
+local b,c=a.d(),a.aw()return function(d,e)local f=a.aR()(d,e)d.ActivationKeys={[
 Enum.KeyCode.F2]=true}d.Enabled=true d.MashToEnable=false d.
 ActivationUnlocksMouse=false d.HideOnLostFocus=true d.PlaceName='CoCo'd.Events={
 AddLine=c.new(),Message=c.new()}function d:setActivationKeys(g)self.
@@ -1639,9 +1727,9 @@ if not self.Enabled then return end f.Window:show()end function d:hide()f.Window
 Window:setVisible(not f.Window:isVisible())end function d:setMashToEnable(g)self
 .MashToEnable=g if g then self:setEnabled(false)end end function d:
 setHideOnLostFocus(g)self.HideOnLostFocus=g end function d:handleEvent(g,h)if
-self.Events[g]then return self.Events[g]:Connect(h)end end a.aP()(d,e)return f
-end end function a.aQ()local c=a.cache.aQ if not c then c={c=b()}a.cache.aQ=c
-end return c.c end end end local b,c=a.as(),pcall(gethui)and gethui()local d=c
+self.Events[g]then return self.Events[g]:Connect(h)end end a.aS()(d,e)return f
+end end function a.aT()local c=a.cache.aT if not c then c={c=b()}a.cache.aT=c
+end return c.c end end end local b,c=a.av(),pcall(gethui)and gethui()local d=c
 and c:FindFirstChild'CoCo'if not d then local e=os.clock()while not d and os.
-clock()-e<5 do d=c and c:FindFirstChild'CoCo'task.wait()end end a.aQ()(b,c or
+clock()-e<5 do d=c and c:FindFirstChild'CoCo'task.wait()end end a.aT()(b,c or
 game:GetService'CoreGui')return b
