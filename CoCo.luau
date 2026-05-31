@@ -9,7 +9,7 @@
 --]]
 
 _P = {
-    genDate = "2026-05-31T16:47:32.867823193+00:00",
+    genDate = "2026-05-31T20:32:14.324376948+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -117,93 +117,95 @@ for g,h in ipairs(f.Aliases)do self.Commands[h:lower()]=nil end elseif not f
 then table.insert(self.CommandsArray,e)end self.Commands[e.Name:lower()]=e if e.
 Aliases then for g,h in ipairs(e.Aliases)do self.Commands[h:lower()]=e end end
 end function d:getCommand(e)e=e or''return self.Commands[e:lower()]end function
-d:getCommands()return self.CommandsArray end function d:getCommandNames()return
-c.List.map(self.CommandsArray,function(e)return e.Name end)end function d:
-getTypeNames()return c.Dictionary.keys(self.Types)end function d:getType(e)
-return self.Types[e]end function d:getTypeName(e)return self.TypeAliases[e]or e
-end function d:registerHook(e,f,g)if not self.Hooks[e]then error(`Invalid hook name: {
-e}`,2)end table.insert(self.Hooks[e],{callback=f,priority=g or 0})table.sort(
-self.Hooks[e],function(h,i)return h.priority<i.priority end)end function d:
-getStore(e)return self.Stores[e]end return function(e)return d end end function
-a.e()local c=a.cache.e if not c then c={c=b()}a.cache.e=c end return c.c end end
-do local b=function()local b,c,d,e=a.a().Players,function(b,c)for d in pairs(c)
-do b[d]=true end return b end,function(b,c)local d={}for e in pairs(b)do if c[e]
-then d[e]=true end end return d end,function(b,c)local d={}for e in pairs(b)do d
-[e]=true end for e in pairs(c)do d[e]=nil end return d end local f=function(f)
-local g={}for h,i in ipairs(b:GetPlayers())do if not f[i.Name]then g[i.Name]=
-true end end return g end return{union=c,intersection=d,difference=e,complement=
-f}end function a.f()local c=a.cache.f if not c then c={c=b()}a.cache.f=c end
-return c.c end end do local b=function()local b={GuiRoot=nil,Colors={
-BackgroundDark=Color3.fromRGB(17,17,17),BackgroundMedium=Color3.fromRGB(59,59,59
-),BackgroundLight=Color3.fromRGB(230,230,230),TextPrimary=Color3.fromRGB(255,255
-,255),TextAccent=Color3.fromRGB(255,223,93),TextHighlight=Color3.fromRGB(230,126
-,34),TextSecondary=Color3.fromRGB(131,222,255),AutocompleteItem=Color3.fromRGB(
-131,222,255),HelpOrange=Color3.fromRGB(230,126,34),HelpGray=Color3.fromRGB(230,
-230,230)},Gui={HistoryFile='coco_history.txt',DefaultTextSize=14,
-ScrollBarThickness=6,EntryLayoutOrder=999999999,BackgroundTransparency=0.4,
-AutocompleteBackgroundTransparency=0.5,SectionBackgroundTransparency=0.2,
-DefaultPadding=10},Argument={KeywordResolverMaxDepth=20}}return b end function a
-.g()local c=a.cache.g if not c then c={c=b()}a.cache.g=c end return c.c end end
-do local b=function()local b,c,d,e,f,g=a.c(),a.d(),a.f(),a.g(),function(b)for c,
-d in ipairs{'%.','%?','%*','%*%*'}do b=b:gsub('\\'..d,d:gsub('%%',''))end return
-b end,{}g.__index=g function g.new(h,i,j,k)local l={Registry=h,Command=i,Type=
-nil,Name=j.Name,Object=j,Required=j.Default==nil and j.Optional~=true,Executor=i
-.Executor,RawValue=k,RawSegments={},TransformedValues={},Prefix='',
-TextSegmentInProgress='',RawSegmentsAreAutocomplete=false}if type(j.Type)==
-'table'then l.Type=j.Type else local m,n,o=c.parsePrefixedUnionType(h:
-getTypeName(j.Type),k)l.Type=h:getType(m)l.RawValue=n l.Prefix=o if l.Type==nil
-then error(string.format('%s has an unregistered type %q',l.Name or'<none>',m or
-'<none>'))end end setmetatable(l,g)l:Transform()return l end function g:
-GetDefaultAutocomplete()if self.Type.Autocomplete then local h,i=self.Type.
-Autocomplete(self:TransformSegment'',self)return h,i or{}end return{}end
-function g:Transform()if#self.TransformedValues~=0 then return end local h=self.
-RawValue if self.Type.ArgumentOperatorAliases then h=self.Type.
-ArgumentOperatorAliases[h]or h end if h=='.'and self.Type.Default then h=self.
-Type.Default(self.Executor)or''self.RawSegmentsAreAutocomplete=true end if h==
-'?'and self.Type.Autocomplete then local i,j=self:GetDefaultAutocomplete()if not
-j.IsPartial and#i>0 then h=i[math.random(1,#i)]self.RawSegmentsAreAutocomplete=
-true end end if self.Type.Listable and#self.RawValue>0 then local i=h:match
-'^%?(%d+)$'if i then local j=tonumber(i)if j and j>0 then local k,l,m={},self:
-GetDefaultAutocomplete()if not m.IsPartial and#l>0 then local n={}for o=1,#l do
-n[o]=o end for o=1,math.min(j,#l)do local p=math.random(1,#n)table.insert(k,l[
-table.remove(n,p)])end h=table.concat(k,',')self.RawSegmentsAreAutocomplete=true
-end end elseif h=='*'or h=='**'then local j,k=self:GetDefaultAutocomplete()if
-not k.IsPartial and#j>0 then if h=='**'and self.Type.Default then local l=self.
-Type.Default(self.Executor)or''for m,n in ipairs(j)do if n==l then table.remove(
-j,m)end end end h=table.concat(j,',')self.RawSegmentsAreAutocomplete=true end
-end if self.Type.Selectors and not self.RawSegmentsAreAutocomplete and self.
-Executor then local j=self:resolveSelectorValue(h)if j then h=j self.
-RawSegmentsAreAutocomplete=true end end h=f(h)local j=b.splitStringSimple(h,',')
-if#j==0 then j={''}end if h:sub(#h,#h)==','then j[#j+1]=''end for k,l in ipairs(
-j)do self.RawSegments[k]=l self.TransformedValues[k]={self:TransformSegment(l)}
-end self.TextSegmentInProgress=j[#j]else h=f(h)self.RawSegments[1]=f(h)self.
-TransformedValues[1]={self:TransformSegment(h)}self.TextSegmentInProgress=self.
-RawValue end end function g:TransformSegment(h)if self.Type.Transform then
-return self.Type.Transform(h,self.Executor)else return h end end function g:
-GetTransformedValue(h)return unpack(self.TransformedValues[h])end function g:
-Validate(h)if self.RawValue==nil or#self.RawValue==0 and self.Required==false
-then return true end if self.Required and(self.RawSegments[1]==nil or#self.
-RawSegments[1]==0)then return false,'This argument is required.'end if self.Type
-.Validate or self.Type.ValidateOnce then for i=1,#self.TransformedValues do if
-self.Type.Validate then local j,k=self.Type.Validate(self:GetTransformedValue(i)
-)if not j then return j,k or'Invalid value'end end if h and self.Type.
-ValidateOnce then local j,k=self.Type.ValidateOnce(self:GetTransformedValue(i))
-if not j then return j,k end end end return true else return true end end
-function g:GetAutocomplete()if self.Type.Autocomplete then return self.Type.
-Autocomplete(self:GetTransformedValue(#self.TransformedValues),self)else return{
-}end end function g:ParseValue(h)if self.Type.Parse then return self.Type.Parse(
-self:GetTransformedValue(h))else return self:GetTransformedValue(h)end end
-function g:GetValue()if#self.RawValue==0 and not self.Required and self.Object.
-Default~=nil then return self.Object.Default end if not self.Type.Listable then
-return self:ParseValue(1)end local h={}for i=1,#self.TransformedValues do local
-j=self:ParseValue(i)if type(j)~='table'then error(`Listable types must return a table from Parse ({
-self.Type.Name})`)end for k,l in ipairs(j)do h[l]=true end end local i={}for j
-in pairs(h)do i[#i+1]=j end return i end function g:resolveKeywordResolver(h)if
-not self.Type.Selectors or not self.Type.Selectors.Keyword then return nil end
-local i,j={},h for k=1,e.Argument.KeywordResolverMaxDepth do if i[j]then return
-nil end i[j]=true local l=self.Type.Selectors.Keyword[j]if l==nil then return
-nil end if type(l)=='function'then return l end j=l end return nil end function
-g:resolveSelectorTerm(h,i)if#h==0 then return{}end local j=self:
+d:getCommands()return self.CommandsArray end function d:getCommandNames()local e
+={}for f,g in ipairs(self.CommandsArray)do table.insert(e,g.Name)if g.Aliases
+then for h,i in ipairs(g.Aliases)do table.insert(e,i)end end end return e end
+function d:getTypeNames()return c.Dictionary.keys(self.Types)end function d:
+getType(e)return self.Types[e]end function d:getTypeName(e)return self.
+TypeAliases[e]or e end function d:registerHook(e,f,g)if not self.Hooks[e]then
+error(`Invalid hook name: {e}`,2)end table.insert(self.Hooks[e],{callback=f,
+priority=g or 0})table.sort(self.Hooks[e],function(h,i)return h.priority<i.
+priority end)end function d:getStore(e)return self.Stores[e]end return function(
+e)return d end end function a.e()local c=a.cache.e if not c then c={c=b()}a.
+cache.e=c end return c.c end end do local b=function()local b,c,d,e=a.a().
+Players,function(b,c)for d in pairs(c)do b[d]=true end return b end,function(b,c
+)local d={}for e in pairs(b)do if c[e]then d[e]=true end end return d end,
+function(b,c)local d={}for e in pairs(b)do d[e]=true end for e in pairs(c)do d[e
+]=nil end return d end local f=function(f)local g={}for h,i in ipairs(b:
+GetPlayers())do if not f[i.Name]then g[i.Name]=true end end return g end return{
+union=c,intersection=d,difference=e,complement=f}end function a.f()local c=a.
+cache.f if not c then c={c=b()}a.cache.f=c end return c.c end end do local b=
+function()local b={GuiRoot=nil,Colors={BackgroundDark=Color3.fromRGB(17,17,17),
+BackgroundMedium=Color3.fromRGB(59,59,59),BackgroundLight=Color3.fromRGB(230,230
+,230),TextPrimary=Color3.fromRGB(255,255,255),TextAccent=Color3.fromRGB(255,223,
+93),TextHighlight=Color3.fromRGB(230,126,34),TextSecondary=Color3.fromRGB(131,
+222,255),AutocompleteItem=Color3.fromRGB(131,222,255),HelpOrange=Color3.fromRGB(
+230,126,34),HelpGray=Color3.fromRGB(230,230,230)},Gui={HistoryFile=
+'coco_history.txt',DefaultTextSize=14,ScrollBarThickness=6,EntryLayoutOrder=
+999999999,BackgroundTransparency=0.4,AutocompleteBackgroundTransparency=0.5,
+SectionBackgroundTransparency=0.2,DefaultPadding=10},Argument={
+KeywordResolverMaxDepth=20}}return b end function a.g()local c=a.cache.g if not
+c then c={c=b()}a.cache.g=c end return c.c end end do local b=function()local b,
+c,d,e,f,g=a.c(),a.d(),a.f(),a.g(),function(b)for c,d in ipairs{'%.','%?','%*',
+'%*%*'}do b=b:gsub('\\'..d,d:gsub('%%',''))end return b end,{}g.__index=g
+function g.new(h,i,j,k)local l={Registry=h,Command=i,Type=nil,Name=j.Name,Object
+=j,Required=j.Default==nil and j.Optional~=true,Executor=i.Executor,RawValue=k,
+RawSegments={},TransformedValues={},Prefix='',TextSegmentInProgress='',
+RawSegmentsAreAutocomplete=false}if type(j.Type)=='table'then l.Type=j.Type else
+local m,n,o=c.parsePrefixedUnionType(h:getTypeName(j.Type),k)l.Type=h:getType(m)
+l.RawValue=n l.Prefix=o if l.Type==nil then error(string.format(
+'%s has an unregistered type %q',l.Name or'<none>',m or'<none>'))end end
+setmetatable(l,g)l:Transform()return l end function g:GetDefaultAutocomplete()if
+self.Type.Autocomplete then local h,i=self.Type.Autocomplete(self:
+TransformSegment'',self)return h,i or{}end return{}end function g:Transform()if#
+self.TransformedValues~=0 then return end local h=self.RawValue if self.Type.
+ArgumentOperatorAliases then h=self.Type.ArgumentOperatorAliases[h]or h end if h
+=='.'and self.Type.Default then h=self.Type.Default(self.Executor)or''self.
+RawSegmentsAreAutocomplete=true end if h=='?'and self.Type.Autocomplete then
+local i,j=self:GetDefaultAutocomplete()if not j.IsPartial and#i>0 then h=i[math.
+random(1,#i)]self.RawSegmentsAreAutocomplete=true end end if self.Type.Listable
+and#self.RawValue>0 then local i=h:match'^%?(%d+)$'if i then local j=tonumber(i)
+if j and j>0 then local k,l,m={},self:GetDefaultAutocomplete()if not m.IsPartial
+and#l>0 then local n={}for o=1,#l do n[o]=o end for o=1,math.min(j,#l)do local p
+=math.random(1,#n)table.insert(k,l[table.remove(n,p)])end h=table.concat(k,',')
+self.RawSegmentsAreAutocomplete=true end end elseif h=='*'or h=='**'then local j
+,k=self:GetDefaultAutocomplete()if not k.IsPartial and#j>0 then if h=='**'and
+self.Type.Default then local l=self.Type.Default(self.Executor)or''for m,n in
+ipairs(j)do if n==l then table.remove(j,m)end end end h=table.concat(j,',')self.
+RawSegmentsAreAutocomplete=true end end if self.Type.Selectors and not self.
+RawSegmentsAreAutocomplete and self.Executor then local j=self:
+resolveSelectorValue(h)if j then h=j self.RawSegmentsAreAutocomplete=true end
+end h=f(h)local j=b.splitStringSimple(h,',')if#j==0 then j={''}end if h:sub(#h,#
+h)==','then j[#j+1]=''end for k,l in ipairs(j)do self.RawSegments[k]=l self.
+TransformedValues[k]={self:TransformSegment(l)}end self.TextSegmentInProgress=j[
+#j]else h=f(h)self.RawSegments[1]=f(h)self.TransformedValues[1]={self:
+TransformSegment(h)}self.TextSegmentInProgress=self.RawValue end end function g:
+TransformSegment(h)if self.Type.Transform then return self.Type.Transform(h,self
+.Executor)else return h end end function g:GetTransformedValue(h)return unpack(
+self.TransformedValues[h])end function g:Validate(h)if self.RawValue==nil or#
+self.RawValue==0 and self.Required==false then return true end if self.Required
+and(self.RawSegments[1]==nil or#self.RawSegments[1]==0)then return false,
+'This argument is required.'end if self.Type.Validate or self.Type.ValidateOnce
+then for i=1,#self.TransformedValues do if self.Type.Validate then local j,k=
+self.Type.Validate(self:GetTransformedValue(i))if not j then return j,k or
+'Invalid value'end end if h and self.Type.ValidateOnce then local j,k=self.Type.
+ValidateOnce(self:GetTransformedValue(i))if not j then return j,k end end end
+return true else return true end end function g:GetAutocomplete()if self.Type.
+Autocomplete then return self.Type.Autocomplete(self:GetTransformedValue(#self.
+TransformedValues),self)else return{}end end function g:ParseValue(h)if self.
+Type.Parse then return self.Type.Parse(self:GetTransformedValue(h))else return
+self:GetTransformedValue(h)end end function g:GetValue()if#self.RawValue==0 and
+not self.Required and self.Object.Default~=nil then return self.Object.Default
+end if not self.Type.Listable then return self:ParseValue(1)end local h={}for i=
+1,#self.TransformedValues do local j=self:ParseValue(i)if type(j)~='table'then
+error(`Listable types must return a table from Parse ({self.Type.Name})`)end for
+k,l in ipairs(j)do h[l]=true end end local i={}for j in pairs(h)do i[#i+1]=j end
+return i end function g:resolveKeywordResolver(h)if not self.Type.Selectors or
+not self.Type.Selectors.Keyword then return nil end local i,j={},h for k=1,e.
+Argument.KeywordResolverMaxDepth do if i[j]then return nil end i[j]=true local l
+=self.Type.Selectors.Keyword[j]if l==nil then return nil end if type(l)==
+'function'then return l end j=l end return nil end function g:
+resolveSelectorTerm(h,i)if#h==0 then return{}end local j=self:
 resolveKeywordResolver(h)if j then local k,l=j(self.Executor),{}for m,n in
 ipairs(k)do l[n]=true end if i then return d.complement(l)end return l end for k
 ,l in ipairs(self.Type.Selectors.Pattern or{})do local m={h:match(l.Pattern)}if#
@@ -1699,10 +1701,11 @@ e:setIsValidInput(true)local q,r=(c.Registry:getCommand(n))if q then r={q.Name,q
 .Name,options={name=q.Name,description=q.Description}}local s=q.Args and q.Args[
 1]if type(s)=='function'then s=s(l)end if s and(not s.Optional and s.Default==
 nil)then e:setIsValidInput(false,'This command has required arguments.')e:
-hideInvalidState()end end local s=r and{r}or{}for t,u in ipairs(c.Registry:
-getCommandNames())do if n:lower()==u:lower():sub(1,#n)and(r==nil or r[1]~=u)then
-local v=c.Registry:getCommand(u)s[#s+1]={n,u,options={name=v.Name,description=v.
-Description}}end end if#s>0 then return g:show(s)end e:setIsValidInput(false,(
+hideInvalidState()end end local s,t=r and{r}or{},{}if q then t[q]=true end for u
+,v in ipairs(c.Registry:getCommandNames())do if n:lower()==v:lower():sub(1,#n)
+then local w=c.Registry:getCommand(v)if w and not t[w]then t[w]=true s[#s+1]={n,
+v,options={name=w.Name,description=w.Description}}end end end if#s>0 then return
+g:show(s)end e:setIsValidInput(false,(
 [[%q is not a valid command name. Use the help command to see all available commands.]]
 ):format(n))g:hide()else if i then task.cancel(i)i=nil end e:setIsValidInput(
 false,'Use the help command to see all available commands.')g:hide()end end e:
