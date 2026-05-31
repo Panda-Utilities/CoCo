@@ -15,6 +15,11 @@ local buildConfig = buildConfigs[1]
 local readme = fs.readFile("README.md")
 local buildVers = readme:match("`(.-)`") or "ci"
 
+local genResult = process.exec("lune", {"run", "pipeline/commands.luau"})
+if not genResult.ok then
+	error(genResult.stderr)
+end
+
 local srcResult = process.exec("darklua", {
 	"process",
 	"-c",
