@@ -2,8 +2,8 @@
 --!nolint
 
 --[[
-    @authors YOUR_NAME
-    @repository YOUR_REPOSITORY
+    @authors @panduhpanduhpanduhpanduh on Discord
+    @repository https://github.com/Panda-Utilities/CoCo/
 
     This file was automatically generated with darklua, it is not intended for manual editing.
 --]]
