@@ -32,5 +32,6 @@ for _, path in ipairs(files) do
 end
 table.insert(lines, "}")
 
+fs.writeDir("generated")
 fs.writeFile(OUTPUT_FILE, table.concat(lines, "\n"))
 print(`Generated {OUTPUT_FILE} with {tostring(#files)} commands`)
