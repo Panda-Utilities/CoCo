@@ -368,6 +368,21 @@ function Window:beginInput(input, gameProcessed)
 	elseif input.KeyCode == Enum.KeyCode.Up then
 		self:selectVertical(-1)
 	elseif input.KeyCode == Enum.KeyCode.Return then
+		if self.AutoComplete and self.AutoComplete:isVisible() then
+			local item = self.AutoComplete:getSelectedItem()
+			if item then
+				local text = self:getEntryText()
+				local lastSpace = text:match("^(.*)[%s]")
+				if lastSpace then
+					if lastSpace ~= item[2] then
+						text = lastSpace .. " " .. item[2]
+					end
+				else
+					text = item[2]
+				end
+				self:setEntryText(text)
+			end
+		end
 		return
 	elseif input.KeyCode == Enum.KeyCode.Tab then
 		local item = self.AutoComplete:getSelectedItem()

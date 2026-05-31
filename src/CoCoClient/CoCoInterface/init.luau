@@ -18,6 +18,9 @@ return function (CoCo, gui)
 		Window:addLine(CoCo.Dispatcher:evaluateAndRun(text))
 	end
 
+	local acDebounce = nil
+	local AC_COOLDOWN = 0.3
+
 	function Window.OnTextChanged(text)
 		local command = CoCo.Dispatcher:evaluate(text, CoCo.Dispatcher._defaultExecutor, true)
 		local arguments = String.splitString(text)
@@ -37,54 +40,82 @@ return function (CoCo, gui)
 
 		if command and entryComplete then
 			local commandValid, errorText = command:validate()
-
 			Window:setIsValidInput(commandValid, ("Validation errors: %s"):format(errorText or ""))
 
-			local acItems = {}
-
-			local lastArgument = command:getArgument(#arguments)
-			if lastArgument then
-				local typedText = lastArgument.TextSegmentInProgress
-
-				local isPartial = false
-				if lastArgument.RawSegmentsAreAutocomplete then
-					for i, segment in ipairs(lastArgument.RawSegments) do
-						acItems[i] = {segment, segment}
-					end
-				else
-					local items, options = lastArgument:GetAutocomplete()
-					options = options or {}
-					isPartial = options.IsPartial or false
-
-					for i, item in ipairs(items) do
-						acItems[i] = {typedText, item}
-					end
-				end
-
-				local valid = true
-
-				if #typedText > 0 then
-					valid, errorText = lastArgument:Validate()
-				end
-
-				if not atEnd and valid then
-					Window:hideInvalidState()
-				end
-
-				return AutoComplete:show(acItems, {
-					at = atEnd and #text - #typedText + (text:sub(#text, #text):match("%s") and -1 or 0);
-					prefix = #lastArgument.RawSegments == 1 and lastArgument.Prefix or "";
-					isLast = #command.Arguments == #command.ArgumentDefinitions and #typedText > 0;
-					numArgs = #arguments;
-					command = command;
-					arg = lastArgument;
-					name = lastArgument.Name .. (lastArgument.Required and "" or "?");
-					type = lastArgument.Type.DisplayName;
-					description = (valid == false and errorText) or lastArgument.Object.Description;
-					invalid = not valid;
-					isPartial = isPartial;
-				})
+			if acDebounce then
+				task.cancel(acDebounce)
 			end
+			AutoComplete:hide()
+
+			acDebounce = task.delay(AC_COOLDOWN, function()
+				acDebounce = nil
+
+				local cmd = CoCo.Dispatcher:evaluate(text, CoCo.Dispatcher._defaultExecutor, true)
+				local args = String.splitString(text)
+				local cmdText2 = table.remove(args, 1)
+				local atEnd2 = false
+				if cmd then
+					args = String.mashExcessArguments(args, #cmd.Object.Args)
+					atEnd2 = #args == #cmd.Object.Args
+				end
+
+				local entryComplete2 = cmdText2 and #args > 0
+
+				if text:sub(#text, #text):match("%s") and not atEnd2 then
+					entryComplete2 = true
+					args[#args + 1] = ""
+				end
+
+				if cmd and entryComplete2 then
+					local acItems = {}
+
+					local lastArgument = cmd:getArgument(#args)
+					if lastArgument then
+						local typedText = lastArgument.TextSegmentInProgress
+
+						local isPartial = false
+						if lastArgument.RawSegmentsAreAutocomplete then
+							for i, segment in ipairs(lastArgument.RawSegments) do
+								acItems[i] = {segment, segment}
+							end
+						else
+							local items, options = lastArgument:GetAutocomplete()
+							options = options or {}
+							isPartial = options.IsPartial or false
+
+							for i, item in ipairs(items) do
+								if type(item) == "table" then
+									acItems[i] = {
+										typedText,
+										item.title,
+										item.name or item.title,
+										options = {
+											name = item.name or item.title,
+											type = "Script",
+											description = item.metaDesc,
+										},
+									}
+								else
+									acItems[i] = {typedText, item}
+								end
+							end
+						end
+
+						AutoComplete:show(acItems, {
+							at = atEnd2 and #text - #typedText + (text:sub(#text, #text):match("%s") and -1 or 0);
+							prefix = #lastArgument.RawSegments == 1 and lastArgument.Prefix or "";
+							isLast = #cmd.Arguments == #cmd.ArgumentDefinitions and #typedText > 0;
+							numArgs = #args;
+							command = cmd;
+							arg = lastArgument;
+							name = lastArgument.Name .. (lastArgument.Required and "" or "?");
+							type = lastArgument.Type.DisplayName;
+							description = lastArgument.Object.Description;
+							isPartial = isPartial;
+						})
+					end
+				end
+			end)
 		elseif commandText and #arguments == 0 then
 			Window:setIsValidInput(true)
 			local exactCommand = CoCo.Registry:getCommand(commandText)
@@ -123,10 +154,14 @@ return function (CoCo, gui)
 
 			Window:setIsValidInput(false, ("%q is not a valid command name. Use the help command to see all available commands."):format(commandText))
 			AutoComplete:hide()
+		else
+			if acDebounce then
+				task.cancel(acDebounce)
+				acDebounce = nil
+			end
+			Window:setIsValidInput(false, "Use the help command to see all available commands.")
+			AutoComplete:hide()
 		end
-
-		Window:setIsValidInput(false, "Use the help command to see all available commands.")
-		AutoComplete:hide()
 	end
 
 	Window:updateLabel()

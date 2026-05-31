@@ -101,10 +101,11 @@
 
 		for i, item in ipairs(self.Items) do
 			local leftText = item[1]
-			local rightText = item[2]
+			local displayText = item[3] or item[2]
+			local rightText = displayText
 
 			local btn = AutoItem:Clone()
-			btn.Name = leftText .. rightText
+			btn.Name = leftText .. tostring(rightText)
 			btn.BackgroundTransparency = i == self.SelectedItem and 0.5 or 1
 
 			local start, stop = string.find(rightText:lower(), leftText:lower(), 1, true)

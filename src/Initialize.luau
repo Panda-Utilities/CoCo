@@ -24,6 +24,7 @@ return function(coco)
 		require("./BuiltInTypes/UserInput"),
 		require("./BuiltInTypes/KeyCombo"),
 		require("./BuiltInTypes/Fly"),
+		require("./BuiltInTypes/ScriptBlox"),
 	}
 
 	for _, registerType in ipairs(types) do
@@ -56,6 +57,7 @@ return function(coco)
 		require("./BuiltInCommands/Utility/unbind"),
 		require("./BuiltInCommands/Utility/var"),
 		require("./BuiltInCommands/Utility/varSet"),
+		require("./BuiltInCommands/Utility/scriptblox"),
 
 		require("./BuiltInCommands/Debug/blink"),
 		require("./BuiltInCommands/Debug/fly"),
