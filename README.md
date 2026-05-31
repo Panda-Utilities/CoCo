@@ -1,7 +1,7 @@
 # CoCo `0.1.0`
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Panda-Utilities/CoCo/main/CoCo.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Panda-Utilities/CoCo/main/CoCo.luau"))()
 ```
 
 ## Building
