@@ -55,6 +55,13 @@ local configOptions = buildConfigs[selected]
 
 buildVers = configOptions.promptVersion and io.prompt("text", "Build version (vMAJOR.MINOR.PATCH)") or "v0.0.0"
 
+--// Generate commands
+local genResult = process.exec("lune", {"run", "pipeline/commands.luau"})
+if not genResult.ok then
+	print(genResult.stderr)
+	return
+end
+
 local srcResult = process.exec("darklua", {
 	"process",
 	configOptions.input,
