@@ -2,14 +2,14 @@
 --!nolint
 
 --[[
-    @authors @panduhpanduhpanduhpanduh on Discord
-    @repository https://github.com/Panda-Utilities/CoCo/
+    @panduhpanduhpanduhpanduh on Discord
+    https://github.com/Panda-Utilities/CoCo/
 
     This file was automatically generated with darklua, it is not intended for manual editing.
 --]]
 
 _P = {
-    genDate = "2026-05-31T00:57:12.157011967+00:00",
+    genDate = "2026-05-31T01:00:05.810808241+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
