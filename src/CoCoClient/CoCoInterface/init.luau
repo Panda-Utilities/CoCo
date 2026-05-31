@@ -138,13 +138,20 @@ return function (CoCo, gui)
 			end
 
 			local acItems = exactMatch and {exactMatch} or {}
+			local seenCommands = {}
+			if exactCommand then
+				seenCommands[exactCommand] = true
+			end
 			for _, cmd in ipairs(CoCo.Registry:getCommandNames()) do
-				if commandText:lower() == cmd:lower():sub(1, #commandText) and (exactMatch == nil or exactMatch[1] ~= cmd) then
+				if commandText:lower() == cmd:lower():sub(1, #commandText) then
 					local commandObject = CoCo.Registry:getCommand(cmd)
-					acItems[#acItems + 1] = {commandText, cmd, options = {
-						name = commandObject.Name;
-						description = commandObject.Description;
-					}}
+					if commandObject and not seenCommands[commandObject] then
+						seenCommands[commandObject] = true
+						acItems[#acItems + 1] = {commandText, cmd, options = {
+							name = commandObject.Name;
+							description = commandObject.Description;
+						}}
+					end
 				end
 			end
 

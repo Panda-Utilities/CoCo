@@ -152,9 +152,16 @@ function Registry:getCommands(): { CommandObject }
 end
 
 function Registry:getCommandNames(): { string }
-	return Sift.List.map(self.CommandsArray, function(command: CommandObject): string
-		return command.Name
-	end)
+	local names = {}
+	for _, command in ipairs(self.CommandsArray) do
+		table.insert(names, command.Name)
+		if command.Aliases then
+			for _, alias in ipairs(command.Aliases) do
+				table.insert(names, alias)
+			end
+		end
+	end
+	return names
 end
 
 function Registry:getTypeNames(): { string }
