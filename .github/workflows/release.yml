@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman
+        run: |
+          curl -fsSL "https://github.com/LPGhatguy/aftman/releases/download/v0.3.0/aftman-0.3.0-linux-x86_64.zip" -o /tmp/aftman.zip
+          unzip -o /tmp/aftman.zip -d /tmp/aftman
+          chmod +x /tmp/aftman/aftman
+          /tmp/aftman/aftman install --no-trust-check
+          echo "$HOME/.aftman/bin" >> $GITHUB_PATH
+
+      - name: Build
+        run: lune run pipeline/ci.luau pipeline/.pcmp.ci.json
+
+      - name: Copy artifact
+        run: cp generated/release.luau CoCo.luau
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+          files: CoCo.luau

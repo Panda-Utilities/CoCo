@@ -1,0 +1,13 @@
+std = "roblox"
+
+[lints]
+incorrect_standard_library_use = "allow"
+shadowing = "allow"
+multiple_statements = "allow"
+unused_variable = "warn"
+
+[std]
+suffixes = [".luau"]
+
+[exclude]
+directories = ["packages", ".globals", "generated"]

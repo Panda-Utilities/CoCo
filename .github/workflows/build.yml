@@ -1,0 +1,70 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman
+        run: |
+          curl -fsSL "https://github.com/LPGhatguy/aftman/releases/download/v0.3.0/aftman-0.3.0-linux-x86_64.zip" -o /tmp/aftman.zip
+          unzip -o /tmp/aftman.zip -d /tmp/aftman
+          chmod +x /tmp/aftman/aftman
+          /tmp/aftman/aftman install --no-trust-check
+          echo "$HOME/.aftman/bin" >> $GITHUB_PATH
+
+      - name: Lint
+        continue-on-error: true
+        run: selene src
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aftman
+        run: |
+          curl -fsSL "https://github.com/LPGhatguy/aftman/releases/download/v0.3.0/aftman-0.3.0-linux-x86_64.zip" -o /tmp/aftman.zip
+          unzip -o /tmp/aftman.zip -d /tmp/aftman
+          chmod +x /tmp/aftman/aftman
+          /tmp/aftman/aftman install --no-trust-check
+          echo "$HOME/.aftman/bin" >> $GITHUB_PATH
+
+      - name: Build
+        run: lune run pipeline/ci.luau pipeline/.pcmp.ci.json
+
+      - name: Copy artifact
+        run: cp generated/release.luau CoCo.luau
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            generated/
+            CoCo.luau
+
+      - name: Commit CoCo.luau
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CoCo.luau
+          if git diff --cached --quiet; then
+            echo "CoCo.luau unchanged, skipping commit"
+          else
+            git commit -m "Update CoCo.luau [skip ci]"
+            git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+            git push origin HEAD:main
+          fi

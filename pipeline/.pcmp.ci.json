@@ -1,0 +1,21 @@
+{
+  "openComposedOutput": false,
+
+  "deployment": {
+    "enabled": false
+  },
+
+  "buildConfigs": [
+    {
+      "name": "Release",
+
+      "promptVersion": false,
+      "promptDeploy": false,
+
+      "frame": "pipeline/frame.luau",
+      "darkluaConfig": "pipeline/.darklua.ci.json",
+      "input": "src/main.luau",
+      "output": "generated/release.luau"
+    }
+  ]
+}
