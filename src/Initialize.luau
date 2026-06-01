@@ -36,4 +36,7 @@ return function(coco)
 	for _, commandDef in ipairs(commands) do
 		coco.Registry:registerCommandObject(commandDef)
 	end
+
+	local espModule = require("./Visuals/init")
+	coco.ESP = espModule.esp
 end

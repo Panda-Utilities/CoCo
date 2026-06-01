@@ -102,6 +102,29 @@ return function()
 	local parent = getParent()
 	Config.GuiRoot = parent
 
+	local autocompleteButton = Element("TextButton", {
+		BackgroundColor3 = Config.Colors.BackgroundMedium,
+		BackgroundTransparency = Config.Gui.AutocompleteBackgroundTransparency,
+		BorderSizePixel = 0,
+		Font = Enum.Font.Code,
+		Size = UDim2.new(1, 0, 0, 30),
+		Text = "",
+		TextColor3 = Config.Colors.TextPrimary,
+		TextSize = 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+	}, {
+		textLabel({
+			Name = "Typed",
+			TextColor3 = Config.Colors.AutocompleteItem,
+			Size = UDim2.new(1, 0, 1, 0),
+		}),
+		textLabel({
+			Name = "Suggest",
+			Size = UDim2.new(1, 0, 1, 0),
+		}),
+		padding({ left = 10, top = 0, bottom = 0, right = 0 }),
+	})
+
 	local root = Element("ScreenGui", {
 		Name = "CoCo",
 		DisplayOrder = 1000,
@@ -198,29 +221,8 @@ return function()
 					},
 				}),
 
-				Element("TextButton", {
-					BackgroundColor3 = Config.Colors.BackgroundMedium,
-					BackgroundTransparency = Config.Gui.AutocompleteBackgroundTransparency,
-					BorderSizePixel = 0,
-					Font = Enum.Font.Code,
-					Size = UDim2.new(1, 0, 0, 30),
-					Text = "",
-					TextColor3 = Config.Colors.TextPrimary,
-					TextSize = 14,
-					TextXAlignment = Enum.TextXAlignment.Left,
-				}, {
-					textLabel({
-						Name = "Typed",
-						TextColor3 = Config.Colors.AutocompleteItem,
-						Size = UDim2.new(1, 0, 1, 0),
-					}),
-					textLabel({
-						Name = "Suggest",
-						Size = UDim2.new(1, 0, 1, 0),
-					}),
-					padding({ left = 10, top = 0, bottom = 0, right = 0 }),
-				}),
-			},
+			autocompleteButton,
+		},
 		}),
 	})
 

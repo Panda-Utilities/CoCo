@@ -11,6 +11,7 @@ export type Colors = {
 	AutocompleteItem: Color3,
 	HelpOrange: Color3,
 	HelpGray: Color3,
+	Stroke: Color3,
 }
 
 export type Gui = {
@@ -46,6 +47,7 @@ local Config: {
 		AutocompleteItem = Color3.fromRGB(131, 222, 255),
 		HelpOrange = Color3.fromRGB(230, 126, 34),
 		HelpGray = Color3.fromRGB(230, 230, 230),
+		Stroke = Color3.fromRGB(30, 30, 30),
 	},
 
 	Gui = {
