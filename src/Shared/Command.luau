@@ -139,6 +139,10 @@ function Command:getArgument(index: number)
 	return self.Arguments[index]
 end
 
+function Command:isInvertedCall(): boolean
+	return self.Dispatcher.Registry:isInvertedCommand(self.Alias)
+end
+
 function Command:reply(text: string, color: Color3?)
 	self.Dispatcher.CoCo.Events.AddLine:Fire(text, color)
 end

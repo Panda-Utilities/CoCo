@@ -28,6 +28,7 @@ export type ArgDef = {
 export type CommandObject = {
 	Name: string,
 	Aliases: { string }?,
+	InverseAliases: { string }?,
 	Description: string?,
 	Group: string?,
 	Args: { ArgDef | ((Command) -> ArgDef?) }?,
@@ -40,13 +41,14 @@ export type CommandObject = {
 local Registry = {
 	TypeMethods = TypeUtils.makeDictionary({ "Transform", "Validate", "Autocomplete", "Parse", "DisplayName", "Listable",
 		"ValidateOnce", "Prefixes", "Default", "ArgumentOperatorAliases", "Selectors" }),
-	CommandMethods = TypeUtils.makeDictionary({ "Name", "Aliases", "AutoExec", "Description", "Args", "Run", "ClientRun",
+	CommandMethods = TypeUtils.makeDictionary({ "Name", "Aliases", "InverseAliases", "AutoExec", "Description", "Args", "Run", "ClientRun",
 		"Data", "Group" }),
 	CommandArgProps = TypeUtils.makeDictionary({ "Name", "Type", "Description", "Optional", "Default" }),
 	Types = {},
 	TypeAliases = {},
 	Commands = {},
 	CommandsArray = {},
+	InvertedCommands = {},
 	Hooks = {
 		BeforeRun = {},
 		AfterRun = {}
@@ -129,6 +131,12 @@ function Registry:registerCommandObject(commandObject: CommandObject)
 		for _, alias in ipairs(oldCommand.Aliases) do
 			self.Commands[alias:lower()] = nil
 		end
+		if oldCommand.InverseAliases then
+			for _, alias in ipairs(oldCommand.InverseAliases) do
+				self.Commands[alias:lower()] = nil
+				self.InvertedCommands[alias:lower()] = nil
+			end
+		end
 	elseif not oldCommand then
 		table.insert(self.CommandsArray, commandObject)
 	end
@@ -140,11 +148,22 @@ function Registry:registerCommandObject(commandObject: CommandObject)
 			self.Commands[alias:lower()] = commandObject
 		end
 	end
+
+	if commandObject.InverseAliases then
+		for _, alias in ipairs(commandObject.InverseAliases) do
+			self.Commands[alias:lower()] = commandObject
+			self.InvertedCommands[alias:lower()] = true
+		end
+	end
 end
 
 function Registry:getCommand(name: string): CommandObject?
 	name = name or ""
 	return self.Commands[name:lower()]
+end
+
+function Registry:isInvertedCommand(name: string): boolean
+	return self.InvertedCommands[name:lower()] == true
 end
 
 function Registry:getCommands(): { CommandObject }

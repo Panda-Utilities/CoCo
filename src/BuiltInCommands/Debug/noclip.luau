@@ -7,11 +7,19 @@ local noclipConnection = nil
 return {
 	Name = "noclip";
 	Aliases = {"nc"};
+	InverseAliases = {"clip", "unnoclip"};
 	Description = "Toggle noclip (walk through walls).";
 	Group = "DefaultDebug";
 	Args = {};
 
 	ClientRun = function(context)
+		if context:isInvertedCall() then
+			if not noclipConnection then return "Noclip already disabled." end
+			noclipConnection:Disconnect()
+			noclipConnection = nil
+			return "Noclip disabled."
+		end
+
 		if noclipConnection then
 			noclipConnection:Disconnect()
 			noclipConnection = nil

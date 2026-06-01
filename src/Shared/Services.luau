@@ -15,6 +15,7 @@ local services = {
 	Lighting = cloneref(game:GetService("Lighting")),
 	TweenService = cloneref(game:GetService("TweenService")),
 	Workspace = cloneref(game:GetService("Workspace")),
+	PathfindingService = cloneref(game:GetService("PathfindingService")),
 }
 
 return services

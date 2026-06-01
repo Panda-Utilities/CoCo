@@ -1,7 +1,7 @@
 --!strict
 return {
 	Name = "blink",
-	Aliases = { "b" },
+	Aliases = { "b", "mouseteleport", "mousetp" },
 	Description = "Teleports you to where your mouse is hovering.",
 	Group = "DefaultDebug",
 	Args = {},

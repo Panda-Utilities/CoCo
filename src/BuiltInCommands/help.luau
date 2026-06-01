@@ -38,6 +38,9 @@ return {
 			if command.Aliases and #command.Aliases > 0 then
 				context:reply(`Aliases: {table.concat(command.Aliases, ", ")}`, Config.Colors.HelpGray)
 			end
+			if command.InverseAliases and #command.InverseAliases > 0 then
+				context:reply(`Inverse: {table.concat(command.InverseAliases, ", ")}`, Config.Colors.HelpGray)
+			end
 			context:reply(command.Description, Config.Colors.HelpGray)
 			for i, arg in ipairs(command.Args) do
 				context:reply(
