@@ -271,16 +271,20 @@ function Window:loseFocus(submit)
 	if submit then
 		local item = self.AutoComplete and self.AutoComplete:getSelectedItem()
 		if item then
-			local lastSpace = text:match("^(.*)[%s]")
-			if lastSpace then
-				if lastSpace ~= item[2] then
-					text = lastSpace .. " " .. item[2]
+			local cmd = self.CoCo.Dispatcher:evaluate(text, nil, true)
+			local alreadyComplete = cmd and cmd:getLastArgument() and cmd:getLastArgument().RawValue == item[2]
+			if not alreadyComplete then
+				local lastSpace = text:match("^(.*)[%s]")
+				if lastSpace then
+					if lastSpace ~= item[2] then
+						text = lastSpace .. " " .. item[2]
+					end
+				else
+					text = item[2]
 				end
-			else
-				text = item[2]
+				self:setEntryText(text)
+				text = self:getEntryText()
 			end
-			self:setEntryText(text)
-			text = self:getEntryText()
 		end
 
 		if self.Valid then
