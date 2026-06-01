@@ -8,6 +8,9 @@
     This file was automatically generated with darklua, it is not intended for manual editing.
 --]]
 
+if getgenv().CoCo then return end
+getgenv().CoCo = true
+
 _P = {
     genDate = "2026-06-01T22:44:09.093761420+00:00",
     cfg = "Release",
