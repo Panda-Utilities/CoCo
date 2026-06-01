@@ -9,7 +9,7 @@
 --]]
 
 _P = {
-    genDate = "2026-06-01T18:17:00.990888100+00:00",
+    genDate = "2026-06-01T18:21:15.014438097+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -126,26 +126,27 @@ InverseAliases then for g,h in ipairs(e.InverseAliases)do self.Commands[h:lower(
 self.InvertedCommands[e:lower()]==true end function d:getCommands()return self.
 CommandsArray end function d:getCommandNames()local e={}for f,g in ipairs(self.
 CommandsArray)do table.insert(e,g.Name)if g.Aliases then for h,i in ipairs(g.
-Aliases)do table.insert(e,i)end end end return e end function d:getTypeNames()
-return c.Dictionary.keys(self.Types)end function d:getType(e)return self.Types[e
-]end function d:getTypeName(e)return self.TypeAliases[e]or e end function d:
-registerHook(e,f,g)if not self.Hooks[e]then error(`Invalid hook name: {e}`,2)end
-table.insert(self.Hooks[e],{callback=f,priority=g or 0})table.sort(self.Hooks[e]
-,function(h,i)return h.priority<i.priority end)end function d:getStore(e)return
-self.Stores[e]end return function(e)return d end end function a.e()local c=a.
-cache.e if not c then c={c=b()}a.cache.e=c end return c.c end end do local b=
-function()local b,c,d,e=a.a().Players,function(b,c)for d in pairs(c)do b[d]=true
-end return b end,function(b,c)local d={}for e in pairs(b)do if c[e]then d[e]=
-true end end return d end,function(b,c)local d={}for e in pairs(b)do d[e]=true
-end for e in pairs(c)do d[e]=nil end return d end local f=function(f)local g={}
-for h,i in ipairs(b:GetPlayers())do if not f[i.Name]then g[i.Name]=true end end
-return g end return{union=c,intersection=d,difference=e,complement=f}end
-function a.f()local c=a.cache.f if not c then c={c=b()}a.cache.f=c end return c.
-c end end do local b=function()local b={GuiRoot=nil,Colors={BackgroundDark=
-Color3.fromRGB(17,17,17),BackgroundMedium=Color3.fromRGB(59,59,59),
-BackgroundLight=Color3.fromRGB(230,230,230),TextPrimary=Color3.fromRGB(255,255,
-255),TextAccent=Color3.fromRGB(255,223,93),TextHighlight=Color3.fromRGB(230,126,
-34),TextSecondary=Color3.fromRGB(131,222,255),AutocompleteItem=Color3.fromRGB(
+Aliases)do table.insert(e,i)end end if g.InverseAliases then for h,i in ipairs(g
+.InverseAliases)do table.insert(e,i)end end end return e end function d:
+getTypeNames()return c.Dictionary.keys(self.Types)end function d:getType(e)
+return self.Types[e]end function d:getTypeName(e)return self.TypeAliases[e]or e
+end function d:registerHook(e,f,g)if not self.Hooks[e]then error(`Invalid hook name: {
+e}`,2)end table.insert(self.Hooks[e],{callback=f,priority=g or 0})table.sort(
+self.Hooks[e],function(h,i)return h.priority<i.priority end)end function d:
+getStore(e)return self.Stores[e]end return function(e)return d end end function
+a.e()local c=a.cache.e if not c then c={c=b()}a.cache.e=c end return c.c end end
+do local b=function()local b,c,d,e=a.a().Players,function(b,c)for d in pairs(c)
+do b[d]=true end return b end,function(b,c)local d={}for e in pairs(b)do if c[e]
+then d[e]=true end end return d end,function(b,c)local d={}for e in pairs(b)do d
+[e]=true end for e in pairs(c)do d[e]=nil end return d end local f=function(f)
+local g={}for h,i in ipairs(b:GetPlayers())do if not f[i.Name]then g[i.Name]=
+true end end return g end return{union=c,intersection=d,difference=e,complement=
+f}end function a.f()local c=a.cache.f if not c then c={c=b()}a.cache.f=c end
+return c.c end end do local b=function()local b={GuiRoot=nil,Colors={
+BackgroundDark=Color3.fromRGB(17,17,17),BackgroundMedium=Color3.fromRGB(59,59,59
+),BackgroundLight=Color3.fromRGB(230,230,230),TextPrimary=Color3.fromRGB(255,255
+,255),TextAccent=Color3.fromRGB(255,223,93),TextHighlight=Color3.fromRGB(230,126
+,34),TextSecondary=Color3.fromRGB(131,222,255),AutocompleteItem=Color3.fromRGB(
 131,222,255),HelpOrange=Color3.fromRGB(230,126,34),HelpGray=Color3.fromRGB(230,
 230,230)},Gui={HistoryFile='coco_history.txt',DefaultTextSize=14,
 ScrollBarThickness=6,EntryLayoutOrder=999999999,BackgroundTransparency=0.4,
