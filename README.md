@@ -4,6 +4,12 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Panda-Utilities/CoCo/main/CoCo.luau"))()
 ```
 
+## Usage
+
+Press F2 to toggle the menu
+
+Enter `help` to list all the commands and their descriptions
+
 ## Building
 
 Requires [Aftman](https://github.com/LPGhatguy/aftman).
