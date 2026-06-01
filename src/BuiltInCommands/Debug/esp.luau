@@ -41,7 +41,11 @@ local function filterByPrefix(typed: string, items: { string }): { string }
 	local lower = typed:lower()
 	for _, item in items do
 		if item:lower():find(lower, 1, true) then
-			results[#results + 1] = item
+			if item:lower() == lower then
+				table.insert(results, 1, item)
+			else
+				results[#results + 1] = item
+			end
 		end
 	end
 	return results
