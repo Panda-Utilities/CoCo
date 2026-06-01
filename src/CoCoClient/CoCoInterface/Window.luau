@@ -457,7 +457,7 @@ function Window:beginInput(input, gameProcessed)
 
 					local argText = arg.Prefix .. table.concat(segments, ",")
 
-					if argText:find(" ") or argText == "" then
+					if argText == "" then
 						argText = ("%q"):format(argText)
 					end
 
