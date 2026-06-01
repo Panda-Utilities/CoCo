@@ -12,7 +12,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-01T22:47:44.921726280+00:00",
+    genDate = "2026-06-01T22:51:10.412111521+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -3540,8 +3540,7 @@ then self:setEnabled(false)end end function ac:setHideOnLostFocus(af)self.
 HideOnLostFocus=af end function ac:handleEvent(af,ag)if self.Events[af]then
 return self.Events[af]:Connect(ag)end end a.cS()(ac,ad)return ae end end
 function a.cT()local ab=a.cache.cT if not ab then ab={c=aa()}a.cache.cT=ab end
-return ab.c end end end if getgenv().CoCo then return end getgenv().CoCo=true
-local aa,ab=a.cw(),pcall(gethui)and gethui()local ac=ab and ab:FindFirstChild
-'CoCo'if not ac then local ad=os.clock()while not ac and os.clock()-ad<5 do ac=
-ab and ab:FindFirstChild'CoCo'task.wait()end end a.cT()(aa,ab or game:GetService
-'CoreGui')return aa
+return ab.c end end end local aa,ab=a.cw(),pcall(gethui)and gethui()local ac=ab
+and ab:FindFirstChild'CoCo'if not ac then local ad=os.clock()while not ac and os
+.clock()-ad<5 do ac=ab and ab:FindFirstChild'CoCo'task.wait()end end a.cT()(aa,
+ab or game:GetService'CoreGui')return aa
