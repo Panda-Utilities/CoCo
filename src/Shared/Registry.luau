@@ -180,6 +180,11 @@ function Registry:getCommandNames(): { string }
 				table.insert(names, alias)
 			end
 		end
+		if command.InverseAliases then
+			for _, alias in ipairs(command.InverseAliases) do
+				table.insert(names, alias)
+			end
+		end
 	end
 	return names
 end
