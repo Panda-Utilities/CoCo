@@ -9,7 +9,7 @@
 --]]
 
 _P = {
-    genDate = "2026-06-01T02:23:26.331196363+00:00",
+    genDate = "2026-06-01T18:17:00.990888100+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -93,13 +93,13 @@ Constructor(unpack(f))end}end return d end function a.d()local c=a.cache.d if
 not c then c={c=b()}a.cache.d=c end return c.c end end do local b=function()
 local b,c=a.d(),a.b()local d={TypeMethods=b.makeDictionary{'Transform',
 'Validate','Autocomplete','Parse','DisplayName','Listable','ValidateOnce',
-'Prefixes','Default','ArgumentOperatorAliases','Selectors'},CommandMethods=b.
-makeDictionary{'Name','Aliases','InverseAliases','AutoExec','Description','Args'
-,'Run','ClientRun','Data','Group'},CommandArgProps=b.makeDictionary{'Name',
-'Type','Description','Optional','Default'},Types={},TypeAliases={},Commands={},
-CommandsArray={},InvertedCommands={},Hooks={BeforeRun={},AfterRun={}},Stores=
-setmetatable({},{__index=function(d,e)d[e]={}return d[e]end})}function d:
-registerType(e,f)if not e or typeof(e)~='string'then error
+'Prefixes','Default','Debounce','ArgumentOperatorAliases','Selectors'},
+CommandMethods=b.makeDictionary{'Name','Aliases','InverseAliases','AutoExec',
+'Description','Args','Run','ClientRun','Data','Group'},CommandArgProps=b.
+makeDictionary{'Name','Type','Description','Optional','Default'},Types={},
+TypeAliases={},Commands={},CommandsArray={},InvertedCommands={},Hooks={BeforeRun
+={},AfterRun={}},Stores=setmetatable({},{__index=function(d,e)d[e]={}return d[e]
+end})}function d:registerType(e,f)if not e or typeof(e)~='string'then error
 'Invalid type name provided: nil'end if not e:find'^[%d%l]%w*$'then error(`Invalid type name provided: "{
 e}", type names must be alphanumeric and start with a lower-case letter or a digit.`
 )end for g in pairs(f)do if self.TypeMethods[g]==nil then error(`Unknown key/method in type "{
@@ -170,48 +170,52 @@ ArgumentOperatorAliases[h]or h end if h=='.'and self.Type.Default then h=self.
 Type.Default(self.Executor)or''self.RawSegmentsAreAutocomplete=true end if h==
 '?'and self.Type.Autocomplete then local i,j=self:GetDefaultAutocomplete()if not
 j.IsPartial and#i>0 then h=i[math.random(1,#i)]self.RawSegmentsAreAutocomplete=
-true end end if self.Type.Listable and#self.RawValue>0 then local i=h:match
-'^%?(%d+)$'if i then local j=tonumber(i)if j and j>0 then local k,l,m={},self:
-GetDefaultAutocomplete()if not m.IsPartial and#l>0 then local n={}for o=1,#l do
-n[o]=o end for o=1,math.min(j,#l)do local p=math.random(1,#n)table.insert(k,l[
-table.remove(n,p)])end h=table.concat(k,',')self.RawSegmentsAreAutocomplete=true
-end end elseif h=='*'or h=='**'then local j,k=self:GetDefaultAutocomplete()if
-not k.IsPartial and#j>0 then if h=='**'and self.Type.Default then local l=self.
-Type.Default(self.Executor)or''for m,n in ipairs(j)do if n==l then table.remove(
-j,m)end end end h=table.concat(j,',')self.RawSegmentsAreAutocomplete=true end
-end if self.Type.Selectors and not self.RawSegmentsAreAutocomplete and self.
-Executor then local j=self:resolveSelectorValue(h)if j then h=j self.
-RawSegmentsAreAutocomplete=true end end h=f(h)local j=b.splitStringSimple(h,',')
-if#j==0 then j={''}end if h:sub(#h,#h)==','then j[#j+1]=''end for k,l in ipairs(
-j)do self.RawSegments[k]=l self.TransformedValues[k]={self:TransformSegment(l)}
-end self.TextSegmentInProgress=j[#j]else h=f(h)self.RawSegments[1]=f(h)self.
-TransformedValues[1]={self:TransformSegment(h)}self.TextSegmentInProgress=self.
-RawValue end end function g:TransformSegment(h)if self.Type.Transform then
-return self.Type.Transform(h,self.Executor)else return h end end function g:
-GetTransformedValue(h)return unpack(self.TransformedValues[h])end function g:
-Validate(h)if self.RawValue==nil or#self.RawValue==0 and self.Required==false
-then return true end if self.Required and(self.RawSegments[1]==nil or#self.
-RawSegments[1]==0)then return false,'This argument is required.'end if self.Type
-.Validate or self.Type.ValidateOnce then for i=1,#self.TransformedValues do if
-self.Type.Validate then local j,k=self.Type.Validate(self:GetTransformedValue(i)
-)if not j then return j,k or'Invalid value'end end if h and self.Type.
-ValidateOnce then local j,k=self.Type.ValidateOnce(self:GetTransformedValue(i))
-if not j then return j,k end end end return true else return true end end
-function g:GetAutocomplete()if self.Type.Autocomplete then return self.Type.
-Autocomplete(self:GetTransformedValue(#self.TransformedValues),self)else return{
-}end end function g:ParseValue(h)if self.Type.Parse then return self.Type.Parse(
-self:GetTransformedValue(h))else return self:GetTransformedValue(h)end end
-function g:GetValue()if#self.RawValue==0 and not self.Required and self.Object.
-Default~=nil then return self.Object.Default end if not self.Type.Listable then
-return self:ParseValue(1)end local h={}for i=1,#self.TransformedValues do local
-j=self:ParseValue(i)if type(j)~='table'then error(`Listable types must return a table from Parse ({
-self.Type.Name})`)end for k,l in ipairs(j)do h[l]=true end end local i={}for j
-in pairs(h)do i[#i+1]=j end return i end function g:resolveKeywordResolver(h)if
-not self.Type.Selectors or not self.Type.Selectors.Keyword then return nil end
-local i,j={},h for k=1,e.Argument.KeywordResolverMaxDepth do if i[j]then return
-nil end i[j]=true local l=self.Type.Selectors.Keyword[j]if l==nil then return
-nil end if type(l)=='function'then return l end j=l end return nil end function
-g:resolveSelectorTerm(h,i)if#h==0 then return{}end local j=self:
+true end end if self.Type.Selectors and not self.RawSegmentsAreAutocomplete and
+self.Executor then local i=self:resolveSelectorValue(h)if i then if self.Type.
+Listable then h=i self.RawSegmentsAreAutocomplete=true else local j=b.
+splitStringSimple(i,',')if#j>0 then h=j[1]end end end end if not self.
+RawSegmentsAreAutocomplete and#self.RawValue>0 then if h=='*'or h=='**'then
+local i,j=self:GetDefaultAutocomplete()if not j.IsPartial and#i>0 then if h==
+'**'and self.Type.Default then local k,l=self.Type.Default(self.Executor)or'',{}
+for m,n in ipairs(i)do if n~=k then table.insert(l,n)end end i=l end if self.
+Type.Listable then h=table.concat(i,',')self.RawSegmentsAreAutocomplete=true
+elseif#i>0 then h=i[1]end end end end if self.Type.Listable and#self.RawValue>0
+then local i=h:match'^%?(%d+)$'if i then local j=tonumber(i)if j and j>0 then
+local k,l,m={},self:GetDefaultAutocomplete()if not m.IsPartial and#l>0 then
+local n={}for o=1,#l do n[o]=o end for o=1,math.min(j,#l)do local p=math.random(
+1,#n)table.insert(k,l[table.remove(n,p)])end h=table.concat(k,',')self.
+RawSegmentsAreAutocomplete=true end end end h=f(h)local j=b.splitStringSimple(h,
+',')if#j==0 then j={''}end if h:sub(#h,#h)==','then j[#j+1]=''end for k,l in
+ipairs(j)do self.RawSegments[k]=l self.TransformedValues[k]={self:
+TransformSegment(l)}end self.TextSegmentInProgress=j[#j]else h=f(h)self.
+RawSegments[1]=f(h)self.TransformedValues[1]={self:TransformSegment(h)}self.
+TextSegmentInProgress=self.RawValue end end function g:TransformSegment(h)if
+self.Type.Transform then return self.Type.Transform(h,self.Executor)else return
+h end end function g:GetTransformedValue(h)return unpack(self.TransformedValues[
+h])end function g:Validate(h)if self.RawValue==nil or#self.RawValue==0 and self.
+Required==false then return true end if self.Required and(self.RawSegments[1]==
+nil or#self.RawSegments[1]==0)then return false,'This argument is required.'end
+if self.Type.Validate or self.Type.ValidateOnce then for i=1,#self.
+TransformedValues do if self.Type.Validate then local j,k=self.Type.Validate(
+self:GetTransformedValue(i))if not j then return j,k or'Invalid value'end end if
+h and self.Type.ValidateOnce then local j,k=self.Type.ValidateOnce(self:
+GetTransformedValue(i))if not j then return j,k end end end return true else
+return true end end function g:GetAutocomplete()if self.Type.Autocomplete then
+return self.Type.Autocomplete(self:GetTransformedValue(#self.TransformedValues),
+self)else return{}end end function g:ParseValue(h)if self.Type.Parse then return
+self.Type.Parse(self:GetTransformedValue(h))else return self:
+GetTransformedValue(h)end end function g:GetValue()if#self.RawValue==0 and not
+self.Required and self.Object.Default~=nil then return self.Object.Default end
+if not self.Type.Listable then return self:ParseValue(1)end local h={}for i=1,#
+self.TransformedValues do local j=self:ParseValue(i)if type(j)~='table'then
+error(`Listable types must return a table from Parse ({self.Type.Name})`)end for
+k,l in ipairs(j)do h[l]=true end end local i={}for j in pairs(h)do i[#i+1]=j end
+return i end function g:resolveKeywordResolver(h)if not self.Type.Selectors or
+not self.Type.Selectors.Keyword then return nil end local i,j={},h for k=1,e.
+Argument.KeywordResolverMaxDepth do if i[j]then return nil end i[j]=true local l
+=self.Type.Selectors.Keyword[j]if l==nil then return nil end if type(l)==
+'function'then return l end j=l end return nil end function g:
+resolveSelectorTerm(h,i)if#h==0 then return{}end local j=self:
 resolveKeywordResolver(h)if j then local k,l=j(self.Executor),{}for m,n in
 ipairs(k)do l[n]=true end if i then return d.complement(l)end return l end for k
 ,l in ipairs(self.Type.Selectors.Pattern or{})do local m={h:match(l.Pattern)}if#
@@ -478,31 +482,38 @@ ipairs(h)do if not l[o.Name]then table.insert(m,o.Name)end end return m end}}}
 function d.buildAutocomplete(e,f)local g,h={},false if f then local i,j=(f.
 TextSegmentInProgress or''):lower(),{}for l,m in ipairs(e)do j[m:lower()]=true
 end if f.Type.ArgumentOperatorAliases then for l in pairs(f.Type.
-ArgumentOperatorAliases)do if type(l)=='string'then local m=l:lower()if(i==''or
-m:sub(1,#i)==i)and not j[m]then table.insert(e,l)j[m]=true h=true end end end
-end if f.Type.Selectors then if f.Type.Selectors.Keyword then for l in pairs(f.
-Type.Selectors.Keyword)do if type(l)=='string'then local m=l:lower()if(i==''or m
-:sub(1,#i)==i)and not j[m]then table.insert(e,l)j[m]=true h=true end end end end
-if f.Type.Selectors.Pattern then for l,m in ipairs(f.Type.Selectors.Pattern)do
-local n=m.Pattern:match'^%^([a-z]+)%('if n then if(i==''or n:sub(1,#i)==i)and
-not j[n]then table.insert(e,n..'#')j[n]=true h=true end end end end end if h and
-#i>0 then g.IsPartial=true end end return e,g end return d end function a.o()
-local c=a.cache.o if not c then c={c=b()}a.cache.o=c end return c.c end end do
-local b=function()local b,c,d,e=a.n(),a.d(),a.o(),a.a()local f=e.Players local g
-={Transform=function(g)local h=b.makeFuzzyFinder(f:GetPlayers())return h(g)end,
-Validate=function(g)return#g>0,'No player with that name could be found.'end,
-Autocomplete=function(g,h)return d.buildAutocomplete(b.getNames(g),h)end,Parse=
-function(g)return g[1]end,Default=function(g)return g.Name end,
-ArgumentOperatorAliases=d.ArgumentOperatorAliases,Selectors=d.Selectors}return
-function(h)h:registerType('player',g)h:registerType('players',c.
-makeListableType(g,{Prefixes='% teamPlayers'}))end end function a.p()local c=a.
-cache.p if not c then c={c=b()}a.cache.p=c end return c.c end end do local b=
-function()local b=a.a()local c,d,e=b.Teams,a.n(),a.d()local f={Transform=
-function(f)local g=d.makeFuzzyFinder(c:GetTeams())return g(f)end,Validate=
-function(f)return#f>0,'No team with that name could be found.'end,Autocomplete=
-function(f)return d.getNames(f)end,Parse=function(f)return f[1]end}local g,h={
-Listable=true,Transform=f.Transform,Validate=f.Validate,Autocomplete=f.
-Autocomplete,Parse=function(g)return g[1]:GetPlayers()end},{Transform=f.
+ArgumentOperatorAliases)do if type(l)=='string'then local m,n=l:lower(),f.Type.
+ArgumentOperatorAliases[l]if i~=''and(m:sub(1,#i)==i or(n and i:sub(1,#n)==n))
+and not j[m]then if l=='me'or l=='random'or f.Type.Listable then table.insert(e,
+l)j[m]=true h=true elseif l=='all'or l=='others'then local o,p=c:GetPlayers(),f.
+Executor and f.Executor.Name for q,r in ipairs(o)do if l~='others'or not p or r.
+Name~=p then local s=r.Name:lower()if not j[s]then table.insert(e,r.Name)j[s]=
+true end end end h=true end end end end end if f.Type.Selectors then if f.Type.
+Selectors.Keyword then for l in pairs(f.Type.Selectors.Keyword)do if type(l)==
+'string'then local m=l:lower()if i~=''and m:sub(1,#i)==i and not j[m]then local
+n=f:resolveKeywordResolver(l)if n then local o=n(f.Executor)if#o>0 then if not f
+.Type.Listable then for p,q in ipairs(o)do local r=q:lower()if not j[r]then
+table.insert(e,q)j[r]=true end end else table.insert(e,l)j[m]=true end h=true
+end end end end end end if f.Type.Selectors.Pattern then for l,m in ipairs(f.
+Type.Selectors.Pattern)do local n=m.Pattern:match'^%^([a-z]+)%('if n then if i~=
+''and n:sub(1,#i)==i and not j[n]then table.insert(e,n..'#')j[n]=true h=true end
+end end end end if h and#i>0 then g.IsPartial=true end end return e,g end return
+d end function a.o()local c=a.cache.o if not c then c={c=b()}a.cache.o=c end
+return c.c end end do local b=function()local b,c,d,e=a.n(),a.d(),a.o(),a.a()
+local f=e.Players local g={Transform=function(g)local h=b.makeFuzzyFinder(f:
+GetPlayers())return h(g)end,Validate=function(g)return#g>0,
+'No player with that name could be found.'end,Autocomplete=function(g,h)return d
+.buildAutocomplete(b.getNames(g),h)end,Parse=function(g)return g[1]end,Default=
+function(g)return g.Name end,ArgumentOperatorAliases=d.ArgumentOperatorAliases,
+Selectors=d.Selectors}return function(h)h:registerType('player',g)h:
+registerType('players',c.makeListableType(g,{Prefixes='% teamPlayers'}))end end
+function a.p()local c=a.cache.p if not c then c={c=b()}a.cache.p=c end return c.
+c end end do local b=function()local b=a.a()local c,d,e=b.Teams,a.n(),a.d()local
+f={Transform=function(f)local g=d.makeFuzzyFinder(c:GetTeams())return g(f)end,
+Validate=function(f)return#f>0,'No team with that name could be found.'end,
+Autocomplete=function(f)return d.getNames(f)end,Parse=function(f)return f[1]end}
+local g,h={Listable=true,Transform=f.Transform,Validate=f.Validate,Autocomplete=
+f.Autocomplete,Parse=function(g)return g[1]:GetPlayers()end},{Transform=f.
 Transform,Validate=f.Validate,Autocomplete=f.Autocomplete,Parse=function(g)
 return g[1].TeamColor end}return function(i)i:registerType('team',f)i:
 registerType('teams',e.makeListableType(f))i:registerType('teamPlayers',g)i:
@@ -735,13 +746,13 @@ function j.getCachedScript(m)return h[m]end function j.findScriptByPartialId(m)
 for n,o in pairs(h)do if n:sub(1,#m):lower()==m:lower()then return o end end
 return nil end return j end function a.H()local c=a.cache.H if not c then c={c=
 b()}a.cache.H=c end return c.c end end do local b=function()local b=a.H()return
-function(c)c:registerType('scriptblox',{Transform=function(d)return d end,
-Validate=function(d)return d~=nil end,Parse=function(d)return tostring(d)end,
-Autocomplete=function(d,e)if type(d)~='string'or#d<2 then return{},{IsPartial=
-true}end local f,g=pcall(b.searchScripts,d)if not f or not g or not g.scripts
-then return{},{IsPartial=false}end local h,i=d:lower(),{}for j,l in ipairs(g.
-scripts)do local m=l._id or l.id if l.title and m then b.cacheScript(m,l)local n
-,o=l.title:lower(),0 if n==h then o=5 elseif n:find('^'..h:gsub(
+function(c)c:registerType('scriptblox',{Debounce=true,Transform=function(d)
+return d end,Validate=function(d)return d~=nil end,Parse=function(d)return
+tostring(d)end,Autocomplete=function(d,e)if type(d)~='string'or#d<2 then return{
+},{IsPartial=true}end local f,g=pcall(b.searchScripts,d)if not f or not g or not
+g.scripts then return{},{IsPartial=false}end local h,i=d:lower(),{}for j,l in
+ipairs(g.scripts)do local m=l._id or l.id if l.title and m then b.cacheScript(m,
+l)local n,o=l.title:lower(),0 if n==h then o=5 elseif n:find('^'..h:gsub(
 '([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=4 elseif n:find('[^%w]'..h:gsub(
 '([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))or n:find('^'..h:gsub(
 '([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=3 elseif n:find(h:gsub(
@@ -763,31 +774,30 @@ J if not c then c={c=b()}a.cache.J=c end return c.c end end do local b=function(
 )local b=a.a()local c=b.Lighting return{Name='ambient',Aliases={},Description=
 'Set ambient lighting color (R G B).',Group='DefaultDebug',Args={{Type='color3',
 Name='color',Description='RGB color values (0-255)'}},ClientRun=function(d,e)if
-not e then return'Usage: ambient <R> <G> <B>'end local f=c.OutdoorAmbient c.
-OutdoorAmbient=e return('Ambient set to RGB(%d, %d, %d).'):format(e.R*255,e.G*
-255,e.B*255)end}end function a.K()local c=a.cache.K if not c then c={c=b()}a.
-cache.K=c end return c.c end end do local b=function()return{Name='anchor',
-Aliases={'anc'},InverseAliases={'unanchor'},Description=
-'Toggle anchor on your root part.',Group='DefaultDebug',Args={},ClientRun=
-function(b)local c=b.Executor.Character if not c then return'No character.'end
-local d=c:FindFirstChild'HumanoidRootPart'or c:FindFirstChild'Torso'if not d
-then return'No root part found.'end if b:isInvertedCall()then if not d.Anchored
-then return'Already unanchored.'end d.Anchored=false return'Unanchored.'end d.
-Anchored=not d.Anchored return d.Anchored and'Anchored.'or'Unanchored.'end}end
-function a.L()local c=a.cache.L if not c then c={c=b()}a.cache.L=c end return c.
-c end end do local b=function()return{Name='animation',Aliases={'anim'},
-Description='Play an animation by ID.',Group='DefaultDebug',Args={{Type='string'
-,Name='id',Description='Animation ID (number)'},{Type='number',Name='speed',
-Description='Playback speed (optional)',Optional=true}},ClientRun=function(b,c,d
-)local e=b.Executor.Character if not e then return"You don't have a character."
-end local f=e:FindFirstChildWhichIsA'Humanoid'if not f then return
-'No humanoid found.'end local g=c:match'(%d+)'if not g then return
-'Invalid animation ID.'end local h=Instance.new'Animation'h.AnimationId=
-'rbxassetid://'..g local i=f:LoadAnimation(h)i.Priority=Enum.AnimationPriority.
-Movement i:Play()if d then i:AdjustSpeed(math.clamp(d,0.1,10))end return(
-'Playing animation %s.'):format(g)end}end function a.M()local c=a.cache.M if not
-c then c={c=b()}a.cache.M=c end return c.c end end do local b=function()return{
-Name='animspeed',Aliases={},Description=
+not e then return'Usage: ambient <R> <G> <B>'end c.OutdoorAmbient=e return(
+'Ambient set to RGB(%d, %d, %d).'):format(e.R*255,e.G*255,e.B*255)end}end
+function a.K()local c=a.cache.K if not c then c={c=b()}a.cache.K=c end return c.
+c end end do local b=function()return{Name='anchor',Aliases={'anc'},
+InverseAliases={'unanchor'},Description='Toggle anchor on your root part.',Group
+='DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character if not
+c then return'No character.'end local d=c:FindFirstChild'HumanoidRootPart'or c:
+FindFirstChild'Torso'if not d then return'No root part found.'end if b:
+isInvertedCall()then if not d.Anchored then return'Already unanchored.'end d.
+Anchored=false return'Unanchored.'end d.Anchored=not d.Anchored return d.
+Anchored and'Anchored.'or'Unanchored.'end}end function a.L()local c=a.cache.L if
+not c then c={c=b()}a.cache.L=c end return c.c end end do local b=function()
+return{Name='animation',Aliases={'anim'},Description='Play an animation by ID.',
+Group='DefaultDebug',Args={{Type='string',Name='id',Description=
+'Animation ID (number)'},{Type='number',Name='speed',Description=
+'Playback speed (optional)',Optional=true}},ClientRun=function(b,c,d)local e=b.
+Executor.Character if not e then return"You don't have a character."end local f=
+e:FindFirstChildWhichIsA'Humanoid'if not f then return'No humanoid found.'end
+local g=c:match'(%d+)'if not g then return'Invalid animation ID.'end local h=
+Instance.new'Animation'h.AnimationId='rbxassetid://'..g local i=f:LoadAnimation(
+h)i.Priority=Enum.AnimationPriority.Movement i:Play()if d then i:AdjustSpeed(
+math.clamp(d,0.1,10))end return('Playing animation %s.'):format(g)end}end
+function a.M()local c=a.cache.M if not c then c={c=b()}a.cache.M=c end return c.
+c end end do local b=function()return{Name='animspeed',Aliases={},Description=
 'Adjust playback speed of all playing animations.',Group='DefaultDebug',Args={{
 Type='number',Name='speed',Description='Speed multiplier (0.1-10)',Default=1}},
 ClientRun=function(b,c)local d=b.Executor.Character if not d then return
@@ -796,36 +806,36 @@ not e then return'No humanoid found.'end c=math.clamp(c,0.1,10)local f=0 for g,h
 in ipairs(e:GetPlayingAnimationTracks())do h:AdjustSpeed(c)f=f+1 end return(
 'Adjusted speed of %d animation(s) to %g.'):format(f,c)end}end function a.N()
 local c=a.cache.N if not c then c={c=b()}a.cache.N=c end return c.c end end do
-local b=function()local b,c,d,e=nil,a.a(),game:GetService'VirtualUser',false
-return{Name='antiafk',Aliases={'antiidle'},Description=
+local b=function()local b,c,d=game:GetService'VirtualUser',false return{Name=
+'antiafk',Aliases={'antiidle'},Description=
 'Toggle anti-AFK (prevents being kicked for idling).',Group='DefaultDebug',Args=
-{},ClientRun=function(f)if e then if b then b:Disconnect()b=nil end e=false
-return'Anti-AFK disabled.'end if getconnections then for g,h in ipairs(
-getconnections(f.Executor.Idled))do if h.Disable then h:Disable()elseif h.
-Disconnect then h:Disconnect()end end else b=f.Executor.Idled:Connect(function()
-d:CaptureController()d:ClickButton2(Vector2.new())end)end e=true return
+{},ClientRun=function(e)if c then if d then d:Disconnect()d=nil end c=false
+return'Anti-AFK disabled.'end if getconnections then for f,g in ipairs(
+getconnections(e.Executor.Idled))do if g.Disable then g:Disable()elseif g.
+Disconnect then g:Disconnect()end end else d=e.Executor.Idled:Connect(function()
+b:CaptureController()b:ClickButton2(Vector2.new())end)end c=true return
 'Anti-AFK enabled.'end}end function a.O()local c=a.cache.O if not c then c={c=b(
 )}a.cache.O=c end return c.c end end do local b=function()local b=a.a()local c,d
-,e,f=nil,b.Lighting,b.RunService,false local g=function()f=false if c then c:
-Disconnect()c=nil end d.GlobalShadows=true d.FogEnd=100000 d.FogStart=0
-settings().Rendering.QualityLevel=21 end return{Name='antilag',Aliases={
-'boostfps','lowgraphics'},InverseAliases={'unantilag'},Description=
+,e=b.Lighting,false local f=function()d=false if e then e:Disconnect()e=nil end
+c.GlobalShadows=true c.FogEnd=100000 c.FogStart=0 settings().Rendering.
+QualityLevel=21 end return{Name='antilag',Aliases={'boostfps','lowgraphics'},
+InverseAliases={'unantilag'},Description=
 'Toggle anti-lag (lower graphics, disable shadows, etc.).',Group='DefaultDebug',
-Args={},ClientRun=function(h)if h:isInvertedCall()then if not f then return
-'Anti-lag already disabled.'end g()return'Anti-lag disabled.'end if f then g()
-return'Anti-lag disabled.'end f=true local i=workspace:FindFirstChildWhichIsA
-'Terrain'if i then i.WaterWaveSize=0 i.WaterWaveSpeed=0 i.WaterReflectance=0 i.
-WaterTransparency=1 end d.GlobalShadows=false d.FogEnd=9e9 d.FogStart=9e9
-settings().Rendering.QualityLevel=1 local j=function()for j,l in ipairs(game:
-GetDescendants())do if l:IsA'BasePart'then l.CastShadow=false l.Material=Enum.
-Material.Plastic l.Reflectance=0 elseif l:IsA'Decal'then l.Transparency=1 l.
-Texture=''elseif l:IsA'ParticleEmitter'or l:IsA'Trail'then l.Lifetime=
-NumberRange.new(0)end end for j,l in ipairs(d:GetDescendants())do if l:IsA
-'PostEffect'then l.Enabled=false end end end j()c=workspace.DescendantAdded:
-Connect(function(l)task.spawn(function()task.wait()if not f then return end if l
-:IsA'BasePart'then l.CastShadow=false l.Material=Enum.Material.Plastic l.
-Reflectance=0 elseif l:IsA'Decal'then l.Transparency=1 l.Texture=''elseif l:IsA
-'ParticleEmitter'or l:IsA'Trail'then l.Lifetime=NumberRange.new(0)end end)end)
+Args={},ClientRun=function(g)if g:isInvertedCall()then if not d then return
+'Anti-lag already disabled.'end f()return'Anti-lag disabled.'end if d then f()
+return'Anti-lag disabled.'end d=true local h=workspace:FindFirstChildWhichIsA
+'Terrain'if h then h.WaterWaveSize=0 h.WaterWaveSpeed=0 h.WaterReflectance=0 h.
+WaterTransparency=1 end c.GlobalShadows=false c.FogEnd=9e9 c.FogStart=9e9
+settings().Rendering.QualityLevel=1 local i=function()for i,j in ipairs(game:
+GetDescendants())do if j:IsA'BasePart'then j.CastShadow=false j.Material=Enum.
+Material.Plastic j.Reflectance=0 elseif j:IsA'Decal'then j.Transparency=1 j.
+Texture=''elseif j:IsA'ParticleEmitter'or j:IsA'Trail'then j.Lifetime=
+NumberRange.new(0)end end for i,j in ipairs(c:GetDescendants())do if j:IsA
+'PostEffect'then j.Enabled=false end end end i()e=workspace.DescendantAdded:
+Connect(function(j)task.spawn(function()task.wait()if not d then return end if j
+:IsA'BasePart'then j.CastShadow=false j.Material=Enum.Material.Plastic j.
+Reflectance=0 elseif j:IsA'Decal'then j.Transparency=1 j.Texture=''elseif j:IsA
+'ParticleEmitter'or j:IsA'Trail'then j.Lifetime=NumberRange.new(0)end end)end)
 return'Anti-lag enabled.'end}end function a.P()local c=a.cache.P if not c then c
 ={c=b()}a.cache.P=c end return c.c end end do local b=function()local b=a.a()
 local c,d,e,f=b.RunService,false local g=function()if e then e:Disconnect()e=nil
@@ -982,15 +992,15 @@ Name='clearwaypoints',Aliases={'cwp','clearpositions','clearpos'},Description=
 local c,d=b:getStore'Waypoints',0 for e,f in c do c[e]=nil d=d+1 end return(
 'Cleared %d waypoint(s).'):format(d)end}end function a.aa()local c=a.cache.aa if
 not c then c={c=b()}a.cache.aa=c end return c.c end end do local b=function()
-local b=a.a()local c,d,e,f=nil,b.UserInputService,b.RunService,false return{Name
-='clickdelete',Aliases={},Description=
+local b=a.a()local c,d,e=b.UserInputService,false return{Name='clickdelete',
+Aliases={},Description=
 [[Toggle click-delete mode. Hold LeftAlt and click to delete parts.]],Group=
-'DefaultDebug',Args={},ClientRun=function()if f then if c then c:Disconnect()c=
-nil end f=false return'Click-delete disabled.'end f=true c=d.InputBegan:Connect(
-function(g,h)if h then return end if g.UserInputType~=Enum.UserInputType.
-MouseButton1 then return end if not d:IsKeyDown(Enum.KeyCode.LeftAlt)then return
-end local i=game:GetService'Players'.LocalPlayer:GetMouse()local j=i.Target if j
-then local l=j:IsA'BasePart'and j or j.Parent if l then l:Destroy()end end end)
+'DefaultDebug',Args={},ClientRun=function()if d then if e then e:Disconnect()e=
+nil end d=false return'Click-delete disabled.'end d=true e=c.InputBegan:Connect(
+function(f,g)if g then return end if f.UserInputType~=Enum.UserInputType.
+MouseButton1 then return end if not c:IsKeyDown(Enum.KeyCode.LeftAlt)then return
+end local h=game:GetService'Players'.LocalPlayer:GetMouse()local i=h.Target if i
+then local j=i:IsA'BasePart'and i or i.Parent if j then j:Destroy()end end end)
 return'Click-delete enabled (hold LeftAlt + click).'end}end function a.ab()local
 c=a.cache.ab if not c then c={c=b()}a.cache.ab=c end return c.c end end do local
 b=function()local b,c,d=game:GetService'UserInputService',false return{Name=
@@ -1295,65 +1305,64 @@ mouseDelta=Vector2.new(-u.Y,-u.X)return Enum.ContextActionResult.Sink end,false,
 f,Enum.UserInputType.MouseMovement)d:BindToRenderStep('Freecam',Enum.
 RenderPriority.Camera.Value,j)n.running=true return'Freecam enabled.'end}end
 function a.aA()local c=a.cache.aA if not c then c={c=b()}a.cache.aA=c end return
-c.c end end do local b=function()local b=a.a()local c,d=b.Players,{}return{Name=
-'freeze',Aliases={'fr'},Description=
-'Toggle freeze a player (anchors all their parts).',Group='DefaultDebug',Args={{
-Type='player',Name='target',Description='The player to freeze/thaw'}},ClientRun=
-function(e,f)local g=f.Character if not g then return'Target has no character.'
-end if d[f]then for h,i in ipairs(g:GetDescendants())do if i:IsA'BasePart'and i.
-Anchored then i.Anchored=false end end d[f]=nil return('%s thawed.'):format(f.
-Name)else for h,i in ipairs(g:GetDescendants())do if i:IsA'BasePart'and not i.
-Anchored then i.Anchored=true end end d[f]=true return('%s frozen.'):format(f.
-Name)end end}end function a.aB()local c=a.cache.aB if not c then c={c=b()}a.
-cache.aB=c end return c.c end end do local b=function()local b=a.a()local c,d,e,
-f=b.Lighting,b.RunService,{}local g=function()if f then f:Disconnect()f=nil end
-c.Brightness=e.Brightness or 1 c.ClockTime=e.ClockTime or 14 c.FogEnd=e.FogEnd
-or 100000 c.GlobalShadows=e.GlobalShadows c.OutdoorAmbient=e.OutdoorAmbient or
-Color3.new(0,0,0)end return{Name='fullbright',Aliases={'fb','fullbrightness'},
-InverseAliases={'unfullbright'},Description=
-'Toggle fullbright (max brightness, no shadows).',Group='DefaultDebug',Args={},
-ClientRun=function(h)if h:isInvertedCall()then if not f then return
-'Fullbright already disabled.'end g()return'Fullbright disabled.'end if f then
-g()return'Fullbright disabled.'end e.Brightness=c.Brightness e.ClockTime=c.
-ClockTime e.FogEnd=c.FogEnd e.GlobalShadows=c.GlobalShadows e.OutdoorAmbient=c.
-OutdoorAmbient local i=function()c.Brightness=2 c.ClockTime=14 c.FogEnd=100000 c
-.GlobalShadows=false c.OutdoorAmbient=Color3.fromRGB(128,128,128)end i()f=d.
-RenderStepped:Connect(i)return'Fullbright enabled.'end}end function a.aC()local
-c=a.cache.aC if not c then c={c=b()}a.cache.aC=c end return c.c end end do local
-b=function()local b=a.a()local c=b.Lighting return{Name='globalshadows',Aliases=
-{'gshadows'},InverseAliases={'unglobalshadows','nogshadows'},Description=
-'Toggle global shadows.',Group='DefaultDebug',Args={},ClientRun=function(d)if d:
-isInvertedCall()then if not c.GlobalShadows then return
-'Global shadows already disabled.'end c.GlobalShadows=false return
+c.c end end do local b=function()local b,c=a.a(),{}return{Name='freeze',Aliases=
+{'fr'},Description='Toggle freeze a player (anchors all their parts).',Group=
+'DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to freeze/thaw'}},ClientRun=function(d,e)local f=e.Character if not
+f then return'Target has no character.'end if c[e]then for g,h in ipairs(f:
+GetDescendants())do if h:IsA'BasePart'and h.Anchored then h.Anchored=false end
+end c[e]=nil return('%s thawed.'):format(e.Name)else for g,h in ipairs(f:
+GetDescendants())do if h:IsA'BasePart'and not h.Anchored then h.Anchored=true
+end end c[e]=true return('%s frozen.'):format(e.Name)end end}end function a.aB()
+local c=a.cache.aB if not c then c={c=b()}a.cache.aB=c end return c.c end end do
+local b=function()local b=a.a()local c,d,e,f=b.Lighting,b.RunService,{}local g=
+function()if f then f:Disconnect()f=nil end c.Brightness=e.Brightness or 1 c.
+ClockTime=e.ClockTime or 14 c.FogEnd=e.FogEnd or 100000 c.GlobalShadows=e.
+GlobalShadows c.OutdoorAmbient=e.OutdoorAmbient or Color3.new(0,0,0)end return{
+Name='fullbright',Aliases={'fb','fullbrightness'},InverseAliases={'unfullbright'
+},Description='Toggle fullbright (max brightness, no shadows).',Group=
+'DefaultDebug',Args={},ClientRun=function(h)if h:isInvertedCall()then if not f
+then return'Fullbright already disabled.'end g()return'Fullbright disabled.'end
+if f then g()return'Fullbright disabled.'end e.Brightness=c.Brightness e.
+ClockTime=c.ClockTime e.FogEnd=c.FogEnd e.GlobalShadows=c.GlobalShadows e.
+OutdoorAmbient=c.OutdoorAmbient local i=function()c.Brightness=2 c.ClockTime=14
+c.FogEnd=100000 c.GlobalShadows=false c.OutdoorAmbient=Color3.fromRGB(128,128,
+128)end i()f=d.RenderStepped:Connect(i)return'Fullbright enabled.'end}end
+function a.aC()local c=a.cache.aC if not c then c={c=b()}a.cache.aC=c end return
+c.c end end do local b=function()local b=a.a()local c=b.Lighting return{Name=
+'globalshadows',Aliases={'gshadows'},InverseAliases={'unglobalshadows',
+'nogshadows'},Description='Toggle global shadows.',Group='DefaultDebug',Args={},
+ClientRun=function(d)if d:isInvertedCall()then if not c.GlobalShadows then
+return'Global shadows already disabled.'end c.GlobalShadows=false return
 'Global shadows disabled.'end c.GlobalShadows=not c.GlobalShadows return c.
 GlobalShadows and'Global shadows enabled.'or'Global shadows disabled.'end}end
 function a.aD()local c=a.cache.aD if not c then c={c=b()}a.cache.aD=c end return
-c.c end end do local b=function()local b,c,d=nil,a.a(),false local e=function(e)
-if b then local f=e.Executor.Character if f then local g=f:
-FindFirstChildWhichIsA'Humanoid'if g then g:Destroy()end b.Parent=f e.Executor.
-Character=f local h=workspace.CurrentCamera h.CameraSubject=b h.CFrame=h.CFrame
-local i=f:FindFirstChild'Animate'if i then i.Disabled=true task.wait()i.Disabled
-=false end end end d=false b=nil end return{Name='god',Aliases={},InverseAliases
-={'ungod'},Description='Toggle god mode (invincible, disable death states).',
-Group='DefaultDebug',Args={},ClientRun=function(f)if f:isInvertedCall()then if
-not d then return'God mode already disabled.'end e(f)return'God mode disabled.'
-end local g=f.Executor.Character if not g then return
-"You don't have a character."end if d then e(f)return'God mode disabled.'end
-local h=workspace.CurrentCamera local i,j=h.CFrame,g:FindFirstChildWhichIsA
-'Humanoid'if not j then return'No humanoid found.'end local l=j:Clone()l.Parent=
-g f.Executor.Character=nil l:SetStateEnabled(Enum.HumanoidStateType.Dead,false)l
-:SetStateEnabled(Enum.HumanoidStateType.Seated,false)l:SetStateEnabled(Enum.
-HumanoidStateType.PlatformStanding,false)l.BreakJointsOnDeath=true j:Destroy()f.
-Executor.Character=g h.CameraSubject=l h.CFrame=task.wait()and i l.
-DisplayDistanceType=Enum.HumanoidDisplayDistanceType.None local m=g:
-FindFirstChild'Animate'if m then m.Disabled=true task.wait()m.Disabled=false end
-l.Health=l.MaxHealth d=true b=l return'God mode enabled.'end}end function a.aE()
-local c=a.cache.aE if not c then c={c=b()}a.cache.aE=c end return c.c end end do
-local b=function()return{Name='goto',Aliases={'to','tp'},Description=
-'Teleport to a player.',Group='DefaultDebug',Args={{Type='player',Name='target',
-Description='The player to teleport to'}},ClientRun=function(b,c)local d=b.
-Executor.Character if not d then return"You don't have a character."end local e=
-d:FindFirstChildWhichIsA'Humanoid'if not e then return'No humanoid found.'end
+c.c end end do local b=function()local b,c=false local d=function(d)if c then
+local e=d.Executor.Character if e then local f=e:FindFirstChildWhichIsA
+'Humanoid'if f then f:Destroy()end c.Parent=e d.Executor.Character=e local g=
+workspace.CurrentCamera g.CameraSubject=c g.CFrame=g.CFrame local h=e:
+FindFirstChild'Animate'if h then h.Disabled=true task.wait()h.Disabled=false end
+end end b=false c=nil end return{Name='god',Aliases={},InverseAliases={'ungod'},
+Description='Toggle god mode (invincible, disable death states).',Group=
+'DefaultDebug',Args={},ClientRun=function(e)if e:isInvertedCall()then if not b
+then return'God mode already disabled.'end d(e)return'God mode disabled.'end
+local f=e.Executor.Character if not f then return"You don't have a character."
+end if b then d(e)return'God mode disabled.'end local g=workspace.CurrentCamera
+local h,i=g.CFrame,f:FindFirstChildWhichIsA'Humanoid'if not i then return
+'No humanoid found.'end local j=i:Clone()j.Parent=f e.Executor.Character=nil j:
+SetStateEnabled(Enum.HumanoidStateType.Dead,false)j:SetStateEnabled(Enum.
+HumanoidStateType.Seated,false)j:SetStateEnabled(Enum.HumanoidStateType.
+PlatformStanding,false)j.BreakJointsOnDeath=true i:Destroy()e.Executor.Character
+=f g.CameraSubject=j g.CFrame=task.wait()and h j.DisplayDistanceType=Enum.
+HumanoidDisplayDistanceType.None local l=f:FindFirstChild'Animate'if l then l.
+Disabled=true task.wait()l.Disabled=false end j.Health=j.MaxHealth b=true c=j
+return'God mode enabled.'end}end function a.aE()local c=a.cache.aE if not c then
+c={c=b()}a.cache.aE=c end return c.c end end do local b=function()return{Name=
+'goto',Aliases={'to','tp'},Description='Teleport to a player.',Group=
+'DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to teleport to'}},ClientRun=function(b,c)local d=b.Executor.
+Character if not d then return"You don't have a character."end local e=d:
+FindFirstChildWhichIsA'Humanoid'if not e then return'No humanoid found.'end
 local f=c.Character if not f then return'Target has no character.'end local g=f:
 FindFirstChildWhichIsA'Humanoid'if not g then return'Target has no humanoid.'end
 local h=g.RootPart if not h then return'Target has no root part.'end local i=e.
@@ -1438,40 +1447,40 @@ then return'No object targeted.'end local f={Name=e.Name,Class=e.ClassName,
 Parent=e.Parent and e.Parent:GetFullName()or'nil'}return(
 'Name: %s | Class: %s | Parent: %s'):format(f.Name,f.Class,f.Parent)end}end
 function a.aO()local c=a.cache.aO if not c then c={c=b()}a.cache.aO=c end return
-c.c end end do local b=function()local b=a.a()local c,d,e,f=b.Players,b.Lighting
-,b.RunService,{running=false,character=nil,invisChar=nil,invisFix=nil,invisDied=
-nil,pos=nil,camPos=nil}local g=function(g)if f.invisFix then f.invisFix:
-Disconnect()f.invisFix=nil end if f.invisDied then f.invisDied:Disconnect()f.
-invisDied=nil end local h,i,j=f.character,f.invisChar,g.Executor if h and i then
-local l=i:FindFirstChildWhichIsA'Humanoid'local m=l and l.RootPart local n=m and
-m.CFrame h.HumanoidRootPart.CFrame=n or h.HumanoidRootPart.CFrame i:Destroy()j.
-Character=h h.Parent=workspace end f.running=false f.character=nil f.invisChar=
-nil f.pos=nil f.camPos=nil end return{Name='invisible',Aliases={'invis'},
-InverseAliases={'visible','vis','uninvisible'},Description=
+c.c end end do local b=function()local b=a.a()local c,d,e=b.Lighting,b.
+RunService,{running=false,character=nil,invisChar=nil,invisFix=nil,invisDied=nil
+,pos=nil,camPos=nil}local f=function(f)if e.invisFix then e.invisFix:Disconnect(
+)e.invisFix=nil end if e.invisDied then e.invisDied:Disconnect()e.invisDied=nil
+end local g,h,i=e.character,e.invisChar,f.Executor if g and h then local j=h:
+FindFirstChildWhichIsA'Humanoid'local l=j and j.RootPart local m=l and l.CFrame
+g.HumanoidRootPart.CFrame=m or g.HumanoidRootPart.CFrame h:Destroy()i.Character=
+g g.Parent=workspace end e.running=false e.character=nil e.invisChar=nil e.pos=
+nil e.camPos=nil end return{Name='invisible',Aliases={'invis'},InverseAliases={
+'visible','vis','uninvisible'},Description=
 [[Toggle invisible (clone to Lighting, make original transparent).]],Group=
-'DefaultDebug',Args={},ClientRun=function(h)if h:isInvertedCall()then if not f.
-running then return'Already visible.'end g(h)return'Visible.'end if f.running
-then g(h)return'Invisible disabled.'end local i=h.Executor local j=i.Character
-if not j then return"You don't have a character."end j.Archivable=true local l=j
-:Clone()l.Parent=d l.Name=''for m,n in ipairs(l:GetDescendants())do if n:IsA
-'BasePart'then if n.Name=='HumanoidRootPart'then n.Transparency=1 else n.
-Transparency=0.5 end end end local m=workspace.FallenPartsDestroyHeight local n=
-e.Stepped:Connect(function()pcall(function()local n=i.Character and i.Character:
-FindFirstChildWhichIsA'Humanoid'if not n then return end local o=n.RootPart if
-not o then return end local p,q=o.Position.Y,tostring(m):find'-'if(q and p<=m)or
-(not q and p>=m)then respawnFunc()end end)end)local o=function()if not f.running
-then return end if not f.character then return end local o,p,q=f.character,f.
-invisChar,h.Executor if n then n:Disconnect()n=nil end if invisDied then
-invisDied:Disconnect()invisDied=nil end o.Parent=workspace local r=o:
-FindFirstChildWhichIsA'Humanoid'if r then r:Destroy()end q.Character=o o:
-BreakJoints()f.running=false f.character=nil f.invisChar=nil end local p,q,r=l:
-FindFirstChildWhichIsA'Humanoid'.Died:Connect(function()o()end),workspace.
-CurrentCamera.CFrame,j.HumanoidRootPart.CFrame j:MoveTo(Vector3.new(0,math.pi*
-1000000,0))task.wait(0.2)j.Parent=d l.Parent=workspace l:FindFirstChildWhichIsA
-'Humanoid'.RootPart.CFrame=r i.Character=l local s=workspace.CurrentCamera s.
-CameraType=Enum.CameraType.Custom s.CFrame=q local t=i.Character:FindFirstChild
-'Animate'if t then t.Disabled=true task.wait()t.Disabled=false end f.running=
-true f.character=j f.invisChar=l f.invisFix=n f.invisDied=p return
+'DefaultDebug',Args={},ClientRun=function(g)if g:isInvertedCall()then if not e.
+running then return'Already visible.'end f(g)return'Visible.'end if e.running
+then f(g)return'Invisible disabled.'end local h=g.Executor local i=h.Character
+if not i then return"You don't have a character."end i.Archivable=true local j=i
+:Clone()j.Parent=c j.Name=''for l,m in ipairs(j:GetDescendants())do if m:IsA
+'BasePart'then if m.Name=='HumanoidRootPart'then m.Transparency=1 else m.
+Transparency=0.5 end end end local l=workspace.FallenPartsDestroyHeight local m=
+d.Stepped:Connect(function()pcall(function()local m=h.Character and h.Character:
+FindFirstChildWhichIsA'Humanoid'if not m then return end local n=m.RootPart if
+not n then return end local o,p=n.Position.Y,tostring(l):find'-'if(p and o<=l)or
+(not p and o>=l)then respawnFunc()end end)end)local n=function()if not e.running
+then return end if not e.character then return end local n,o,p=e.character,e.
+invisChar,g.Executor if m then m:Disconnect()m=nil end if invisDied then
+invisDied:Disconnect()invisDied=nil end n.Parent=workspace local q=n:
+FindFirstChildWhichIsA'Humanoid'if q then q:Destroy()end p.Character=n n:
+BreakJoints()e.running=false e.character=nil e.invisChar=nil end local o,p,q=j:
+FindFirstChildWhichIsA'Humanoid'.Died:Connect(function()n()end),workspace.
+CurrentCamera.CFrame,i.HumanoidRootPart.CFrame i:MoveTo(Vector3.new(0,math.pi*
+1000000,0))task.wait(0.2)i.Parent=c j.Parent=workspace j:FindFirstChildWhichIsA
+'Humanoid'.RootPart.CFrame=q h.Character=j local r=workspace.CurrentCamera r.
+CameraType=Enum.CameraType.Custom r.CFrame=p local s=h.Character:FindFirstChild
+'Animate'if s then s.Disabled=true task.wait()s.Disabled=false end e.running=
+true e.character=i e.invisChar=j e.invisFix=m e.invisDied=o return
 'Invisible enabled.'end}end function a.aP()local c=a.cache.aP if not c then c={c
 =b()}a.cache.aP=c end return c.c end end do local b=function()return{Name=
 'jobid',Aliases={},Description='Copy the current job ID to clipboard.',Group=
@@ -1574,11 +1583,11 @@ function()return{Name='nilchar',Aliases={},Description=
 "You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if d
 then d:Destroy()end c:Destroy()return"Character nil'd."end}end function a.a0()
 local c=a.cache.a0 if not c then c={c=b()}a.cache.a0=c end return c.c end end do
-local b=function()local b=a.a()local c=b.Players return{Name='noanim',Aliases={}
-,Description='Toggle disabling all character animations.',Group='DefaultDebug',
-Args={},ClientRun=function(d)local e=d.Executor.Character if not e then return
-"You don't have a character."end local f=e:FindFirstChild'Animate'if not f then
-return'No Animate script found.'end f.Disabled=not f.Disabled return f.Disabled
+local b=function()return{Name='noanim',Aliases={},Description=
+'Toggle disabling all character animations.',Group='DefaultDebug',Args={},
+ClientRun=function(b)local c=b.Executor.Character if not c then return
+"You don't have a character."end local d=c:FindFirstChild'Animate'if not d then
+return'No Animate script found.'end d.Disabled=not d.Disabled return d.Disabled
 and'Animations disabled.'or'Animations enabled.'end}end function a.a1()local c=a
 .cache.a1 if not c then c={c=b()}a.cache.a1=c end return c.c end end do local b=
 function()return{Name='nobgui',Aliases={'rohg','nobillboardgui','noname'},
@@ -1765,18 +1774,18 @@ return'No server data found.'end for n,o in ipairs(m.data)do if o.id~=g and o.
 playing<o.maxPlayers then c:TeleportToPlaceInstance(f,o.id,e)return
 'Server hopping...'end end return'No other servers available.'end}end function a
 .bi()local c=a.cache.bi if not c then c={c=b()}a.cache.bi=c end return c.c end
-end do local b=function()local b=a.a()local c,d=b.Players,b.HttpService return{
-Name='serverinfo',Aliases={'info','sinfo'},Description=
+end do local b=function()local b=a.a()local c=b.Players return{Name='serverinfo'
+,Aliases={'info','sinfo'},Description=
 'Show server information (players, uptime, place, etc.).',Group='DefaultDebug',
-Args={},ClientRun=function(e)local f,g,h,i,j=#c:GetPlayers(),game.PlaceId,game.
-JobId,game.GameId,game:GetService'Stats':FindFirstChild'PerformanceStats'local l
-,m,n=j and math.floor(j:GetValue())or'N/A',game:GetService'Stats':FindFirstChild
-'Session','N/A'if m then local o=m:GetValue()local p,q,r=math.floor(o/3600),math
-.floor((o%3600)/60),math.floor(o%60)n=('%02d:%02d:%02d'):format(p,q,r)end e:
-reply(('Players: %d | FPS: %s | Uptime: %s'):format(f,l,n))e:reply((
-'Place ID: %d | Game ID: %d'):format(g,i))e:reply(('Job ID: %s'):format(h))local
-o=game.CreatorId and('Creator ID: %d'):format(game.CreatorId)or''if o~=''then e:
-reply(o)end return'Server info displayed.'end}end function a.bj()local c=a.cache
+Args={},ClientRun=function(d)local e,f,g,h,i=#c:GetPlayers(),game.PlaceId,game.
+JobId,game.GameId,game:GetService'Stats':FindFirstChild'PerformanceStats'local j
+,l,m=i and math.floor(i:GetValue())or'N/A',game:GetService'Stats':FindFirstChild
+'Session','N/A'if l then local n=l:GetValue()local o,p,q=math.floor(n/3600),math
+.floor((n%3600)/60),math.floor(n%60)m=('%02d:%02d:%02d'):format(o,p,q)end d:
+reply(('Players: %d | FPS: %s | Uptime: %s'):format(e,j,m))d:reply((
+'Place ID: %d | Game ID: %d'):format(f,h))d:reply(('Job ID: %s'):format(g))local
+n=game.CreatorId and('Creator ID: %d'):format(game.CreatorId)or''if n~=''then d:
+reply(n)end return'Server info displayed.'end}end function a.bj()local c=a.cache
 .bj if not c then c={c=b()}a.cache.bj=c end return c.c end end do local b=
 function()local b return{Name='setfpscap',Aliases={'fpscap','maxfps'},
 Description='Set a custom FPS cap. Usage: setfpscap <fps> | none',Group=
@@ -2038,25 +2047,25 @@ then return"You don't have a character."end b.character=d if b.flying and b.
 method=='vehicle'then b:flyStop()b.method='velocity'return
 'Vehicle fly disabled.'end b:flyMethod'vehicle'return'Vehicle fly enabled.'end}
 end function a.bH()local c=a.cache.bH if not c then c={c=b()}a.cache.bH=c end
-return c.c end end do local b=function()local b=a.a()local c,d,e,f=nil,nil,nil,(
-b.Players)local g=function(g)if d then d:Disconnect()d=nil end if e then e:
-Disconnect()e=nil end local h,i=workspace.CurrentCamera,g.Executor.Character if
-i then local j=i:FindFirstChildWhichIsA'Humanoid'if j then h.CameraSubject=j end
-end h.CameraType=Enum.CameraType.Custom c=nil end return{Name='view',Aliases={
-'spectate'},InverseAliases={'unview','unspectate'},Description=
+return c.c end end do local b=function()local b,c,d,e=nil,nil,nil,(a.a())local f
+=function(f)if c then c:Disconnect()c=nil end if d then d:Disconnect()d=nil end
+local g,h=workspace.CurrentCamera,f.Executor.Character if h then local i=h:
+FindFirstChildWhichIsA'Humanoid'if i then g.CameraSubject=i end end g.CameraType
+=Enum.CameraType.Custom b=nil end return{Name='view',Aliases={'spectate'},
+InverseAliases={'unview','unspectate'},Description=
 'Toggle spectate a player (see through their eyes).',Group='DefaultDebug',Args={
 {Type='player',Name='target',Description='The player to spectate',Optional=true}
-},ClientRun=function(h,i)if h:isInvertedCall()then if not c then return
-'Not spectating anyone.'end g(h)return'Spectate stopped.'end if not i or c then
-g(h)return'Spectate stopped.'end local j=i.Character if not j then return
-'Target has no character.'end c=i local l=workspace.CurrentCamera l.
-CameraSubject=j if d then d:Disconnect()end if e then e:Disconnect()end d=i.
-CharacterAdded:Connect(function()repeat task.wait()until i.Character and i.
-Character:FindFirstChildWhichIsA'Humanoid'local m=i.Character:
-FindFirstChildWhichIsA'Humanoid'if m then l.CameraSubject=m end end)e=l:
-GetPropertyChangedSignal'CameraSubject':Connect(function()if c and c.Character
-then local m=c.Character:FindFirstChildWhichIsA'Humanoid'if m then l.
-CameraSubject=m end end end)return('Now spectating %s.'):format(i.Name)end}end
+},ClientRun=function(g,h)if g:isInvertedCall()then if not b then return
+'Not spectating anyone.'end f(g)return'Spectate stopped.'end if not h or b then
+f(g)return'Spectate stopped.'end local i=h.Character if not i then return
+'Target has no character.'end b=h local j=workspace.CurrentCamera j.
+CameraSubject=i if c then c:Disconnect()end if d then d:Disconnect()end c=h.
+CharacterAdded:Connect(function()repeat task.wait()until h.Character and h.
+Character:FindFirstChildWhichIsA'Humanoid'local l=h.Character:
+FindFirstChildWhichIsA'Humanoid'if l then j.CameraSubject=l end end)d=j:
+GetPropertyChangedSignal'CameraSubject':Connect(function()if b and b.Character
+then local l=b.Character:FindFirstChildWhichIsA'Humanoid'if l then j.
+CameraSubject=l end end end)return('Now spectating %s.'):format(h.Name)end}end
 function a.bI()local c=a.cache.bI if not c then c={c=b()}a.cache.bI=c end return
 c.c end end do local b=function()local b=a.a()local c,d,e=(b.Players)return{Name
 ='viewpart',Aliases={'viewp'},Description='Spectate a part by its name.',Group=
@@ -2794,56 +2803,64 @@ return b end function a.cD()local c=a.cache.cD if not c then c={c=b()}a.cache.cD
 j,l=b.GuiService,b.UserInputService,b.RunService,b.Lighting,a.cp(),a.cD(),a.c(),
 300,{Enum.UserInputType.MouseButton1,Enum.UserInputType.MouseButton2,Enum.
 UserInputType.Touch}local m,n,o={Valid=true,AutoComplete=nil,ProcessEntry=nil,
-OnTextChanged=nil,CoCo=nil,GuiRoot=nil,HistoryState=nil,Janitor=g.new()},-80,25
-local p,q,r,s,t,u,v,w,x=h.createSpring(n,{frequency=4,dampingRatio=0.75}),h.
-createSpring(1,{frequency=4,dampingRatio=0.8}),h.createSpring(0,{frequency=5,
-dampingRatio=0.8}),55,12,h.createSpring(70,{frequency=4,dampingRatio=0.8}),h.
-createSpring(0,{frequency=4,dampingRatio=0.8}),70,Instance.new'BlurEffect'x.Size
-=0 x.Parent=f local y,z,A=0,false,function()local y=m.GuiRoot if not y then
-return nil end local z=y:WaitForChild'CoCo':WaitForChild'Frame'return z end
-function m:getGui()return A()end local B,C=function()local B=A()return B and B:
-FindFirstChild'Line'end,function()local B=A()return B and B:FindFirstChild
-'Entry'end function m:updateLabel()local D=C()if D then D.TextLabel.Text='CoCo$'
-end end function m:getLabel()local D=C()return D and D.TextLabel.Text or'CoCo$'
-end function m:updateWindowHeight()local D=A()if not D then return end y=D.
-UIListLayout.AbsoluteContentSize.Y+D.UIPadding.PaddingTop.Offset+D.UIPadding.
-PaddingBottom.Offset local E=math.clamp(y,0,j)if math.abs(r:getPosition()-E)>0.5
-then r:setGoal(E)end end function m:addLine(D,E)E=E or{}D=tostring(D)if typeof(E
-)=='Color3'then E={Color=E}end if#D==0 then m:updateWindowHeight()return end
-local F=A()if not F then return end local G=B()if not G then return end local H,
-I=i.emulateTabstops(D,8),G:Clone()I.Text=H I.TextColor3=E.Color or I.TextColor3
-I.RichText=E.RichText or false I.Parent=F end function m:isVisible()local D=A()
-if not D then return false end if z then return false end return D.Visible end
-function m:setVisible(D)local E=A()if not E then return end if D then z=false p:
-setPosition(n)q:setPosition(1)E.Position=UDim2.new(0.025,0,0,o+n)E.
-BackgroundTransparency=1 E.Visible=true p:setGoal(0)q:setGoal(0.4)local F=
-workspace.CurrentCamera if F then w=F.FieldOfView u:setPosition(w)v:setPosition(
-0)u:setGoal(s)v:setGoal(t)end else z=true p:setGoal(n)q:setGoal(1)u:setGoal(w)v:
-setGoal(0)end local F=C()if D and F then F.TextBox:CaptureFocus()self:
-setEntryText''if self.CoCo.ActivationUnlocksMouse then self.
-PreviousMouseBehavior=d.MouseBehavior d.MouseBehavior=Enum.MouseBehavior.Default
-end elseif F then F.TextBox.Text=''F.TextBox:ReleaseFocus()self.AutoComplete:
-hide()if self.PreviousMouseBehavior then d.MouseBehavior=self.
-PreviousMouseBehavior self.PreviousMouseBehavior=nil end end end function m:hide
-()return self:setVisible(false)end function m:show()return self:setVisible(true)
-end function m:setEntryText(D)local E=C()if not E then return end E.TextBox.Text
-=D if self:isVisible()then E.TextBox:CaptureFocus()if#D>0 then E.TextBox.
-CursorPosition=#D+1 end m:updateWindowHeight()end end function m:getEntryText()
-local D=C()if not D then return''end return D.TextBox.Text:gsub('\t','')end
-function m:setIsValidInput(D,E)local F=C()if not F then return end F.TextBox.
-TextColor3=D and Color3.fromRGB(255,255,255)or Color3.fromRGB(255,73,73)self.
-Valid=D self._errorText=E end function m:hideInvalidState()local D=C()if D then
-D.TextBox.TextColor3=Color3.fromRGB(255,255,255)end end function m:loseFocus(D)
-local E=self:getEntryText()if D then local F=self.AutoComplete and self.
-AutoComplete:getSelectedItem()if F then local G=E:match'^(.*)[%s]'if G then if G
-~=F[2]then E=G..' '..F[2]end else E=F[2]end self:setEntryText(E)E=self:
-getEntryText()end if self.Valid then task.wait()self:setEntryText''self.
-ProcessEntry(E)else self:addLine(self._errorText,Color3.fromRGB(255,153,153))
-local G=C()if G then G.TextBox:CaptureFocus()end end return end self:
-clearHistoryState()local F=A()if F and self:isVisible()and not c.MenuIsOpen then
-local G=C()if G then G.TextBox:CaptureFocus()end elseif c.MenuIsOpen and F and F
-.Visible then self:hide()end end function m:traverseHistory(D)local E=self.CoCo.
-Dispatcher:getHistory()if self.HistoryState==nil then self.HistoryState={
+OnTextChanged=nil,CoCo=nil,GuiRoot=nil,HistoryState=nil,Janitor=g.new(),
+LastLineText=nil,LastLineGui=nil,DuplicateCount=0},-80,25 local p,q,r,s,t,u,v,w,
+x=h.createSpring(n,{frequency=4,dampingRatio=0.75}),h.createSpring(1,{frequency=
+4,dampingRatio=0.8}),h.createSpring(0,{frequency=5,dampingRatio=0.8}),55,12,h.
+createSpring(70,{frequency=4,dampingRatio=0.8}),h.createSpring(0,{frequency=4,
+dampingRatio=0.8}),70,Instance.new'BlurEffect'x.Size=0 x.Parent=f local y,z,A=0,
+false,function()local y=m.GuiRoot if not y then return nil end local z=y:
+WaitForChild'CoCo':WaitForChild'Frame'return z end function m:getGui()return A()
+end local B,C=function()local B=A()return B and B:FindFirstChild'Line'end,
+function()local B=A()return B and B:FindFirstChild'Entry'end function m:
+updateLabel()local D=C()if D then D.TextLabel.Text='CoCo$'end end function m:
+getLabel()local D=C()return D and D.TextLabel.Text or'CoCo$'end function m:
+updateWindowHeight()local D=A()if not D then return end y=D.UIListLayout.
+AbsoluteContentSize.Y+D.UIPadding.PaddingTop.Offset+D.UIPadding.PaddingBottom.
+Offset local E=math.clamp(y,0,j)if math.abs(r:getPosition()-E)>0.5 then r:
+setGoal(E)end end function m:addLine(D,E)E=E or{}D=tostring(D)if typeof(E)==
+'Color3'then E={Color=E}end if#D==0 then m:updateWindowHeight()return end if D==
+m.LastLineText then m.DuplicateCount+=1 if m.LastLineGui then m.LastLineGui.Text
+=D..' x'..(m.DuplicateCount+1)end m:updateWindowHeight()return end m.
+LastLineText=D m.DuplicateCount=0 local F=A()if not F then return end local G=B(
+)if not G then return end local H,I=i.emulateTabstops(D,8),G:Clone()I.Text=H I.
+TextColor3=E.Color or I.TextColor3 I.RichText=E.RichText or false I.Parent=F m.
+LastLineGui=I end function m:isVisible()local D=A()if not D then return false
+end if z then return false end return D.Visible end function m:setVisible(D)
+local E=A()if not E then return end if D then z=false p:setPosition(n)q:
+setPosition(1)E.Position=UDim2.new(0.025,0,0,o+n)E.BackgroundTransparency=1 E.
+Visible=true p:setGoal(0)q:setGoal(0.4)local F=workspace.CurrentCamera if F then
+w=F.FieldOfView u:setPosition(w)v:setPosition(0)u:setGoal(s)v:setGoal(t)end else
+z=true p:setGoal(n)q:setGoal(1)u:setGoal(w)v:setGoal(0)end local F=C()if D and F
+then F.TextBox:CaptureFocus()self:setEntryText''if self.CoCo.
+ActivationUnlocksMouse then self.PreviousMouseBehavior=d.MouseBehavior d.
+MouseBehavior=Enum.MouseBehavior.Default end elseif F then F.TextBox.Text=''F.
+TextBox:ReleaseFocus()self.AutoComplete:hide()if self.PreviousMouseBehavior then
+d.MouseBehavior=self.PreviousMouseBehavior self.PreviousMouseBehavior=nil end
+end end function m:hide()return self:setVisible(false)end function m:show()
+return self:setVisible(true)end function m:setEntryText(D)local E=C()if not E
+then return end E.TextBox.Text=D if self:isVisible()then E.TextBox:CaptureFocus(
+)if#D>0 then E.TextBox.CursorPosition=#D+1 end m:updateWindowHeight()end if#D==0
+then local F F=E.TextBox:GetPropertyChangedSignal'Text':Connect(function()F:
+Disconnect()if E.TextBox.Text~=''then E.TextBox.Text=''end end)task.defer(
+function()if F then F:Disconnect()end end)end end function m:getEntryText()local
+D=C()if not D then return''end return D.TextBox.Text:gsub('\t','')end function m
+:setIsValidInput(D,E)local F=C()if not F then return end F.TextBox.TextColor3=D
+and Color3.fromRGB(255,255,255)or Color3.fromRGB(255,73,73)self.Valid=D self.
+_errorText=E end function m:hideInvalidState()local D=C()if D then D.TextBox.
+TextColor3=Color3.fromRGB(255,255,255)end end function m:loseFocus(D)local E=
+self:getEntryText()if D then local F=self.AutoComplete and self.AutoComplete:
+getSelectedItem()if F then local G=E:match'^(.*)[%s]'if G then if G~=F[2]then E=
+G..' '..F[2]end else E=F[2]end self:setEntryText(E)E=self:getEntryText()end if
+self.Valid then task.wait()self:setEntryText''self.ProcessEntry(E)else self:
+addLine(self._errorText,Color3.fromRGB(255,153,153))task.wait()self:setEntryText
+''end for G=1,5 do task.defer(function()local H=C()if H and H.TextBox.Text:match
+'^%s'then H.TextBox.Text=H.TextBox.Text:gsub('^%s+','')end end)end local G=A()if
+G then G.CanvasPosition=Vector2.new(0,G.AbsoluteCanvasSize.Y)end return end self
+:clearHistoryState()local F=A()if F and self:isVisible()and not c.MenuIsOpen
+then local G=C()if G then G.TextBox:CaptureFocus()end elseif c.MenuIsOpen and F
+and F.Visible then self:hide()end end function m:traverseHistory(D)local E=self.
+CoCo.Dispatcher:getHistory()if self.HistoryState==nil then self.HistoryState={
 Position=#E+1,InitialText=self:getEntryText()}end self.HistoryState.Position=
 math.clamp(self.HistoryState.Position+D,1,#E+1)self:setEntryText(self.
 HistoryState.Position==#E+1 and self.HistoryState.InitialText or E[self.
@@ -2882,9 +2899,10 @@ loseFocus(G)end),'Disconnect')m.Janitor:Add(d.InputBegan:Connect(function(G,H)
 return m:beginInput(G,H)end),'Disconnect')m.Janitor:Add(F.TextBox:
 GetPropertyChangedSignal'Text':Connect(function()local G=A()if not G then return
 end G.CanvasPosition=Vector2.new(0,G.AbsoluteCanvasSize.Y)if F.TextBox.Text:
-match'\t'then F.TextBox.Text=F.TextBox.Text:gsub('\t','')return end if m.
-OnTextChanged then return m.OnTextChanged(F.TextBox.Text)end end),'Disconnect')
-local G=A()if G then m.Janitor:Add(G.ChildAdded:Connect(function()task.defer(m.
+match'\t'then F.TextBox.Text=F.TextBox.Text:gsub('\t','')return end if F.TextBox
+.Text:match'^%s'then F.TextBox.Text=F.TextBox.Text:gsub('^%s+','')return end if
+m.OnTextChanged then return m.OnTextChanged(F.TextBox.Text)end end),'Disconnect'
+)local G=A()if G then m.Janitor:Add(G.ChildAdded:Connect(function()task.defer(m.
 updateWindowHeight)end),'Disconnect')end m.Janitor:Add(e.Heartbeat:Connect(
 function(H)local I=A()if not I then return end local J,K,L,M,N=p:step(H),q:step(
 H),r:step(H),u:step(H),v:step(H)I.Position=UDim2.new(0.025,0,0,o+J)I.
@@ -2918,54 +2936,54 @@ LastItem=v.isLast or false self.Command=v.command self.Arg=v.arg self.NumArgs=v.
 numArgs self.IsPartial=v.isPartial local w=200 i.ScrollBarThickness=0 for x,y in
 ipairs(self.Items)do local z,A=y[1],y[3]or y[2]local B,C=A,j:Clone()C.Name=z..
 tostring(B)C.BackgroundTransparency=x==self.SelectedItem and 0.5 or 1 local D,E=
-string.find(B:lower(),z:lower(),1,true)if not D then D,E=1,0 end C.Typed.Text=
-string.rep(' ',D-1)..z C.Suggest.Text=string.sub(B,0,D-1)..string.rep(' ',#z)..
-string.sub(B,E+1)C.Parent=i C.LayoutOrder=x local F=math.max(C.Typed.TextBounds.
-X,C.Suggest.TextBounds.X)+20 if F>w then w=F end y.gui=C end i.UIListLayout:
-ApplyLayout()for x,y in ipairs(self.Items)do if y.gui then local z=y.gui.
-BackgroundTransparency y.gui.BackgroundTransparency=1 g:Create(y.gui,p,{
-BackgroundTransparency=z}):Play()end end g:Create(i,p,{BackgroundTransparency=
-0.5}):Play()for x,y in ipairs(i:GetDescendants())do if y:IsA'TextLabel'or y:IsA
-'TextBox'then y.TextTransparency=1 g:Create(y,p,{TextTransparency=0}):Play()end
-end local x=n.TextBox.Text local y=d.splitString(x)if x:sub(#x,#x)==' 'and not v
-.at then y[#y+1]='e'end table.remove(y,#y)local z=(v.at and v.at or(#table.
-concat(y,' ')+1))*7 i.Position=UDim2.new(0,n.TextBox.AbsolutePosition.X-10+z,0,n
-.TextBox.AbsolutePosition.Y+30)i.Size=UDim2.new(0,w,0,i.UIListLayout.
-AbsoluteContentSize.Y)i.Visible=true t(self.Items[1]and self.Items[1].options or
-v)end function h:getSelectedItem()if i.Visible==false then return nil end return
-h.Items[h.SelectedItem]end function h:hide()local u=g:Create(i,TweenInfo.new(
-0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency=1})
-u.Completed:Connect(function()i.Visible=false end)u:Play()for v,w in ipairs(self
-.Items)do if w.gui then g:Create(w.gui,TweenInfo.new(0.06,Enum.EasingStyle.Quad,
-Enum.EasingDirection.Out),{BackgroundTransparency=1}):Play()end end for v,w in
-ipairs(i:GetDescendants())do if w:IsA'TextLabel'or w:IsA'TextBox'then g:Create(w
-,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
-TextTransparency=1}):Play()end end end function h:isVisible()return i.Visible
-end function h:select(u)if not i.Visible then return end self.SelectedItem=self.
-SelectedItem+u if self.SelectedItem>#self.Items then self.SelectedItem=1 elseif
-self.SelectedItem<1 then self.SelectedItem=#self.Items end for v,w in ipairs(
-self.Items)do w.gui.BackgroundTransparency=v==self.SelectedItem and 0.5 or 1 end
-i.CanvasPosition=Vector2.new(0,math.max(0,l.Size.Y.Offset+m.Size.Y.Offset+self.
-SelectedItem*j.Size.Y.Offset-i.Size.Y.Offset))if self.Items[self.SelectedItem]
-and self.Items[self.SelectedItem].options then t(self.Items[self.SelectedItem].
-options or{})end end h.Janitor:Add(i.Parent:GetPropertyChangedSignal
-'AbsoluteSize':Connect(s),'Disconnect')function h:destroy()self.Janitor:Destroy(
-)end return h end end function a.cF()local c=a.cache.cF if not c then c={c=b()}a
-.cache.cF=c end return c.c end end do local b=function()local b=a.c()return
-function(c,d)local e=a.cE()e.CoCo=c e.GuiRoot=d local f=d:FindFirstChild'CoCo'
-local g=a.cF()(c,f or d)e.AutoComplete=g function e.ProcessEntry(h)h=b.
-trimString(h)if#h==0 then return end e:addLine(e:getLabel()..' '..h,Color3.
-fromRGB(255,223,93))e:addLine(c.Dispatcher:evaluateAndRun(h))end local h,i=0.3
-function e.OnTextChanged(j)local l,m=c.Dispatcher:evaluate(j,c.Dispatcher.
-_defaultExecutor,true),b.splitString(j)local n,o=table.remove(m,1),false if l
-then m=b.mashExcessArguments(m,#l.Object.Args)o=#m==#l.Object.Args end local p=n
-and#m>0 if j:sub(#j,#j):match'%s'and not o then p=true m[#m+1]=''end if l and p
-then local q,r=l:validate()e:setIsValidInput(q,('Validation errors: %s'):format(
-r or''))if i then task.cancel(i)end g:hide()i=task.delay(h,function()i=nil local
-s,t=c.Dispatcher:evaluate(j,c.Dispatcher._defaultExecutor,true),b.splitString(j)
-local u,v=table.remove(t,1),false if s then t=b.mashExcessArguments(t,#s.Object.
-Args)v=#t==#s.Object.Args end local w=u and#t>0 if j:sub(#j,#j):match'%s'and not
-v then w=true t[#t+1]=''end if s and w then local x,y={},s:getArgument(#t)if y
+string.find(B:lower(),z:lower(),1,true)if not D then C.Typed.Text=''C.Suggest.
+Text=B else C.Typed.Text=string.rep(' ',D-1)..z C.Suggest.Text=string.sub(B,0,D-
+1)..string.rep(' ',#z)..string.sub(B,E+1)end C.Parent=i C.LayoutOrder=x local F=
+math.max(C.Typed.TextBounds.X,C.Suggest.TextBounds.X)+20 if F>w then w=F end y.
+gui=C end i.UIListLayout:ApplyLayout()for x,y in ipairs(self.Items)do if y.gui
+then local z=y.gui.BackgroundTransparency y.gui.BackgroundTransparency=1 g:
+Create(y.gui,p,{BackgroundTransparency=z}):Play()end end g:Create(i,p,{
+BackgroundTransparency=0.5}):Play()for x,y in ipairs(i:GetDescendants())do if y:
+IsA'TextLabel'or y:IsA'TextBox'then y.TextTransparency=1 g:Create(y,p,{
+TextTransparency=0}):Play()end end local x=n.TextBox.Text local y=d.splitString(
+x)if x:sub(#x,#x)==' 'and not v.at then y[#y+1]='e'end table.remove(y,#y)local z
+=(v.at and v.at or(#table.concat(y,' ')+1))*7 i.Position=UDim2.new(0,n.TextBox.
+AbsolutePosition.X-10+z,0,n.TextBox.AbsolutePosition.Y+30)i.Size=UDim2.new(0,w,0
+,i.UIListLayout.AbsoluteContentSize.Y)i.Visible=true t(self.Items[1]and self.
+Items[1].options or v)end function h:getSelectedItem()if i.Visible==false then
+return nil end return h.Items[h.SelectedItem]end function h:hide()local u=g:
+Create(i,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+BackgroundTransparency=1})u.Completed:Connect(function()i.Visible=false end)u:
+Play()for v,w in ipairs(self.Items)do if w.gui then g:Create(w.gui,TweenInfo.
+new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundTransparency
+=1}):Play()end end for v,w in ipairs(i:GetDescendants())do if w:IsA'TextLabel'or
+w:IsA'TextBox'then g:Create(w,TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.
+EasingDirection.Out),{TextTransparency=1}):Play()end end end function h:
+isVisible()return i.Visible end function h:select(u)if not i.Visible then return
+end self.SelectedItem=self.SelectedItem+u if self.SelectedItem>#self.Items then
+self.SelectedItem=1 elseif self.SelectedItem<1 then self.SelectedItem=#self.
+Items end for v,w in ipairs(self.Items)do w.gui.BackgroundTransparency=v==self.
+SelectedItem and 0.5 or 1 end i.CanvasPosition=Vector2.new(0,math.max(0,l.Size.Y
+.Offset+m.Size.Y.Offset+self.SelectedItem*j.Size.Y.Offset-i.Size.Y.Offset))if
+self.Items[self.SelectedItem]and self.Items[self.SelectedItem].options then t(
+self.Items[self.SelectedItem].options or{})end end h.Janitor:Add(i.Parent:
+GetPropertyChangedSignal'AbsoluteSize':Connect(s),'Disconnect')function h:
+destroy()self.Janitor:Destroy()end return h end end function a.cF()local c=a.
+cache.cF if not c then c={c=b()}a.cache.cF=c end return c.c end end do local b=
+function()local b=a.c()return function(c,d)local e=a.cE()e.CoCo=c e.GuiRoot=d
+local f=d:FindFirstChild'CoCo'local g=a.cF()(c,f or d)e.AutoComplete=g function
+e.ProcessEntry(h)h=b.trimString(h)if#h==0 then return end e:addLine(e:getLabel()
+..' '..h,Color3.fromRGB(255,223,93))e:addLine(c.Dispatcher:evaluateAndRun(h))end
+local h,i=0.3 function e.OnTextChanged(j)local l,m=c.Dispatcher:evaluate(j,c.
+Dispatcher._defaultExecutor,true),b.splitString(j)local n,o=table.remove(m,1),
+false if l then m=b.mashExcessArguments(m,#l.Object.Args)o=#m==#l.Object.Args
+end local p=n and#m>0 if j:sub(#j,#j):match'%s'and not o then p=true m[#m+1]=''
+end if l and p then local q,r=l:validate()e:setIsValidInput(q,(
+'Validation errors: %s'):format(r or''))local s,t=function()local s,t=c.
+Dispatcher:evaluate(j,c.Dispatcher._defaultExecutor,true),b.splitString(j)local
+u,v=table.remove(t,1),false if s then t=b.mashExcessArguments(t,#s.Object.Args)v
+=#t==#s.Object.Args end local w=u and#t>0 if j:sub(#j,#j):match'%s'and not v
+then w=true t[#t+1]=''end if s and w then local x,y={},s:getArgument(#t)if y
 then local z,A=y.TextSegmentInProgress,false if y.RawSegmentsAreAutocomplete
 then for B,C in ipairs(y.RawSegments)do x[B]={C,C}end else local B,C=y:
 GetAutocomplete()C=C or{}A=C.IsPartial or false for D,E in ipairs(B)do if type(E
@@ -2974,16 +2992,19 @@ GetAutocomplete()C=C or{}A=C.IsPartial or false for D,E in ipairs(B)do if type(E
 and#j-#z+(j:sub(#j,#j):match'%s'and-1 or 0),prefix=#y.RawSegments==1 and y.
 Prefix or'',isLast=#s.Arguments==#s.ArgumentDefinitions and#z>0,numArgs=#t,
 command=s,arg=y,name=y.Name..(y.Required and''or'?'),type=y.Type.DisplayName,
-description=y.Object.Description,isPartial=A})end end end)elseif n and#m==0 then
-e:setIsValidInput(true)local q,r=(c.Registry:getCommand(n))if q then r={q.Name,q
-.Name,options={name=q.Name,description=q.Description}}local s=q.Args and q.Args[
-1]if type(s)=='function'then s=s(l)end if s and(not s.Optional and s.Default==
-nil)then e:setIsValidInput(false,'This command has required arguments.')e:
-hideInvalidState()end end local s,t=r and{r}or{},{}if q then t[q]=true end for u
-,v in ipairs(c.Registry:getCommandNames())do if n:lower()==v:lower():sub(1,#n)
-then local w=c.Registry:getCommand(v)if w and not t[w]then t[w]=true s[#s+1]={n,
-v,options={name=w.Name,description=w.Description}}end end end if#s>0 then return
-g:show(s)end e:setIsValidInput(false,(
+description=y.Object.Description,isPartial=A})end end end,l:getArgument(#m)if t
+and t.Type and t.Type.Debounce then if i then task.cancel(i)end g:hide()i=task.
+delay(h,function()i=nil s()end)else if i then task.cancel(i)i=nil end s()end
+elseif n and#m==0 then e:setIsValidInput(true)local q,r=(c.Registry:getCommand(n
+))if q then r={q.Name,q.Name,options={name=q.Name,description=q.Description}}
+local s=q.Args and q.Args[1]if type(s)=='function'then s=s(l)end if s and(not s.
+Optional and s.Default==nil)then e:setIsValidInput(false,
+'This command has required arguments.')e:hideInvalidState()end end local s,t=r
+and{r}or{},{}if q then t[q]=true end for u,v in ipairs(c.Registry:
+getCommandNames())do if n:lower()==v:lower():sub(1,#n)then local w=c.Registry:
+getCommand(v)if w and not t[w]then t[w]=true s[#s+1]={n,v,options={name=w.Name,
+description=w.Description}}end end end if#s>0 then return g:show(s)end e:
+setIsValidInput(false,(
 [[%q is not a valid command name. Use the help command to see all available commands.]]
 ):format(n))g:hide()else if i then task.cancel(i)i=nil end e:setIsValidInput(
 false,'Use the help command to see all available commands.')g:hide()end end e:
