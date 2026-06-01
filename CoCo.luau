@@ -12,7 +12,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-01T22:51:10.412111521+00:00",
+    genDate = "2026-06-01T23:16:44.630043239+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -1187,25 +1187,25 @@ create=d}end function a.ap()local c=a.cache.ap if not c then c={c=b()}a.cache.ap
 'showfriendlies','showneutral','showlocal','list','status','reset'},{
 'useteamcolors','teamcheck','showenemies','showfriendlies','showneutral',
 'showlocal'},function(b,c)local d,e={},b:lower()for f,g in c do if g:lower():
-find(e,1,true)then d[#d+1]=g end end return d end local f,g,h=function(f,g)for h
-,i in b do local j={}for l in i:gmatch'%S+'do j[#j+1]=l:lower()end if g+#j-1<=#f
-then local l=true for m=1,#j do if f[g+m-1]:lower()~=j[m]then l=false break end
-end if l then return i,g+#j end end end return nil,g end,function(f)local g={}
-for h in f:gmatch'%S+'do g[#g+1]=h end return g end,{on=true,off=false,['true']=
-true,['false']=false,yes=true,no=false,enable=true,enabled=true,disable=false,
-disabled=false,['1']=true,['0']=false}local i,j=function(i)return h[i:lower()]
-end,function(i)local j={}table.insert(j,string.format('Enabled: %s',i.Enabled
-and'Yes'or'No'))table.insert(j,string.format('Use Team Colors: %s',i.
-UseTeamColors and'Yes'or'No'))table.insert(j,string.format('Team Check: %s',i.
-TeamCheck and'Yes'or'No'))table.insert(j,string.format('Max Distance: %d',i.
-MaxDistance))table.insert(j,string.format('Show Enemies: %s',i.ShowEnemies and
-'Yes'or'No'))table.insert(j,string.format('Show Friendlies: %s',i.ShowFriendlies
-and'Yes'or'No'))table.insert(j,string.format('Show Neutral: %s',i.ShowNeutral
-and'Yes'or'No'))table.insert(j,string.format('Show Local: %s',i.ShowLocal and
-'Yes'or'No'))table.insert(j,'')table.insert(j,'Features:')for l,m in b do local
-n=i.Features[m]or false table.insert(j,string.format('  %s: %s',m,n and'Yes'or
-'No'))end table.insert(j,'')table.insert(j,'Usage: esp <subcommand> [args]')
-table.insert(j,
+find(e,1,true)then if g:lower()==e then table.insert(d,1,g)else d[#d+1]=g end
+end end return d end local f,g,h=function(f,g)for h,i in b do local j={}for l in
+i:gmatch'%S+'do j[#j+1]=l:lower()end if g+#j-1<=#f then local l=true for m=1,#j
+do if f[g+m-1]:lower()~=j[m]then l=false break end end if l then return i,g+#j
+end end end return nil,g end,function(f)local g={}for h in f:gmatch'%S+'do g[#g+
+1]=h end return g end,{on=true,off=false,['true']=true,['false']=false,yes=true,
+no=false,enable=true,enabled=true,disable=false,disabled=false,['1']=true,['0']=
+false}local i,j=function(i)return h[i:lower()]end,function(i)local j={}table.
+insert(j,string.format('Enabled: %s',i.Enabled and'Yes'or'No'))table.insert(j,
+string.format('Use Team Colors: %s',i.UseTeamColors and'Yes'or'No'))table.
+insert(j,string.format('Team Check: %s',i.TeamCheck and'Yes'or'No'))table.
+insert(j,string.format('Max Distance: %d',i.MaxDistance))table.insert(j,string.
+format('Show Enemies: %s',i.ShowEnemies and'Yes'or'No'))table.insert(j,string.
+format('Show Friendlies: %s',i.ShowFriendlies and'Yes'or'No'))table.insert(j,
+string.format('Show Neutral: %s',i.ShowNeutral and'Yes'or'No'))table.insert(j,
+string.format('Show Local: %s',i.ShowLocal and'Yes'or'No'))table.insert(j,'')
+table.insert(j,'Features:')for l,m in b do local n=i.Features[m]or false table.
+insert(j,string.format('  %s: %s',m,n and'Yes'or'No'))end table.insert(j,'')
+table.insert(j,'Usage: esp <subcommand> [args]')table.insert(j,
 [[Subcommands: on, off, toggle, feature, useteamcolors, maxdistance,]])table.
 insert(j,
 [[  teamcheck, showenemies, showfriendlies, showneutral, showlocal, list, status, reset]]
