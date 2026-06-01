@@ -1,5 +1,4 @@
-local Services = require("../../Shared/Services")
-local Players = Services.Players
+--!strict
 
 return {
 	Name = "noanim";

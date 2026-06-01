@@ -341,10 +341,26 @@ function PlayerSelectors.buildAutocomplete(items, argument)
 			for alias in pairs(argument.Type.ArgumentOperatorAliases) do
 				if type(alias) == "string" then
 					local lower = alias:lower()
-					if (typedText == "" or lower:sub(1, #typedText) == typedText) and not seen[lower] then
-						table.insert(items, alias)
-						seen[lower] = true
-						hadNonPlayerItem = true
+					local mapped = argument.Type.ArgumentOperatorAliases[alias]
+					if typedText ~= "" and (lower:sub(1, #typedText) == typedText or (mapped and typedText:sub(1, #mapped) == mapped)) and not seen[lower] then
+						if alias == "me" or alias == "random" or argument.Type.Listable then
+							table.insert(items, alias)
+							seen[lower] = true
+							hadNonPlayerItem = true
+						elseif alias == "all" or alias == "others" then
+							local allPlayers = Players:GetPlayers()
+							local executorName = argument.Executor and argument.Executor.Name
+							for _, player in ipairs(allPlayers) do
+								if alias ~= "others" or not executorName or player.Name ~= executorName then
+									local playerLower = player.Name:lower()
+									if not seen[playerLower] then
+										table.insert(items, player.Name)
+										seen[playerLower] = true
+									end
+								end
+							end
+							hadNonPlayerItem = true
+						end
 					end
 				end
 			end
@@ -355,10 +371,26 @@ function PlayerSelectors.buildAutocomplete(items, argument)
 				for keyword in pairs(argument.Type.Selectors.Keyword) do
 					if type(keyword) == "string" then
 						local lower = keyword:lower()
-						if (typedText == "" or lower:sub(1, #typedText) == typedText) and not seen[lower] then
-							table.insert(items, keyword)
-							seen[lower] = true
-							hadNonPlayerItem = true
+						if typedText ~= "" and lower:sub(1, #typedText) == typedText and not seen[lower] then
+							local resolver = argument:resolveKeywordResolver(keyword)
+							if resolver then
+								local names = resolver(argument.Executor)
+								if #names > 0 then
+									if not argument.Type.Listable then
+										for _, name in ipairs(names) do
+											local nameLower = name:lower()
+											if not seen[nameLower] then
+												table.insert(items, name)
+												seen[nameLower] = true
+											end
+										end
+									else
+										table.insert(items, keyword)
+										seen[lower] = true
+									end
+									hadNonPlayerItem = true
+								end
+							end
 						end
 					end
 				end
@@ -368,7 +400,7 @@ function PlayerSelectors.buildAutocomplete(items, argument)
 				for _, patternInfo in ipairs(argument.Type.Selectors.Pattern) do
 					local patternName = patternInfo.Pattern:match("^%^([a-z]+)%(")
 					if patternName then
-						if (typedText == "" or patternName:sub(1, #typedText) == typedText) and not seen[patternName] then
+						if typedText ~= "" and patternName:sub(1, #typedText) == typedText and not seen[patternName] then
 							table.insert(items, patternName .. "#")
 							seen[patternName] = true
 							hadNonPlayerItem = true

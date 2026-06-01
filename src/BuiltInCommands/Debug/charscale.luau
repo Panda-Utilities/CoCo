@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "charscale";
 	Aliases = {"scale"};

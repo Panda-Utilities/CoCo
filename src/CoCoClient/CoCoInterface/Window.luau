@@ -20,6 +20,9 @@ local Window = {
 	GuiRoot = nil,
 	HistoryState = nil,
 	Janitor = Janitor.new(),
+	LastLineText = nil,
+	LastLineGui = nil,
+	DuplicateCount = 0,
 }
 
 local ANIM_SLIDE_DISTANCE = -80
@@ -120,6 +123,18 @@ function Window:addLine(text, options)
 		return
 	end
 
+	if text == Window.LastLineText then
+		Window.DuplicateCount += 1
+		if Window.LastLineGui then
+			Window.LastLineGui.Text = text .. " x" .. (Window.DuplicateCount + 1)
+		end
+		Window:updateWindowHeight()
+		return
+	end
+
+	Window.LastLineText = text
+	Window.DuplicateCount = 0
+
 	local gui = getGui()
 	if not gui then return end
 	local line = getLine()
@@ -131,6 +146,7 @@ function Window:addLine(text, options)
 	newLine.TextColor3 = options.Color or newLine.TextColor3
 	newLine.RichText = options.RichText or false
 	newLine.Parent = gui
+	Window.LastLineGui = newLine
 end
 
 function Window:isVisible()
@@ -211,6 +227,21 @@ function Window:setEntryText(text)
 		end
 		Window:updateWindowHeight()
 	end
+
+	if #text == 0 then
+		local guard
+		guard = entry.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+			guard:Disconnect()
+			if entry.TextBox.Text ~= "" then
+				entry.TextBox.Text = ""
+			end
+		end)
+		task.defer(function()
+			if guard then
+				guard:Disconnect()
+			end
+		end)
+	end
 end
 
 function Window:getEntryText()
@@ -258,10 +289,22 @@ function Window:loseFocus(submit)
 			self.ProcessEntry(text)
 		else
 			self:addLine(self._errorText, Color3.fromRGB(255, 153, 153))
-			local entry = getEntry()
-			if entry then
-				entry.TextBox:CaptureFocus()
-			end
+			task.wait()
+			self:setEntryText("")
+		end
+
+		for _ = 1, 5 do
+			task.defer(function()
+				local e = getEntry()
+				if e and e.TextBox.Text:match("^%s") then
+					e.TextBox.Text = e.TextBox.Text:gsub("^%s+", "")
+				end
+			end)
+		end
+
+		local gui = getGui()
+		if gui then
+			gui.CanvasPosition = Vector2.new(0, gui.AbsoluteCanvasSize.Y)
 		end
 
 		return
@@ -460,6 +503,12 @@ local function hookEvents()
 			entry.TextBox.Text = entry.TextBox.Text:gsub("\t", "")
 			return
 		end
+
+		if entry.TextBox.Text:match("^%s") then
+			entry.TextBox.Text = entry.TextBox.Text:gsub("^%s+", "")
+			return
+		end
+
 		if Window.OnTextChanged then
 			return Window.OnTextChanged(entry.TextBox.Text)
 		end

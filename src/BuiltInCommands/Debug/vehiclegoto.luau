@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "vehiclegoto";
 	Aliases = {"vgoto", "vtp"};

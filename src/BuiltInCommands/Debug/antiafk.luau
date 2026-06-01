@@ -1,4 +1,4 @@
-local Services = require("../../Shared/Services")
+--!strict
 local VirtualUser = game:GetService("VirtualUser")
 
 local antiafkRunning = false

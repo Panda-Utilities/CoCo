@@ -1,3 +1,4 @@
+--!strict
 local sitwalkEnabled = false
 local origAnimIds = {}
 local origHipHeight = nil

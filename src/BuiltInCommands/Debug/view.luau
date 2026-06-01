@@ -1,5 +1,5 @@
+--!strict
 local Services = require("../../Shared/Services")
-local Players = Services.Players
 
 local viewing = nil
 local viewDied = nil

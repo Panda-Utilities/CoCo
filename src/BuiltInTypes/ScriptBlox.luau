@@ -3,6 +3,7 @@ local ScriptBloxShared = require("../Shared/ScriptBlox")
 
 return function(coco)
 	coco:registerType("scriptblox", {
+		Debounce = true;
 		Transform = function(text: string): string
 			return text
 		end;

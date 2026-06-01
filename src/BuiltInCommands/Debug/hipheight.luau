@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "hipheight";
 	Aliases = {"hheight"};

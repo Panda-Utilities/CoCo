@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "walkspeed";
 	Aliases = {"ws", "speed"};

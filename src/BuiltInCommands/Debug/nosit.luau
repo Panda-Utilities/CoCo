@@ -1,3 +1,4 @@
+--!strict
 local nositEnabled = false
 
 return {

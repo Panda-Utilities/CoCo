@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "fireclickdetectors";
 	Aliases = {"firecd"};

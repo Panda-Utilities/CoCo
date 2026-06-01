@@ -1,3 +1,4 @@
+--!strict
 local Services = require("../../Shared/Services")
 local RunService = Services.RunService
 

@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "waypoint";
 	Aliases = {"wp", "loadposition", "loadpos"};

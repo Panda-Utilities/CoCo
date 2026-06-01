@@ -1,3 +1,4 @@
+--!strict
 local Services = require("../../Shared/Services")
 local Lighting = Services.Lighting
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

@@ -109,11 +109,15 @@
 			btn.BackgroundTransparency = i == self.SelectedItem and 0.5 or 1
 
 			local start, stop = string.find(rightText:lower(), leftText:lower(), 1, true)
-			if not start then start, stop = 1, 0 end
-			btn.Typed.Text = string.rep(" ", start - 1) .. leftText
-			btn.Suggest.Text = string.sub(rightText, 0, start - 1)
-				.. string.rep(" ", #leftText)
-				.. string.sub(rightText, stop + 1)
+			if not start then
+				btn.Typed.Text = ""
+				btn.Suggest.Text = rightText
+			else
+				btn.Typed.Text = string.rep(" ", start - 1) .. leftText
+				btn.Suggest.Text = string.sub(rightText, 0, start - 1)
+					.. string.rep(" ", #leftText)
+					.. string.sub(rightText, stop + 1)
+			end
 
 			btn.Parent = Gui
 			btn.LayoutOrder = i

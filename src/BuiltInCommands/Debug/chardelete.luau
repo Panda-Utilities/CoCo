@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "chardelete";
 	Aliases = {"cd"};

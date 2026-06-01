@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "fireproximityprompts";
 	Aliases = {"firepp"};

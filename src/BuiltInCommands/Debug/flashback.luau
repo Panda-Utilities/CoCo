@@ -1,3 +1,4 @@
+--!strict
 local savedPosition = nil
 
 return {

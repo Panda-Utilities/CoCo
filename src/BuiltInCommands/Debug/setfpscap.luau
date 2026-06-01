@@ -1,3 +1,4 @@
+--!strict
 local fpscaploop = nil
 
 return {

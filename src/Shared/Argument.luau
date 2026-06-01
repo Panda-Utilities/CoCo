@@ -89,6 +89,47 @@ function Argument:Transform()
 		end
 	end
 
+	if self.Type.Selectors and not self.RawSegmentsAreAutocomplete and self.Executor then
+		local resolved = self:resolveSelectorValue(rawValue)
+		if resolved then
+			if self.Type.Listable then
+				rawValue = resolved
+				self.RawSegmentsAreAutocomplete = true
+			else
+				local names = String.splitStringSimple(resolved, ",")
+				if #names > 0 then
+					rawValue = names[1]
+				end
+			end
+		end
+	end
+
+	if not self.RawSegmentsAreAutocomplete and #self.RawValue > 0 then
+		if rawValue == "*" or rawValue == "**" then
+			local strings, options = self:GetDefaultAutocomplete()
+
+			if not options.IsPartial and #strings > 0 then
+				if rawValue == "**" and self.Type.Default then
+					local defaultString = self.Type.Default(self.Executor) or ""
+					local filtered = {}
+					for _, name in ipairs(strings) do
+						if name ~= defaultString then
+							table.insert(filtered, name)
+						end
+					end
+					strings = filtered
+				end
+
+				if self.Type.Listable then
+					rawValue = table.concat(strings, ",")
+					self.RawSegmentsAreAutocomplete = true
+				elseif #strings > 0 then
+					rawValue = strings[1]
+				end
+			end
+		end
+	end
+
 	if self.Type.Listable and #self.RawValue > 0 then
 		local randomMatch = rawValue:match("^%?(%d+)$")
 		if randomMatch then
@@ -111,31 +152,6 @@ function Argument:Transform()
 					rawValue = table.concat(items, ",")
 					self.RawSegmentsAreAutocomplete = true
 				end
-			end
-		elseif rawValue == "*" or rawValue == "**" then
-			local strings, options = self:GetDefaultAutocomplete()
-
-			if not options.IsPartial and #strings > 0 then
-				if rawValue == "**" and self.Type.Default then
-					local defaultString = self.Type.Default(self.Executor) or ""
-
-					for i, string in ipairs(strings) do
-						if string == defaultString then
-							table.remove(strings, i)
-						end
-					end
-				end
-
-				rawValue = table.concat(strings, ",")
-				self.RawSegmentsAreAutocomplete = true
-			end
-		end
-
-		if self.Type.Selectors and not self.RawSegmentsAreAutocomplete and self.Executor then
-			local resolved = self:resolveSelectorValue(rawValue)
-			if resolved then
-				rawValue = resolved
-				self.RawSegmentsAreAutocomplete = true
 			end
 		end
 

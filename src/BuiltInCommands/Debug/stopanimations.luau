@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "stopanimations";
 	Aliases = {"stopanims", "stopanim"};

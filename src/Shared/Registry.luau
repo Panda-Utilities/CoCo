@@ -12,6 +12,7 @@ export type TypeObject = {
 	Parse: ((any) -> any)?,
 	Default: ((Player) -> string)?,
 	Listable: boolean?,
+	Debounce: boolean?,
 	Prefixes: string?,
 	ArgumentOperatorAliases: { [string]: string }?,
 	Selectors: { Keyword: { [string]: ((Player) -> { string }) | string }?, Pattern: { { Pattern: string, Resolve: ((Player, { string }) -> { string })?, Invert: ((Player, { string }) -> { string })? } }? }?,
@@ -40,7 +41,7 @@ export type CommandObject = {
 
 local Registry = {
 	TypeMethods = TypeUtils.makeDictionary({ "Transform", "Validate", "Autocomplete", "Parse", "DisplayName", "Listable",
-		"ValidateOnce", "Prefixes", "Default", "ArgumentOperatorAliases", "Selectors" }),
+		"ValidateOnce", "Prefixes", "Default", "Debounce", "ArgumentOperatorAliases", "Selectors" }),
 	CommandMethods = TypeUtils.makeDictionary({ "Name", "Aliases", "InverseAliases", "AutoExec", "Description", "Args", "Run", "ClientRun",
 		"Data", "Group" }),
 	CommandArgProps = TypeUtils.makeDictionary({ "Name", "Type", "Description", "Optional", "Default" }),

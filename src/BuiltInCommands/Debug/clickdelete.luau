@@ -1,6 +1,6 @@
+--!strict
 local Services = require("../../Shared/Services")
 local UserInputService = Services.UserInputService
-local RunService = Services.RunService
 
 local clickDeleteActive = false
 local clickDeleteConn = nil

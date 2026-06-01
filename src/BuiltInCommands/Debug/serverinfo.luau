@@ -1,6 +1,6 @@
+--!strict
 local Services = require("../../Shared/Services")
 local Players = Services.Players
-local HttpService = Services.HttpService
 
 return {
 	Name = "serverinfo";

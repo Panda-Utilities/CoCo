@@ -1,3 +1,4 @@
+--!strict
 local xrayEnabled = false
 
 local function setXray(state)

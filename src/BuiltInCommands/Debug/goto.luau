@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "goto";
 	Aliases = {"to", "tp"};

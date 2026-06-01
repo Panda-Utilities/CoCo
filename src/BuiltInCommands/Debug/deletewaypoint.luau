@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "deletewaypoint";
 	Aliases = {"dwp", "deleteposition", "deletepos"};

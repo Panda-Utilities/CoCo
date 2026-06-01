@@ -1,4 +1,4 @@
-local Services = require("../../Shared/Services")
+--!strict
 
 local godActive = false
 local savedHuman = nil

@@ -42,14 +42,7 @@ return function (CoCo, gui)
 			local commandValid, errorText = command:validate()
 			Window:setIsValidInput(commandValid, ("Validation errors: %s"):format(errorText or ""))
 
-			if acDebounce then
-				task.cancel(acDebounce)
-			end
-			AutoComplete:hide()
-
-			acDebounce = task.delay(AC_COOLDOWN, function()
-				acDebounce = nil
-
+			local function showAutocomplete()
 				local cmd = CoCo.Dispatcher:evaluate(text, CoCo.Dispatcher._defaultExecutor, true)
 				local args = String.splitString(text)
 				local cmdText2 = table.remove(args, 1)
@@ -115,7 +108,26 @@ return function (CoCo, gui)
 						})
 					end
 				end
-			end)
+			end
+
+			local lastArg = command:getArgument(#arguments)
+			if lastArg and lastArg.Type and lastArg.Type.Debounce then
+				if acDebounce then
+					task.cancel(acDebounce)
+				end
+				AutoComplete:hide()
+
+				acDebounce = task.delay(AC_COOLDOWN, function()
+					acDebounce = nil
+					showAutocomplete()
+				end)
+			else
+				if acDebounce then
+					task.cancel(acDebounce)
+					acDebounce = nil
+				end
+				showAutocomplete()
+			end
 		elseif commandText and #arguments == 0 then
 			Window:setIsValidInput(true)
 			local exactCommand = CoCo.Registry:getCommand(commandText)

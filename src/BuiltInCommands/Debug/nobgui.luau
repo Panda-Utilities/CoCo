@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "nobgui";
 	Aliases = {"rohg", "nobillboardgui", "noname"};

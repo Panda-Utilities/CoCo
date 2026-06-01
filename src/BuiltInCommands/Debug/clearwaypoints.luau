@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "clearwaypoints";
 	Aliases = {"cwp", "clearpositions", "clearpos"};

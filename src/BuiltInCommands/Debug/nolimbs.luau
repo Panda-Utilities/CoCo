@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "nolimbs";
 	Aliases = {"rlimbs"};

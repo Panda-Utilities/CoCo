@@ -1,3 +1,4 @@
+--!strict
 local Services = require("../../Shared/Services")
 local Players = Services.Players
 local RunService = Services.RunService

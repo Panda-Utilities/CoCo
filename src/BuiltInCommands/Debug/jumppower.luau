@@ -1,3 +1,4 @@
+--!strict
 return {
 	Name = "jumppower";
 	Aliases = {"jp", "jpower"};
