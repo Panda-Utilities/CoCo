@@ -1,7 +1,4 @@
 --!strict
-if getgenv().CoCo then return end
-getgenv().CoCo = true
-
 local CoCo = require("./init")
 
 local gui = pcall(gethui) and gethui()
