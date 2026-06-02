@@ -5,6 +5,58 @@ local Config = require("../Config")
 
 local HISTORY_FILE = Config.Gui.HistoryFile
 local HISTORY_MAX = 1000
+local ActiveLoops: { [number]: { Active: boolean } } = {}
+local loopCounter = 0
+
+local function splitByAndRespectingQuotes(text: string): { string }
+	local parts: { string } = {}
+	local buf: { string } = {}
+	local inQuotes = false
+	local quoteChar: string? = nil
+	local i = 1
+	while i <= #text do
+		local char = text:sub(i, i)
+		if char == '"' or char == "'" then
+			if not inQuotes then
+				inQuotes = true
+				quoteChar = char
+			elseif char == quoteChar then
+				inQuotes = false
+			end
+			table.insert(buf, char)
+			i += 1
+		elseif char == "&" and not inQuotes and text:sub(i, i + 1) == "&&" then
+			parts[#parts + 1] = table.concat(buf)
+			buf = {}
+			i += 2
+		else
+			table.insert(buf, char)
+			i += 1
+		end
+	end
+	parts[#parts + 1] = table.concat(buf)
+	return parts
+end
+
+local function parseLoopSyntax(text: string): (string?, string?, string?)
+	local countStr, delayStr, cmdText = text:match("^(inf)%^([%d%.]+)%^(.+)$")
+	if countStr then
+		return countStr, delayStr, cmdText
+	end
+	countStr, delayStr, cmdText = text:match("^(%d+)%^([%d%.]+)%^(.+)$")
+	if countStr then
+		return countStr, delayStr, cmdText
+	end
+	countStr, cmdText = text:match("^(inf)%^(.+)$")
+	if countStr then
+		return countStr, nil, cmdText
+	end
+	countStr, cmdText = text:match("^(%d+)%^(.+)$")
+	if countStr then
+		return countStr, nil, cmdText
+	end
+	return nil, nil, nil
+end
 
 local Dispatcher = {
 	CoCo = nil,
@@ -41,10 +93,32 @@ function Dispatcher:evaluate(text: string, executor: any?, allowIncompleteArgume
 	end
 end
 
-function Dispatcher:evaluateAndRun(text: string, executor: any?): string
+function Dispatcher:evaluateAndRun(text: string, executor: any?, skipHistory: boolean?): string
+	text = String.trimString(text)
+	if #text == 0 then
+		return ""
+	end
+
+	local chainParts = splitByAndRespectingQuotes(text)
+	if #chainParts > 1 then
+		local lastOutput = ""
+		for _, part in ipairs(chainParts) do
+			local trimmed = String.trimString(part)
+			if #trimmed > 0 then
+				lastOutput = self:evaluateAndRun(trimmed, executor, skipHistory)
+			end
+		end
+		return lastOutput
+	end
+
+	local countStr, delayStr, cmdText = parseLoopSyntax(text)
+	if countStr then
+		return self:runLoop(countStr, delayStr, cmdText, executor)
+	end
+
 	executor = executor or self._defaultExecutor
 
-	if executor then
+	if executor and not skipHistory then
 		self:pushHistory(text)
 	end
 
@@ -115,6 +189,55 @@ function Dispatcher:runHooks(hookName: string, commandContext: any, ...: any): s
 	end
 end
 
+function Dispatcher:runLoop(countStr: string, delayStr: string?, cmdText: string, executor: any?): string
+	loopCounter += 1
+	local loopId = loopCounter
+	local loopInfo = { Active = true }
+	ActiveLoops[loopId] = loopInfo
+
+	local count = if countStr == "inf" then math.huge else assert(tonumber(countStr))
+	local delay = if delayStr then tonumber(delayStr) or 0.0 else 0.0
+
+	task.spawn(function()
+		local i = 0
+		while i < count do
+			i += 1
+			local info = ActiveLoops[loopId]
+			if not info or not info.Active then
+				break
+			end
+			local output = self:evaluateAndRun(cmdText, executor, true)
+			if output and #output > 0 then
+				pcall(function()
+					self.CoCo.Events.AddLine:Fire(output)
+				end)
+			end
+			if i < count then
+				task.wait(if delay > 0 then delay else nil)
+			end
+		end
+		ActiveLoops[loopId] = nil
+	end)
+
+	local countLabel = if countStr == "inf" then "infinite" else countStr
+	local delayLabel = if delay > 0 then `, {delay}s delay` else ""
+	return `Started loop #{loopId} ({countLabel} iterations{delayLabel}).`
+end
+
+function Dispatcher:breakLoops(): number
+	local count = 0
+	for id, info in pairs(ActiveLoops) do
+		if info then
+			info.Active = false
+			count += 1
+		end
+	end
+	for id in pairs(ActiveLoops) do
+		ActiveLoops[id] = nil
+	end
+	return count
+end
+
 function Dispatcher:pushHistory(text: string)
 	if String.trimString(text) == "" then
 		return
@@ -156,6 +279,8 @@ return function(coco: any, defaultExecutor: any): typeof(Dispatcher)
 	Dispatcher.CoCo = coco
 	Dispatcher.Registry = coco.Registry
 	Dispatcher._defaultExecutor = defaultExecutor
+	Dispatcher.splitByAndRespectingQuotes = splitByAndRespectingQuotes
+	Dispatcher.parseLoopSyntax = parseLoopSyntax
 
 	return Dispatcher
 end

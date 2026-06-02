@@ -15,11 +15,10 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-02T20:14:57.401772252+00:00",
+    genDate = "2026-06-02T16:42:46.8373619-04:00",
     cfg = "Release",
     vers = "0.1.0"
 }
-
 local a={cache={}}do do local b=function()local b=cloneref or function(b)return
 b end local c={UserInputService=b(game:GetService'UserInputService'),RunService=
 b(game:GetService'RunService'),GuiService=b(game:GetService'GuiService'),Players
@@ -292,106 +291,127 @@ end function c:reply(d,e)self.Dispatcher.CoCo.Events.AddLine:Fire(d,e)end
 function c:getStore(...)return self.Dispatcher.CoCo.Registry:getStore(...)end
 return c end function a.i()local c=a.cache.i if not c then c={c=b()}a.cache.i=c
 end return c.c end end do local b=function()local b,c,d=a.c(),a.i(),a.g()local e
-,f,g=d.Gui.HistoryFile,1000,{CoCo=nil,Registry=nil}function g:evaluate(h,i,j,k)
-local l=b.splitString(h)local m=table.remove(l,1)local n=self.Registry:
-getCommand(m)if n then l=b.mashExcessArguments(l,#n.Args)local o=c.new{
-Dispatcher=self,Text=h,CommandObject=n,Alias=m,Executor=i,Arguments=l,Data=k}
-local p,q=o:parse(j)if p then return o else return false,q end else return false
+,f,g,h,i,j,k=d.Gui.HistoryFile,1000,{},0,function(e)local f,g,h,i,j={},{},false,
+1 while i<=#e do local k=e:sub(i,i)if k=='"'or k=="'"then if not h then h=true j
+=k elseif k==j then h=false end table.insert(g,k)i+=1 elseif k=='&'and not h and
+e:sub(i,i+1)=='&&'then f[#f+1]=table.concat(g)g={}i+=2 else table.insert(g,k)i+=
+1 end end f[#f+1]=table.concat(g)return f end,function(e)local f,g,h=e:match
+'^(inf)%^([%d%.]+)%^(.+)$'if f then return f,g,h end f,g,h=e:match
+'^(%d+)%^([%d%.]+)%^(.+)$'if f then return f,g,h end f,h=e:match'^(inf)%^(.+)$'
+if f then return f,nil,h end f,h=e:match'^(%d+)%^(.+)$'if f then return f,nil,h
+end return nil,nil,nil end,{CoCo=nil,Registry=nil}function k:evaluate(l,m,n,o)
+local p=b.splitString(l)local q=table.remove(p,1)local r=self.Registry:
+getCommand(q)if r then p=b.mashExcessArguments(p,#r.Args)local s=c.new{
+Dispatcher=self,Text=l,CommandObject=r,Alias=q,Executor=m,Arguments=p,Data=o}
+local t,u=s:parse(n)if t then return s else return false,u end else return false
 ,(`%q is not a valid command name. Use the help command to see all available commands.`
-):format(tostring(m))end end function g:evaluateAndRun(h,i)i=i or self.
-_defaultExecutor if i then self:pushHistory(h)end local j,k=self:evaluate(h,i)if
-not j then return k end local l,m=xpcall(function()local l,m=j:validate(true)if
-not l then return m end return j:run()or'Command executed.'end,function(l)return
-debug.traceback(tostring(l))end)if not l then warn(`Error occurred while evaluating command string {
-h:format'%q'}\n{tostring(m)}`)end return l and m or
-'An error occurred while running this command.'end function g:run(...)local h={
-...}local i,j=h[1],{}for k=2,#h do j[#j+1]=tostring(h[k])end if#j>0 then i=i..
-' '..table.concat(j,' ')end local k,l=self:evaluate(i,self._defaultExecutor)if
-not k then error(l)end local m,n=k:validate(true)if not m then error(n)end
-return k:run()end function g:runHooks(h,i,...)if not self.Registry.Hooks[h]then
-error(`Invalid hook name: {h:format'%q'}`,2)end for j,k in ipairs(self.Registry.
-Hooks[h])do local m=k.callback(i,...)if m~=nil then return tostring(m)end end
-end function g:pushHistory(h)if b.trimString(h)==''then return end local i=self:
-getHistory()if h==i[#i]then return end i[#i+1]=h if#i>f then for j=1,#i-f do
-table.remove(i,1)end end local j=pcall(writefile,e,table.concat(i,'\n'))if not j
-then warn('CoCo: Failed to write command history to '..e)end end function g:
-getHistory()local h,i=pcall(readfile,e)if h and i then local j={}for k in i:
-gmatch'[^\r\n]+'do table.insert(j,k)end return j end return{}end return function
-(h,i)g.CoCo=h g.Registry=h.Registry g._defaultExecutor=i return g end end
-function a.j()local c=a.cache.j if not c then c={c=b()}a.cache.j=c end return c.
-c end end do local b=function()local b=function(b,c,d)local e=Instance.new(b)for
-f,g in pairs(c)do e[f]=g end if d then for f,g in ipairs(d)do g.Parent=e end end
-return e end return b end function a.k()local c=a.cache.k if not c then c={c=b()
-}a.cache.k=c end return c.c end end do local b=function()local b,c,d=a.k(),a.g()
-,function()local b,c=pcall(gethui)if b then return c end return a.a().CoreGui
-end local e,f,g,h,i,j=function(e)e=e or{}return b('ScrollingFrame',{
-BackgroundColor3=e.BackgroundColor3 or c.Colors.BackgroundDark,
-BackgroundTransparency=e.BackgroundTransparency or c.Gui.BackgroundTransparency,
-BorderSizePixel=0,CanvasSize=e.CanvasSize or UDim2.new(0,0,0,0),Position=e.
-Position or UDim2.new(0.025,0,0,25),ScrollBarThickness=e.ScrollBarThickness or c
-.Gui.ScrollBarThickness,ScrollingDirection=e.ScrollingDirection or Enum.
-ScrollingDirection.Y,Selectable=false,Size=e.Size or UDim2.new(0.95,0,0,0),
-Visible=e.Visible~=nil and e.Visible or false,AutomaticCanvasSize=e.
-AutomaticCanvasSize or Enum.AutomaticSize.Y,Name=e.Name or''},e.Children)end,
-function(e)return b('UIPadding',{PaddingBottom=UDim.new(0,e and e.bottom or 10),
-PaddingLeft=UDim.new(0,e and e.left or 10),PaddingRight=UDim.new(0,e and e.right
-or 10),PaddingTop=UDim.new(0,e and e.top or 10)})end,function(e)return b(
-'UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,FillDirection=e or Enum.
-FillDirection.Vertical,Padding=e==Enum.FillDirection.Horizontal and UDim.new(0,7
-)or nil})end,function(e)e=e or{}return b('TextLabel',{BackgroundTransparency=1,
-Font=e.Font or Enum.Font.Code,Text=e.Text or'',TextColor3=e.TextColor3 or c.
-Colors.TextPrimary,TextSize=e.TextSize or c.Gui.DefaultTextSize,TextXAlignment=e
-.TextXAlignment or Enum.TextXAlignment.Left,TextYAlignment=e.TextYAlignment or
-Enum.TextYAlignment.Center,Size=e.Size or UDim2.new(1,0,0,20),AutomaticSize=e.
-AutomaticSize or Enum.AutomaticSize.None,TextWrapped=e.TextWrapped or false,Name
-=e.Name or'TextLabel'},e.Children)end,function(e)e=e or{}return b('TextBox',{
-BackgroundTransparency=1,ClearTextOnFocus=false,Font=Enum.Font.Code,
-PlaceholderText=e.PlaceholderText or'',Position=e.Position or UDim2.new(0,0,0,0)
-,Size=e.Size or UDim2.new(1,0,0,20),TextColor3=e.TextColor3 or c.Colors.
-TextPrimary,TextSize=c.Gui.DefaultTextSize,TextXAlignment=Enum.TextXAlignment.
-Left,TextYAlignment=e.TextYAlignment or Enum.TextYAlignment.Center,TextWrapped=e
-.TextWrapped or false,AutomaticSize=e.AutomaticSize or Enum.AutomaticSize.None,
-Selectable=false,Text=e.Text or'',Name=e.Name or'TextBox',LayoutOrder=e.
-LayoutOrder or 0})end,function(e)e=e or{}local f,g=e.Color or c.Colors.
-BackgroundMedium,e.Transparency or c.Gui.AutocompleteBackgroundTransparency
-return b('Frame',{BackgroundColor3=f,BackgroundTransparency=g,BorderSizePixel=0,
-LayoutOrder=e.LayoutOrder or 0,Name=e.Name or'',Size=e.Size or UDim2.new(1,0,0,
-20)},e.Children)end return function()local k=d()c.GuiRoot=k local m=b(
-'TextButton',{BackgroundColor3=c.Colors.BackgroundMedium,BackgroundTransparency=
-c.Gui.AutocompleteBackgroundTransparency,BorderSizePixel=0,Font=Enum.Font.Code,
-Size=UDim2.new(1,0,0,30),Text='',TextColor3=c.Colors.TextPrimary,TextSize=14,
-TextXAlignment=Enum.TextXAlignment.Left},{h{Name='Typed',TextColor3=c.Colors.
-AutocompleteItem,Size=UDim2.new(1,0,1,0)},h{Name='Suggest',Size=UDim2.new(1,0,1,
-0)},f{left=10,top=0,bottom=0,right=0}})local n=b('ScreenGui',{Name='CoCo',
-DisplayOrder=1000,ResetOnSpawn=false,AutoLocalize=false,Parent=k},{e{Name=
-'Frame',Children={g(),i{Name='Line',Text='made with \u{2661}',AutomaticSize=Enum
-.AutomaticSize.Y,TextWrapped=true,TextYAlignment=Enum.TextYAlignment.Top},f(),b(
-'Frame',{BackgroundTransparency=1,LayoutOrder=c.Gui.EntryLayoutOrder,Name=
-'Entry',Size=UDim2.new(1,0,0,20)},{g(Enum.FillDirection.Horizontal),i{
-LayoutOrder=c.Gui.EntryLayoutOrder,PlaceholderText='enter a command here',
-Position=UDim2.new(0,140,0,0)},h{Text='',TextColor3=c.Colors.TextAccent,
-AutomaticSize=Enum.AutomaticSize.X,Size=UDim2.new(0,0,0,20)}})}},e{Name=
-'Autocomplete',BackgroundColor3=c.Colors.BackgroundMedium,BackgroundTransparency
-=c.Gui.AutocompleteBackgroundTransparency,Position=UDim2.new(0,167,0,75),Size=
-UDim2.new(0,200,0,200),Children={g(),j{Color=c.Colors.BackgroundMedium,
-Transparency=c.Gui.SectionBackgroundTransparency,LayoutOrder=-2,Name='Title',
-Size=UDim2.new(1,0,0,40),Children={h{Name='Field',Text='from',Font=Enum.Font.
-SourceSansBold,TextSize=20,Size=UDim2.new(0,37,1,0),Children={h{Name='Type',Font
-=Enum.Font.SourceSans,TextSize=15,Size=UDim2.new(0,0,1,0),Position=UDim2.new(1,0
-,0,0)}}},f{left=10,top=0,bottom=0,right=0}}},j{Color=c.Colors.BackgroundMedium,
-Transparency=c.Gui.SectionBackgroundTransparency,LayoutOrder=-1,Name=
-'Description',Size=UDim2.new(1,0,0,20),Children={h{Name='Label',Text=
+):format(tostring(q))end end function k:evaluateAndRun(l,m,n)l=b.trimString(l)if
+#l==0 then return''end local o=i(l)if#o>1 then local p=''for q,r in ipairs(o)do
+local s=b.trimString(r)if#s>0 then p=self:evaluateAndRun(s,m,n)end end return p
+end local p,q,r=j(l)if p then return self:runLoop(p,q,r,m)end m=m or self.
+_defaultExecutor if m and not n then self:pushHistory(l)end local s,t=self:
+evaluate(l,m)if not s then return t end local u,v=xpcall(function()local u,v=s:
+validate(true)if not u then return v end return s:run()or'Command executed.'end,
+function(u)return debug.traceback(tostring(u))end)if not u then warn(`Error occurred while evaluating command string {
+l:format'%q'}\n{tostring(v)}`)end return u and v or
+'An error occurred while running this command.'end function k:run(...)local l={
+...}local m,n=l[1],{}for o=2,#l do n[#n+1]=tostring(l[o])end if#n>0 then m=m..
+' '..table.concat(n,' ')end local o,p=self:evaluate(m,self._defaultExecutor)if
+not o then error(p)end local q,r=o:validate(true)if not q then error(r)end
+return o:run()end function k:runHooks(l,m,...)if not self.Registry.Hooks[l]then
+error(`Invalid hook name: {l:format'%q'}`,2)end for n,o in ipairs(self.Registry.
+Hooks[l])do local q=o.callback(m,...)if q~=nil then return tostring(q)end end
+end function k:runLoop(l,m,n,o)h+=1 local q,r=h,{Active=true}g[q]=r local s,t=if
+l=='inf'then math.huge else assert(tonumber(l)),if m then tonumber(m)or 0 else 0
+task.spawn(function()local u=0 while u<s do u+=1 local v=g[q]if not v or not v.
+Active then break end local w=self:evaluateAndRun(n,o,true)if w and#w>0 then
+pcall(function()self.CoCo.Events.AddLine:Fire(w)end)end if u<s then task.wait(if
+t>0 then t else nil)end end g[q]=nil end)local u,v=if l=='inf'then'infinite'else
+l,if t>0 then`, {t}s delay`else''return`Started loop #{q} ({u} iterations{v}).`
+end function k:breakLoops()local l=0 for m,n in pairs(g)do if n then n.Active=
+false l+=1 end end for m in pairs(g)do g[m]=nil end return l end function k:
+pushHistory(l)if b.trimString(l)==''then return end local m=self:getHistory()if
+l==m[#m]then return end m[#m+1]=l if#m>f then for n=1,#m-f do table.remove(m,1)
+end end local n=pcall(writefile,e,table.concat(m,'\n'))if not n then warn(
+'CoCo: Failed to write command history to '..e)end end function k:getHistory()
+local l,m=pcall(readfile,e)if l and m then local n={}for o in m:gmatch'[^\r\n]+'
+do table.insert(n,o)end return n end return{}end return function(l,m)k.CoCo=l k.
+Registry=l.Registry k._defaultExecutor=m k.splitByAndRespectingQuotes=i k.
+parseLoopSyntax=j return k end end function a.j()local c=a.cache.j if not c then
+c={c=b()}a.cache.j=c end return c.c end end do local b=function()local b=
+function(b,c,d)local e=Instance.new(b)for f,g in pairs(c)do e[f]=g end if d then
+for f,g in ipairs(d)do g.Parent=e end end return e end return b end function a.k
+()local c=a.cache.k if not c then c={c=b()}a.cache.k=c end return c.c end end do
+local b=function()local b,c,d=a.k(),a.g(),function()local b,c=pcall(gethui)if b
+then return c end return a.a().CoreGui end local e,f,g,h,i,j=function(e)e=e or{}
+return b('ScrollingFrame',{BackgroundColor3=e.BackgroundColor3 or c.Colors.
+BackgroundDark,BackgroundTransparency=e.BackgroundTransparency or c.Gui.
+BackgroundTransparency,BorderSizePixel=0,CanvasSize=e.CanvasSize or UDim2.new(0,
+0,0,0),Position=e.Position or UDim2.new(0.025,0,0,25),ScrollBarThickness=e.
+ScrollBarThickness or c.Gui.ScrollBarThickness,ScrollingDirection=e.
+ScrollingDirection or Enum.ScrollingDirection.Y,Selectable=false,Size=e.Size or
+UDim2.new(0.95,0,0,0),Visible=e.Visible~=nil and e.Visible or false,
+AutomaticCanvasSize=e.AutomaticCanvasSize or Enum.AutomaticSize.Y,Name=e.Name or
+''},e.Children)end,function(e)return b('UIPadding',{PaddingBottom=UDim.new(0,e
+and e.bottom or 10),PaddingLeft=UDim.new(0,e and e.left or 10),PaddingRight=UDim
+.new(0,e and e.right or 10),PaddingTop=UDim.new(0,e and e.top or 10)})end,
+function(e)return b('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,
+FillDirection=e or Enum.FillDirection.Vertical,Padding=e==Enum.FillDirection.
+Horizontal and UDim.new(0,7)or nil})end,function(e)e=e or{}return b('TextLabel',
+{BackgroundTransparency=1,Font=e.Font or Enum.Font.Code,Text=e.Text or'',
+TextColor3=e.TextColor3 or c.Colors.TextPrimary,TextSize=e.TextSize or c.Gui.
+DefaultTextSize,TextXAlignment=e.TextXAlignment or Enum.TextXAlignment.Left,
+TextYAlignment=e.TextYAlignment or Enum.TextYAlignment.Center,Size=e.Size or
+UDim2.new(1,0,0,20),AutomaticSize=e.AutomaticSize or Enum.AutomaticSize.None,
+TextWrapped=e.TextWrapped or false,Name=e.Name or'TextLabel'},e.Children)end,
+function(e)e=e or{}return b('TextBox',{BackgroundTransparency=1,ClearTextOnFocus
+=false,Font=Enum.Font.Code,PlaceholderText=e.PlaceholderText or'',Position=e.
+Position or UDim2.new(0,0,0,0),Size=e.Size or UDim2.new(1,0,0,20),TextColor3=e.
+TextColor3 or c.Colors.TextPrimary,TextSize=c.Gui.DefaultTextSize,TextXAlignment
+=Enum.TextXAlignment.Left,TextYAlignment=e.TextYAlignment or Enum.TextYAlignment
+.Center,TextWrapped=e.TextWrapped or false,AutomaticSize=e.AutomaticSize or Enum
+.AutomaticSize.None,Selectable=false,Text=e.Text or'',Name=e.Name or'TextBox',
+LayoutOrder=e.LayoutOrder or 0})end,function(e)e=e or{}local f,g=e.Color or c.
+Colors.BackgroundMedium,e.Transparency or c.Gui.
+AutocompleteBackgroundTransparency return b('Frame',{BackgroundColor3=f,
+BackgroundTransparency=g,BorderSizePixel=0,LayoutOrder=e.LayoutOrder or 0,Name=e
+.Name or'',Size=e.Size or UDim2.new(1,0,0,20)},e.Children)end return function()
+local k=d()c.GuiRoot=k local l=b('TextButton',{BackgroundColor3=c.Colors.
+BackgroundMedium,BackgroundTransparency=c.Gui.AutocompleteBackgroundTransparency
+,BorderSizePixel=0,Font=Enum.Font.Code,Size=UDim2.new(1,0,0,30),Text='',
+TextColor3=c.Colors.TextPrimary,TextSize=14,TextXAlignment=Enum.TextXAlignment.
+Left},{h{Name='Typed',TextColor3=c.Colors.AutocompleteItem,Size=UDim2.new(1,0,1,
+0)},h{Name='Suggest',Size=UDim2.new(1,0,1,0)},f{left=10,top=0,bottom=0,right=0}}
+)local m=b('ScreenGui',{Name='CoCo',DisplayOrder=1000,ResetOnSpawn=false,
+AutoLocalize=false,Parent=k},{e{Name='Frame',Children={g(),i{Name='Line',Text=
+'made with \u{2661}',AutomaticSize=Enum.AutomaticSize.Y,TextWrapped=true,
+TextYAlignment=Enum.TextYAlignment.Top},f(),b('Frame',{BackgroundTransparency=1,
+LayoutOrder=c.Gui.EntryLayoutOrder,Name='Entry',Size=UDim2.new(1,0,0,20)},{g(
+Enum.FillDirection.Horizontal),i{LayoutOrder=c.Gui.EntryLayoutOrder,
+PlaceholderText='enter a command here',Position=UDim2.new(0,140,0,0)},h{Text='',
+TextColor3=c.Colors.TextAccent,AutomaticSize=Enum.AutomaticSize.X,Size=UDim2.
+new(0,0,0,20)}})}},e{Name='Autocomplete',BackgroundColor3=c.Colors.
+BackgroundMedium,BackgroundTransparency=c.Gui.AutocompleteBackgroundTransparency
+,Position=UDim2.new(0,167,0,75),Size=UDim2.new(0,200,0,200),Children={g(),j{
+Color=c.Colors.BackgroundMedium,Transparency=c.Gui.SectionBackgroundTransparency
+,LayoutOrder=-2,Name='Title',Size=UDim2.new(1,0,0,40),Children={h{Name='Field',
+Text='from',Font=Enum.Font.SourceSansBold,TextSize=20,Size=UDim2.new(0,37,1,0),
+Children={h{Name='Type',Font=Enum.Font.SourceSans,TextSize=15,Size=UDim2.new(0,0
+,1,0),Position=UDim2.new(1,0,0,0)}}},f{left=10,top=0,bottom=0,right=0}}},j{Color
+=c.Colors.BackgroundMedium,Transparency=c.Gui.SectionBackgroundTransparency,
+LayoutOrder=-1,Name='Description',Size=UDim2.new(1,0,0,20),Children={h{Name=
+'Label',Text=
 [[The players to teleport. The players to teleport. The players to teleport. The players to teleport. ]]
 ,Font=Enum.Font.SourceSansLight,TextSize=16,TextWrapped=true,Size=UDim2.new(1,0,
 1,0),TextYAlignment=Enum.TextYAlignment.Top},f{left=10,top=10,bottom=10,right=10
-}}},m}},b('TextButton',{Name='MobileToggle',BackgroundColor3=c.Colors.
+}}},l}},b('TextButton',{Name='MobileToggle',BackgroundColor3=c.Colors.
 BackgroundDark,BackgroundTransparency=0.3,BorderSizePixel=0,Font=Enum.Font.Code,
 Position=UDim2.new(1,-52,0,8),Selectable=false,Size=UDim2.new(0,44,0,44),Text=''
 ,Visible=false,ZIndex=10},{b('UICorner',{CornerRadius=UDim.new(0,22)}),b(
 'UIStroke',{Color=c.Colors.TextAccent,Thickness=1.5,Transparency=0.3}),b(
 'TextLabel',{Name='Label',BackgroundTransparency=1,Font=Enum.Font.Code,Size=
 UDim2.new(1,0,1,0),Text='CoCo',TextColor3=Color3.fromRGB(255,255,255),TextSize=
-14})})})return n end end function a.l()local c=a.cache.l if not c then c={c=b()}
+14})})})return m end end function a.l()local c=a.cache.l if not c then c={c=b()}
 a.cache.l=c end return c.c end end do local b=function()local b,c,d,e,f,g,h,i,j=
 a.d(),{Validate=function(b)return b~=nil end,Parse=function(b)return tostring(b)
 end},{Transform=function(b)return tonumber(b)end,Validate=function(b)return b~=
@@ -407,12 +427,12 @@ Transform=function(b)return tonumber(b)end,Validate=function(b)return b~=nil and
 b==math.floor(b)and b>=0 and b<=255,'Only bytes are valid.'end,Parse=function(b)
 return b end},{Transform=function(b)return tonumber(b)end,Validate=function(b)
 return b~=nil and b==math.floor(b)and b>=0 and b<=9,'Only digits are valid.'end,
-Parse=function(b)return b end}do local k,m=b.makeDictionary{'true','t','yes','y'
+Parse=function(b)return b end}do local k,l=b.makeDictionary{'true','t','yes','y'
 ,'on','enable','enabled','1','+'},b.makeDictionary{'false','f','no','n','off',
-'disable','disabled','0','-'}j={Transform=function(n)return n:lower()end,
-Validate=function(n)return k[n]~=nil or m[n]~=nil,
-'Please use true/yes/on or false/no/off.'end,Parse=function(n)if k[n]then return
-true elseif m[n]then return false else return nil end end}end return function(k)
+'disable','disabled','0','-'}j={Transform=function(m)return m:lower()end,
+Validate=function(m)return k[m]~=nil or l[m]~=nil,
+'Please use true/yes/on or false/no/off.'end,Parse=function(m)if k[m]then return
+true elseif l[m]then return false else return nil end end}end return function(k)
 k:registerType('string',c)k:registerType('number',d)k:registerType('integer',e)k
 :registerType('positiveInteger',f)k:registerType('nonNegativeInteger',g)k:
 registerType('byte',h)k:registerType('digit',i)k:registerType('boolean',j)k:
@@ -431,9 +451,9 @@ elseif typeof(e)=='table'then if typeof(e[1])=='Instance'or typeof(e[1])==
 elseif type(e[1])=='string'then g=e elseif e[1]~=nil then error
 [[MakeFuzzyFinder only accepts tables of instances or strings.]]else g={}end
 else error'MakeFuzzyFinder only accepts a table, Enum, or Instance.'end return
-function(h,i)local j={}for k,m in pairs(g)do local n=f and f[k]or m if m:lower()
-==h:lower()then if i then return n else table.insert(j,1,n)end elseif m:lower():
-find(h:lower(),1,true)then j[#j+1]=n end end if i then return j[1]end return j
+function(h,i)local j={}for k,l in pairs(g)do local m=f and f[k]or l if l:lower()
+==h:lower()then if i then return m else table.insert(j,1,m)end elseif l:lower():
+find(h:lower(),1,true)then j[#j+1]=m end end if i then return j[1]end return j
 end end function c.getNames(e)return b.List.map(e,function(f)return f.Name or
 tostring(f)end)end function c.makeEnumType(e,f)local g=c.makeFuzzyFinder(f)
 return{Validate=function(h)return g(h,true)~=nil,('Value %q is not a valid %s.')
@@ -462,11 +482,11 @@ end)local i={}for j,k in ipairs(c:GetPlayers())do if not h[k.UserId]then table.
 insert(i,k.Name)end end return i end,nearest=function(e)local f=d.
 getCharacterPosition(e.Character)if not f then return{}end local g,h=(math.huge)
 for i,j in ipairs(c:GetPlayers())do if j~=e then local k=d.getCharacterPosition(
-j.Character)if k then local m=(k-f).Magnitude if m<g then g=m h=j.Name end end
+j.Character)if k then local l=(k-f).Magnitude if l<g then g=l h=j.Name end end
 end end if h then return{h}end return{}end,farthest=function(e)local f=d.
 getCharacterPosition(e.Character)if not f then return{}end local g,h=(-1)for i,j
 in ipairs(c:GetPlayers())do if j~=e then local k=d.getCharacterPosition(j.
-Character)if k then local m=(k-f).Magnitude if m>g then g=m h=j.Name end end end
+Character)if k then local l=(k-f).Magnitude if l>g then g=l h=j.Name end end end
 end if h then return{h}end return{}end,furthest='farthest',alive=function(e)
 local f={}for g,h in ipairs(c:GetPlayers())do local i=h.Character and h.
 Character:FindFirstChildWhichIsA'Humanoid'if i and i.Health>0 then table.insert(
@@ -474,9 +494,9 @@ f,h.Name)end end return f end,dead=function(e)local f={}for g,h in ipairs(c:
 GetPlayers())do local i=h.Character and h.Character:FindFirstChildWhichIsA
 'Humanoid'if not i or i.Health<=0 then table.insert(f,h.Name)end end return f
 end,cursor=function(e)local f=b.Players.LocalPlayer local g=f and f:GetMouse()if
-not g then return{}end local h,i,j=g.Hit.Position,(math.huge)for k,m in ipairs(c
-:GetPlayers())do local n=d.getCharacterPosition(m.Character)if n then local o=(n
--h).Magnitude if o<i then i=o j=m.Name end end end if j then return{j}end return
+not g then return{}end local h,i,j=g.Hit.Position,(math.huge)for k,l in ipairs(c
+:GetPlayers())do local m=d.getCharacterPosition(l.Character)if m then local n=(m
+-h).Magnitude if n<i then i=n j=l.Name end end end if j then return{j}end return
 {}end,npcs=function(e)local f={}for g,h in ipairs(b.Workspace:GetDescendants())
 do if not h:IsA'Player'then local i=h:FindFirstChildWhichIsA'Humanoid'if i and h
 .Parent then local j=i.Parent.Name if not c:FindFirstChild(j)then table.insert(f
@@ -487,41 +507,41 @@ f)local g,h=tonumber(f[1]),{}for i,j in ipairs(c:GetPlayers())do if j.AccountAge
 >g then table.insert(h,j.Name)end end return h end},{Pattern='^rad(%d+)$',
 Resolve=function(e,f)local g,h=tonumber(f[1]),d.getCharacterPosition(e.Character
 )if not h then return{}end local i={}for j,k in ipairs(c:GetPlayers())do if k~=e
-then local m=d.getCharacterPosition(k.Character)if m and(m-h).Magnitude<=g then
+then local l=d.getCharacterPosition(k.Character)if l and(l-h).Magnitude<=g then
 table.insert(i,k.Name)end end end return i end,Invert=function(e,f)local g,h=
 tonumber(f[1]),d.getCharacterPosition(e.Character)if not h then return{}end
-local i={}for j,k in ipairs(c:GetPlayers())do if k~=e then local m=d.
-getCharacterPosition(k.Character)if not m or(m-h).Magnitude>g then table.insert(
+local i={}for j,k in ipairs(c:GetPlayers())do if k~=e then local l=d.
+getCharacterPosition(k.Character)if not l or(l-h).Magnitude>g then table.insert(
 i,k.Name)end end end return i end},{Pattern='^group(%d+)$',Resolve=function(e,f)
 local g,h=tonumber(f[1]),{}for i,j in ipairs(c:GetPlayers())do if j:IsInGroup(g)
 then table.insert(h,j.Name)end end return h end,Invert=function(e,f)local g,h=
 tonumber(f[1]),{}for i,j in ipairs(c:GetPlayers())do if not j:IsInGroup(g)then
 table.insert(h,j.Name)end end return h end},{Pattern='^#(%d+)$',Resolve=function
 (e,f)local g,h=tonumber(f[1]),c:GetPlayers()if#h==0 then return{}end local i={}
-for j=1,#h do i[j]=j end local j,k=math.min(g,#h),{}for m=1,j do local n=math.
-random(1,#i)table.insert(k,h[table.remove(i,n)].Name)end return k end,Invert=
+for j=1,#h do i[j]=j end local j,k=math.min(g,#h),{}for l=1,j do local m=math.
+random(1,#i)table.insert(k,h[table.remove(i,m)].Name)end return k end,Invert=
 function(e,f)local g,h=tonumber(f[1]),c:GetPlayers()if#h==0 then return{}end
-local i={}for j=1,#h do i[j]=j end local j,k=math.min(g,#h),{}for m=1,j do local
-n=math.random(1,#i)k[h[table.remove(i,n)].Name]=true end local m={}for n,o in
-ipairs(h)do if not k[o.Name]then table.insert(m,o.Name)end end return m end}}}
+local i={}for j=1,#h do i[j]=j end local j,k=math.min(g,#h),{}for l=1,j do local
+m=math.random(1,#i)k[h[table.remove(i,m)].Name]=true end local l={}for m,n in
+ipairs(h)do if not k[n.Name]then table.insert(l,n.Name)end end return l end}}}
 function d.buildAutocomplete(e,f)local g,h={},false if f then local i,j=(f.
-TextSegmentInProgress or''):lower(),{}for k,m in ipairs(e)do j[m:lower()]=true
+TextSegmentInProgress or''):lower(),{}for k,l in ipairs(e)do j[l:lower()]=true
 end if f.Type.ArgumentOperatorAliases then for k in pairs(f.Type.
-ArgumentOperatorAliases)do if type(k)=='string'then local m,n=k:lower(),f.Type.
-ArgumentOperatorAliases[k]if i~=''and(m:sub(1,#i)==i or(n and i:sub(1,#n)==n))
-and not j[m]then if k=='me'or k=='random'or f.Type.Listable then table.insert(e,
-k)j[m]=true h=true elseif k=='all'or k=='others'then local o,p=c:GetPlayers(),f.
-Executor and f.Executor.Name for q,r in ipairs(o)do if k~='others'or not p or r.
-Name~=p then local s=r.Name:lower()if not j[s]then table.insert(e,r.Name)j[s]=
+ArgumentOperatorAliases)do if type(k)=='string'then local l,m=k:lower(),f.Type.
+ArgumentOperatorAliases[k]if i~=''and(l:sub(1,#i)==i or(m and i:sub(1,#m)==m))
+and not j[l]then if k=='me'or k=='random'or f.Type.Listable then table.insert(e,
+k)j[l]=true h=true elseif k=='all'or k=='others'then local n,o=c:GetPlayers(),f.
+Executor and f.Executor.Name for q,r in ipairs(n)do if k~='others'or not o or r.
+Name~=o then local s=r.Name:lower()if not j[s]then table.insert(e,r.Name)j[s]=
 true end end end h=true end end end end end if f.Type.Selectors then if f.Type.
 Selectors.Keyword then for k in pairs(f.Type.Selectors.Keyword)do if type(k)==
-'string'then local m=k:lower()if i~=''and m:sub(1,#i)==i and not j[m]then local
-n=f:resolveKeywordResolver(k)if n then local o=n(f.Executor)if#o>0 then if not f
-.Type.Listable then for p,q in ipairs(o)do local r=q:lower()if not j[r]then
-table.insert(e,q)j[r]=true end end else table.insert(e,k)j[m]=true end h=true
-end end end end end end if f.Type.Selectors.Pattern then for k,m in ipairs(f.
-Type.Selectors.Pattern)do local n=m.Pattern:match'^%^([a-z]+)%('if n then if i~=
-''and n:sub(1,#i)==i and not j[n]then table.insert(e,n..'#')j[n]=true h=true end
+'string'then local l=k:lower()if i~=''and l:sub(1,#i)==i and not j[l]then local
+m=f:resolveKeywordResolver(k)if m then local n=m(f.Executor)if#n>0 then if not f
+.Type.Listable then for o,q in ipairs(n)do local r=q:lower()if not j[r]then
+table.insert(e,q)j[r]=true end end else table.insert(e,k)j[l]=true end h=true
+end end end end end end if f.Type.Selectors.Pattern then for k,l in ipairs(f.
+Type.Selectors.Pattern)do local m=l.Pattern:match'^%^([a-z]+)%('if m then if i~=
+''and m:sub(1,#i)==i and not j[m]then table.insert(e,m..'#')j[m]=true h=true end
 end end end end if h and#i>0 then g.IsPartial=true end end return e,g end return
 d end function a.o()local c=a.cache.o if not c then c={c=b()}a.cache.o=c end
 return c.c end end do local b=function()local b,c,d,e=a.n(),a.d(),a.o(),a.a()
@@ -642,16 +662,16 @@ c end end do local b=function()local b,c,d,e=a.n(),a.d(),{Years=31556926,Months=
 pairs(d)do table.insert(e,f)end local f=b.makeFuzzyFinder(e)local g,h=function(g
 )if g==nil or g==''then return nil end local h=tonumber(g)if h and h==0 then
 return 0,0,true end local i=g:gsub('-?%d+%a+','')local j=i:match'-?%d+'if j then
-return nil,tonumber(j),true end local k,m,n for o in g:gmatch'-?%d+%a+'do m,n=o:
-match'(-?%d+)(%a+)'local p=f(n)if#p==0 then return nil,tonumber(m)end if k==nil
-then k=0 end k=k+(n:lower()=='m'and 60 or d[p[1] ])*tonumber(m)end if k==nil
-then return nil else return k,tonumber(m)end end,function(g,h,i,j)j=j or 1 local
-k={}for m,n in ipairs(g)do if i==1 then k[m]=h..n:sub(j,#n-1)else k[m]=h..n:sub(
+return nil,tonumber(j),true end local k,l,m for n in g:gmatch'-?%d+%a+'do l,m=n:
+match'(-?%d+)(%a+)'local o=f(m)if#o==0 then return nil,tonumber(l)end if k==nil
+then k=0 end k=k+(m:lower()=='m'and 60 or d[o[1] ])*tonumber(l)end if k==nil
+then return nil else return k,tonumber(l)end end,function(g,h,i,j)j=j or 1 local
+k={}for l,m in ipairs(g)do if i==1 then k[l]=h..m:sub(j,#m-1)else k[l]=h..m:sub(
 j)end end return k end local i={Transform=function(i)return i,g(i)end,Validate=
-function(i,j)return j~=nil end,Autocomplete=function(i,j,k,m,n)local o={}if m or
-n then local p=m==true and f''or n if m==true then o=h(p,i,k)else local q=i:
-match'^.*(%a+)$':len()o=h(p,i,q+1)end elseif j~=nil then local p=i:match
-'^.*-?%d+(%a+)%s?$'local q=f(p)o=h(q,i,k,#p+1)table.sort(o)end return o end,
+function(i,j)return j~=nil end,Autocomplete=function(i,j,k,l,m)local n={}if l or
+m then local o=l==true and f''or m if l==true then n=h(o,i,k)else local q=i:
+match'^.*(%a+)$':len()n=h(o,i,q+1)end elseif j~=nil then local o=i:match
+'^.*-?%d+(%a+)%s?$'local q=f(o)n=h(q,i,k,#o+1)table.sort(n)end return n end,
 Parse=function(i,j)return j end}return function(j)j:registerType('duration',i)j:
 registerType('durations',c.makeListableType(i))end end function a.y()local c=a.
 cache.y if not c then c={c=b()}a.cache.y=c end return c.c end end do local b=
@@ -705,25 +725,25 @@ pairs(e)do for h,i in ipairs(d)do if i.Name==g then f[i]=true end end end local
 g,h={},{}for i,j in ipairs(d)do local k=e[j.Name]if k then if not g[k]then g[k]=
 {}end table.insert(g[k],j)h[#h+1]=j end end local i={}for j,k in ipairs(d)do if
 not f[k]then table.insert(i,k)end end local j={Transform=function(j)if not j or#
-j==0 then return{}end if j:lower()=='list'then return{mode='list'}end local k,m=
-b.splitStringSimple(j,'+'),''for n=1,#k-1 do m=m..k[n]..'+'end local n,o=k[#k]or
-'',c.makeFuzzyFinder(i)local p=o(n)return{prefix=m,parts=k,matches=p,lastPart=n}
+j==0 then return{}end if j:lower()=='list'then return{mode='list'}end local k,l=
+b.splitStringSimple(j,'+'),''for m=1,#k-1 do l=l..k[m]..'+'end local m,n=k[#k]or
+'',c.makeFuzzyFinder(i)local o=n(m)return{prefix=l,parts=k,matches=o,lastPart=m}
 end,Validate=function(j)if not j then return false,'No value provided.'end if j.
 mode=='list'then return true end if not j.matches or#j.matches==0 then return
 false,'Could not find a matching key.'end return true end,Autocomplete=function(
-j,k)local m=k and k.Command and k.Command.Name:lower()=='unbind'if not j or not
-j.matches then if m then local n,o=k.Command.CoCo.Registry:getStore'COCO_Binds',
-{}for p,q in pairs(n)do if type(q)=='table'and q.mode then o[#o+1]=p end end
-return o end return{'list'}end if j.mode=='list'then return{'list'}end local n,o
-=c.getNames(j.matches),{}if m then local p=k.Command.CoCo.Registry:getStore
-'COCO_Binds'for q,r in ipairs(n)do local s=j.prefix..r if p[s]then o[#o+1]=s end
-end return o end for p,q in ipairs(n)do o[#o+1]=j.prefix..q end if#j.parts==1
+j,k)local l=k and k.Command and k.Command.Name:lower()=='unbind'if not j or not
+j.matches then if l then local m,n=k.Command.CoCo.Registry:getStore'COCO_Binds',
+{}for o,q in pairs(m)do if type(q)=='table'and q.mode then n[#n+1]=o end end
+return n end return{'list'}end if j.mode=='list'then return{'list'}end local m,n
+=c.getNames(j.matches),{}if l then local o=k.Command.CoCo.Registry:getStore
+'COCO_Binds'for q,r in ipairs(m)do local s=j.prefix..r if o[s]then n[#n+1]=s end
+end return n end for o,q in ipairs(m)do n[#n+1]=j.prefix..q end if#j.parts==1
 and(#j.lastPart==0 or string.lower(string.sub('list',1,#j.lastPart))==string.
-lower(j.lastPart))then table.insert(o,1,'list')end return o end,Parse=function(j
+lower(j.lastPart))then table.insert(n,1,'list')end return n end,Parse=function(j
 )if not j then return nil end if j.mode=='list'then return nil end if not j.
-matches or#j.matches==0 then return nil end local k,m,n=j.matches[1],{},j.parts
-for o=1,#n-1 do local p=n[o]local q=g[p]if q then for r,s in ipairs(q)do m[s]=
-true end end end return{key=k,modifiers=m,text=j.prefix..k.Name}end}return
+matches or#j.matches==0 then return nil end local k,l,m=j.matches[1],{},j.parts
+for n=1,#m-1 do local o=m[n]local q=g[o]if q then for r,s in ipairs(q)do l[s]=
+true end end end return{key=k,modifiers=l,text=j.prefix..k.Name}end}return
 function(k)k:registerType('keycombo',j)end end function a.F()local c=a.cache.F
 if not c then c={c=b()}a.cache.F=c end return c.c end end do local b=function()
 return function(b)b.Registry:registerType('flymethod',{Transform=function(c)
@@ -741,34 +761,34 @@ HttpService,a.g(),request or http_request or syn and syn.request,function(c)
 return c:gsub('([^%w%.%-%~])',function(d)return string.format('%%%02X',string.
 byte(d))end)end,100,{},{},{},function(c)if c>=1000000 then return string.format(
 '%.1fM',c/1000000)elseif c>=1000 then return string.format('%.1fK',c/1000)end
-return tostring(c)end j.formatNumber=k function j.buildBadgeStr(m)local n={}if m
-.verified then table.insert(n,'Verified')end if m.isPatched then table.insert(n,
-'Patched')end if m.key then table.insert(n,'Key')end if m.isUniversal then table
-.insert(n,'Universal')end if#n>0 then return' ['..table.concat(n,'] [')..']'end
-return''end function j.searchScripts(m)local n=
-'https://scriptblox.com/api/script/search?q='..f(m)if not e then return nil end
-local o,p=pcall(e,{Url=n,Method='GET'})if not o then return nil,'request_failed'
-end if not p or p.StatusCode~=200 or not p.Body then return nil,'bad_response'
-end local q,r=pcall(c.JSONDecode,c,p.Body)if q and r and r.result then return r.
-result end return nil,'parse_failed'end function j.formatResult(m)local n={}for
-o,p in ipairs(m)do local q,r,s,t,u=p.title or'Untitled',p.game and p.game.name
-or'Unknown',j.buildBadgeStr(p),k(p.views or 0),k(p.likes or 0)table.insert(n,
-string.format(' %d. %s',o,q))table.insert(n,string.format(
-'    Game: %s  |  Views: %s  |  Likes: %s%s',r,t,u,s))end return table.concat(n,
-'\n')end function j.runScript(m,n)local o,p,q,r,s,t=n.title or'Untitled',n.game
-and n.game.name or'Unknown',j.buildBadgeStr(n),k(n.views or 0),k(n.likes or 0),n
-.description and n.description:sub(1,200)or'No description'local u=string.
+return tostring(c)end j.formatNumber=k function j.buildBadgeStr(l)local m={}if l
+.verified then table.insert(m,'Verified')end if l.isPatched then table.insert(m,
+'Patched')end if l.key then table.insert(m,'Key')end if l.isUniversal then table
+.insert(m,'Universal')end if#m>0 then return' ['..table.concat(m,'] [')..']'end
+return''end function j.searchScripts(l)local m=
+'https://scriptblox.com/api/script/search?q='..f(l)if not e then return nil end
+local n,o=pcall(e,{Url=m,Method='GET'})if not n then return nil,'request_failed'
+end if not o or o.StatusCode~=200 or not o.Body then return nil,'bad_response'
+end local q,r=pcall(c.JSONDecode,c,o.Body)if q and r and r.result then return r.
+result end return nil,'parse_failed'end function j.formatResult(l)local m={}for
+n,o in ipairs(l)do local q,r,s,t,u=o.title or'Untitled',o.game and o.game.name
+or'Unknown',j.buildBadgeStr(o),k(o.views or 0),k(o.likes or 0)table.insert(m,
+string.format(' %d. %s',n,q))table.insert(m,string.format(
+'    Game: %s  |  Views: %s  |  Likes: %s%s',r,t,u,s))end return table.concat(m,
+'\n')end function j.runScript(l,m)local n,o,q,r,s,t=m.title or'Untitled',m.game
+and m.game.name or'Unknown',j.buildBadgeStr(m),k(m.views or 0),k(m.likes or 0),m
+.description and m.description:sub(1,200)or'No description'local u=string.
 format([[=== %s ===
 Game: %s
 Views: %s  |  Likes: %s%s
-Description: %s]],o,p,r,s
-,q,t)m:reply(u,d.Colors.TextAccent)local v=n.script if not v or v==''then return
-"Script '"..o.."' has no code."end local w,x=pcall(function()loadstring(v)()end)
+Description: %s]],n,o,r,s
+,q,t)l:reply(u,d.Colors.TextAccent)local v=m.script if not v or v==''then return
+"Script '"..n.."' has no code."end local w,x=pcall(function()loadstring(v)()end)
 if not w then return'Failed to execute script: '..tostring(x)end return
-'Running: '..o end function j.cacheScript(m,n)if h[m]then h[m]=n return end h[m]
-=n table.insert(i,m)if#i>g then local o=table.remove(i,1)h[o]=nil end end
-function j.getCachedScript(m)return h[m]end function j.findScriptByPartialId(m)
-for n,o in pairs(h)do if n:sub(1,#m):lower()==m:lower()then return o end end
+'Running: '..n end function j.cacheScript(l,m)if h[l]then h[l]=m return end h[l]
+=m table.insert(i,l)if#i>g then local n=table.remove(i,1)h[n]=nil end end
+function j.getCachedScript(l)return h[l]end function j.findScriptByPartialId(l)
+for m,n in pairs(h)do if m:sub(1,#l):lower()==l:lower()then return n end end
 return nil end return j end function a.H()local c=a.cache.H if not c then c={c=
 b()}a.cache.H=c end return c.c end end do local b=function()local b=a.H()return
 function(c)c:registerType('scriptblox',{Debounce=true,Transform=function(d)
@@ -776,18 +796,18 @@ return d end,Validate=function(d)return d~=nil end,Parse=function(d)return
 tostring(d)end,Autocomplete=function(d,e)if type(d)~='string'or#d<2 then return{
 },{IsPartial=true}end local f,g=pcall(b.searchScripts,d)if not f or not g or not
 g.scripts then return{},{IsPartial=false}end local h,i=d:lower(),{}for j,k in
-ipairs(g.scripts)do local m=k._id or k.id if k.title and m then b.cacheScript(m,
-k)local n,o=k.title:lower(),0 if n==h then o=5 elseif n:find('^'..h:gsub(
-'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=4 elseif n:find('[^%w]'..h:gsub(
-'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))or n:find('^'..h:gsub(
-'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then o=3 elseif n:find(h:gsub(
-'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'),1,true)then o=2 end table.insert(i,{
-script=k,id=m,score=o})end end table.sort(i,function(j,k)if j.score~=k.score
+ipairs(g.scripts)do local l=k._id or k.id if k.title and l then b.cacheScript(l,
+k)local m,n=k.title:lower(),0 if m==h then n=5 elseif m:find('^'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then n=4 elseif m:find('[^%w]'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))or m:find('^'..h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'))then n=3 elseif m:find(h:gsub(
+'([%^%$%(%)%%%.%[%]%*%+%-%?])','%%%1'),1,true)then n=2 end table.insert(i,{
+script=k,id=l,score=n})end end table.sort(i,function(j,k)if j.score~=k.score
 then return j.score>k.score end return(j.script.views or 0)>(k.script.views or 0
-)end)local j={}for k,m in ipairs(i)do local n=m.script local o,p,q,r=b.
-formatNumber(n.views or 0),n.key and'Yes'or'No',(n.scriptType=='paid')and'No'or
-'Yes',n.isPatched and'Yes'or'No'table.insert(j,{title=m.id,name=n.title,metaDesc
-=string.format('Views: %s  |  Key: %s  |  Free: %s  |  Patched: %s',o,p,q,r)})
+)end)local j={}for k,l in ipairs(i)do local m=l.script local n,o,q,r=b.
+formatNumber(m.views or 0),m.key and'Yes'or'No',(m.scriptType=='paid')and'No'or
+'Yes',m.isPatched and'Yes'or'No'table.insert(j,{title=l.id,name=m.title,metaDesc
+=string.format('Views: %s  |  Key: %s  |  Free: %s  |  Patched: %s',n,o,q,r)})
 end return j,{IsPartial=true}end})end end function a.I()local c=a.cache.I if not
 c then c={c=b()}a.cache.I=c end return c.c end end do local b=function()return{
 Name='age',Aliases={},Description=
@@ -841,10 +861,40 @@ Disconnect then g:Disconnect()end end else d=e.Executor.Idled:Connect(function()
 b:CaptureController()b:ClickButton2(Vector2.new())end)end c=true return
 'Anti-AFK enabled.'end}end function a.O()local c=a.cache.O if not c then c={c=b(
 )}a.cache.O=c end return c.c end end do local b=function()local b=a.a()local c,d
-,e=b.Lighting,false local f=function()d=false if e then e:Disconnect()e=nil end
-c.GlobalShadows=true c.FogEnd=100000 c.FogStart=0 settings().Rendering.
-QualityLevel=21 end return{Name='antilag',Aliases={'boostfps','lowgraphics'},
-InverseAliases={'unantilag'},Description=
+=(b.RunService)return{Name='antifling',Aliases={},InverseAliases={'unantifling',
+'noantifling'},Description=
+'Toggle anti-fling (prevent being flung by other players).',Group='DefaultDebug'
+,Args={},ClientRun=function(e)if e:isInvertedCall()then if not d then return
+'Anti-fling already disabled.'end d:Disconnect()d=nil return
+'Anti-fling disabled.'end if d then d:Disconnect()d=nil return
+'Anti-fling disabled.'end d=c.Stepped:Connect(function()local f=e.Executor.
+Character if not f then return end for g,h in ipairs(f:GetDescendants())do if h:
+IsA'BasePart'then h.CanCollide=false h.AssemblyLinearVelocity=Vector3.new()h.
+AssemblyAngularVelocity=Vector3.new()end end end)return'Anti-fling enabled.'end}
+end function a.P()local c=a.cache.P if not c then c={c=b()}a.cache.P=c end
+return c.c end end do local b=function()local b,c,d,e=false local f=function()if
+c then pcall(function()game:GetService'Players'.LocalPlayer.Kick=c end)c=nil end
+if d then pcall(function()hookmetamethod(game,'__index',d)end)d=nil end if e
+then pcall(function()hookmetamethod(game,'__namecall',e)end)e=nil end b=false
+end return{Name='antikick',Aliases={'clientantikick'},InverseAliases={
+'unantikick','noantikick'},Description=
+'Toggle anti-kick (blocks localscript kick attempts).',Group='DefaultDebug',Args
+={},ClientRun=function(g)if g:isInvertedCall()then if not b then return
+'Anti-kick already disabled.'end f()return'Anti-kick disabled.'end if b then f()
+return'Anti-kick disabled.'end local h=g.Executor pcall(function()c=
+hookfunction(h.Kick,function()end)end)pcall(function()local i i=hookmetamethod(
+game,'__index',function(j,k)if j==h and k:lower()=='kick'then return error(
+"Expected ':' not '.' calling member function Kick",2)end return i(j,k)end)d=i
+end)pcall(function()local i i=hookmetamethod(game,'__namecall',function(j,...)if
+j==h and getnamecallmethod():lower()=='kick'then return end return i(j,...)end)e
+=i end)if getconnections then local i=h:FindFirstChild'Kicked'if i and i:IsA
+'BindableEvent'then for j,k in ipairs(getconnections(i))do pcall(function()k:
+Disconnect()end)end end end b=true return'Anti-kick enabled.'end}end function a.
+Q()local c=a.cache.Q if not c then c={c=b()}a.cache.Q=c end return c.c end end
+do local b=function()local b=a.a()local c,d,e=b.Lighting,false local f=function(
+)d=false if e then e:Disconnect()e=nil end c.GlobalShadows=true c.FogEnd=100000
+c.FogStart=0 settings().Rendering.QualityLevel=21 end return{Name='antilag',
+Aliases={'boostfps','lowgraphics'},InverseAliases={'unantilag'},Description=
 'Toggle anti-lag (lower graphics, disable shadows, etc.).',Group='DefaultDebug',
 Args={},ClientRun=function(g)if g:isInvertedCall()then if not d then return
 'Anti-lag already disabled.'end f()return'Anti-lag disabled.'end if d then f()
@@ -861,8 +911,41 @@ Connect(function(j)task.spawn(function()task.wait()if not d then return end if j
 :IsA'BasePart'then j.CastShadow=false j.Material=Enum.Material.Plastic j.
 Reflectance=0 elseif j:IsA'Decal'then j.Transparency=1 j.Texture=''elseif j:IsA
 'ParticleEmitter'or j:IsA'Trail'then j.Lifetime=NumberRange.new(0)end end)end)
-return'Anti-lag enabled.'end}end function a.P()local c=a.cache.P if not c then c
-={c=b()}a.cache.P=c end return c.c end end do local b=function()local b=a.a()
+return'Anti-lag enabled.'end}end function a.R()local c=a.cache.R if not c then c
+={c=b()}a.cache.R=c end return c.c end end do local b=function()local b,c,d=
+false local e=function()if c then pcall(function()hookmetamethod(game,'__index',
+c)end)c=nil end if d then pcall(function()hookmetamethod(game,'__namecall',d)end
+)d=nil end b=false end return{Name='antiteleport',Aliases={'clientantiteleport'}
+,InverseAliases={'unantiteleport','noantiteleport'},Description=
+[[Toggle anti-teleport (blocks localscript teleport attempts).]],Group=
+'DefaultDebug',Args={},ClientRun=function(f)if f:isInvertedCall()then if not b
+then return'Anti-teleport already disabled.'end e()return
+'Anti-teleport disabled.'end if b then e()return'Anti-teleport disabled.'end
+local g=game:GetService'TeleportService'local h,i=pcall(function()local h h=
+hookmetamethod(game,'__index',function(i,j)if i==g then local k=j:lower()if k==
+'teleport'then return error("Expected ':' not '.' calling member function Kick",
+2)elseif j=='TeleportToPlaceInstance'then return error(
+[[Expected ':' not '.' calling member function TeleportToPlaceInstance]],2)end
+end return h(i,j)end)return h end)if not h then return
+'Anti-teleport not supported on this executor.'end c=i local j,k=pcall(function(
+)local j j=hookmetamethod(game,'__namecall',function(k,...)if k==g then local l=
+getnamecallmethod():lower()if l=='teleport'or l=='teleporttoplaceinstance'then
+return end end return j(k,...)end)return j end)if not j then e()return
+'Anti-teleport partially enabled (only __index hook).'end d=k b=true return
+'Anti-teleport enabled.'end}end function a.S()local c=a.cache.S if not c then c=
+{c=b()}a.cache.S=c end return c.c end end do local b=function()local b=a.a()
+local c,d,e=b.RunService,(workspace.FallenPartsDestroyHeight)return{Name=
+'antivoid',Aliases={},InverseAliases={'unantivoid','noantivoid'},Description=
+[[Toggle void protection (launches you upward near kill height).]],Group=
+'DefaultDebug',Args={},ClientRun=function(f)if f:isInvertedCall()then if not e
+then return'Anti-void already disabled.'end e:Disconnect()e=nil return
+'Anti-void disabled.'end if e then e:Disconnect()e=nil return
+'Anti-void disabled.'end e=c.Stepped:Connect(function()local g=f.Executor.
+Character if not g then return end local h=g:FindFirstChildWhichIsA'Humanoid'if
+not h then return end local i=h.RootPart if not i then return end local j=i.
+Position.Y if j<=d+25 then i.Velocity=i.Velocity+Vector3.new(0,250,0)end end)
+return'Anti-void enabled.'end}end function a.T()local c=a.cache.T if not c then
+c={c=b()}a.cache.T=c end return c.c end end do local b=function()local b=a.a()
 local c,d,e,f=b.RunService,false local g=function()if e then e:Disconnect()e=nil
 end if f then f:Disconnect()f=nil end d=false end return{Name='autojump',Aliases
 ={'ajump'},InverseAliases={'unautojump','noautojump'},Description=
@@ -872,25 +955,29 @@ end if f then f:Disconnect()f=nil end d=false end return{Name='autojump',Aliases
 return'Auto jump disabled.'end d=true local i=function(i)if e then e:Disconnect(
 )end local j=i and i:FindFirstChildWhichIsA'Humanoid'local k=j and j.RootPart if
 not k or not j then return end e=c.RenderStepped:Connect(function()if not d then
-return end local m=h.Executor.Character local n=m and m:FindFirstChildWhichIsA
-'Humanoid'local o=n and n.RootPart if not o or not n then return end local p,q=o
-.Position-Vector3.new(0,1.5,0),o.CFrame.LookVector*3 local r=workspace:Raycast(p
-,q)if r then n.Jump=true end end)end i(h.Executor.Character)f=h.Executor.
+return end local l=h.Executor.Character local m=l and l:FindFirstChildWhichIsA
+'Humanoid'local n=m and m.RootPart if not n or not m then return end local o,q=n
+.Position-Vector3.new(0,1.5,0),n.CFrame.LookVector*3 local r=workspace:Raycast(o
+,q)if r then m.Jump=true end end)end i(h.Executor.Character)f=h.Executor.
 CharacterAdded:Connect(function(j)j:WaitForChild'Humanoid'i(j)end)return
-'Auto jump enabled.'end}end function a.Q()local c=a.cache.Q if not c then c={c=
-b()}a.cache.Q=c end return c.c end end do local b=function()return{Name='blink',
+'Auto jump enabled.'end}end function a.U()local c=a.cache.U if not c then c={c=
+b()}a.cache.U=c end return c.c end end do local b=function()return{Name='blink',
 Aliases={'b','mouseteleport','mousetp'},Description=
 'Teleports you to where your mouse is hovering.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c,d=b.Executor:GetMouse(),b.Executor.Character if not
 d then return"You don't have a character."end d:MoveTo(c.Hit.p)return'Blinked!'
-end}end function a.R()local c=a.cache.R if not c then c={c=b()}a.cache.R=c end
+end}end function a.V()local c=a.cache.V if not c then c={c=b()}a.cache.V=c end
+return c.c end end do local b=function()return{Name='breakloops',Aliases={},
+Description='Stop all running command loops.',Group='DefaultDebug',Args={},Run=
+function(b)local c=b.Dispatcher:breakLoops()return`Cancelled {c} running loop(s).`
+end}end function a.W()local c=a.cache.W if not c then c={c=b()}a.cache.W=c end
 return c.c end end do local b=function()return{Name='breakvelocity',Aliases={},
 Description='Stop all momentum on your character.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character local d=c and c:
 FindFirstChildWhichIsA'Humanoid'local e=d and d.RootPart if not e then return
 'No root part found.'end e.Velocity=Vector3.zero e.RotVelocity=Vector3.zero
-return'Velocity broken.'end}end function a.S()local c=a.cache.S if not c then c=
-{c=b()}a.cache.S=c end return c.c end end do local b=function()return{Name=
+return'Velocity broken.'end}end function a.X()local c=a.cache.X if not c then c=
+{c=b()}a.cache.X=c end return c.c end end do local b=function()return{Name=
 'bringpart',Aliases={},Description='Bring a part to your position by name.',
 Group='DefaultDebug',Args={{Type='string',Name='partName',Description=
 'Name of the part to bring'}},ClientRun=function(b,c)local d=b.Executor.
@@ -899,31 +986,31 @@ FindFirstChildWhichIsA'Humanoid'if not e then return'No humanoid found.'end
 local f=e.RootPart if not f then return'No root part.'end local g=0 for h,i in
 ipairs(workspace:GetDescendants())do if i:IsA'BasePart'and i.Name:lower()==c:
 lower()then i.CFrame=f.CFrame*CFrame.new(0,5,-5)g=g+1 end end return(
-'Brought %d part(s) named %q.'):format(g,c)end}end function a.T()local c=a.cache
-.T if not c then c={c=b()}a.cache.T=c end return c.c end end do local b=function
+'Brought %d part(s) named %q.'):format(g,c)end}end function a.Y()local c=a.cache
+.Y if not c then c={c=b()}a.cache.Y=c end return c.c end end do local b=function
 ()return{Name='btools',Aliases={},Description=
 'Give HopperBin building tools (move, resize, copy, color).',Group=
 'DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor:
 FindFirstChildWhichIsA'Backpack'if not c then return'No backpack found.'end for
 d=1,4 do local e=Instance.new'HopperBin'e.BinType=d e.Parent=c end return
-'Building tools added to backpack.'end}end function a.U()local c=a.cache.U if
-not c then c={c=b()}a.cache.U=c end return c.c end end do local b=function()
-local b,c,d,e,f,g,h,i,j,k,m,n=a.a(),{F=0,B=0,L=0,R=0,Q=0,E=0},{F=0,B=0,L=0,R=0,Q
+'Building tools added to backpack.'end}end function a.Z()local c=a.cache.Z if
+not c then c={c=b()}a.cache.Z=c end return c.c end end do local b=function()
+local b,c,d,e,f,g,h,i,j,k,l,m=a.a(),{F=0,B=0,L=0,R=0,Q=0,E=0},{F=0,B=0,L=0,R=0,Q
 =0,E=0},0,{[Enum.KeyCode.W]='F',[Enum.KeyCode.S]='B',[Enum.KeyCode.A]='L',[Enum.
 KeyCode.D]='R',[Enum.KeyCode.Q]='E',[Enum.KeyCode.E]='Q'},function(b)return b:
 FindFirstChild'HumanoidRootPart'or b:FindFirstChild'Torso'end,{flying=false,
 method='velocity',keyBinds='default',flySpeed=50,vehicleFlySpeed=1,cFlySpeed=50,
-character=nil}local o=function()if k then k:Disconnect()k=nil end if m then m:
-Disconnect()m=nil end end local p=function()o()k=b.UserInputService.InputBegan:
-Connect(function(p,q)if q then return end if p.UserInputType~=Enum.UserInputType
-.Keyboard then return end local r=f[p.KeyCode]if not r then return end if not h.
+character=nil}local n=function()if k then k:Disconnect()k=nil end if l then l:
+Disconnect()l=nil end end local o=function()n()k=b.UserInputService.InputBegan:
+Connect(function(o,q)if q then return end if o.UserInputType~=Enum.UserInputType
+.Keyboard then return end local r=f[o.KeyCode]if not r then return end if not h.
 flying then return end local s=h.method=='vehicle'and h.vehicleFlySpeed or h.
 flySpeed if r=='F'then c.F=s elseif r=='B'then c.B=-s elseif r=='L'then c.L=-s
 elseif r=='R'then c.R=s elseif h.keyBinds=='qe'then if r=='Q'then c.E=-s*2
 elseif r=='E'then c.Q=s*2 end end local t=workspace.CurrentCamera if t then t.
-CameraType=Enum.CameraType.Track end end)m=b.UserInputService.InputEnded:
-Connect(function(p,q)if q then return end if p.UserInputType~=Enum.UserInputType
-.Keyboard then return end local r=f[p.KeyCode]if r then if r=='F'then c.F=0
+CameraType=Enum.CameraType.Track end end)l=b.UserInputService.InputEnded:
+Connect(function(o,q)if q then return end if o.UserInputType~=Enum.UserInputType
+.Keyboard then return end local r=f[o.KeyCode]if r then if r=='F'then c.F=0
 elseif r=='B'then c.B=0 elseif r=='L'then c.L=0 elseif r=='R'then c.R=0 elseif r
 =='E'then c.Q=0 elseif r=='Q'then c.E=0 end end end)end local q,r,s=function()
 local q=h.character if not q then return end local r=g(q)if not r then return
@@ -931,7 +1018,7 @@ end h.flying=true local s=Instance.new'BodyGyro's.P=9e4 s.MaxTorque=Vector3.new(
 9e9,9e9,9e9)s.CFrame=r.CFrame s.Parent=r i=s local t=Instance.new'BodyVelocity't
 .Velocity=Vector3.new(0,0,0)t.MaxForce=Vector3.new(9e9,9e9,9e9)t.Parent=r j=t
 local u=q:FindFirstChildOfClass'Humanoid'if u and h.method~='vehicle'then u.
-PlatformStand=true end p()task.spawn(function()while h.flying and i and i.Parent
+PlatformStand=true end o()task.spawn(function()while h.flying and i and i.Parent
 do task.wait()local v=q:FindFirstChildOfClass'Humanoid'if v and h.method~=
 'vehicle'then v.PlatformStand=true end if c.L+c.R~=0 or c.F+c.B~=0 or c.Q+c.E~=0
 then e=50 d.F=c.F d.B=c.B d.L=c.L d.R=c.R d.Q=c.Q d.E=c.E elseif e~=0 then e=0
@@ -942,20 +1029,20 @@ CFrame.new(c.L+c.R,(c.F+c.B+c.Q+c.E)*0.2,0).p)-w.CFrame.p))*e elseif e~=0 then j
 B+c.Q+c.E)*0.2,0).p)-w.CFrame.p))*e else j.Velocity=Vector3.new(0,0,0)end if i
 then i.CFrame=w.CFrame end end end c={F=0,B=0,L=0,R=0,Q=0,E=0}d={F=0,B=0,L=0,R=0
 ,Q=0,E=0}e=0 if i then i:Destroy()i=nil end if j then j:Destroy()j=nil end local
-v=q:FindFirstChildOfClass'Humanoid'if v then v.PlatformStand=false end o()end)
+v=q:FindFirstChildOfClass'Humanoid'if v then v.PlatformStand=false end n()end)
 end,function()local q=h.character if not q then return end local r=q:
 FindFirstChildOfClass'Humanoid'if not r then return end local s=q:FindFirstChild
 'Head'if not s then return end h.flying=true r.PlatformStand=true s.Anchored=
-true if n then n:Disconnect()end n=b.RunService.Heartbeat:Connect(function(t)if
+true if m then m:Disconnect()end m=b.RunService.Heartbeat:Connect(function(t)if
 not h.flying then return end local u,v,w=r.MoveDirection*(h.cFlySpeed*t),s.
 CFrame,workspace.CurrentCamera if not w then return end local x=w.CFrame local y
 =v:ToObjectSpace(x).Position x=x*CFrame.new(-y.X,-y.Y,-y.Z+1)local z,A=x.
 Position,v.Position local B=CFrame.new(z,Vector3.new(A.X,z.Y,A.Z)):
 VectorToObjectSpace(u)s.CFrame=CFrame.new(A)*(x-z)*CFrame.new(B)end)end,function
-()if n then n:Disconnect()n=nil end local q=h.character if q then local r=q:
+()if m then m:Disconnect()m=nil end local q=h.character if q then local r=q:
 FindFirstChildOfClass'Humanoid'if r then r.PlatformStand=false end local s=q:
 FindFirstChild'Head'if s then s.Anchored=false end end end local t,u=function()
-if h.method=='cframe'then r()else q()end end,function()h.flying=false o()if n
+if h.method=='cframe'then r()else q()end end,function()h.flying=false n()if m
 then s()end local t=workspace.CurrentCamera if t then t.CameraType=Enum.
 CameraType.Custom end end function h:fly()if not self.character then return end
 if self.flying then self:flyMethod(self.method)else t()end end function h:
@@ -963,8 +1050,8 @@ flyMethod(v)self.method=v u()task.wait()t()end function h:flyStop()u()end
 function h:flyToggle()if self.flying then u()else t()end end function h:setSpeed
 (v)if self.method=='cframe'then self.cFlySpeed=v elseif self.method=='vehicle'
 then self.vehicleFlySpeed=v else self.flySpeed=v end end return h end function a
-.V()local c=a.cache.V if not c then c={c=b()}a.cache.V=c end return c.c end end
-do local b=function()local b=a.V()return{Name='cframefly',Aliases={'cfly'},
+._()local c=a.cache._ if not c then c={c=b()}a.cache._=c end return c.c end end
+do local b=function()local b=a._()return{Name='cframefly',Aliases={'cfly'},
 InverseAliases={'uncframefly','nocframefly'},Description=
 'Toggle CFrame-based fly (no physics).',Group='DefaultDebug',Args={},ClientRun=
 function(c)if c:isInvertedCall()then if not b.flying or b.method~='cframe'then
@@ -972,16 +1059,43 @@ return'CFrame fly already disabled.'end b:flyStop()b.method='velocity'return
 'CFrame fly disabled.'end local d=c.Executor.Character if not d then return
 "You don't have a character."end b.character=d if b.flying and b.method==
 'cframe'then b:flyStop()b.method='velocity'return'CFrame fly disabled.'end b:
-flyMethod'cframe'return'CFrame fly enabled.'end}end function a.W()local c=a.
-cache.W if not c then c={c=b()}a.cache.W=c end return c.c end end do local b=
+flyMethod'cframe'return'CFrame fly enabled.'end}end function a.aa()local c=a.
+cache.aa if not c then c={c=b()}a.cache.aa=c end return c.c end end do local b=
+function()local b=a.a()local c,d,e,f=b.Players,b.CoreGui,false,{}local g,h,i=c.
+LocalPlayer,function()for g,h in pairs(f)do for i,j in ipairs(h)do pcall(
+function()j:Disconnect()end)end end table.clear(f)for g,h in ipairs(d:
+GetChildren())do if h.Name:find'_CHMS$'then h:Destroy()end end e=false end,
+function(g)for h,i in ipairs(d:GetChildren())do if i.Name==g.Name..'_CHMS'then
+return i end end return nil end local j=function(j)if j==g then return end if
+not j.Character then return end local k=i(j)if not k then k=Instance.new'Folder'
+k.Name=j.Name..'_CHMS'k.Parent=d end for l,m in ipairs(j.Character:
+GetDescendants())do if m:IsA'BasePart'and m.Name~='HumanoidRootPart'then local n
+=Instance.new'BoxHandleAdornment'n.Name=j.Name n.Adornee=m n.AlwaysOnTop=true n.
+ZIndex=10 n.Size=m.Size n.Transparency=0.3 n.Color=j.TeamColor n.Parent=k end
+end end local k=function(k)local l={}f[k]=l local m=function()local m=i(k)if m
+then m:Destroy()end if e then task.wait(0.3)j(k)end end table.insert(l,k.
+CharacterAdded:Connect(m))table.insert(l,k:GetPropertyChangedSignal'TeamColor':
+Connect(function()if e then local n=i(k)if n then for o,q in ipairs(n:
+GetChildren())do if q:IsA'BoxHandleAdornment'then q.Color=k.TeamColor end end
+end end end))if k.Character then j(k)end end return{Name='chams',Aliases={},
+InverseAliases={'unchams','nochams'},Description=
+'Toggle chams (BoxHandleAdornment overlay on all players).',Group='DefaultDebug'
+,Args={},ClientRun=function(l)if l:isInvertedCall()then if not e then return
+'Chams already disabled.'end h()return'Chams disabled.'end if e then h()task.
+wait()end e=true for m,n in ipairs(c:GetPlayers())do if not f[n]then k(n)else j(
+n)end end if not f.PlayerAdded then local m=c.PlayerAdded:Connect(function(m)k(m
+)end)f.PlayerAdded={m}end if not f.PlayerRemoving then local m=c.PlayerRemoving:
+Connect(function(m)local n=i(m)if n then n:Destroy()end f[m]=nil end)f.
+PlayerRemoving={m}end return'Chams enabled.'end}end function a.ab()local c=a.
+cache.ab if not c then c={c=b()}a.cache.ab=c end return c.c end end do local b=
 function()return{Name='chardelete',Aliases={'cd'},Description=
 "Delete a player's character.",Group='DefaultDebug',Args={{Type='player',Name=
 'target',Description='The player whose character to delete'}},ClientRun=function
 (b,c)local d=c.Character if not d then return'Target has no character.'end local
 e=d:FindFirstChildWhichIsA'Humanoid'if e then e:Destroy()end d:Destroy()return(
-"Deleted %s's character."):format(c.Name)end}end function a.X()local c=a.cache.X
-if not c then c={c=b()}a.cache.X=c end return c.c end end do local b=function()
-return{Name='charscale',Aliases={'scale'},Description=
+"Deleted %s's character."):format(c.Name)end}end function a.ac()local c=a.cache.
+ac if not c then c={c=b()}a.cache.ac=c end return c.c end end do local b=
+function()return{Name='charscale',Aliases={'scale'},Description=
 'Scale your character size (0.1-10).',Group='DefaultDebug',Args={{Type='number',
 Name='scale',Description='Scale factor (default: 1)',Default=1}},ClientRun=
 function(b,c)local d=b.Executor.Character if not d then return
@@ -990,18 +1104,18 @@ not e then return'No humanoid found.'end local f=e.RootPart if not f then return
 'No root part found.'end c=math.clamp(c,0.1,10)local g=f.CFrame f.Size=f.Size*c
 for h,i in ipairs(d:GetDescendants())do if i:IsA'BasePart'and i~=f then local j=
 g:ToObjectSpace(i.CFrame)i.Size=i.Size*c i.CFrame=g*CFrame.new(j.Position*c)*j.
-Rotation end end return('Character scaled to %g.'):format(c)end}end function a.Y
-()local c=a.cache.Y if not c then c={c=b()}a.cache.Y=c end return c.c end end do
-local b=function()local b,c=a.a(),game:GetService'ReplicatedStorage'return{Name=
-'chat',Aliases={'say'},Description='Send a chat message.',Group='DefaultDebug',
-Args={{Type='string',Name='message',Description='The message to send'}},
-ClientRun=function(d,e)if b.TextChatService.ChatVersion==Enum.ChatVersion.
-TextChatService then local f=b.TextChatService:FindFirstChild'RBXGeneral'if f
-then f:SendAsync(e)end else local f=c:FindFirstChild
+Rotation end end return('Character scaled to %g.'):format(c)end}end function a.
+ad()local c=a.cache.ad if not c then c={c=b()}a.cache.ad=c end return c.c end
+end do local b=function()local b,c=a.a(),game:GetService'ReplicatedStorage'
+return{Name='chat',Aliases={'say'},Description='Send a chat message.',Group=
+'DefaultDebug',Args={{Type='string',Name='message',Description=
+'The message to send'}},ClientRun=function(d,e)if b.TextChatService.ChatVersion
+==Enum.ChatVersion.TextChatService then local f=b.TextChatService:FindFirstChild
+'RBXGeneral'if f then f:SendAsync(e)end else local f=c:FindFirstChild
 'DefaultChatSystemChatEvents'if f then local g=f:FindFirstChild
 'SayMessageRequest'if g then g:FireServer(e,'All')end end end return(
-'Message sent: %s'):format(e)end}end function a.Z()local c=a.cache.Z if not c
-then c={c=b()}a.cache.Z=c end return c.c end end do local b=function()return{
+'Message sent: %s'):format(e)end}end function a.ae()local c=a.cache.ae if not c
+then c={c=b()}a.cache.ae=c end return c.c end end do local b=function()return{
 Name='clearchar',Aliases={'clearcharappearance'},Description=
 'Clear all character accessories and clothing.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character if not c then return
@@ -1010,13 +1124,13 @@ if f:IsA'Accessory'or f:IsA'Hat'or f:IsA'Shirt'or f:IsA'Pants'or f:IsA
 'ShirtGraphic'then f:Destroy()d=d+1 end end local e=c:FindFirstChild'Head'if e
 then for f,g in ipairs(e:GetChildren())do if g:IsA'SpecialMesh'or g:IsA'Decal'
 then if g.Name~='face'then g:Destroy()d=d+1 end end end end return(
-'Cleared %d item(s).'):format(d)end}end function a._()local c=a.cache._ if not c
-then c={c=b()}a.cache._=c end return c.c end end do local b=function()return{
+'Cleared %d item(s).'):format(d)end}end function a.af()local c=a.cache.af if not
+c then c={c=b()}a.cache.af=c end return c.c end end do local b=function()return{
 Name='clearwaypoints',Aliases={'cwp','clearpositions','clearpos'},Description=
 'Delete all saved waypoints.',Group='DefaultDebug',Args={},ClientRun=function(b)
 local c,d=b:getStore'Waypoints',0 for e,f in c do c[e]=nil d=d+1 end return(
-'Cleared %d waypoint(s).'):format(d)end}end function a.aa()local c=a.cache.aa if
-not c then c={c=b()}a.cache.aa=c end return c.c end end do local b=function()
+'Cleared %d waypoint(s).'):format(d)end}end function a.ag()local c=a.cache.ag if
+not c then c={c=b()}a.cache.ag=c end return c.c end end do local b=function()
 local b=a.a()local c,d,e=b.UserInputService,false return{Name='clickdelete',
 Aliases={},Description=
 [[Toggle click-delete mode. Hold LeftAlt and click to delete parts.]],Group=
@@ -1026,8 +1140,8 @@ function(f,g)if g then return end if f.UserInputType~=Enum.UserInputType.
 MouseButton1 then return end if not c:IsKeyDown(Enum.KeyCode.LeftAlt)then return
 end local h=game:GetService'Players'.LocalPlayer:GetMouse()local i=h.Target if i
 then local j=i:IsA'BasePart'and i or i.Parent if j then j:Destroy()end end end)
-return'Click-delete enabled (hold LeftAlt + click).'end}end function a.ab()local
-c=a.cache.ab if not c then c={c=b()}a.cache.ab=c end return c.c end end do local
+return'Click-delete enabled (hold LeftAlt + click).'end}end function a.ah()local
+c=a.cache.ah if not c then c={c=b()}a.cache.ah=c end return c.c end end do local
 b=function()local b,c,d=game:GetService'UserInputService',false return{Name=
 'clickteleport',Aliases={'ctp'},InverseAliases={'unclickteleport','noctp'},
 Description='Toggle click-teleport (click anywhere to teleport there).',Group=
@@ -1039,19 +1153,19 @@ InputBegan:Connect(function(g,h)if h then return end if g.UserInputType~=Enum.
 UserInputType.MouseButton1 then return end local i=e.Executor.Character if not i
 then return end local j=i:FindFirstChildWhichIsA'Humanoid'local k=j and j.
 RootPart if k then k.CFrame=CFrame.new(f.Hit.p)end end)c=true return
-'Click-TP enabled.'end}end function a.ac()local c=a.cache.ac if not c then c={c=
-b()}a.cache.ac=c end return c.c end end do local b=function()local b=a.a()local
+'Click-TP enabled.'end}end function a.ai()local c=a.cache.ai if not c then c={c=
+b()}a.cache.ai=c end return c.c end end do local b=function()local b=a.a()local
 c=b.StarterGui return{Name='console',Aliases={},Description=
 'Toggle the Roblox developer console (F9).',Group='DefaultDebug',Args={},
 ClientRun=function()local d=c:GetCore'DevConsoleVisible'c:SetCore(
 'DevConsoleVisible',not d)return d and'Console closed.'or'Console opened.'end}
-end function a.ad()local c=a.cache.ad if not c then c={c=b()}a.cache.ad=c end
+end function a.aj()local c=a.cache.aj if not c then c={c=b()}a.cache.aj=c end
 return c.c end end do local b=function()return{Name='copyname',Aliases={
 'copyuser'},Description="Copy a player's name. Usage: copyname <player>",Group=
 'DefaultDebug',Args={{Type='player',Name='target',Description=
 'The player to copy the name of'}},ClientRun=function(b,c)pcall(setclipboard,c.
-Name)return("Copied %s's name."):format(c.Name)end}end function a.ae()local c=a.
-cache.ae if not c then c={c=b()}a.cache.ae=c end return c.c end end do local b=
+Name)return("Copied %s's name."):format(c.Name)end}end function a.ak()local c=a.
+cache.ak if not c then c={c=b()}a.cache.ak=c end return c.c end end do local b=
 function()return{Name='copytools',Aliases={},Description=
 'Copy all tools from a player.',Group='DefaultDebug',Args={{Type='player',Name=
 'target',Description='The player to copy tools from'}},ClientRun=function(b,c)
@@ -1062,8 +1176,8 @@ local g=0 for h,i in ipairs(e:GetChildren())do if i:IsA'Tool'then i.Archivable=
 true local j=i:Clone()j.Parent=d g=g+1 end end local h=c:FindFirstChild
 'Backpack'if h then for i,j in ipairs(h:GetChildren())do if j:IsA'Tool'then j.
 Archivable=true local k=j:Clone()k.Parent=d g=g+1 end end end return(
-'Copied %d tool(s) from %s.'):format(g,c.Name)end}end function a.af()local c=a.
-cache.af if not c then c={c=b()}a.cache.af=c end return c.c end end do local b=
+'Copied %d tool(s) from %s.'):format(g,c.Name)end}end function a.al()local c=a.
+cache.al if not c then c={c=b()}a.cache.al=c end return c.c end end do local b=
 function()local b,c,d={'27789359','30196114','248263260','45834924','33796059',
 '28488254','52155728'},{'3333432454','4555808220','4049037604','4555782893',
 '10214311282','10714010337','10713981723','10714372526','10714076981',
@@ -1076,25 +1190,25 @@ Character if not f then return"You don't have a character."end local g=f:
 FindFirstChildWhichIsA'Humanoid'if not g then return'No humanoid found.'end
 local h=g.RigType==Enum.HumanoidRigType.R15 and c or b local i,j=h[math.random(#
 h)],Instance.new'Animation'j.AnimationId='rbxassetid://'..i d=g:LoadAnimation(j)
-d.Looped=true d:Play()return'Dancing!'end}end function a.ag()local c=a.cache.ag
-if not c then c={c=b()}a.cache.ag=c end return c.c end end do local b=function()
+d.Looped=true d:Play()return'Dancing!'end}end function a.am()local c=a.cache.am
+if not c then c={c=b()}a.cache.am=c end return c.c end end do local b=function()
 return{Name='datalimit',Aliases={},Description=
 [[Set outgoing KBPS data limit. Usage: datalimit <kbps> | datalimit (disables)]]
 ,Group='DefaultDebug',Args={{Type='number',Name='kbps',Description=
 'Outgoing data limit in KB/s',Optional=true}},ClientRun=function(b,c)local d,e=
 game:GetService'NetworkClient',c or 0 d:SetOutgoingKBPSLimit(e)if e>0 then
 return('Data limit set to %d KB/s.'):format(e)end return'Data limit disabled.'
-end}end function a.ah()local c=a.cache.ah if not c then c={c=b()}a.cache.ah=c
+end}end function a.an()local c=a.cache.an if not c then c={c=b()}a.cache.an=c
 end return c.c end end do local b=function()local b=a.a()local c=b.Lighting
 return{Name='day',Aliases={},Description='Set lighting to daytime.',Group=
 'DefaultDebug',Args={},ClientRun=function()c.ClockTime=12 return
-'Time set to day (12:00).'end}end function a.ai()local c=a.cache.ai if not c
-then c={c=b()}a.cache.ai=c end return c.c end end do local b=function()local b=a
+'Time set to day (12:00).'end}end function a.ao()local c=a.cache.ao if not c
+then c={c=b()}a.cache.ao=c end return c.c end end do local b=function()local b=a
 .a()local c=b.Players return{Name='delete',Aliases={'del','remove'},Description=
 "Delete the object you're looking at.",Group='DefaultDebug',Args={},ClientRun=
 function()local d=c.LocalPlayer:GetMouse()local e=d.Target if not e then return
 'No object targeted.'end local f=e.Name e:Destroy()return('Deleted %s.'):format(
-f)end}end function a.aj()local c=a.cache.aj if not c then c={c=b()}a.cache.aj=c
+f)end}end function a.ap()local c=a.cache.ap if not c then c={c=b()}a.cache.ap=c
 end return c.c end end do local b=function()return{Name='deletewaypoint',Aliases
 ={'dwp','deleteposition','deletepos'},Description='Delete a saved waypoint.',
 Group='DefaultDebug',Args={{Type={Transform=function(b)return b end,Validate=
@@ -1104,21 +1218,21 @@ table.insert(e,g.name)end return e end},Name='name',Description=
 'Name of the waypoint to delete'}},ClientRun=function(b,c)local d,e=b:getStore
 'Waypoints',c:lower()local f=d[e]if not f then return('Waypoint "%s" not found.'
 ):format(c)end d[e]=nil return('Deleted waypoint "%s".'):format(f.name)end}end
-function a.ak()local c=a.cache.ak if not c then c={c=b()}a.cache.ak=c end return
+function a.aq()local c=a.cache.aq if not c then c={c=b()}a.cache.aq=c end return
 c.c end end do local b=function()return{Name='drophats',Aliases={'drophat'},
 Description='Drop all worn hats/accessories.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=0 for e,f in ipairs(c:GetChildren())do
 if f:IsA'Accessory'or f:IsA'Hat'then f.Parent=workspace d=d+1 end end return(
-'Dropped %d hat(s).'):format(d)end}end function a.al()local c=a.cache.al if not
-c then c={c=b()}a.cache.al=c end return c.c end end do local b=function()return{
+'Dropped %d hat(s).'):format(d)end}end function a.ar()local c=a.cache.ar if not
+c then c={c=b()}a.cache.ar=c end return c.c end end do local b=function()return{
 Name='droptools',Aliases={},Description='Drop all held tools.',Group=
 'DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character if not
 c then return"You don't have a character."end local d=c:FindFirstChildWhichIsA
 'Humanoid'if not d then return'No humanoid found.'end local e=0 for f,g in
 ipairs(c:GetChildren())do if g:IsA'Tool'then d:UnequipTools()g.Parent=workspace
-e=e+1 end end return('Dropped %d tool(s).'):format(e)end}end function a.am()
-local c=a.cache.am if not c then c={c=b()}a.cache.am=c end return c.c end end do
+e=e+1 end end return('Dropped %d tool(s).'):format(e)end}end function a.as()
+local c=a.cache.as if not c then c={c=b()}a.cache.as=c end return c.c end end do
 local b=function()local b=a.a()local c,d,e=b.RunService,(b.Workspace)return{Name
 ='edgejump',Aliases={'ejump'},InverseAliases={'unedgejump','noejump'},
 Description='Toggle auto-jump at edges (jumps when about to walk off).',Group=
@@ -1129,9 +1243,9 @@ then return'Edge jump already disabled.'end e:Disconnect()e=nil return
 Character if not g then return end local h=g:FindFirstChildWhichIsA'Humanoid'if
 not h then return end local i=h.RootPart if not i then return end if h.
 MoveDirection.Magnitude==0 then return end local j,k=i.Position-Vector3.new(0,2,
-0),i.CFrame.LookVector*4 local m=d:Raycast(j,k)if not m then h.Jump=true end end
-)return'Edge jump enabled.'end}end function a.an()local c=a.cache.an if not c
-then c={c=b()}a.cache.an=c end return c.c end end do local b=function()local b
+0),i.CFrame.LookVector*4 local l=d:Raycast(j,k)if not l then h.Jump=true end end
+)return'Edge jump enabled.'end}end function a.at()local c=a.cache.at if not c
+then c={c=b()}a.cache.at=c end return c.c end end do local b=function()local b
 local c=function(c,...)local d=b b=nil c(...)b=d end local d,e=function()while
 true do c(coroutine.yield())end end,{}e.__index=e function e.new(f,g)return
 setmetatable({_connected=true,_signal=f,_fn=g,_next=false},e)end function e:
@@ -1155,9 +1269,9 @@ h=self:Connect(function(...)if h._connected then h:Disconnect()end g(...)end)
 return h end setmetatable(f,{__index=function(g,h)error((
 'Attempt to get Signal::%s (not a valid member)'):format(tostring(h)),2)end,
 __newindex=function(g,h)error(('Attempt to set Signal::%s (not a valid member)')
-:format(tostring(h)),2)end})return f end function a.ao()local c=a.cache.ao if
-not c then c={c=b()}a.cache.ao=c end return c.c end end do local b=function()
-local b,c=a.ao(),{'neutral','friendly','enemy','local','target'}local d=function
+:format(tostring(h)),2)end})return f end function a.au()local c=a.cache.au if
+not c then c={c=b()}a.cache.au=c end return c.c end end do local b=function()
+local b,c=a.au(),{'neutral','friendly','enemy','local','target'}local d=function
 ()return{Enabled=false,ShowEnemies=true,ShowFriendlies=true,ShowNeutral=true,
 ShowLocal=false,ShowTarget=true,TeamCheck=false,UseTeamColors=false,MaxDistance=
 2500,UseDisplayName=false,LimitFPS=0,Features={box=true,['box fill']=false,name=
@@ -1200,7 +1314,7 @@ UniversalColors={neutral=Color3.fromRGB(255,255,255),friendly=Color3.fromRGB(120
 HighlightBehindWalls=true,HighlightTransparency=0.9,HighlightOutlineColor=Color3
 .fromRGB(255,255,255),HighlightOutlineTransparency=0.2,DynamicBoxes=true,
 DynamicBoxesCheap=true,DynamicBoxesIncludeAll=false,Changed=b.new()}end return{
-create=d}end function a.ap()local c=a.cache.ap if not c then c={c=b()}a.cache.ap
+create=d}end function a.av()local c=a.cache.av if not c then c={c=b()}a.cache.av
 =c end return c.c end end do local b=function()local b,c,d,e={'box fill',
 'health bar','health text','tool text','box','name','distance','highlight'},{
 'on','off','feature','useteamcolors','maxdistance','teamcheck','showenemies',
@@ -1209,8 +1323,8 @@ create=d}end function a.ap()local c=a.cache.ap if not c then c={c=b()}a.cache.ap
 'showlocal'},function(b,c)local d,e={},b:lower()for f,g in c do if g:lower():
 find(e,1,true)then if g:lower()==e then table.insert(d,1,g)else d[#d+1]=g end
 end end return d end local f,g,h=function(f,g)for h,i in b do local j={}for k in
-i:gmatch'%S+'do j[#j+1]=k:lower()end if g+#j-1<=#f then local k=true for m=1,#j
-do if f[g+m-1]:lower()~=j[m]then k=false break end end if k then return i,g+#j
+i:gmatch'%S+'do j[#j+1]=k:lower()end if g+#j-1<=#f then local k=true for l=1,#j
+do if f[g+l-1]:lower()~=j[l]then k=false break end end if k then return i,g+#j
 end end end return nil,g end,function(f)local g={}for h in f:gmatch'%S+'do g[#g+
 1]=h end return g end,{on=true,off=false,['true']=true,['false']=false,yes=true,
 no=false,enable=true,enabled=true,disable=false,disabled=false,['1']=true,['0']=
@@ -1223,8 +1337,8 @@ format('Show Enemies: %s',i.ShowEnemies and'Yes'or'No'))table.insert(j,string.
 format('Show Friendlies: %s',i.ShowFriendlies and'Yes'or'No'))table.insert(j,
 string.format('Show Neutral: %s',i.ShowNeutral and'Yes'or'No'))table.insert(j,
 string.format('Show Local: %s',i.ShowLocal and'Yes'or'No'))table.insert(j,'')
-table.insert(j,'Features:')for k,m in b do local n=i.Features[m]or false table.
-insert(j,string.format('  %s: %s',m,n and'Yes'or'No'))end table.insert(j,'')
+table.insert(j,'Features:')for k,l in b do local m=i.Features[l]or false table.
+insert(j,string.format('  %s: %s',l,m and'Yes'or'No'))end table.insert(j,'')
 table.insert(j,'Usage: esp <subcommand> [args]')table.insert(j,
 [[Subcommands: on, off, toggle, feature, useteamcolors, maxdistance,]])table.
 insert(j,
@@ -1236,56 +1350,56 @@ k:lower()end,Validate=function(k)return true end,Autocomplete=function(k)return
 e(k,c)end,Parse=function(k)return k end},Name='action',Description=
 'Subcommand: on, off, feature, useteamcolors, etc.',Optional=true},{Type={
 DisplayName='value',Transform=function(k)return k end,Validate=function(k)return
-true end,Autocomplete=function(k,m)if not m or not m.Command then return{}end
-local n=m.Command.RawArguments local o,p,q=n and n[1]and n[1]:lower()or'',{},
-false for r,s in d do if o==s then p={'on','off'}q=true break end end if q then
-return e(k,p)end if o=='feature'then for r,s in b do p[#p+1]=s end p[#p+1]='on'p
-[#p+1]='off'return e(k,p)end return{}end,Parse=function(k)return k end},Name=
+true end,Autocomplete=function(k,l)if not l or not l.Command then return{}end
+local m=l.Command.RawArguments local n,o,q=m and m[1]and m[1]:lower()or'',{},
+false for r,s in d do if n==s then o={'on','off'}q=true break end end if q then
+return e(k,o)end if n=='feature'then for r,s in b do o[#o+1]=s end o[#o+1]='on'o
+[#o+1]='off'return e(k,o)end return{}end,Parse=function(k)return k end},Name=
 'value',Description='Additional arguments for the subcommand',Optional=true,
-Default=''}},ClientRun=function(k,m,n)local o=k.CoCo.ESP if not o then return
-'ESP not loaded.'end if not m then o.Enabled=not o.Enabled o.Changed:Fire()
-return'ESP '..(o.Enabled and'enabled'or'disabled')..'.'end local p,q=m:lower(),
-g(n or'')if p=='on'then o.Enabled=true o.Changed:Fire()return'ESP enabled.'
-elseif p=='off'then o.Enabled=false o.Changed:Fire()return'ESP disabled.'elseif
-p=='feature'then if#q==0 then local r,s={},{}for t,u in b do if o.Features[u]
+Default=''}},ClientRun=function(k,l,m)local n=k.CoCo.ESP if not n then return
+'ESP not loaded.'end if not l then n.Enabled=not n.Enabled n.Changed:Fire()
+return'ESP '..(n.Enabled and'enabled'or'disabled')..'.'end local o,q=l:lower(),
+g(m or'')if o=='on'then n.Enabled=true n.Changed:Fire()return'ESP enabled.'
+elseif o=='off'then n.Enabled=false n.Changed:Fire()return'ESP disabled.'elseif
+o=='feature'then if#q==0 then local r,s={},{}for t,u in b do if n.Features[u]
 then r[#r+1]=u else s[#s+1]=u end end table.sort(r)table.sort(s)return string.
 format('Enabled: %s\nDisabled: %s',#r>0 and table.concat(r,', ')or'none',#s>0
 and table.concat(s,', ')or'none')end local r,s=f(q,1)if not r then return string
 .format('Unknown feature. Valid: %s',table.concat(b,', '))end if s<=#q then
-local t=i(q[s])if t~=nil then o.Features[r]=t else return string.format(
-'Invalid state %q. Use on or off.',q[s])end else o.Features[r]=not o.Features[r]
-end o.Changed:Fire()return string.format('ESP %s: %s',r,o.Features[r]and
-'enabled'or'disabled')elseif p=='useteamcolors'then if#q>0 then local r=i(q[1])
-if r~=nil then o.UseTeamColors=r else return'Usage: esp useteamcolors [on|off]'
-end else o.UseTeamColors=not o.UseTeamColors end o.Changed:Fire()return string.
-format('ESP team colors: %s',o.UseTeamColors and'enabled'or'disabled')elseif p==
-'maxdistance'then if#q==0 then return string.format('Max distance: %d',o.
+local t=i(q[s])if t~=nil then n.Features[r]=t else return string.format(
+'Invalid state %q. Use on or off.',q[s])end else n.Features[r]=not n.Features[r]
+end n.Changed:Fire()return string.format('ESP %s: %s',r,n.Features[r]and
+'enabled'or'disabled')elseif o=='useteamcolors'then if#q>0 then local r=i(q[1])
+if r~=nil then n.UseTeamColors=r else return'Usage: esp useteamcolors [on|off]'
+end else n.UseTeamColors=not n.UseTeamColors end n.Changed:Fire()return string.
+format('ESP team colors: %s',n.UseTeamColors and'enabled'or'disabled')elseif o==
+'maxdistance'then if#q==0 then return string.format('Max distance: %d',n.
 MaxDistance)end local r=tonumber(q[1])if not r or r<0 then return
-'Usage: esp maxdistance <number>'end o.MaxDistance=r o.Changed:Fire()return
-string.format('ESP max distance set to %d',r)elseif p=='teamcheck'then if#q>0
-then local r=i(q[1])if r~=nil then o.TeamCheck=r else return
-'Usage: esp teamcheck [on|off]'end else o.TeamCheck=not o.TeamCheck end o.
-Changed:Fire()return string.format('ESP team check: %s',o.TeamCheck and'on'or
-'off')elseif p=='showenemies'then if#q>0 then local r=i(q[1])if r~=nil then o.
-ShowEnemies=r else return'Usage: esp showenemies [on|off]'end else o.ShowEnemies
-=not o.ShowEnemies end o.Changed:Fire()return string.format(
-'ESP show enemies: %s',o.ShowEnemies and'on'or'off')elseif p=='showfriendlies'
-then if#q>0 then local r=i(q[1])if r~=nil then o.ShowFriendlies=r else return
-'Usage: esp showfriendlies [on|off]'end else o.ShowFriendlies=not o.
-ShowFriendlies end o.Changed:Fire()return string.format(
-'ESP show friendlies: %s',o.ShowFriendlies and'on'or'off')elseif p==
-'showneutral'then if#q>0 then local r=i(q[1])if r~=nil then o.ShowNeutral=r else
-return'Usage: esp showneutral [on|off]'end else o.ShowNeutral=not o.ShowNeutral
-end o.Changed:Fire()return string.format('ESP show neutral: %s',o.ShowNeutral
-and'on'or'off')elseif p=='showlocal'then if#q>0 then local r=i(q[1])if r~=nil
-then o.ShowLocal=r else return'Usage: esp showlocal [on|off]'end else o.
-ShowLocal=not o.ShowLocal end o.Changed:Fire()return string.format(
-'ESP show local: %s',o.ShowLocal and'on'or'off')elseif p=='list'or p=='status'
-then return j(o)elseif p=='reset'then local r=a.ap()local s=r.create()for t,u in
-pairs(s)do if t~='Changed'then o[t]=u end end o.Changed:Fire()return
+'Usage: esp maxdistance <number>'end n.MaxDistance=r n.Changed:Fire()return
+string.format('ESP max distance set to %d',r)elseif o=='teamcheck'then if#q>0
+then local r=i(q[1])if r~=nil then n.TeamCheck=r else return
+'Usage: esp teamcheck [on|off]'end else n.TeamCheck=not n.TeamCheck end n.
+Changed:Fire()return string.format('ESP team check: %s',n.TeamCheck and'on'or
+'off')elseif o=='showenemies'then if#q>0 then local r=i(q[1])if r~=nil then n.
+ShowEnemies=r else return'Usage: esp showenemies [on|off]'end else n.ShowEnemies
+=not n.ShowEnemies end n.Changed:Fire()return string.format(
+'ESP show enemies: %s',n.ShowEnemies and'on'or'off')elseif o=='showfriendlies'
+then if#q>0 then local r=i(q[1])if r~=nil then n.ShowFriendlies=r else return
+'Usage: esp showfriendlies [on|off]'end else n.ShowFriendlies=not n.
+ShowFriendlies end n.Changed:Fire()return string.format(
+'ESP show friendlies: %s',n.ShowFriendlies and'on'or'off')elseif o==
+'showneutral'then if#q>0 then local r=i(q[1])if r~=nil then n.ShowNeutral=r else
+return'Usage: esp showneutral [on|off]'end else n.ShowNeutral=not n.ShowNeutral
+end n.Changed:Fire()return string.format('ESP show neutral: %s',n.ShowNeutral
+and'on'or'off')elseif o=='showlocal'then if#q>0 then local r=i(q[1])if r~=nil
+then n.ShowLocal=r else return'Usage: esp showlocal [on|off]'end else n.
+ShowLocal=not n.ShowLocal end n.Changed:Fire()return string.format(
+'ESP show local: %s',n.ShowLocal and'on'or'off')elseif o=='list'or o=='status'
+then return j(n)elseif o=='reset'then local r=a.av()local s=r.create()for t,u in
+pairs(s)do if t~='Changed'then n[t]=u end end n.Changed:Fire()return
 'ESP settings reset to defaults.'else return string.format(
-"Unknown subcommand %q. Type 'esp list' for help.",p)end end}end function a.aq()
-local c=a.cache.aq if not c then c={c=b()}a.cache.aq=c end return c.c end end do
+"Unknown subcommand %q. Type 'esp list' for help.",o)end end}end function a.aw()
+local c=a.cache.aw if not c then c={c=b()}a.cache.aw=c end return c.c end end do
 local b=function()return{Name='fakeout',Aliases={},Description=
 [[Teleport to the void and back (detaches players sitting on you).]],Group=
 'DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character if not
@@ -1293,8 +1407,8 @@ c then return"You don't have a character."end local d=c:FindFirstChildWhichIsA
 'Humanoid'if not d then return'No humanoid.'end local e=d.RootPart if not e then
 return'No root part.'end local f,g=e.CFrame,workspace.FallenPartsDestroyHeight
 if g==-math.huge then g=-500 end e.CFrame=CFrame.new(0,g-25,0)task.wait(1)e.
-CFrame=f return'Fakeout complete.'end}end function a.ar()local c=a.cache.ar if
-not c then c={c=b()}a.cache.ar=c end return c.c end end do local b=function()
+CFrame=f return'Fakeout complete.'end}end function a.ax()local c=a.cache.ax if
+not c then c={c=b()}a.cache.ax=c end return c.c end end do local b=function()
 return{Name='fireclickdetectors',Aliases={'firecd'},Description=
 'Fire all ClickDetectors within 50 studs.',Group='DefaultDebug',Args={},
 ClientRun=function()local b=game:GetService'Players'.LocalPlayer local c=b.
@@ -1304,8 +1418,8 @@ FindFirstChildWhichIsA'Humanoid'd=d and d.RootPart if not d then return
 GetDescendants())do if h:IsA'ClickDetector'then local i=h.Parent if i and i:IsA
 'BasePart'then local j=(i.Position-e).Magnitude if j<=50 then h:Click(b:
 GetMouse().Hit.Position,b)f=f+1 end end end end return(
-'Fired %d click detector(s).'):format(f)end}end function a.as()local c=a.cache.
-as if not c then c={c=b()}a.cache.as=c end return c.c end end do local b=
+'Fired %d click detector(s).'):format(f)end}end function a.ay()local c=a.cache.
+ay if not c then c={c=b()}a.cache.ay=c end return c.c end end do local b=
 function()return{Name='fireproximityprompts',Aliases={'firepp'},Description=
 'Fire all ProximityPrompts within range.',Group='DefaultDebug',Args={},ClientRun
 =function()local b=game:GetService'Players'.LocalPlayer local c=b.Character if
@@ -1315,21 +1429,21 @@ for g,h in ipairs(workspace:GetDescendants())do if h:IsA'ProximityPrompt'then
 local i=h.Parent if i and i:IsA'BasePart'then local j=(i.Position-e).Magnitude
 if j<=h.MaxActivationDistance then h:InputHoldBegin()task.wait()h:InputHoldEnd()
 f=f+1 end end end end return('Fired %d proximity prompt(s).'):format(f)end}end
-function a.at()local c=a.cache.at if not c then c={c=b()}a.cache.at=c end return
+function a.az()local c=a.cache.az if not c then c={c=b()}a.cache.az=c end return
 c.c end end do local b=function()return{Name='firstp',Aliases={},Description=
 'Force first-person camera.',Group='DefaultDebug',Args={},ClientRun=function(b)
 local c,d=workspace.CurrentCamera,b.Executor.Character c.CameraType=Enum.
 CameraType.Fixed if d then local e=d:FindFirstChild'Head'if e then c.CFrame=
 CFrame.new(e.Position)end end b.Executor.CameraMode=Enum.CameraMode.
-LockFirstPerson return'First-person enabled.'end}end function a.au()local c=a.
-cache.au if not c then c={c=b()}a.cache.au=c end return c.c end end do local b=
+LockFirstPerson return'First-person enabled.'end}end function a.aA()local c=a.
+cache.aA if not c then c={c=b()}a.cache.aA=c end return c.c end end do local b=
 function()return{Name='fixcam',Aliases={'restorecam'},Description=
 'Reset the camera to default state.',Group='DefaultDebug',Args={},ClientRun=
 function(b)local c,d=workspace.CurrentCamera,b.Executor.Character if d then
 local e=d:FindFirstChildWhichIsA'Humanoid'if e then c.CameraSubject=e end end c.
 CameraType=Enum.CameraType.Custom b.Executor.CameraMinZoomDistance=0.5 b.
-Executor.CameraMaxZoomDistance=400 return'Camera reset.'end}end function a.av()
-local c=a.cache.av if not c then c={c=b()}a.cache.av=c end return c.c end end do
+Executor.CameraMaxZoomDistance=400 return'Camera reset.'end}end function a.aB()
+local c=a.cache.aB if not c then c={c=b()}a.cache.aB=c end return c.c end end do
 local b=function()local b return{Name='flashback',Aliases={'diedtp'},Description
 ='Save position on death, run again to teleport back.',Group='DefaultDebug',Args
 ={},ClientRun=function(c)local d=c.Executor.Character if not d then return
@@ -1338,15 +1452,15 @@ not e then return'No humanoid found.'end local f=e.RootPart if not f then return
 'No root part.'end if b then f.CFrame=b local g=b b=nil return(
 'Teleported to (%.0f, %.0f, %.0f).'):format(g.X,g.Y,g.Z)end b=f.CFrame e.Died:
 Connect(function()b=nil end)return
-'Position saved. Run flashback again to return.'end}end function a.aw()local c=a
-.cache.aw if not c then c={c=b()}a.cache.aw=c end return c.c end end do local b=
+'Position saved. Run flashback again to return.'end}end function a.aC()local c=a
+.cache.aC if not c then c={c=b()}a.cache.aC=c end return c.c end end do local b=
 function()local b=a.a()local c,d,e,f,g=b.RunService,false local h=function(h)d=
 false if g then g:Disconnect()g=nil end if e then e:Disconnect()e=nil end if f
 then f:Destroy()f=nil end local i=h.Executor.Character if i then for j,k in
 ipairs(i:GetDescendants())do if k:IsA'BasePart'then k.CanCollide=true k.Massless
 =false k.CustomPhysicalProperties=PhysicalProperties.new(0.7,0.3,0.5)end end
 local j=i:FindFirstChildWhichIsA'Humanoid'if j then local k=j.RootPart if k then
-for m,n in ipairs(k:GetChildren())do if n.ClassName=='BodyAngularVelocity'then n
+for l,m in ipairs(k:GetChildren())do if m.ClassName=='BodyAngularVelocity'then m
 :Destroy()end end end end end end return{Name='fling',Aliases={},InverseAliases=
 {'unfling','nofling'},Description=
 'Toggle fling (spins you into others at high speed).',Group='DefaultDebug',Args=
@@ -1354,22 +1468,22 @@ for m,n in ipairs(k:GetChildren())do if n.ClassName=='BodyAngularVelocity'then n
 'Fling already disabled.'end h(i)return'Fling disabled.'end if d then h(i)return
 'Fling disabled.'end local j=i.Executor.Character if not j then return
 "You don't have a character."end local k=j:FindFirstChildWhichIsA'Humanoid'if
-not k then return'No humanoid found.'end local m=k.RootPart if not m then return
-'No root part found.'end for n,o in ipairs(j:GetDescendants())do if o:IsA
-'BasePart'then o.CustomPhysicalProperties=PhysicalProperties.new(100,0.3,0.5)end
-end e=c.Stepped:Connect(function()local n=i.Executor.Character if not n then
-return end for o,p in ipairs(n:GetDescendants())do if p:IsA'BasePart'then p.
+not k then return'No humanoid found.'end local l=k.RootPart if not l then return
+'No root part found.'end for m,n in ipairs(j:GetDescendants())do if n:IsA
+'BasePart'then n.CustomPhysicalProperties=PhysicalProperties.new(100,0.3,0.5)end
+end e=c.Stepped:Connect(function()local m=i.Executor.Character if not m then
+return end for n,o in ipairs(m:GetDescendants())do if o:IsA'BasePart'then o.
 CanCollide=false end end end)task.wait(0.1)f=Instance.new'BodyAngularVelocity'f.
-Name='FlingVelocity'f.Parent=m f.AngularVelocity=Vector3.new(0,99999,0)f.
-MaxTorque=Vector3.new(0,math.huge,0)f.P=math.huge for n,o in ipairs(j:
-GetChildren())do if o:IsA'BasePart'then o.CanCollide=false o.Massless=true o.
+Name='FlingVelocity'f.Parent=l f.AngularVelocity=Vector3.new(0,99999,0)f.
+MaxTorque=Vector3.new(0,math.huge,0)f.P=math.huge for m,n in ipairs(j:
+GetChildren())do if n:IsA'BasePart'then n.CanCollide=false n.Massless=true n.
 Velocity=Vector3.new(0,0,0)end end d=true g=k.Died:Connect(function()d=false if
 f then f:Destroy()f=nil end if e then e:Disconnect()e=nil end if g then g:
 Disconnect()g=nil end end)task.spawn(function()while d do if f then f.
 AngularVelocity=Vector3.new(0,99999,0)end task.wait(0.2)if f then f.
 AngularVelocity=Vector3.new(0,0,0)end task.wait(0.1)end end)return
-'Fling enabled.'end}end function a.ax()local c=a.cache.ax if not c then c={c=b()
-}a.cache.ax=c end return c.c end end do local b=function()local b=a.a()local c,d
+'Fling enabled.'end}end function a.aD()local c=a.cache.aD if not c then c={c=b()
+}a.cache.aD=c end return c.c end end do local b=function()local b=a.a()local c,d
 ,e,f,g=b.RunService,b.Workspace,false local h=function()e=false if g then g:
 Disconnect()g=nil end if f then f:Destroy()f=nil end end return{Name='float',
 Aliases={'platform'},InverseAliases={'unfloat','nofloat'},Description=
@@ -1381,11 +1495,11 @@ ClientRun=function(i)if i:isInvertedCall()then if not e then return
 Size=Vector3.new(4,0.5,4)f.Transparency=0.5 f.CanCollide=true f.Material=Enum.
 Material.Neon f.Color=Color3.fromRGB(100,200,255)f.Anchored=true f.Parent=d e=
 true g=c.RenderStepped:Connect(function()if not e then return end local k=i.
-Executor.Character if not k then return end local m=k:FindFirstChildWhichIsA
-'Humanoid'if not m then return end local n=m.RootPart if not n then return end
-local o=n.Position f.CFrame=CFrame.new(o.X,o.Y-3,o.Z)end)return'Float enabled.'
-end}end function a.ay()local c=a.cache.ay if not c then c={c=b()}a.cache.ay=c
-end return c.c end end do local b=function()local b=a.V()return{Name='fly',
+Executor.Character if not k then return end local l=k:FindFirstChildWhichIsA
+'Humanoid'if not l then return end local m=l.RootPart if not m then return end
+local n=m.Position f.CFrame=CFrame.new(n.X,n.Y-3,n.Z)end)return'Float enabled.'
+end}end function a.aE()local c=a.cache.aE if not c then c={c=b()}a.cache.aE=c
+end return c.c end end do local b=function()local b=a._()return{Name='fly',
 Aliases={'f'},InverseAliases={'unfly','nofly'},Description=
 'Toggle fly with WASD (and QE).',Group='DefaultDebug',Args={},ClientRun=function
 (c)if c:isInvertedCall()then if not b.flying or b.method~='velocity'then return
@@ -1393,15 +1507,15 @@ Aliases={'f'},InverseAliases={'unfly','nofly'},Description=
 Executor.Character if not d then return"You don't have a character."end b.
 character=d if b.flying and b.method=='velocity'then b:flyStop()return
 'Fly disabled.'end b:flyMethod'velocity'return'Fly enabled.'end}end function a.
-az()local c=a.cache.az if not c then c={c=b()}a.cache.az=c end return c.c end
-end do local b=function()local b=a.V()return{Name='flyspeed',Aliases={'flysp'},
+aF()local c=a.cache.aF if not c then c={c=b()}a.cache.aF=c end return c.c end
+end do local b=function()local b=a._()return{Name='flyspeed',Aliases={'flysp'},
 Description='Get or set fly speed. Usage: flyspeed <speed>',Group='DefaultDebug'
 ,Args={{Type='number',Name='speed',Description='Fly speed',Optional=true}},
 ClientRun=function(c,d)if d then b:setSpeed(d)return('Fly speed set to %d.'):
 format(d)end local e=b.method=='cframe'and b.cFlySpeed or b.method=='vehicle'and
 b.vehicleFlySpeed or b.flySpeed return('Current fly speed: %d (%s).'):format(e,b
-.method)end}end function a.aA()local c=a.cache.aA if not c then c={c=b()}a.cache
-.aA=c end return c.c end end do local b=function()local b=a.a()local c,d=(b.
+.method)end}end function a.aG()local c=a.cache.aG if not c then c={c=b()}a.cache
+.aG=c end return c.c end end do local b=function()local b=a.a()local c,d=(b.
 RunService)return{Name='fov',Aliases={},Description=
 'Set a custom FOV. Resets when toggled off.',Group='DefaultDebug',Args={{Type=
 'number',Name='value',Description='FOV value (e.g. 120) or blank to toggle off',
@@ -1409,7 +1523,7 @@ Optional=true}},ClientRun=function(e,f)if not f or f<=0 then if d then d:
 Disconnect()d=nil end return'FOV override disabled.'end if d then d:Disconnect()
 end d=c.RenderStepped:Connect(function()local g=workspace.CurrentCamera if g
 then g.FieldOfView=f end end)return('FOV set to %d.'):format(f)end}end function
-a.aB()local c=a.cache.aB if not c then c={c=b()}a.cache.aB=c end return c.c end
+a.aH()local c=a.cache.aH if not c then c={c=b()}a.cache.aH=c end return c.c end
 end do local b=function()local b=a.a()local c,d,e,f,g,h=b.Players,b.RunService,{
 }return{Name='fps',Aliases={'fpscounter'},InverseAliases={'unfps'},Description=
 'Toggle FPS counter overlay.',Group='DefaultDebug',Args={},ClientRun=function(i)
@@ -1423,16 +1537,16 @@ g=Instance.new'TextLabel'g.Size=UDim2.new(0,100,0,30)g.Position=UDim2.new(1,-110
 TextColor3=Color3.new(0,1,0)g.TextScaled=true g.Font=Enum.Font.Code g.Text=
 'FPS: --'g.Parent=f f.Parent=pcall(gethui)and gethui()or c.LocalPlayer:
 WaitForChild'PlayerGui'local j=tick()h=d.RenderStepped:Connect(function()local k
-=tick()local m=k-j j=k table.insert(e,m)if#e>30 then table.remove(e,1)end local
-n=0 for o,p in ipairs(e)do n=n+p end local o=n/#e local p=o>0 and math.floor(1/o
-)or 0 g.Text=('FPS: %d'):format(p)end)return'FPS counter enabled.'end}end
-function a.aC()local c=a.cache.aC if not c then c={c=b()}a.cache.aC=c end return
+=tick()local l=k-j j=k table.insert(e,l)if#e>30 then table.remove(e,1)end local
+m=0 for n,o in ipairs(e)do m=m+o end local n=m/#e local o=n>0 and math.floor(1/n
+)or 0 g.Text=('FPS: %d'):format(o)end)return'FPS counter enabled.'end}end
+function a.aI()local c=a.cache.aI if not c then c={c=b()}a.cache.aI=c end return
 c.c end end do local b=function()local b=a.a()local c,d,e,f,g=b.UserInputService
 ,b.RunService,game:GetService'ContextActionService',Enum.ContextActionPriority.
 High.Value,{}g.__index=g function g.new(h,i)local j=setmetatable({},g)j.f=h j.p=
-i j.v=i*0 return j end function g:Update(h,i)local j,k,m=self.f*2*math.pi,self.p
-,self.v local n,o=i-k,math.exp(-j*h)local p,q=i+(m*h-n*(j*h+1))*o,(j*h*(n*j-m)+m
-)*o self.p=p self.v=q return p end function g:Reset(h)self.p=h self.v=h*0 end
+i j.v=i*0 return j end function g:Update(h,i)local j,k,l=self.f*2*math.pi,self.p
+,self.v local m,n=i-k,math.exp(-j*h)local o,q=i+(l*h-m*(j*h+1))*n,(j*h*(m*j-l)+l
+)*n self.p=o self.v=q return o end function g:Reset(h)self.p=h self.v=h*0 end
 local h={running=false,camera=workspace.CurrentCamera,cameraPos=Vector3.new(),
 cameraRot=Vector2.new(),cameraFov=70,navSpeed=1,keyboard={W=0,A=0,S=0,D=0,E=0,Q=
 0,Up=0,Down=0},mouseDelta=Vector2.new(),velSpring=g.new(5,Vector3.new()),
@@ -1440,50 +1554,50 @@ panSpring=g.new(5,Vector2.new()),playerState={cameraType=nil,cameraCFrame=nil,
 cameraFocus=nil,cameraFieldOfView=nil,mouseBehavior=nil,mouseIconEnabled=nil}}
 workspace:GetPropertyChangedSignal'CurrentCamera':Connect(function()local i=
 workspace.CurrentCamera if i then h.camera=i end end)local i=function(i)local j,
-k=h.camera,0.1 local m,n=j.ViewportSize,h.cameraFov local o=2*math.tan(math.rad(
-n)/2)local p,q,r,s,t,u=m.x/m.y*o,i.RightVector,i.UpVector,i.LookVector,Vector3.
-new(),512 for v=0,1,0.5 do for w=0,1,0.5 do local x,y=(v-0.5)*p,(w-0.5)*o local
+k=h.camera,0.1 local l,m=j.ViewportSize,h.cameraFov local n=2*math.tan(math.rad(
+m)/2)local o,q,r,s,t,u=l.x/l.y*n,i.RightVector,i.UpVector,i.LookVector,Vector3.
+new(),512 for v=0,1,0.5 do for w=0,1,0.5 do local x,y=(v-0.5)*o,(w-0.5)*n local
 z=q*x-r*y+s local A=i.p+z*k local B,C=workspace:FindPartOnRay(Ray.new(A,z.unit*u
 ))local D=(C-A).Magnitude if u>D then u=D t=z.unit end end end return s:Dot(t)*u
 end local j,k=function(j)local k=h k.navSpeed=math.clamp(k.navSpeed+j*(k.
-keyboard.Up-k.keyboard.Down)*0.75,0.01,4)local m,n=Vector3.new(k.keyboard.D-k.
+keyboard.Up-k.keyboard.Down)*0.75,0.01,4)local l,m=Vector3.new(k.keyboard.D-k.
 keyboard.A,k.keyboard.E-k.keyboard.Q,k.keyboard.S-k.keyboard.W)*Vector3.new(1,1,
-1),c:IsKeyDown(Enum.KeyCode.LeftShift)local o,p=k.velSpring:Update(j,m*(k.
-navSpeed*(n and 0.25 or 1))),k.mouseDelta*Vector2.new(1,1)*(math.pi/64)k.
-mouseDelta=Vector2.new()local q,r=k.panSpring:Update(j,p),math.sqrt(math.tan(
+1),c:IsKeyDown(Enum.KeyCode.LeftShift)local n,o=k.velSpring:Update(j,l*(k.
+navSpeed*(m and 0.25 or 1))),k.mouseDelta*Vector2.new(1,1)*(math.pi/64)k.
+mouseDelta=Vector2.new()local q,r=k.panSpring:Update(j,o),math.sqrt(math.tan(
 math.rad(35))/math.tan(math.rad(k.cameraFov/2)))k.cameraRot=k.cameraRot+q*
 Vector2.new(0.75,1)*8*(j/r)k.cameraRot=Vector2.new(math.clamp(k.cameraRot.x,-
 math.rad(90),math.rad(90)),k.cameraRot.y%(2*math.pi))local s=CFrame.new(k.
-cameraPos)*CFrame.fromOrientation(k.cameraRot.x,k.cameraRot.y,0)*CFrame.new(o*
+cameraPos)*CFrame.fromOrientation(k.cameraRot.x,k.cameraRot.y,0)*CFrame.new(n*
 Vector3.new(1,1,1)*64*j)k.cameraPos=s.p local t=k.camera t.CFrame=s t.Focus=s*
 CFrame.new(0,0,-i(s))t.FieldOfView=k.cameraFov end,function()local j=h e:
 UnbindAction'FreecamKeyboard'e:UnbindAction'FreecamMousePan'd:
 UnbindFromRenderStep'Freecam'j.navSpeed=1 for k in j.keyboard do j.keyboard[k]=0
-end j.mouseDelta=Vector2.new()local k,m=j.playerState,j.camera m.FieldOfView=70
-m.CameraType=k.cameraType m.CFrame=k.cameraCFrame m.Focus=k.cameraFocus c.
+end j.mouseDelta=Vector2.new()local k,l=j.playerState,j.camera l.FieldOfView=70
+l.CameraType=k.cameraType l.CFrame=k.cameraCFrame l.Focus=k.cameraFocus c.
 MouseIconEnabled=k.mouseIconEnabled c.MouseBehavior=k.mouseBehavior j.running=
 false end return{Name='freecam',Aliases={'fc'},InverseAliases={'unfreecam',
 'nofreecam'},Description=
 [[Toggle freecam (WASD/QE move, Up/Down speed, Shift slow, mouse look).]],Group=
-'DefaultDebug',Args={},ClientRun=function(m)local n=h if m:isInvertedCall()then
-if not n.running then return'Freecam already disabled.'end k()return
-'Freecam disabled.'end if n.running then k()return'Freecam disabled.'end local o
-,p=n.camera,n.playerState p.cameraFieldOfView=o.FieldOfView p.cameraType=o.
-CameraType p.cameraCFrame=o.CFrame p.cameraFocus=o.Focus p.mouseIconEnabled=c.
-MouseIconEnabled p.mouseBehavior=c.MouseBehavior local q=o.CFrame n.cameraRot=
-Vector2.new()n.cameraPos=q.p n.cameraFov=p.cameraFieldOfView n.navSpeed=1 for r
-in n.keyboard do n.keyboard[r]=0 end n.mouseDelta=Vector2.new()n.velSpring:
-Reset(Vector3.new())n.panSpring:Reset(Vector2.new())o.FieldOfView=70 o.
+'DefaultDebug',Args={},ClientRun=function(l)local m=h if l:isInvertedCall()then
+if not m.running then return'Freecam already disabled.'end k()return
+'Freecam disabled.'end if m.running then k()return'Freecam disabled.'end local n
+,o=m.camera,m.playerState o.cameraFieldOfView=n.FieldOfView o.cameraType=n.
+CameraType o.cameraCFrame=n.CFrame o.cameraFocus=n.Focus o.mouseIconEnabled=c.
+MouseIconEnabled o.mouseBehavior=c.MouseBehavior local q=n.CFrame m.cameraRot=
+Vector2.new()m.cameraPos=q.p m.cameraFov=o.cameraFieldOfView m.navSpeed=1 for r
+in m.keyboard do m.keyboard[r]=0 end m.mouseDelta=Vector2.new()m.velSpring:
+Reset(Vector3.new())m.panSpring:Reset(Vector2.new())n.FieldOfView=70 n.
 CameraType=Enum.CameraType.Custom c.MouseIconEnabled=true c.MouseBehavior=Enum.
-MouseBehavior.Default e:BindActionAtPriority('FreecamKeyboard',function(r,s,t)n.
+MouseBehavior.Default e:BindActionAtPriority('FreecamKeyboard',function(r,s,t)m.
 keyboard[t.KeyCode.Name]=s==Enum.UserInputState.Begin and 1 or 0 return Enum.
 ContextActionResult.Sink end,false,f,Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.
 S,Enum.KeyCode.D,Enum.KeyCode.E,Enum.KeyCode.Q,Enum.KeyCode.Up,Enum.KeyCode.Down
-)e:BindActionAtPriority('FreecamMousePan',function(r,s,t)local u=t.Delta n.
+)e:BindActionAtPriority('FreecamMousePan',function(r,s,t)local u=t.Delta m.
 mouseDelta=Vector2.new(-u.Y,-u.X)return Enum.ContextActionResult.Sink end,false,
 f,Enum.UserInputType.MouseMovement)d:BindToRenderStep('Freecam',Enum.
-RenderPriority.Camera.Value,j)n.running=true return'Freecam enabled.'end}end
-function a.aD()local c=a.cache.aD if not c then c={c=b()}a.cache.aD=c end return
+RenderPriority.Camera.Value,j)m.running=true return'Freecam enabled.'end}end
+function a.aJ()local c=a.cache.aJ if not c then c={c=b()}a.cache.aJ=c end return
 c.c end end do local b=function()local b,c=a.a(),{}return{Name='freeze',Aliases=
 {'fr'},Description='Toggle freeze a player (anchors all their parts).',Group=
 'DefaultDebug',Args={{Type='player',Name='target',Description=
@@ -1492,8 +1606,8 @@ f then return'Target has no character.'end if c[e]then for g,h in ipairs(f:
 GetDescendants())do if h:IsA'BasePart'and h.Anchored then h.Anchored=false end
 end c[e]=nil return('%s thawed.'):format(e.Name)else for g,h in ipairs(f:
 GetDescendants())do if h:IsA'BasePart'and not h.Anchored then h.Anchored=true
-end end c[e]=true return('%s frozen.'):format(e.Name)end end}end function a.aE()
-local c=a.cache.aE if not c then c={c=b()}a.cache.aE=c end return c.c end end do
+end end c[e]=true return('%s frozen.'):format(e.Name)end end}end function a.aK()
+local c=a.cache.aK if not c then c={c=b()}a.cache.aK=c end return c.c end end do
 local b=function()local b=a.a()local c,d,e,f=b.Lighting,b.RunService,{}local g=
 function()if f then f:Disconnect()f=nil end c.Brightness=e.Brightness or 1 c.
 ClockTime=e.ClockTime or 14 c.FogEnd=e.FogEnd or 100000 c.GlobalShadows=e.
@@ -1507,7 +1621,7 @@ ClockTime=c.ClockTime e.FogEnd=c.FogEnd e.GlobalShadows=c.GlobalShadows e.
 OutdoorAmbient=c.OutdoorAmbient local i=function()c.Brightness=2 c.ClockTime=14
 c.FogEnd=100000 c.GlobalShadows=false c.OutdoorAmbient=Color3.fromRGB(128,128,
 128)end i()f=d.RenderStepped:Connect(i)return'Fullbright enabled.'end}end
-function a.aF()local c=a.cache.aF if not c then c={c=b()}a.cache.aF=c end return
+function a.aL()local c=a.cache.aL if not c then c={c=b()}a.cache.aL=c end return
 c.c end end do local b=function()local b=a.a()local c=b.Lighting return{Name=
 'globalshadows',Aliases={'gshadows'},InverseAliases={'unglobalshadows',
 'nogshadows'},Description='Toggle global shadows.',Group='DefaultDebug',Args={},
@@ -1515,7 +1629,7 @@ ClientRun=function(d)if d:isInvertedCall()then if not c.GlobalShadows then
 return'Global shadows already disabled.'end c.GlobalShadows=false return
 'Global shadows disabled.'end c.GlobalShadows=not c.GlobalShadows return c.
 GlobalShadows and'Global shadows enabled.'or'Global shadows disabled.'end}end
-function a.aG()local c=a.cache.aG if not c then c={c=b()}a.cache.aG=c end return
+function a.aM()local c=a.cache.aM if not c then c={c=b()}a.cache.aM=c end return
 c.c end end do local b=function()local b,c=false local d=function(d)if c then
 local e=d.Executor.Character if e then local f=e:FindFirstChildWhichIsA
 'Humanoid'if f then f:Destroy()end c.Parent=e d.Executor.Character=e local g=
@@ -1535,8 +1649,8 @@ PlatformStanding,false)j.BreakJointsOnDeath=true i:Destroy()e.Executor.Character
 =f g.CameraSubject=j g.CFrame=task.wait()and h j.DisplayDistanceType=Enum.
 HumanoidDisplayDistanceType.None local k=f:FindFirstChild'Animate'if k then k.
 Disabled=true task.wait()k.Disabled=false end j.Health=j.MaxHealth b=true c=j
-return'God mode enabled.'end}end function a.aH()local c=a.cache.aH if not c then
-c={c=b()}a.cache.aH=c end return c.c end end do local b=function()return{Name=
+return'God mode enabled.'end}end function a.aN()local c=a.cache.aN if not c then
+c={c=b()}a.cache.aN=c end return c.c end end do local b=function()return{Name=
 'goto',Aliases={'to','tp'},Description='Teleport to a player.',Group=
 'DefaultDebug',Args={{Type='player',Name='target',Description=
 'The player to teleport to'}},ClientRun=function(b,c)local d=b.Executor.
@@ -1547,77 +1661,126 @@ FindFirstChildWhichIsA'Humanoid'if not g then return'Target has no humanoid.'end
 local h=g.RootPart if not h then return'Target has no root part.'end local i=e.
 RootPart if not i then return'You have no root part.'end if e.SeatPart then e.
 Sit=false task.wait(0.1)end i.CFrame=h.CFrame*CFrame.new(3,1,0)return(
-'Teleported to %s.'):format(c.Name)end}end function a.aI()local c=a.cache.aI if
-not c then c={c=b()}a.cache.aI=c end return c.c end end do local b=function()
-return{Name='grabtools',Aliases={},Description='Steal tools from a player.',
-Group='DefaultDebug',Args={{Type='player',Name='target',Description=
-'The player to grab tools from'}},ClientRun=function(b,c)local d=b.Executor.
-Character if not d then return"You don't have a character."end local e=c.
-Character if not e then return'Target has no character.'end local f=0 for g,h in
-ipairs(e:GetChildren())do if h:IsA'Tool'then h.Parent=d f=f+1 end end local g=c:
-FindFirstChild'Backpack'if g then for h,i in ipairs(g:GetChildren())do if i:IsA
-'Tool'then i.Parent=d f=f+1 end end end return('Grabbed %d tool(s) from %s.'):
-format(f,c.Name)end}end function a.aJ()local c=a.cache.aJ if not c then c={c=b()
-}a.cache.aJ=c end return c.c end end do local b=function()local b return{Name=
-'gravity',Aliases={'grav'},Description=
+'Teleported to %s.'):format(c.Name)end}end function a.aO()local c=a.cache.aO if
+not c then c={c=b()}a.cache.aO=c end return c.c end end do local b=function()
+return{Name='gotopart',Aliases={'topart'},Description=
+'Teleport to a part by name in workspace.',Group='DefaultDebug',Args={{Type=
+'string',Name='partName',Description='Name of the part to teleport to'}},
+ClientRun=function(b,c)local d=b.Executor.Character if not d then return
+"You don't have a character."end local e=d:FindFirstChildWhichIsA'Humanoid'if
+not e then return'No humanoid found.'end local f=e.RootPart if not f then return
+'No root part.'end local g for h,i in ipairs(workspace:GetDescendants())do if i:
+IsA'BasePart'and i.Name:lower()==c:lower()then g=i break end end if not g then
+return('No part named %q found.'):format(c)end f.CFrame=g.CFrame*CFrame.new(0,3,
+0)return('Teleported to %s.'):format(g:GetFullName())end}end function a.aP()
+local c=a.cache.aP if not c then c={c=b()}a.cache.aP=c end return c.c end end do
+local b=function()return{Name='grabtools',Aliases={},Description=
+'Steal tools from a player.',Group='DefaultDebug',Args={{Type='player',Name=
+'target',Description='The player to grab tools from'}},ClientRun=function(b,c)
+local d=b.Executor.Character if not d then return"You don't have a character."
+end local e=c.Character if not e then return'Target has no character.'end local
+f=0 for g,h in ipairs(e:GetChildren())do if h:IsA'Tool'then h.Parent=d f=f+1 end
+end local g=c:FindFirstChild'Backpack'if g then for h,i in ipairs(g:GetChildren(
+))do if i:IsA'Tool'then i.Parent=d f=f+1 end end end return(
+'Grabbed %d tool(s) from %s.'):format(f,c.Name)end}end function a.aQ()local c=a.
+cache.aQ if not c then c={c=b()}a.cache.aQ=c end return c.c end end do local b=
+function()local b return{Name='gravity',Aliases={'grav'},Description=
 'Set workspace gravity (or toggle default).',Group='DefaultDebug',Args={{Type=
 'number',Name='value',Description='Gravity value (e.g. 50, 196.2) or 0 for none'
 ,Default=196.2,Optional=true}},ClientRun=function(c,d)if b~=nil and(d==nil or d
 ==b or d==196.2)then workspace.Gravity=b b=nil return'Gravity restored.'end if b
 ==nil then b=workspace.Gravity end workspace.Gravity=d return(
-'Gravity set to %g.'):format(d)end}end function a.aK()local c=a.cache.aK if not
-c then c={c=b()}a.cache.aK=c end return c.c end end do local b=function()return{
+'Gravity set to %g.'):format(d)end}end function a.aR()local c=a.cache.aR if not
+c then c={c=b()}a.cache.aR=c end return c.c end end do local b=function()return{
 Name='guiscale',Aliases={},Description='Set UI scale (0.5-2, default 1).',Group=
 'DefaultDebug',Args={{Type='number',Name='scale',Description='Scale value',
 Default=1}},ClientRun=function(b,c)c=math.clamp(c,0.5,2)local d=a.g().GuiRoot if
 not d then return'No GUI root found.'end local e=d:FindFirstChild'CoCo'if not e
 then return'CoCo GUI not found.'end local f=e:FindFirstChildWhichIsA'UIScale'if
 not f then f=Instance.new'UIScale'f.Name='CoCoScale'f.Parent=e end f.Scale=c
-return('UI scale set to %g.'):format(c)end}end function a.aL()local c=a.cache.aL
-if not c then c={c=b()}a.cache.aL=c end return c.c end end do local b=function()
-return{Name='headsit',Aliases={},Description="Sit on a player's head.",Group=
-'DefaultDebug',Args={{Type='player',Name='target',Description=
-'The player to sit on'}},ClientRun=function(b,c)local d=b.Executor.Character if
-not d then return"You don't have a character."end local e=d:
-FindFirstChildWhichIsA'Humanoid'if not e then return'No humanoid found.'end
-local f=e.RootPart if not f then return'No root part.'end local g=c.Character if
-not g then return'Target has no character.'end local h=g:FindFirstChild'Head'if
-not h then return'Target has no head.'end f.CFrame=h.CFrame*CFrame.new(0,2,0)e.
-Sit=true return("Sitting on %s's head."):format(c.Name)end}end function a.aM()
-local c=a.cache.aM if not c then c={c=b()}a.cache.aM=c end return c.c end end do
-local b=function()return{Name='headsize',Aliases={},Description=
-'Set your head size (1-10).',Group='DefaultDebug',Args={{Type='number',Name=
-'size',Description='Head size (default: 1)',Default=1}},ClientRun=function(b,c)
-local d=b.Executor.Character if not d then return"You don't have a character."
-end local e=d:FindFirstChild'Head'if not e then return'No head found.'end c=math
-.clamp(c,0.1,10)e.Size=Vector3.new(c,c,c)return('Head size set to %g.'):format(c
-)end}end function a.aN()local c=a.cache.aN if not c then c={c=b()}a.cache.aN=c
-end return c.c end end do local b=function()return{Name='headthrow',Aliases={},
-Description="Launch your character's head as a physics projectile.",Group=
-'DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character if not
-c then return"You don't have a character."end local d=c:FindFirstChild'Head'if
-not d then return'No head found.'end local e=workspace.CurrentCamera local f=e.
-CFrame.LookVector*200 d.Velocity=f d:BreakJoints()return'Head thrown.'end}end
-function a.aO()local c=a.cache.aO if not c then c={c=b()}a.cache.aO=c end return
-c.c end end do local b=function()return{Name='hipheight',Aliases={'hheight'},
-Description="Set your character's HipHeight. Usage: hipheight <number>",Group=
+return('UI scale set to %g.'):format(c)end}end function a.aS()local c=a.cache.aS
+if not c then c={c=b()}a.cache.aS=c end return c.c end end do local b=function()
+return{Name='handlekill',Aliases={'hkill'},Description=
+"Kill a player by breaking their character's joints.",Group='DefaultDebug',Args=
+{{Type='player',Name='target',Description='The player to kill'}},ClientRun=
+function(b,c)local d=c.Character if not d then return'Target has no character.'
+end local e=d:FindFirstChildWhichIsA'Humanoid'if e then e.Health=0 return(
+'Killed %s.'):format(c.Name)end d:BreakJoints()return('Killed %s.'):format(c.
+Name)end}end function a.aT()local c=a.cache.aT if not c then c={c=b()}a.cache.aT
+=c end return c.c end end do local b=function()return{Name='headsit',Aliases={},
+Description="Sit on a player's head.",Group='DefaultDebug',Args={{Type='player',
+Name='target',Description='The player to sit on'}},ClientRun=function(b,c)local
+d=b.Executor.Character if not d then return"You don't have a character."end
+local e=d:FindFirstChildWhichIsA'Humanoid'if not e then return
+'No humanoid found.'end local f=e.RootPart if not f then return'No root part.'
+end local g=c.Character if not g then return'Target has no character.'end local
+h=g:FindFirstChild'Head'if not h then return'Target has no head.'end f.CFrame=h.
+CFrame*CFrame.new(0,2,0)e.Sit=true return("Sitting on %s's head."):format(c.Name
+)end}end function a.aU()local c=a.cache.aU if not c then c={c=b()}a.cache.aU=c
+end return c.c end end do local b=function()return{Name='headsize',Aliases={},
+Description='Set your head size (1-10).',Group='DefaultDebug',Args={{Type=
+'number',Name='size',Description='Head size (default: 1)',Default=1}},ClientRun=
+function(b,c)local d=b.Executor.Character if not d then return
+"You don't have a character."end local e=d:FindFirstChild'Head'if not e then
+return'No head found.'end c=math.clamp(c,0.1,10)e.Size=Vector3.new(c,c,c)return(
+'Head size set to %g.'):format(c)end}end function a.aV()local c=a.cache.aV if
+not c then c={c=b()}a.cache.aV=c end return c.c end end do local b=function()
+return{Name='headthrow',Aliases={},Description=
+"Launch your character's head as a physics projectile.",Group='DefaultDebug',
+Args={},ClientRun=function(b)local c=b.Executor.Character if not c then return
+"You don't have a character."end local d=c:FindFirstChild'Head'if not d then
+return'No head found.'end local e=workspace.CurrentCamera local f=e.CFrame.
+LookVector*200 d.Velocity=f d:BreakJoints()return'Head thrown.'end}end function
+a.aW()local c=a.cache.aW if not c then c={c=b()}a.cache.aW=c end return c.c end
+end do local b=function()return{Name='hipheight',Aliases={'hheight'},Description
+="Set your character's HipHeight. Usage: hipheight <number>",Group=
 'DefaultDebug',Args={{Type='number',Name='height',Description='HipHeight value'}
 },ClientRun=function(b,c)local d=b.Executor.Character if not d then return
 "You don't have a character."end local e=d:FindFirstChildWhichIsA'Humanoid'if
 not e then return'No humanoid found.'end e.HipHeight=c return(
-'HipHeight set to %s.'):format(tostring(c))end}end function a.aP()local c=a.
-cache.aP if not c then c={c=b()}a.cache.aP=c end return c.c end end do local b=
-function()local b=a.a()local c,d,e=b.UserInputService,false return{Name=
-'infjump',Aliases={'infinitejump'},InverseAliases={'uninfjump','noinfjump'},
-Description='Toggle infinite jump.',Group='DefaultDebug',Args={},ClientRun=
-function(f)if f:isInvertedCall()then if not e then return
+'HipHeight set to %s.'):format(tostring(c))end}end function a.aX()local c=a.
+cache.aX if not c then c={c=b()}a.cache.aX=c end return c.c end end do local b=
+function()local b=a.a()local c,d,e,f=b.Players,false,{},{}local g,h=function()
+for g,h in pairs(e)do local i=g.Character if i then local j=i:
+FindFirstChildWhichIsA'Humanoid'if j and j.RootPart then j.RootPart.Size=h.
+origSize j.RootPart.CanCollide=h.origCanCollide j.RootPart.Transparency=h.
+origTransparency end end end table.clear(e)for g,h in pairs(f)do for i,j in
+ipairs(h)do pcall(function()j:Disconnect()end)end end table.clear(f)d=false end,
+function(g,h,i)if g==c.LocalPlayer then return end local j=e[g]if j then local k
+=g.Character if k then local l=k:FindFirstChildWhichIsA'Humanoid'if l and l.
+RootPart then l.RootPart.Size=j.origSize l.RootPart.CanCollide=j.origCanCollide
+l.RootPart.Transparency=j.origTransparency end end end local k=g.Character if
+not k then return end local l=k:FindFirstChildWhichIsA'Humanoid'if not l then
+return end local m=l.RootPart if not m then return end e[g]={origSize=m.Size,
+origCanCollide=m.CanCollide,origTransparency=m.Transparency}m.Size=Vector3.new(h
+,h,h)m.CanCollide=false m.Transparency=i end local i=function(i,j,k)local l={}f[
+i]=l table.insert(l,i.CharacterAdded:Connect(function()task.wait(0.3)if d then
+h(i,j,k)end end))if i.Character then h(i,j,k)end end return{Name='hitbox',
+Aliases={},InverseAliases={'unhitbox','nohitbox'},Description=
+[=[Scale all players' HumanoidRootPart hitbox. Usage: hitbox [size] [transparency]]=]
+,Group='DefaultDebug',Args={{Type='number',Name='size',Description=
+'Hitbox size (default: 2, max: 50)',Default=2,Optional=true},{Type='number',Name
+='transparency',Description='Root part transparency (default: 0.9)',Default=0.9,
+Optional=true}},ClientRun=function(j,k,l)if j:isInvertedCall()then if not d then
+return'Hitbox already disabled.'end g()return'Hitbox disabled.'end if d then g()
+task.wait()end k=math.clamp(k,1,50)l=math.clamp(l,0,1)d=true for m,n in ipairs(c
+:GetPlayers())do if not f[n]then i(n,k,l)else h(n,k,l)end end if not f.
+PlayerAdded then local m=c.PlayerAdded:Connect(function(m)i(m,k,l)end)f.
+PlayerAdded={m}end if not f.PlayerRemoving then local m=c.PlayerRemoving:
+Connect(function(m)e[m]=nil f[m]=nil end)f.PlayerRemoving={m}end return(
+'Hitbox enabled for all players (size=%g, transparency=%g).'):format(k,l)end}end
+function a.aY()local c=a.cache.aY if not c then c={c=b()}a.cache.aY=c end return
+c.c end end do local b=function()local b=a.a()local c,d,e=b.UserInputService,
+false return{Name='infjump',Aliases={'infinitejump'},InverseAliases={'uninfjump'
+,'noinfjump'},Description='Toggle infinite jump.',Group='DefaultDebug',Args={},
+ClientRun=function(f)if f:isInvertedCall()then if not e then return
 'Infinite jump already disabled.'end e:Disconnect()e=nil d=false return
 'Infinite jump disabled.'end if e then e:Disconnect()e=nil d=false return
 'Infinite jump disabled.'end e=c.JumpRequest:Connect(function()if d then return
 end d=true local g=f.Executor.Character if g then local h=g:
 FindFirstChildWhichIsA'Humanoid'if h then h:ChangeState(Enum.HumanoidStateType.
 Jumping)end end task.wait()d=false end)return'Infinite jump enabled.'end}end
-function a.aQ()local c=a.cache.aQ if not c then c={c=b()}a.cache.aQ=c end return
+function a.aZ()local c=a.cache.aZ if not c then c={c=b()}a.cache.aZ=c end return
 c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 'inspect',Aliases={},Description=
 "Inspect properties of the object you're looking at.",Group='DefaultDebug',Args=
@@ -1625,14 +1788,14 @@ c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 then return'No object targeted.'end local f={Name=e.Name,Class=e.ClassName,
 Parent=e.Parent and e.Parent:GetFullName()or'nil'}return(
 'Name: %s | Class: %s | Parent: %s'):format(f.Name,f.Class,f.Parent)end}end
-function a.aR()local c=a.cache.aR if not c then c={c=b()}a.cache.aR=c end return
+function a.a_()local c=a.cache.a_ if not c then c={c=b()}a.cache.a_=c end return
 c.c end end do local b=function()local b=a.a()local c,d,e=b.Lighting,b.
 RunService,{running=false,character=nil,invisChar=nil,invisFix=nil,invisDied=nil
 ,pos=nil,camPos=nil}local f=function(f)if e.invisFix then e.invisFix:Disconnect(
 )e.invisFix=nil end if e.invisDied then e.invisDied:Disconnect()e.invisDied=nil
 end local g,h,i=e.character,e.invisChar,f.Executor if g and h then local j=h:
-FindFirstChildWhichIsA'Humanoid'local k=j and j.RootPart local m=k and k.CFrame
-g.HumanoidRootPart.CFrame=m or g.HumanoidRootPart.CFrame h:Destroy()i.Character=
+FindFirstChildWhichIsA'Humanoid'local k=j and j.RootPart local l=k and k.CFrame
+g.HumanoidRootPart.CFrame=l or g.HumanoidRootPart.CFrame h:Destroy()i.Character=
 g g.Parent=workspace end e.running=false e.character=nil e.invisChar=nil e.pos=
 nil e.camPos=nil end return{Name='invisible',Aliases={'invis'},InverseAliases={
 'visible','vis','uninvisible'},Description=
@@ -1641,45 +1804,45 @@ nil e.camPos=nil end return{Name='invisible',Aliases={'invis'},InverseAliases={
 running then return'Already visible.'end f(g)return'Visible.'end if e.running
 then f(g)return'Invisible disabled.'end local h=g.Executor local i=h.Character
 if not i then return"You don't have a character."end i.Archivable=true local j=i
-:Clone()j.Parent=c j.Name=''for k,m in ipairs(j:GetDescendants())do if m:IsA
-'BasePart'then if m.Name=='HumanoidRootPart'then m.Transparency=1 else m.
-Transparency=0.5 end end end local k=workspace.FallenPartsDestroyHeight local m=
-d.Stepped:Connect(function()pcall(function()local m=h.Character and h.Character:
-FindFirstChildWhichIsA'Humanoid'if not m then return end local n=m.RootPart if
-not n then return end local o,p=n.Position.Y,tostring(k):find'-'if(p and o<=k)or
-(not p and o>=k)then respawnFunc()end end)end)local n=function()if not e.running
-then return end if not e.character then return end local n,o,p=e.character,e.
-invisChar,g.Executor if m then m:Disconnect()m=nil end if invisDied then
-invisDied:Disconnect()invisDied=nil end n.Parent=workspace local q=n:
-FindFirstChildWhichIsA'Humanoid'if q then q:Destroy()end p.Character=n n:
-BreakJoints()e.running=false e.character=nil e.invisChar=nil end local o,p,q=j:
-FindFirstChildWhichIsA'Humanoid'.Died:Connect(function()n()end),workspace.
+:Clone()j.Parent=c j.Name=''for k,l in ipairs(j:GetDescendants())do if l:IsA
+'BasePart'then if l.Name=='HumanoidRootPart'then l.Transparency=1 else l.
+Transparency=0.5 end end end local k=workspace.FallenPartsDestroyHeight local l=
+d.Stepped:Connect(function()pcall(function()local l=h.Character and h.Character:
+FindFirstChildWhichIsA'Humanoid'if not l then return end local m=l.RootPart if
+not m then return end local n,o=m.Position.Y,tostring(k):find'-'if(o and n<=k)or
+(not o and n>=k)then respawnFunc()end end)end)local m=function()if not e.running
+then return end if not e.character then return end local m,n,o=e.character,e.
+invisChar,g.Executor if l then l:Disconnect()l=nil end if invisDied then
+invisDied:Disconnect()invisDied=nil end m.Parent=workspace local q=m:
+FindFirstChildWhichIsA'Humanoid'if q then q:Destroy()end o.Character=m m:
+BreakJoints()e.running=false e.character=nil e.invisChar=nil end local n,o,q=j:
+FindFirstChildWhichIsA'Humanoid'.Died:Connect(function()m()end),workspace.
 CurrentCamera.CFrame,i.HumanoidRootPart.CFrame i:MoveTo(Vector3.new(0,math.pi*
 1000000,0))task.wait(0.2)i.Parent=c j.Parent=workspace j:FindFirstChildWhichIsA
 'Humanoid'.RootPart.CFrame=q h.Character=j local r=workspace.CurrentCamera r.
-CameraType=Enum.CameraType.Custom r.CFrame=p local s=h.Character:FindFirstChild
+CameraType=Enum.CameraType.Custom r.CFrame=o local s=h.Character:FindFirstChild
 'Animate'if s then s.Disabled=true task.wait()s.Disabled=false end e.running=
-true e.character=i e.invisChar=j e.invisFix=m e.invisDied=o return
-'Invisible enabled.'end}end function a.aS()local c=a.cache.aS if not c then c={c
-=b()}a.cache.aS=c end return c.c end end do local b=function()return{Name=
+true e.character=i e.invisChar=j e.invisFix=l e.invisDied=n return
+'Invisible enabled.'end}end function a.a0()local c=a.cache.a0 if not c then c={c
+=b()}a.cache.a0=c end return c.c end end do local b=function()return{Name=
 'jobid',Aliases={},Description='Copy the current job ID to clipboard.',Group=
 'DefaultDebug',Args={},ClientRun=function()local b=pcall(setclipboard,game.JobId
 )if b then return('Job ID copied: %s'):format(game.JobId)end return('Job ID: %s'
-):format(game.JobId)end}end function a.aT()local c=a.cache.aT if not c then c={c
-=b()}a.cache.aT=c end return c.c end end do local b=function()return{Name=
+):format(game.JobId)end}end function a.a1()local c=a.cache.a1 if not c then c={c
+=b()}a.cache.a1=c end return c.c end end do local b=function()return{Name=
 'joindate',Aliases={'jd'},Description=
 'Show the join date of a player. Usage: joindate <player>',Group='DefaultDebug',
 Args={{Type='player',Name='target',Description='The player to check'}},ClientRun
 =function(b,c)local d=c.AccountAge*24*60*60 local e=os.date('%m/%d/%y',os.time()
 -d)b:reply(('%s joined: %s'):format(c.Name,e))return("Checked %s's join date."):
-format(c.Name)end}end function a.aU()local c=a.cache.aU if not c then c={c=b()}a
-.cache.aU=c end return c.c end end do local b=function()return{Name='jump',
+format(c.Name)end}end function a.a2()local c=a.cache.a2 if not c then c={c=b()}a
+.cache.a2=c end return c.c end end do local b=function()return{Name='jump',
 Aliases={},Description='Force your character to jump.',Group='DefaultDebug',Args
 ={},ClientRun=function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if
 not d then return'No humanoid found.'end d:ChangeState(Enum.HumanoidStateType.
-Jumping)return'Jumped.'end}end function a.aV()local c=a.cache.aV if not c then c
-={c=b()}a.cache.aV=c end return c.c end end do local b=function()return{Name=
+Jumping)return'Jumped.'end}end function a.a3()local c=a.cache.a3 if not c then c
+={c=b()}a.cache.a3=c end return c.c end end do local b=function()return{Name=
 'jumppower',Aliases={'jp','jpower'},Description=
 'Set your jump power or jump height.',Group='DefaultDebug',Args={{Type='number',
 Name='power',Description='The jump power/height to set (default: 50)',Default=50
@@ -1687,7 +1850,7 @@ Name='power',Description='The jump power/height to set (default: 50)',Default=50
 "You don't have a character."end local e=d:FindFirstChildWhichIsA'Humanoid'if
 not e then return'No humanoid found.'end if e.UseJumpPower then e.JumpPower=c
 else e.JumpHeight=c end return('Jump power set to %d.'):format(c)end}end
-function a.aW()local c=a.cache.aW if not c then c={c=b()}a.cache.aW=c end return
+function a.a4()local c=a.cache.a4 if not c then c={c=b()}a.cache.a4=c end return
 c.c end end do local b=function()return{Name='lay',Aliases={'laydown'},
 Description='Lay your character down.',Group='DefaultDebug',Args={},ClientRun=
 function(b)local c=b.Executor.Character if not c then return
@@ -1695,7 +1858,7 @@ function(b)local c=b.Executor.Character if not c then return
 not d then return'No humanoid found.'end d.Sit=true task.wait(0.1)local e=d.
 RootPart if e then e.CFrame=e.CFrame*CFrame.Angles(math.pi*0.5,0,0)end for f,g
 in ipairs(d:GetPlayingAnimationTracks())do g:Stop()end return'Lay enabled.'end}
-end function a.aX()local c=a.cache.aX if not c then c={c=b()}a.cache.aX=c end
+end function a.a5()local c=a.cache.a5 if not c then c={c=b()}a.cache.a5=c end
 return c.c end end do local b=function()return{Name='light',Aliases={},
 Description='Attach a light to your character.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character if not c then return
@@ -1703,17 +1866,63 @@ ClientRun=function(b)local c=b.Executor.Character if not c then return
 return'No head found.'end local e=d:FindFirstChild'CharLight'if e then e:
 Destroy()return'Light removed.'end local f=Instance.new'PointLight'f.Name=
 'CharLight'f.Brightness=3 f.Range=15 f.Color=Color3.new(1,1,1)f.Parent=d return
-'Light attached.'end}end function a.aY()local c=a.cache.aY if not c then c={c=b(
-)}a.cache.aY=c end return c.c end end do local b=function()return{Name='lookat',
-Aliases={},Description='Point your camera at a player.',Group='DefaultDebug',
-Args={{Type='player',Name='target',Description='The player to look at'}},
-ClientRun=function(b,c)local d=c.Character if not d then return
-'Target has no character.'end local e=d:FindFirstChild'Head'if not e then return
-'Target has no head.'end local f=workspace.CurrentCamera f.CFrame=CFrame.lookAt(
-f.CFrame.p,e.Position)return('Looking at %s.'):format(c.Name)end}end function a.
-aZ()local c=a.cache.aZ if not c then c={c=b()}a.cache.aZ=c end return c.c end
-end do local b=function()local b=a.a()local c,d,e=(b.RunService)return{Name=
-'loopanimation',Aliases={'loopanim'},Description=
+'Light attached.'end}end function a.a6()local c=a.cache.a6 if not c then c={c=b(
+)}a.cache.a6=c end return c.c end end do local b=function()local b,c={},function
+(b)local c=b.Character if not c then return nil end local d=c:
+FindFirstChildWhichIsA'Humanoid'local e=d and d.RootPart if not e then return
+nil end local f=Instance.new'BillboardGui'f.Name='CoCoLocate'f.AlwaysOnTop=true
+f.Size=UDim2.new(0,60,0,60)f.StudsOffset=Vector3.new(0,4,0)f.Adornee=e local g=
+Instance.new'TextLabel'g.Size=UDim2.new(1,0,1,0)g.BackgroundTransparency=1 g.
+Text='\u{25bc}'g.TextColor3=Color3.new(0,1,0)g.TextSize=40 g.Font=Enum.Font.Code
+g.Parent=f local h=Instance.new'TextLabel'h.Size=UDim2.new(1,0,0,20)h.Position=
+UDim2.new(0,0,1,0)h.BackgroundTransparency=1 h.Text=b.Name h.TextColor3=Color3.
+new(1,1,1)h.TextSize=14 h.Font=Enum.Font.Code h.TextStrokeTransparency=0.5 h.
+Parent=f f.Parent=e return f end return{Name='locate',Aliases={},InverseAliases=
+{'unlocate','nolocate'},Description='Place a visible beacon above a player.',
+Group='DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to locate'}},ClientRun=function(d,e)if d:isInvertedCall()then local
+f=b[e]if not f then return('No beacon for %s.'):format(e.Name)end pcall(function
+()f:Destroy()end)b[e]=nil return('Beacon removed from %s.'):format(e.Name)end
+local f=b[e]if f then pcall(function()f:Destroy()end)end local g=c(e)if not g
+then return('%s has no character.'):format(e.Name)end b[e]=g return(
+'Beacon placed on %s.'):format(e.Name)end}end function a.a7()local c=a.cache.a7
+if not c then c={c=b()}a.cache.a7=c end return c.c end end do local b=function()
+local b,c,d,e=false,function()local b=Instance.new'ScreenGui'b.Name=
+'CoCoLogViewer'b.ResetOnSpawn=false b.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
+local c=Instance.new'Frame'c.Size=UDim2.new(0,400,0,300)c.Position=UDim2.new(0.5
+,-200,0,50)c.BackgroundColor3=Color3.new(0.1,0.1,0.1)c.BackgroundTransparency=
+0.3 c.BorderSizePixel=0 c.Active=true c.Draggable=true c.Parent=b local d=
+Instance.new'TextLabel'd.Size=UDim2.new(1,0,0,24)d.BackgroundColor3=Color3.new(
+0.2,0.2,0.2)d.BackgroundTransparency=0.5 d.BorderSizePixel=0 d.Text=
+'CoCo Logs (Chat)'d.TextColor3=Color3.new(1,1,1)d.TextSize=14 d.Font=Enum.Font.
+Code d.Parent=c local e=Instance.new'ScrollingFrame'e.Size=UDim2.new(1,0,1,-24)e
+.Position=UDim2.new(0,0,0,24)e.BackgroundTransparency=1 e.BorderSizePixel=0 e.
+CanvasSize=UDim2.new(0,0,0,0)e.ScrollBarThickness=4 e.AutomaticCanvasSize=Enum.
+AutomaticSize.Y e.Parent=c local f=Instance.new'UIListLayout'f.Parent=e f.
+SortOrder=Enum.SortOrder.LayoutOrder local g=function(g)local h=Instance.new
+'TextLabel'h.Size=UDim2.new(1,-4,0,18)h.Position=UDim2.new(0,2,0,0)h.
+BackgroundTransparency=1 h.BorderSizePixel=0 h.Text=g h.TextColor3=Color3.new(
+0.8,0.8,1)h.TextSize=12 h.TextXAlignment=Enum.TextXAlignment.Left h.Font=Enum.
+Font.Code h.RichText=true h.Parent=e end return b,g end return{Name='logs',
+Aliases={},InverseAliases={'unlogs','nologs'},Description=
+'Toggle chat log viewer window.',Group='DefaultDebug',Args={},ClientRun=function
+(f)if f:isInvertedCall()then if not b then return'Log viewer already closed.'end
+if d then d:Disconnect()d=nil end if e then e:Destroy()e=nil end b=false return
+'Log viewer closed.'end if b then if e then e:Destroy()e=nil end if d then d:
+Disconnect()d=nil end b=false return'Log viewer closed.'end local g,h=c()g.
+Parent=f.Executor:WaitForChild'PlayerGui'e=g h'<b>Log viewer started.</b>'d=f.
+Executor.Chatted:Connect(function(i)h(('%s: %s'):format(f.Executor.Name,i))end)b
+=true return'Log viewer opened.'end}end function a.a8()local c=a.cache.a8 if not
+c then c={c=b()}a.cache.a8=c end return c.c end end do local b=function()return{
+Name='lookat',Aliases={},Description='Point your camera at a player.',Group=
+'DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to look at'}},ClientRun=function(b,c)local d=c.Character if not d
+then return'Target has no character.'end local e=d:FindFirstChild'Head'if not e
+then return'Target has no head.'end local f=workspace.CurrentCamera f.CFrame=
+CFrame.lookAt(f.CFrame.p,e.Position)return('Looking at %s.'):format(c.Name)end}
+end function a.a9()local c=a.cache.a9 if not c then c={c=b()}a.cache.a9=c end
+return c.c end end do local b=function()local b=a.a()local c,d,e=(b.RunService)
+return{Name='loopanimation',Aliases={'loopanim'},Description=
 'Toggle looping an animation by ID.',Group='DefaultDebug',Args={{Type='string',
 Name='id',Description='Animation ID to loop',Optional=true}},ClientRun=function(
 f,g)if d then d:Disconnect()d=nil e=nil return'Animation loop stopped.'end local
@@ -1721,13 +1930,13 @@ h=f.Executor.Character if not h then return"You don't have a character."end
 local i=h:FindFirstChildWhichIsA'Humanoid'if not i then return
 'No humanoid found.'end local j=g and g:match'(%d+)'if not j then return
 'Invalid animation ID.'end e=j d=c.RenderStepped:Connect(function()local k=f.
-Executor.Character if not k then return end local m=k:FindFirstChildWhichIsA
-'Humanoid'if not m then return end local n=false for o,p in ipairs(m:
-GetPlayingAnimationTracks())do if p.Animation.AnimationId:match(e)then n=true
-break end end if not n then local o=Instance.new'Animation'o.AnimationId=
-'rbxassetid://'..e local p=m:LoadAnimation(o)p:Play()end end)return(
-'Looping animation %s.'):format(j)end}end function a.a_()local c=a.cache.a_ if
-not c then c={c=b()}a.cache.a_=c end return c.c end end do local b=function()
+Executor.Character if not k then return end local l=k:FindFirstChildWhichIsA
+'Humanoid'if not l then return end local m=false for n,o in ipairs(l:
+GetPlayingAnimationTracks())do if o.Animation.AnimationId:match(e)then m=true
+break end end if not m then local n=Instance.new'Animation'n.AnimationId=
+'rbxassetid://'..e local o=l:LoadAnimation(n)o:Play()end end)return(
+'Looping animation %s.'):format(j)end}end function a.ba()local c=a.cache.ba if
+not c then c={c=b()}a.cache.ba=c end return c.c end end do local b=function()
 local b=a.a()local c,d=(b.RunService)return{Name='loopgoto',Aliases={},
 InverseAliases={'unloopgoto','noloopgoto'},Description=
 'Continuously teleport to a player every frame.',Group='DefaultDebug',Args={{
@@ -1740,42 +1949,42 @@ return"You don't have a character."end local h=g:FindFirstChildWhichIsA
 'Humanoid'if not h then return'No humanoid found.'end local i=h.RootPart if not
 i then return'No root part.'end d=c.RenderStepped:Connect(function()local j=f.
 Character if not j then return end local k=j:FindFirstChildWhichIsA'Humanoid'if
-not k then return end local m=k.RootPart if not m then return end local n=e.
-Executor.Character if not n then return end local o=n:FindFirstChildWhichIsA
-'Humanoid'if not o then return end local p=o.RootPart if not p then return end p
-.CFrame=m.CFrame*CFrame.new(0,3,0)end)return('Now loop-goto %s.'):format(f.Name)
-end}end function a.a0()local c=a.cache.a0 if not c then c={c=b()}a.cache.a0=c
+not k then return end local l=k.RootPart if not l then return end local m=e.
+Executor.Character if not m then return end local n=m:FindFirstChildWhichIsA
+'Humanoid'if not n then return end local o=n.RootPart if not o then return end o
+.CFrame=l.CFrame*CFrame.new(0,3,0)end)return('Now loop-goto %s.'):format(f.Name)
+end}end function a.bb()local c=a.cache.bb if not c then c={c=b()}a.cache.bb=c
 end return c.c end end do local b=function()return{Name='maxzoom',Aliases={},
 Description='Set the camera max zoom distance. Usage: maxzoom <distance>',Group=
 'DefaultDebug',Args={{Type='number',Name='distance',Description=
 'Max zoom distance (default 99999)',Optional=true}},ClientRun=function(b,c)c=c
 or 99999 b.Executor.CameraMaxZoomDistance=c return('Max zoom set to %s.'):
-format(tostring(c))end}end function a.a1()local c=a.cache.a1 if not c then c={c=
-b()}a.cache.a1=c end return c.c end end do local b=function()local b=a.a()local
+format(tostring(c))end}end function a.bc()local c=a.cache.bc if not c then c={c=
+b()}a.cache.bc=c end return c.c end end do local b=function()local b=a.a()local
 c=b.Lighting return{Name='night',Aliases={},Description=
 'Set lighting to nighttime.',Group='DefaultDebug',Args={},ClientRun=function()c.
-ClockTime=0 return'Time set to night (0:00).'end}end function a.a2()local c=a.
-cache.a2 if not c then c={c=b()}a.cache.a2=c end return c.c end end do local b=
+ClockTime=0 return'Time set to night (0:00).'end}end function a.bd()local c=a.
+cache.bd if not c then c={c=b()}a.cache.bd=c end return c.c end end do local b=
 function()return{Name='nilchar',Aliases={},Description=
 'Despawn your character without triggering respawn.',Group='DefaultDebug',Args={
 },ClientRun=function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if d
-then d:Destroy()end c:Destroy()return"Character nil'd."end}end function a.a3()
-local c=a.cache.a3 if not c then c={c=b()}a.cache.a3=c end return c.c end end do
+then d:Destroy()end c:Destroy()return"Character nil'd."end}end function a.be()
+local c=a.cache.be if not c then c={c=b()}a.cache.be=c end return c.c end end do
 local b=function()return{Name='noanim',Aliases={},Description=
 'Toggle disabling all character animations.',Group='DefaultDebug',Args={},
 ClientRun=function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=c:FindFirstChild'Animate'if not d then
 return'No Animate script found.'end d.Disabled=not d.Disabled return d.Disabled
-and'Animations disabled.'or'Animations enabled.'end}end function a.a4()local c=a
-.cache.a4 if not c then c={c=b()}a.cache.a4=c end return c.c end end do local b=
+and'Animations disabled.'or'Animations enabled.'end}end function a.bf()local c=a
+.cache.bf if not c then c={c=b()}a.cache.bf=c end return c.c end end do local b=
 function()return{Name='nobgui',Aliases={'rohg','nobillboardgui','noname'},
 Description=[[Remove all BillboardGuis and SurfaceGuis from your character.]],
 Group='DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character
 if not c then return"You don't have a character."end local d=0 for e,f in
 ipairs(c:GetDescendants())do if f:IsA'BillboardGui'or f:IsA'SurfaceGui'then f:
 Destroy()d=d+1 end end return('Removed %d GUI(s).'):format(d)end}end function a.
-a5()local c=a.cache.a5 if not c then c={c=b()}a.cache.a5=c end return c.c end
+bg()local c=a.cache.bg if not c then c={c=b()}a.cache.bg=c end return c.c end
 end do local b=function()local b=a.a()local c,d=(b.RunService)return{Name=
 'noclip',Aliases={'nc'},InverseAliases={'clip','unnoclip'},Description=
 'Toggle noclip (walk through walls).',Group='DefaultDebug',Args={},ClientRun=
@@ -1784,21 +1993,21 @@ function(e)if e:isInvertedCall()then if not d then return
 d then d:Disconnect()d=nil return'Noclip disabled.'end d=c.Stepped:Connect(
 function()local f=e.Executor.Character if not f then return end for g,h in
 ipairs(f:GetDescendants())do if h:IsA'BasePart'then h.CanCollide=false end end
-end)return'Noclip enabled.'end}end function a.a6()local c=a.cache.a6 if not c
-then c={c=b()}a.cache.a6=c end return c.c end end do local b=function()local b=a
+end)return'Noclip enabled.'end}end function a.bh()local c=a.cache.bh if not c
+then c={c=b()}a.cache.bh=c end return c.c end end do local b=function()local b=a
 .a()local c,d=(b.Lighting)return{Name='nofog',Aliases={},InverseAliases={'fog'},
 Description='Toggle removing all fog.',Group='DefaultDebug',Args={},ClientRun=
 function(e)if e:isInvertedCall()then if not d then return'Fog already restored.'
 end c.FogEnd=d d=nil return'Fog restored.'end if d then c.FogEnd=d d=nil return
 'Fog restored.'end d=c.FogEnd c.FogEnd=math.huge return'Fog removed.'end}end
-function a.a7()local c=a.cache.a7 if not c then c={c=b()}a.cache.a7=c end return
+function a.bi()local c=a.cache.bi if not c then c={c=b()}a.cache.bi=c end return
 c.c end end do local b=function()return{Name='nolimbs',Aliases={'rlimbs'},
 Description='Remove all character limbs.',Group='DefaultDebug',Args={},ClientRun
 =function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=0 for e,f in ipairs(c:GetChildren())do
 if f:IsA'BasePart'and f.Name~='Head'then f:Destroy()d=d+1 end end return d>0 and
-('Removed %d limb(s).'):format(d)or'No limbs found.'end}end function a.a8()local
-c=a.cache.a8 if not c then c={c=b()}a.cache.a8=c end return c.c end end do local
+('Removed %d limb(s).'):format(d)or'No limbs found.'end}end function a.bj()local
+c=a.cache.bj if not c then c={c=b()}a.cache.bj=c end return c.c end end do local
 b=function()local b=false return{Name='nosit',Aliases={},InverseAliases={
 'unnosit'},Description='Toggle disable seated state.',Group='DefaultDebug',Args=
 {},ClientRun=function(c)local d=c.Executor.Character if not d then return
@@ -1807,8 +2016,8 @@ not e then return'No humanoid found.'end if c:isInvertedCall()then if not b then
 return'Sitting already enabled.'end b=false e:SetStateEnabled(Enum.
 HumanoidStateType.Seated,true)return'Seated state enabled.'end b=not b e:
 SetStateEnabled(Enum.HumanoidStateType.Seated,not b)return b and
-'Seated state disabled.'or'Seated state enabled.'end}end function a.a9()local c=
-a.cache.a9 if not c then c={c=b()}a.cache.a9=c end return c.c end end do local b
+'Seated state disabled.'or'Seated state enabled.'end}end function a.bk()local c=
+a.cache.bk if not c then c={c=b()}a.cache.bk=c end return c.c end end do local b
 =function()return{Name='notools',Aliases={'rtools'},Description=
 'Remove all tools from your character.',Group='DefaultDebug',Args={},ClientRun=
 function(b)local c=b.Executor.Character if not c then return
@@ -1816,7 +2025,7 @@ function(b)local c=b.Executor.Character if not c then return
 if f:IsA'Tool'then f:Destroy()d=d+1 end end local e=b.Executor:FindFirstChild
 'Backpack'if e then for f,g in ipairs(e:GetChildren())do if g:IsA'Tool'then g:
 Destroy()d=d+1 end end end return('Removed %d tool(s).'):format(d)end}end
-function a.ba()local c=a.cache.ba if not c then c={c=b()}a.cache.ba=c end return
+function a.bl()local c=a.cache.bl if not c then c={c=b()}a.cache.bl=c end return
 c.c end end do local b=function()return{Name='offset',Aliases={},Description=
 'Teleport with offset from a player.',Group='DefaultDebug',Args={{Type='player',
 Name='target',Description='The player to offset from'},{Type='number',Name='x',
@@ -1827,10 +2036,10 @@ Description='X offset',Default=5},{Type='number',Name='y',Description='Y offset'
 not h then return'No humanoid found.'end local i=h.RootPart if not i then return
 'No root part.'end local j=c.Character if not j then return
 'Target has no character.'end local k=j:FindFirstChildWhichIsA'Humanoid'if not k
-then return'Target has no humanoid.'end local m=k.RootPart if not m then return
-'Target has no root part.'end i.CFrame=m.CFrame*CFrame.new(d,e,f)return(
+then return'Target has no humanoid.'end local l=k.RootPart if not l then return
+'Target has no root part.'end i.CFrame=l.CFrame*CFrame.new(d,e,f)return(
 'Teleported with offset (%g, %g, %g) from %s.'):format(d,e,f,c.Name)end}end
-function a.bb()local c=a.cache.bb if not c then c={c=b()}a.cache.bb=c end return
+function a.bm()local c=a.cache.bm if not c then c={c=b()}a.cache.bm=c end return
 c.c end end do local b=function()local b=a.a()local c,d,e=b.RunService,false,{}
 local f=function()for f,g in ipairs(e)do g:Disconnect()end e={}d=false end
 return{Name='orbit',Aliases={},InverseAliases={'unorbit'},Description=
@@ -1842,24 +2051,24 @@ Description='Orbit speed (default 0.2)',Optional=true},{Type='number',Name=
 function(g,h,i,j)if g:isInvertedCall()then if not d then return
 'Orbit already disabled.'end f()return'Orbit stopped.'end if d then f()return
 'Orbit stopped.'end if not h then return'Specify a player to orbit around.'end
-local k=g.Executor.Character local m=k and k:FindFirstChildWhichIsA'Humanoid'
-local n=m and m.RootPart if not n then return
-"You don't have a character with a root part."end local o=h.Character local p=o
-and o:FindFirstChildWhichIsA'Humanoid'and o:FindFirstChildWhichIsA'Humanoid'.
-RootPart if not p then return'Target has no character or root part.'end d=true i
+local k=g.Executor.Character local l=k and k:FindFirstChildWhichIsA'Humanoid'
+local m=l and l.RootPart if not m then return
+"You don't have a character with a root part."end local n=h.Character local o=n
+and n:FindFirstChildWhichIsA'Humanoid'and n:FindFirstChildWhichIsA'Humanoid'.
+RootPart if not o then return'Target has no character or root part.'end d=true i
 =i or 0.2 j=j or 6 local q=0 local r,s,t,u=c.Heartbeat:Connect(function()if not
-d then return end local r,s=m and m.RootPart,h.Character and h.Character:
+d then return end local r,s=l and l.RootPart,h.Character and h.Character:
 FindFirstChildWhichIsA'Humanoid'and h.Character:FindFirstChildWhichIsA'Humanoid'
 .RootPart if not r or not s then for t,u in ipairs(e)do u:Disconnect()end e={}d=
 false return end q=q+i r.CFrame=CFrame.new(s.Position)*CFrame.Angles(0,math.rad(
 q),0)*CFrame.new(j,0,0)end),c.RenderStepped:Connect(function()if not d then
-return end local r,s=m and m.RootPart,h.Character and h.Character:
+return end local r,s=l and l.RootPart,h.Character and h.Character:
 FindFirstChildWhichIsA'Humanoid'and h.Character:FindFirstChildWhichIsA'Humanoid'
 .RootPart if not r or not s then return end r.CFrame=CFrame.new(r.Position,s.
-Position)end),m.Died:Connect(function()for r,s in ipairs(e)do s:Disconnect()end
-e={}d=false end),m.Seated:Connect(function(r)if r then for s,t in ipairs(e)do t:
+Position)end),l.Died:Connect(function()for r,s in ipairs(e)do s:Disconnect()end
+e={}d=false end),l.Seated:Connect(function(r)if r then for s,t in ipairs(e)do t:
 Disconnect()end e={}d=false end end)e={r,s,t,u}return('Orbiting %s.'):format(h.
-Name)end}end function a.bc()local c=a.cache.bc if not c then c={c=b()}a.cache.bc
+Name)end}end function a.bn()local c=a.cache.bn if not c then c={c=b()}a.cache.bn
 =c end return c.c end end do local b=function()local b=a.a()local c,d,e,f,g=b.
 PathfindingService,(b.RunService)local h=function(h)if f then f:Disconnect()f=
 nil end if g then g:Disconnect()g=nil end e=nil local i=h.Executor.Character
@@ -1872,23 +2081,23 @@ MoveTo(j.RootPart.Position)end end return{Name='pathfind',Aliases={'pathfindto',
 isInvertedCall()then if not f then return'Pathfind already disabled.'end h(i)
 return'Pathfind stopped.'end if f then h(i)return'Pathfind stopped.'end if not j
 then return'Usage: pathfind <player>'end local k=i.Executor.Character if not k
-then return"You don't have a character."end local m=k:FindFirstChildWhichIsA
-'Humanoid'if not m then return'No humanoid found.'end e=j g=m.Died:Connect(
-function()h(i)end)f=d.RenderStepped:Connect(function()local n=i.Executor.
-Character if not n then return end local o=n:FindFirstChildWhichIsA'Humanoid'if
-not o then return end local p=o.RootPart if not p then return end local q=e.
+then return"You don't have a character."end local l=k:FindFirstChildWhichIsA
+'Humanoid'if not l then return'No humanoid found.'end e=j g=l.Died:Connect(
+function()h(i)end)f=d.RenderStepped:Connect(function()local m=i.Executor.
+Character if not m then return end local n=m:FindFirstChildWhichIsA'Humanoid'if
+not n then return end local o=n.RootPart if not o then return end local q=e.
 Character if not q then return end local r=q:FindFirstChildWhichIsA'Humanoid'if
 not r then return end local s=r.RootPart if not s then return end local t=c:
 CreatePath{AgentRadius=2,AgentHeight=5,AgentCanJump=true}local u=pcall(function(
-)t:ComputeAsync(p.Position,s.Position)end)if u and t.Status==Enum.PathStatus.
-Success then local v=t:GetWaypoints()if#v>0 then o:MoveTo(v[math.min(#v,2)].
+)t:ComputeAsync(o.Position,s.Position)end)if u and t.Status==Enum.PathStatus.
+Success then local v=t:GetWaypoints()if#v>0 then n:MoveTo(v[math.min(#v,2)].
 Position)end end end)return('Now pathfinding to %s.'):format(j.Name)end}end
-function a.bd()local c=a.cache.bd if not c then c={c=b()}a.cache.bd=c end return
+function a.bo()local c=a.cache.bo if not c then c={c=b()}a.cache.bo=c end return
 c.c end end do local b=function()return{Name='ping',Aliases={'notifyping'},
 Description='Display your network ping.',Group='DefaultDebug',Args={},ClientRun=
 function()local b=game:GetService'Stats'local c=math.floor(b.Network.
 ServerStatsItem['Data Ping']:GetValue())return('Ping: %d ms'):format(c)end}end
-function a.be()local c=a.cache.be if not c then c={c=b()}a.cache.be=c end return
+function a.bp()local c=a.cache.bp if not c then c={c=b()}a.cache.bp=c end return
 c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 'position',Aliases={'pos'},Description=
 [[Returns Vector3 position of you or other players. Empty string is the player has no character.]]
@@ -1896,16 +2105,36 @@ c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 [[The player to report the position of. Omit for your own position.]],Default=c.
 LocalPlayer}},ClientRun=function(d,e)local f=e.Character if not f or not f:
 FindFirstChild'HumanoidRootPart'then return''end return tostring(f.
-HumanoidRootPart.Position):gsub('%s','')end}end function a.bf()local c=a.cache.
-bf if not c then c={c=b()}a.cache.bf=c end return c.c end end do local b=
-function()local b=a.V()return{Name='qefly',Aliases={'flyqe'},InverseAliases={
+HumanoidRootPart.Position):gsub('%s','')end}end function a.bq()local c=a.cache.
+bq if not c then c={c=b()}a.cache.bq=c end return c.c end end do local b=
+function()local b=a._()return{Name='qefly',Aliases={'flyqe'},InverseAliases={
 'unqefly','noqefly'},Description='Toggle QE up/down fly controls.',Group=
 'DefaultDebug',Args={},ClientRun=function(c)if c:isInvertedCall()then if b.
 keyBinds~='qe'then return'QE fly already disabled.'end b.keyBinds='default'
 return'QE fly disabled.'end b.keyBinds=b.keyBinds=='qe'and'default'or'qe'return
-b.keyBinds=='qe'and'QE fly enabled.'or'QE fly disabled.'end}end function a.bg()
-local c=a.cache.bg if not c then c={c=b()}a.cache.bg=c end return c.c end end do
-local b=function()return{Name='refresh',Aliases={'re'},Description=
+b.keyBinds=='qe'and'QE fly enabled.'or'QE fly disabled.'end}end function a.br()
+local c=a.cache.br if not c then c={c=b()}a.cache.br=c end return c.c end end do
+local b=function()local b={}return{Name='reach',Aliases={},InverseAliases={
+'unreach','noreach'},Description=
+[=[Extend melee reach by scaling tool handle. Usage: reach [size]]=],Group=
+'DefaultDebug',Args={{Type='number',Name='size',Description=
+'Handle size (default: 60, box shape)',Default=60,Optional=true}},ClientRun=
+function(c,d)local e=c.Executor.Character if not e then return
+"You don't have a character."end if c:isInvertedCall()then local f=0 for g,h in
+pairs(b)do pcall(function()h.handle.Size=h.origSize h.tool.GripPos=h.origGrip
+end)f=f+1 end table.clear(b)local g=e:FindFirstChildWhichIsA'Humanoid'if g then
+g:UnequipTools()end return f>0 and'Reach reset.'or'Reach was not active.'end if
+d<1 then d=1 end if next(b)then for f,g in pairs(b)do pcall(function()g.handle.
+Size=g.origSize g.tool.GripPos=g.origGrip end)end table.clear(b)end local f=e:
+FindFirstChildWhichIsA'Humanoid'if not f then return'No humanoid found.'end
+local g=0 for h,i in ipairs(e:GetChildren())do if i:IsA'Tool'then local j=i:
+FindFirstChild'Handle'if j and j:IsA'BasePart'then b[i]={tool=i,handle=j,
+origSize=j.Size,origGrip=i.GripPos}j.Massless=true j.Size=Vector3.new(d,d,d)i.
+GripPos=Vector3.new(0,0,0)g=g+1 end end end f:UnequipTools()return g>0 and(
+'Reach applied to %d tool(s) (size=%g).'):format(g,d)or
+'No tools found in character.'end}end function a.bs()local c=a.cache.bs if not c
+then c={c=b()}a.cache.bs=c end return c.c end end do local b=function()return{
+Name='refresh',Aliases={'re'},Description=
 'Refresh your character (respawn & restore position).',Group='DefaultDebug',Args
 ={},ClientRun=function(b)local c=b.Executor.Character if not c then return
 "You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'local
@@ -1916,56 +2145,67 @@ Executor.Character=c h:Destroy()task.spawn(function()local i=b.Executor.
 CharacterAdded:Wait()local j=i:FindFirstChildWhichIsA'Humanoid'while not j do
 task.wait()j=i:FindFirstChildWhichIsA'Humanoid'end if f then local k=j.RootPart
 if k then k.CFrame=f end end workspace.CurrentCamera.CFrame=g end)return
-'Refreshed.'end}end function a.bh()local c=a.cache.bh if not c then c={c=b()}a.
-cache.bh=c end return c.c end end do local b=function()local b,c=a.a(),game:
+'Refreshed.'end}end function a.bt()local c=a.cache.bt if not c then c={c=b()}a.
+cache.bt=c end return c.c end end do local b=function()local b,c=a.a(),game:
 GetService'TeleportService'return{Name='rejoin',Aliases={'rj'},Description=
 'Rejoins the current server.',Group='DefaultDebug',Args={},ClientRun=function()
 local d=b.Players.LocalPlayer if not d then return'No local player.'end c:
-Teleport(game.PlaceId,d)return'Rejoining...'end}end function a.bi()local c=a.
-cache.bi if not c then c={c=b()}a.cache.bi=c end return c.c end end do local b=
-function()return{Name='reset',Aliases={'respawn'},Description=
-'Reset your character (kill).',Group='DefaultDebug',Args={},ClientRun=function(b
-)local c=b.Executor.Character if not c then return"You don't have a character."
-end local d=c:FindFirstChildWhichIsA'Humanoid'if d then d:ChangeState(Enum.
-HumanoidStateType.Dead)else c:BreakJoints()end return'Reset.'end}end function a.
-bj()local c=a.cache.bj if not c then c={c=b()}a.cache.bj=c end return c.c end
-end do local b=function()return{Name='scare',Aliases={'spook'},Description=
-'Teleport behind a player briefly. Usage: scare <player>',Group='DefaultDebug',
-Args={{Type='player',Name='target',Description='The player to scare'}},ClientRun
-=function(b,c)local d=b.Executor.Character local e=d and d:
-FindFirstChildWhichIsA'Humanoid'local f=e and e.RootPart if not f then return
-"You don't have a character with a root part."end local g=c.Character local h=g
-and g:FindFirstChildWhichIsA'Humanoid'local i=h and h.RootPart if not i then
-return'Target has no character or root part.'end if c==b.Executor then return
-"You can't scare yourself."end local j=f.CFrame f.CFrame=i.CFrame+i.CFrame.
-LookVector*2 f.CFrame=CFrame.new(f.Position,i.Position)task.wait(0.5)f.CFrame=j
-return('Scared %s.'):format(c.Name)end}end function a.bk()local c=a.cache.bk if
-not c then c={c=b()}a.cache.bk=c end return c.c end end do local b=function()
-local b,c=a.a(),game:GetService'TeleportService'local d=b.HttpService return{
-Name='serverhop',Aliases={'shop','hop'},Description=
+Teleport(game.PlaceId,d)return'Rejoining...'end}end function a.bu()local c=a.
+cache.bu if not c then c={c=b()}a.cache.bu=c end return c.c end end do local b=
+function()local b={'AdGui','AdPortal','AdService','Advertisement','Sponsored',
+'Promo','Promotion','VideoAd'}return{Name='removeads',Aliases={'adblock'},
+Description='Remove in-game advertisements and sponsored content.',Group=
+'DefaultDebug',Args={},ClientRun=function(c)local d,e=0,game:GetService'CoreGui'
+for f,g in b do local h=e:FindFirstChild(g,true)while h do local i=h:
+FindFirstChild(g,true)pcall(function()h:Destroy()d=d+1 end)h=i end end local f=c
+.Executor:FindFirstChild'PlayerGui'if f then for g,h in ipairs(f:GetChildren())
+do if h:IsA'ScreenGui'and(h.Name:lower():find'ad'or h.Name:lower():find'sponsor'
+)then pcall(function()if h.Enabled then h.Enabled=false d=d+1 end end)end end
+end return d>0 and('Removed %d ad instance(s).'):format(d)or'No ads found.'end}
+end function a.bv()local c=a.cache.bv if not c then c={c=b()}a.cache.bv=c end
+return c.c end end do local b=function()return{Name='reset',Aliases={'respawn'},
+Description='Reset your character (kill).',Group='DefaultDebug',Args={},
+ClientRun=function(b)local c=b.Executor.Character if not c then return
+"You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if d
+then d:ChangeState(Enum.HumanoidStateType.Dead)else c:BreakJoints()end return
+'Reset.'end}end function a.bw()local c=a.cache.bw if not c then c={c=b()}a.cache
+.bw=c end return c.c end end do local b=function()return{Name='scare',Aliases={
+'spook'},Description='Teleport behind a player briefly. Usage: scare <player>',
+Group='DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to scare'}},ClientRun=function(b,c)local d=b.Executor.Character
+local e=d and d:FindFirstChildWhichIsA'Humanoid'local f=e and e.RootPart if not
+f then return"You don't have a character with a root part."end local g=c.
+Character local h=g and g:FindFirstChildWhichIsA'Humanoid'local i=h and h.
+RootPart if not i then return'Target has no character or root part.'end if c==b.
+Executor then return"You can't scare yourself."end local j=f.CFrame f.CFrame=i.
+CFrame+i.CFrame.LookVector*2 f.CFrame=CFrame.new(f.Position,i.Position)task.
+wait(0.5)f.CFrame=j return('Scared %s.'):format(c.Name)end}end function a.bx()
+local c=a.cache.bx if not c then c={c=b()}a.cache.bx=c end return c.c end end do
+local b=function()local b,c=a.a(),game:GetService'TeleportService'local d=b.
+HttpService return{Name='serverhop',Aliases={'shop','hop'},Description=
 'Teleports you to another server of the same game.',Group='DefaultDebug',Args={}
 ,ClientRun=function()local e=b.Players.LocalPlayer if not e then return
 'No local player.'end local f,g,h=game.PlaceId,game.JobId,game.GameId local i=
 string.format([[https://games.roblox.com/v1/games/%d/servers/Public?limit=100]],
 h)local j,k=pcall(function()return d:GetAsync(i)end)if not j then return
-'Failed to fetch servers.'end local m=d:JSONDecode(k)if not m or not m.data then
-return'No server data found.'end for n,o in ipairs(m.data)do if o.id~=g and o.
-playing<o.maxPlayers then c:TeleportToPlaceInstance(f,o.id,e)return
+'Failed to fetch servers.'end local l=d:JSONDecode(k)if not l or not l.data then
+return'No server data found.'end for m,n in ipairs(l.data)do if n.id~=g and n.
+playing<n.maxPlayers then c:TeleportToPlaceInstance(f,n.id,e)return
 'Server hopping...'end end return'No other servers available.'end}end function a
-.bl()local c=a.cache.bl if not c then c={c=b()}a.cache.bl=c end return c.c end
+.by()local c=a.cache.by if not c then c={c=b()}a.cache.by=c end return c.c end
 end do local b=function()local b=a.a()local c=b.Players return{Name='serverinfo'
 ,Aliases={'info','sinfo'},Description=
 'Show server information (players, uptime, place, etc.).',Group='DefaultDebug',
 Args={},ClientRun=function(d)local e,f,g,h,i=#c:GetPlayers(),game.PlaceId,game.
 JobId,game.GameId,game:GetService'Stats':FindFirstChild'PerformanceStats'local j
-,k,m=i and math.floor(i:GetValue())or'N/A',game:GetService'Stats':FindFirstChild
-'Session','N/A'if k then local n=k:GetValue()local o,p,q=math.floor(n/3600),math
-.floor((n%3600)/60),math.floor(n%60)m=('%02d:%02d:%02d'):format(o,p,q)end d:
-reply(('Players: %d | FPS: %s | Uptime: %s'):format(e,j,m))d:reply((
+,k,l=i and math.floor(i:GetValue())or'N/A',game:GetService'Stats':FindFirstChild
+'Session','N/A'if k then local m=k:GetValue()local n,o,q=math.floor(m/3600),math
+.floor((m%3600)/60),math.floor(m%60)l=('%02d:%02d:%02d'):format(n,o,q)end d:
+reply(('Players: %d | FPS: %s | Uptime: %s'):format(e,j,l))d:reply((
 'Place ID: %d | Game ID: %d'):format(f,h))d:reply(('Job ID: %s'):format(g))local
-n=game.CreatorId and('Creator ID: %d'):format(game.CreatorId)or''if n~=''then d:
-reply(n)end return'Server info displayed.'end}end function a.bm()local c=a.cache
-.bm if not c then c={c=b()}a.cache.bm=c end return c.c end end do local b=
+m=game.CreatorId and('Creator ID: %d'):format(game.CreatorId)or''if m~=''then d:
+reply(m)end return'Server info displayed.'end}end function a.bz()local c=a.cache
+.bz if not c then c={c=b()}a.cache.bz=c end return c.c end end do local b=
 function()local b return{Name='setfpscap',Aliases={'fpscap','maxfps'},
 Description='Set a custom FPS cap. Usage: setfpscap <fps> | none',Group=
 'DefaultDebug',Args={{Type='number',Name='fps',Description=
@@ -1973,7 +2213,7 @@ Description='Set a custom FPS cap. Usage: setfpscap <fps> | none',Group=
 task.cancel(b)b=nil end if not d or d<=0 then return'FPS cap disabled.'end local
 e=d b=task.spawn(function()local f=os.clock()while true do if os.clock()>=f+1/e
 then f=os.clock()task.wait()end end end)return('FPS cap set to %d.'):format(e)
-end}end function a.bn()local c=a.cache.bn if not c then c={c=b()}a.cache.bn=c
+end}end function a.bA()local c=a.cache.bA if not c then c={c=b()}a.cache.bA=c
 end return c.c end end do local b=function()return{Name='setwaypoint',Aliases={
 'swp','saveposition','savepos'},Description=
 'Save your current position as a named waypoint.',Group='DefaultDebug',Args={{
@@ -1984,13 +2224,13 @@ not e then return'No humanoid.'end local f=e.RootPart if not f then return
 'No root part.'end local g,h,i=f.Position,b:getStore'Waypoints',c:lower()h[i]={
 name=c,x=math.floor(g.X),y=math.floor(g.Y),z=math.floor(g.Z)}return(
 'Saved waypoint "%s" at (%d, %d, %d).'):format(c,h[i].x,h[i].y,h[i].z)end}end
-function a.bo()local c=a.cache.bo if not c then c={c=b()}a.cache.bo=c end return
+function a.bB()local c=a.cache.bB if not c then c={c=b()}a.cache.bB=c end return
 c.c end end do local b=function()return{Name='sit',Aliases={},Description=
 'Force sit your character.',Group='DefaultDebug',Args={},ClientRun=function(b)
 local c=b.Executor.Character if not c then return"You don't have a character."
 end local d=c:FindFirstChildWhichIsA'Humanoid'if not d then return
-'No humanoid found.'end d.Sit=true return'Sit enabled.'end}end function a.bp()
-local c=a.cache.bp if not c then c={c=b()}a.cache.bp=c end return c.c end end do
+'No humanoid found.'end d.Sit=true return'Sit enabled.'end}end function a.bC()
+local c=a.cache.bC if not c then c={c=b()}a.cache.bC=c end return c.c end end do
 local b=function()local b,c,d,e=false,{},function(b)local c=b and b:
 FindFirstChildWhichIsA'Humanoid'return c and c.RigType==Enum.HumanoidRigType.R15
 end return{Name='sitwalk',Aliases={},Description=
@@ -2001,14 +2241,14 @@ return'No Animate script found.'end local i=h:FindFirstChild'sit'if not i then
 return'No sit animation found.'end local j=i:FindFirstChildWhichIsA'Animation'if
 not j then return'No sit animation ID found.'end local k=g:
 FindFirstChildWhichIsA'Humanoid'if not k then return'No humanoid found.'end b=
-not b local m={'idle','walk','run','jump'}if b then local n=j.AnimationId for o,
-p in ipairs(m)do local q=h:FindFirstChild(p)if q then local r=q:
-FindFirstChildWhichIsA'Animation'if r then c[p]=r.AnimationId r.AnimationId=n
+not b local l={'idle','walk','run','jump'}if b then local m=j.AnimationId for n,
+o in ipairs(l)do local q=h:FindFirstChild(o)if q then local r=q:
+FindFirstChildWhichIsA'Animation'if r then c[o]=r.AnimationId r.AnimationId=m
 end end end e=k.HipHeight k.HipHeight=d(g)and 0.5 or-1.5 return
-'Sitwalk enabled.'end for n,o in ipairs(m)do local p=h:FindFirstChild(o)if p
-then local q=p:FindFirstChildWhichIsA'Animation'if q and c[o]then q.AnimationId=
-c[o]end end end if e then k.HipHeight=e e=nil end return'Sitwalk disabled.'end}
-end function a.bq()local c=a.cache.bq if not c then c={c=b()}a.cache.bq=c end
+'Sitwalk enabled.'end for m,n in ipairs(l)do local o=h:FindFirstChild(n)if o
+then local q=o:FindFirstChildWhichIsA'Animation'if q and c[n]then q.AnimationId=
+c[n]end end end if e then k.HipHeight=e e=nil end return'Sitwalk disabled.'end}
+end function a.bD()local c=a.cache.bD if not c then c={c=b()}a.cache.bD=c end
 return c.c end end do local b=function()local b=a.a()local c,d,e=(b.RunService)
 local f=function()if d then d:Disconnect()d=nil end if e then e:Disconnect()e=
 nil end end return{Name='spasm',Aliases={},InverseAliases={'unspasm','nospasm'},
@@ -2018,13 +2258,13 @@ function(g)if g:isInvertedCall()then if not d then return
 'Spasm disabled.'end local h=g.Executor.Character if not h then return
 "You don't have a character."end local i=h:FindFirstChildWhichIsA'Humanoid'if
 not i then return'No humanoid found.'end d=c.Stepped:Connect(function()local j=g
-.Executor.Character if not j then return end for k,m in ipairs(j:GetChildren())
-do if m:IsA'BasePart'then m.Velocity=Vector3.new(math.random(-500,500),math.
-random(-500,500),math.random(-500,500))m.RotVelocity=Vector3.new(math.random(-
+.Executor.Character if not j then return end for k,l in ipairs(j:GetChildren())
+do if l:IsA'BasePart'then l.Velocity=Vector3.new(math.random(-500,500),math.
+random(-500,500),math.random(-500,500))l.RotVelocity=Vector3.new(math.random(-
 500,500),math.random(-500,500),math.random(-500,500))end end end)e=i.Died:
 Connect(function()if d then d:Disconnect()d=nil end if e then e:Disconnect()e=
-nil end end)return'Spasm enabled.'end}end function a.br()local c=a.cache.br if
-not c then c={c=b()}a.cache.br=c end return c.c end end do local b=function()
+nil end end)return'Spasm enabled.'end}end function a.bE()local c=a.cache.bE if
+not c then c={c=b()}a.cache.bE=c end return c.c end end do local b=function()
 return{Name='spawnpoint',Aliases={'spawn'},Description=
 [[Set a custom spawn point at your position. Run again to clear.]],Group=
 'DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character if not
@@ -2036,7 +2276,7 @@ e then return'No root part.'end local f=c:FindFirstChild'CustomSpawn'if f then f
 CharacterAdded:Connect(function(h)local i=h:FindFirstChild'CustomSpawn'if not i
 then return end task.wait(0.2)local j=h:FindFirstChildWhichIsA'Humanoid'j=j and
 j.RootPart if j then j.CFrame=i.Value end end)return'Custom spawn point set.'end
-}end function a.bs()local c=a.cache.bs if not c then c={c=b()}a.cache.bs=c end
+}end function a.bF()local c=a.cache.bF if not c then c={c=b()}a.cache.bF=c end
 return c.c end end do local b=function()return{Name='spin',Aliases={},
 InverseAliases={'unspin'},Description=
 'Toggle spin your character (optional: speed).',Group='DefaultDebug',Args={{Type
@@ -2050,41 +2290,57 @@ g then return'Spin already disabled.'end g:Destroy()return'Spin disabled.'end if
 g then g:Destroy()return'Spin disabled.'end local h=Instance.new
 'BodyAngularVelocity'h.Name='Spinning'h.Parent=f h.MaxTorque=Vector3.new(0,math.
 huge,0)h.AngularVelocity=Vector3.new(0,c,0)return('Spin enabled (speed: %d).'):
-format(c)end}end function a.bt()local c=a.cache.bt if not c then c={c=b()}a.
-cache.bt=c end return c.c end end do local b=function()local b=a.a()local c,d,e=
-(b.RunService)local f=function()if e then e:Disconnect()e=nil end d=nil end
-return{Name='stare',Aliases={'stareat'},InverseAliases={'unstare','nostare'},
-Description='Toggle making your head face a player.',Group='DefaultDebug',Args={
-{Type='player',Name='target',Description='The player to stare at',Optional=true}
-},ClientRun=function(g,h)if g:isInvertedCall()then if not e then return
-'Not staring at anyone.'end f()return'Stare disabled.'end if e or not h then f()
-return'Stare disabled.'end local i=g.Executor.Character if not i then return
-"You don't have a character."end local j=i:FindFirstChild'Head'if not j then
-return'No head found.'end d=h e=c.RenderStepped:Connect(function()local k=g.
-Executor.Character if not k then return end local m=k:FindFirstChild'Head'if not
-m then return end local n=d.Character if not n then return end local o=n:
-FindFirstChild'Head'if not o then return end m.CFrame=CFrame.lookAt(m.Position,o
-.Position)end)return('Now staring at %s.'):format(h.Name)end}end function a.bu()
-local c=a.cache.bu if not c then c={c=b()}a.cache.bu=c end return c.c end end do
-local b=function()return{Name='stopanimations',Aliases={'stopanims','stopanim'},
-Description='Stop all playing animations.',Group='DefaultDebug',Args={},
-ClientRun=function(b)local c=b.Executor.Character if not c then return
-"You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if
-not d then return'No humanoid found.'end local e=0 for f,g in ipairs(d:
-GetPlayingAnimationTracks())do g:Stop()e=e+1 end return(
-'Stopped %d animation(s).'):format(e)end}end function a.bv()local c=a.cache.bv
-if not c then c={c=b()}a.cache.bv=c end return c.c end end do local b=function()
-return{Name='stun',Aliases={'platformstand'},InverseAliases={'unstun','nostun'},
-Description='Toggle stun (platform stand).',Group='DefaultDebug',Args={},
-ClientRun=function(b)local c=b.Executor.Character if not c then return
-"You don't have a character."end local d=c:FindFirstChildWhichIsA'Humanoid'if
-not d then return'No humanoid found.'end if b:isInvertedCall()then if not d.
-PlatformStand then return'Already unstunned.'end d.PlatformStand=false return
-'Unstunned.'end d.PlatformStand=not d.PlatformStand return d.PlatformStand and
-'Stunned.'or'Unstunned.'end}end function a.bw()local c=a.cache.bw if not c then
-c={c=b()}a.cache.bw=c end return c.c end end do local b=function()local b=a.a()
-local c,d,e=b.RunService,false return{Name='teleportwalk',Aliases={'tpwalk'},
-InverseAliases={'unteleportwalk','untpwalk'},Description=
+format(c)end}end function a.bG()local c=a.cache.bG if not c then c={c=b()}a.
+cache.bG=c end return c.c end end do local b=function()local b=a.a()local c,d,e=
+b.RunService,16 return{Name='spoofspeed',Aliases={'spoofws','spoofwalkspeed'},
+Description=
+[[Visually spoof walkspeed (overrides velocity each frame). Usage: spoofspeed <speed> | reset]]
+,Group='DefaultDebug',Args={{Type='number',Name='speed',Description=
+[[Spoofed walkspeed (default: 50, use 16 or 'reset' to disable)]],Default=50,
+Optional=true}},ClientRun=function(f,g)local h=f.Executor.Character if not h
+then return"You don't have a character."end local i=h:FindFirstChildWhichIsA
+'Humanoid'if not i then return'No humanoid found.'end if not g or g<=0 or g==16
+then if e then e:Disconnect()e=nil end return'Spoof speed disabled.'end if e
+then e:Disconnect()end d=g e=c.RenderStepped:Connect(function()local j=f.
+Executor.Character if not j then return end local k=j:FindFirstChildWhichIsA
+'Humanoid'if not k or not k.RootPart then return end local l=k.MoveDirection if
+l.Magnitude>0 then k.RootPart.Velocity=l*d end end)return(
+'Spoof speed set to %d.'):format(g)end}end function a.bH()local c=a.cache.bH if
+not c then c={c=b()}a.cache.bH=c end return c.c end end do local b=function()
+local b=a.a()local c,d,e=(b.RunService)local f=function()if e then e:Disconnect(
+)e=nil end d=nil end return{Name='stare',Aliases={'stareat'},InverseAliases={
+'unstare','nostare'},Description='Toggle making your head face a player.',Group=
+'DefaultDebug',Args={{Type='player',Name='target',Description=
+'The player to stare at',Optional=true}},ClientRun=function(g,h)if g:
+isInvertedCall()then if not e then return'Not staring at anyone.'end f()return
+'Stare disabled.'end if e or not h then f()return'Stare disabled.'end local i=g.
+Executor.Character if not i then return"You don't have a character."end local j=
+i:FindFirstChild'Head'if not j then return'No head found.'end d=h e=c.
+RenderStepped:Connect(function()local k=g.Executor.Character if not k then
+return end local l=k:FindFirstChild'Head'if not l then return end local m=d.
+Character if not m then return end local n=m:FindFirstChild'Head'if not n then
+return end l.CFrame=CFrame.lookAt(l.Position,n.Position)end)return(
+'Now staring at %s.'):format(h.Name)end}end function a.bI()local c=a.cache.bI if
+not c then c={c=b()}a.cache.bI=c end return c.c end end do local b=function()
+return{Name='stopanimations',Aliases={'stopanims','stopanim'},Description=
+'Stop all playing animations.',Group='DefaultDebug',Args={},ClientRun=function(b
+)local c=b.Executor.Character if not c then return"You don't have a character."
+end local d=c:FindFirstChildWhichIsA'Humanoid'if not d then return
+'No humanoid found.'end local e=0 for f,g in ipairs(d:GetPlayingAnimationTracks(
+))do g:Stop()e=e+1 end return('Stopped %d animation(s).'):format(e)end}end
+function a.bJ()local c=a.cache.bJ if not c then c={c=b()}a.cache.bJ=c end return
+c.c end end do local b=function()return{Name='stun',Aliases={'platformstand'},
+InverseAliases={'unstun','nostun'},Description='Toggle stun (platform stand).',
+Group='DefaultDebug',Args={},ClientRun=function(b)local c=b.Executor.Character
+if not c then return"You don't have a character."end local d=c:
+FindFirstChildWhichIsA'Humanoid'if not d then return'No humanoid found.'end if b
+:isInvertedCall()then if not d.PlatformStand then return'Already unstunned.'end
+d.PlatformStand=false return'Unstunned.'end d.PlatformStand=not d.PlatformStand
+return d.PlatformStand and'Stunned.'or'Unstunned.'end}end function a.bK()local c
+=a.cache.bK if not c then c={c=b()}a.cache.bK=c end return c.c end end do local
+b=function()local b=a.a()local c,d,e=b.RunService,false return{Name=
+'teleportwalk',Aliases={'tpwalk'},InverseAliases={'unteleportwalk','untpwalk'},
+Description=
 [=[Toggle teleport walk (rubberband as you move). Usage: teleportwalk [speed]]=]
 ,Group='DefaultDebug',Args={{Type='number',Name='speed',Description=
 'Teleport speed (default 1)',Optional=true}},ClientRun=function(f,g)if f:
@@ -2094,18 +2350,18 @@ then if e then e:Disconnect()e=nil end d=false return'Teleport walk disabled.'
 end local h=f.Executor.Character local i=h and h:FindFirstChildWhichIsA
 'Humanoid'if not i then return'No humanoid found.'end d=true g=g or 1 e=c.
 Heartbeat:Connect(function(j)if not d then return end local k=f.Executor.
-Character local m=k and k:FindFirstChildWhichIsA'Humanoid'if not(k and m and m.
-Parent)then e:Disconnect()e=nil d=false return end if m.MoveDirection.Magnitude>
-0 then k:TranslateBy(m.MoveDirection*g*j*10)end end)return(
-'Teleport walk enabled (speed: %s).'):format(tostring(g))end}end function a.bx()
-local c=a.cache.bx if not c then c={c=b()}a.cache.bx=c end return c.c end end do
+Character local l=k and k:FindFirstChildWhichIsA'Humanoid'if not(k and l and l.
+Parent)then e:Disconnect()e=nil d=false return end if l.MoveDirection.Magnitude>
+0 then k:TranslateBy(l.MoveDirection*g*j*10)end end)return(
+'Teleport walk enabled (speed: %s).'):format(tostring(g))end}end function a.bL()
+local c=a.cache.bL if not c then c={c=b()}a.cache.bL=c end return c.c end end do
 local b=function()return{Name='thirdp',Aliases={},Description=
 'Force third-person camera.',Group='DefaultDebug',Args={},ClientRun=function(b)
 local c,d=workspace.CurrentCamera,b.Executor.Character c.CameraType=Enum.
 CameraType.Custom if d then local e=d:FindFirstChildWhichIsA'Humanoid'if e then
 c.CameraSubject=e end end b.Executor.CameraMode=Enum.CameraMode.Classic return
-'Third-person enabled.'end}end function a.by()local c=a.cache.by if not c then c
-={c=b()}a.cache.by=c end return c.c end end do local b=function()return{Name=
+'Third-person enabled.'end}end function a.bM()local c=a.cache.bM if not c then c
+={c=b()}a.cache.bM=c end return c.c end end do local b=function()return{Name=
 'thru',Aliases={'t','through'},Description=
 [[Teleports you through whatever your mouse is hovering over, placing you equidistantly from the wall.]]
 ,Group='DefaultDebug',Args={{Type='number',Name='Extra distance',Description=
@@ -2113,8 +2369,8 @@ c.CameraSubject=e end end b.Executor.CameraMode=Enum.CameraMode.Classic return
 local d,e=b.Executor:GetMouse(),b.Executor.Character if not e or not e:
 FindFirstChild'HumanoidRootPart'then return"You don't have a character."end
 local f=e.HumanoidRootPart.Position local g=(d.Hit.p-f)e:MoveTo((g*2)+(g.unit*c)
-+f)return'Blinked!'end}end function a.bz()local c=a.cache.bz if not c then c={c=
-b()}a.cache.bz=c end return c.c end end do local b=function()local b=a.a()local
++f)return'Blinked!'end}end function a.bN()local c=a.cache.bN if not c then c={c=
+b()}a.cache.bN=c end return c.c end end do local b=function()local b=a.a()local
 c=b.Lighting return{Name='time',Aliases={},Description=
 [[Set local time of day. Usage: time <0-24|morning|day|noon|night|midnight>]],
 Group='DefaultDebug',Args={{Type='string',Name='time',Description=
@@ -2122,7 +2378,7 @@ Group='DefaultDebug',Args={{Type='string',Name='time',Description=
 ,noon=12,night=0,midnight=0}local g=f[e:lower()]or tonumber(e)if not g then
 return[[Invalid time. Use 0-24 or: morning, day, noon, night, midnight.]]end g=
 math.clamp(g,0,24)c.ClockTime=g return('Time set to %g:00.'):format(g)end}end
-function a.bA()local c=a.cache.bA if not c then c={c=b()}a.cache.bA=c end return
+function a.bO()local c=a.cache.bO if not c then c={c=b()}a.cache.bO=c end return
 c.c end end do local b=function()local b=a.a()local c,d=b.Lighting,game:
 GetService'ReplicatedStorage'return{Name='tools',Aliases={'gears'},Description=
 [[Copy tools from Lighting and ReplicatedStorage into your backpack.]],Group=
@@ -2131,7 +2387,7 @@ FindFirstChildWhichIsA'Backpack'if not f then return'No backpack found.'end
 local g=0 local function h(i)for j,k in ipairs(i:GetChildren())do if k:IsA'Tool'
 or k:IsA'HopperBin'then k:Clone().Parent=f g=g+1 end h(k)end end h(c)h(d)return(
 'Copied %d tools from Lighting and ReplicatedStorage.'):format(g)end}end
-function a.bB()local c=a.cache.bB if not c then c={c=b()}a.cache.bB=c end return
+function a.bP()local c=a.cache.bP if not c then c={c=b()}a.cache.bP=c end return
 c.c end end do local b=function()return{Name='touchinterests',Aliases={},
 Description='Fire TouchInterest on the part under your mouse.',Group=
 'DefaultDebug',Args={},ClientRun=function()local b=game:GetService'Players'.
@@ -2145,8 +2401,8 @@ ipairs(g:GetDescendants())do if j:IsA'TouchTransmitter'or j.ClassName==
 'TouchInterest'then local k=j.FindFirstAncestorWhichIsA and j:
 FindFirstAncestorWhichIsA'Part'or j:FindFirstAncestorOfClass'Part'if k then
 firetouchinterest(k,e,0)task.wait()firetouchinterest(k,e,1)h=h+1 end end end
-return('Fired %d touch interest(s).'):format(h)end}end function a.bC()local c=a.
-cache.bC if not c then c={c=b()}a.cache.bC=c end return c.c end end do local b=
+return('Fired %d touch interest(s).'):format(h)end}end function a.bQ()local c=a.
+cache.bQ if not c then c={c=b()}a.cache.bQ=c end return c.c end end do local b=
 function()return{Name='tpposition',Aliases={'tppos'},Description=
 'Teleport to X Y Z coordinates.',Group='DefaultDebug',Args={{Type='number',Name=
 'x',Description='X coordinate'},{Type='number',Name='y',Description=
@@ -2155,8 +2411,8 @@ function(b,c,d,e)local f=b.Executor.Character if not f then return
 "You don't have a character."end local g=f:FindFirstChildWhichIsA'Humanoid'if
 not g then return'No humanoid found.'end local h=g.RootPart if not h then return
 'No root part.'end h.CFrame=CFrame.new(c,d,e)return(
-'Teleported to (%.0f, %.0f, %.0f).'):format(c,d,e)end}end function a.bD()local c
-=a.cache.bD if not c then c={c=b()}a.cache.bD=c end return c.c end end do local
+'Teleported to (%.0f, %.0f, %.0f).'):format(c,d,e)end}end function a.bR()local c
+=a.cache.bR if not c then c={c=b()}a.cache.bR=c end return c.c end end do local
 b=function()local b=a.a()local c=b.UserInputService return{Name='tptool',Aliases
 ={'teleporttool'},Description='Give yourself a teleport tool.',Group=
 'DefaultDebug',Args={},ClientRun=function(d)local e=d.Executor local f=e:
@@ -2164,19 +2420,19 @@ FindFirstChildWhichIsA'Backpack'if not f then return'No backpack found.'end
 local g=Instance.new'Tool'g.Name='Teleport Tool'g.RequiresHandle=false g.Parent=
 f g.Activated:Connect(function()local h=e.Character local i=h and h:
 FindFirstChildWhichIsA'Humanoid'local j=i and i.RootPart if not j then return
-end local k,m=workspace.CurrentCamera,c:GetMouseLocation()local n=k:
-ViewportPointToRay(m.X,m.Y)local o=workspace:Raycast(n.Origin,n.Direction*1000)
-local p=o and o.Position or n.Origin+n.Direction*1000 j.CFrame=CFrame.new(p.X,p.
-Y+3,p.Z)*CFrame.fromOrientation(j.CFrame:ToOrientation())j.Velocity=Vector3.zero
-j.RotVelocity=Vector3.zero end)return'Teleport tool given.'end}end function a.bE
-()local c=a.cache.bE if not c then c={c=b()}a.cache.bE=c end return c.c end end
+end local k,l=workspace.CurrentCamera,c:GetMouseLocation()local m=k:
+ViewportPointToRay(l.X,l.Y)local n=workspace:Raycast(m.Origin,m.Direction*1000)
+local o=n and n.Position or m.Origin+m.Direction*1000 j.CFrame=CFrame.new(o.X,o.
+Y+3,o.Z)*CFrame.fromOrientation(j.CFrame:ToOrientation())j.Velocity=Vector3.zero
+j.RotVelocity=Vector3.zero end)return'Teleport tool given.'end}end function a.bS
+()local c=a.cache.bS if not c then c={c=b()}a.cache.bS=c end return c.c end end
 do local b=function()return{Name='trip',Aliases={},Description=
 'Make your character trip.',Group='DefaultDebug',Args={},ClientRun=function(b)
 local c=b.Executor.Character if not c then return"You don't have a character."
 end local d=c:FindFirstChildWhichIsA'Humanoid'local e=d and d.RootPart if not d
 or not e then return'No humanoid or root part.'end d:ChangeState(Enum.
 HumanoidStateType.FallingDown)e.Velocity=e.CFrame.LookVector*30 return'Tripped.'
-end}end function a.bF()local c=a.cache.bF if not c then c={c=b()}a.cache.bF=c
+end}end function a.bT()local c=a.cache.bT if not c then c={c=b()}a.cache.bT=c
 end return c.c end end do local b=function()local b=a.a()local c=b.TweenService
 return{Name='tweengoto',Aliases={'tgoto','tto','tweento','ttp'},Description=
 'Tween to a player. Usage: tweengoto <player> [speed]',Group='DefaultDebug',Args
@@ -2186,17 +2442,28 @@ true}},ClientRun=function(d,e,f)local g=d.Executor.Character local h=g and g:
 FindFirstChildWhichIsA'Humanoid'local i=h and h.RootPart if not i then return
 "You don't have a root part."end local j=e.Character local k=j and j:
 FindFirstChild'HumanoidRootPart'if not k then return
-'Target has no humanoid root part.'end f=f or 1 local m=c:Create(i,TweenInfo.
-new(f,Enum.EasingStyle.Linear),{CFrame=k.CFrame*CFrame.new(0,3,0)})m:Play()
-return('Tweening to %s.'):format(e.Name)end}end function a.bG()local c=a.cache.
-bG if not c then c={c=b()}a.cache.bG=c end return c.c end end do local b=
+'Target has no humanoid root part.'end f=f or 1 local l=c:Create(i,TweenInfo.
+new(f,Enum.EasingStyle.Linear),{CFrame=k.CFrame*CFrame.new(0,3,0)})l:Play()
+return('Tweening to %s.'):format(e.Name)end}end function a.bU()local c=a.cache.
+bU if not c then c={c=b()}a.cache.bU=c end return c.c end end do local b=
 function()return{Name='userid',Aliases={'id'},Description=
 "Show a player's user ID. Usage: userid <player>",Group='DefaultDebug',Args={{
 Type='player',Name='target',Description='The player to check'}},ClientRun=
 function(b,c)b:reply(("%s's user ID: %d"):format(c.Name,c.UserId))return(
-"Checked %s's user ID."):format(c.Name)end}end function a.bH()local c=a.cache.bH
-if not c then c={c=b()}a.cache.bH=c end return c.c end end do local b=function()
-return{Name='vehiclegoto',Aliases={'vgoto','vtp'},Description=
+"Checked %s's user ID."):format(c.Name)end}end function a.bV()local c=a.cache.bV
+if not c then c={c=b()}a.cache.bV=c end return c.c end end do local b=function()
+local b=a.a()local c,d=(b.RunService)return{Name='usetools',Aliases={},
+InverseAliases={'unusetools','nousetools'},Description=
+'Toggle auto-use tools (rapidly activates equipped tools).',Group='DefaultDebug'
+,Args={},ClientRun=function(e)if e:isInvertedCall()then if not d then return
+'Auto-use tools already disabled.'end d:Disconnect()d=nil return
+'Auto-use tools disabled.'end if d then d:Disconnect()d=nil return
+'Auto-use tools disabled.'end d=c.RenderStepped:Connect(function()local f=e.
+Executor.Character if not f then return end for g,h in ipairs(f:GetChildren())do
+if h:IsA'Tool'then pcall(function()h:Activate()end)end end end)return
+'Auto-use tools enabled.'end}end function a.bW()local c=a.cache.bW if not c then
+c={c=b()}a.cache.bW=c end return c.c end end do local b=function()return{Name=
+'vehiclegoto',Aliases={'vgoto','vtp'},Description=
 "Teleport to a player's vehicle seat.",Group='DefaultDebug',Args={{Type='player'
 ,Name='target',Description='The player whose vehicle to teleport to'}},ClientRun
 =function(b,c)local d=b.Executor.Character if not d then return
@@ -2211,13 +2478,13 @@ if not h then if g:FindFirstChildWhichIsA'Humanoid'then local i=g:
 FindFirstChildWhichIsA'Humanoid'local j=i.RootPart if j then f.CFrame=j.CFrame*
 CFrame.new(5,0,0)return('Teleported near %s.'):format(c.Name)end end return
 'No vehicle seat found.'end f.CFrame=h.CFrame*CFrame.new(0,3,0)return(
-"Teleported to %s's vehicle."):format(c.Name)end}end function a.bI()local c=a.
-cache.bI if not c then c={c=b()}a.cache.bI=c end return c.c end end do local b=
+"Teleported to %s's vehicle."):format(c.Name)end}end function a.bX()local c=a.
+cache.bX if not c then c={c=b()}a.cache.bX=c end return c.c end end do local b=
 function()return{Name='version',Args={},Description=
 'Shows the current version of CoCo',Group='DefaultDebug',Run=function()return(
-'CoCo Version %s'):format(_P.vers)end}end function a.bJ()local c=a.cache.bJ if
-not c then c={c=b()}a.cache.bJ=c end return c.c end end do local b=function()
-local b=a.V()return{Name='vfly',Aliases={'vehiclefly'},InverseAliases={'unvfly',
+'CoCo Version %s'):format(_P.vers)end}end function a.bY()local c=a.cache.bY if
+not c then c={c=b()}a.cache.bY=c end return c.c end end do local b=function()
+local b=a._()return{Name='vfly',Aliases={'vehiclefly'},InverseAliases={'unvfly',
 'novehiclefly'},Description='Toggle vehicle fly.',Group='DefaultDebug',Args={},
 ClientRun=function(c)if c:isInvertedCall()then if not b.flying or b.method~=
 'vehicle'then return'Vehicle fly already disabled.'end b:flyStop()b.method=
@@ -2225,7 +2492,7 @@ ClientRun=function(c)if c:isInvertedCall()then if not b.flying or b.method~=
 then return"You don't have a character."end b.character=d if b.flying and b.
 method=='vehicle'then b:flyStop()b.method='velocity'return
 'Vehicle fly disabled.'end b:flyMethod'vehicle'return'Vehicle fly enabled.'end}
-end function a.bK()local c=a.cache.bK if not c then c={c=b()}a.cache.bK=c end
+end function a.bZ()local c=a.cache.bZ if not c then c={c=b()}a.cache.bZ=c end
 return c.c end end do local b=function()local b,c,d,e=nil,nil,nil,(a.a())local f
 =function(f)if c then c:Disconnect()c=nil end if d then d:Disconnect()d=nil end
 local g,h=workspace.CurrentCamera,f.Executor.Character if h then local i=h:
@@ -2245,7 +2512,7 @@ FindFirstChildWhichIsA'Humanoid'if k then j.CameraSubject=k end end)d=j:
 GetPropertyChangedSignal'CameraSubject':Connect(function()if b and b.Character
 then local k=b.Character:FindFirstChildWhichIsA'Humanoid'if k then j.
 CameraSubject=k end end end)return('Now spectating %s.'):format(h.Name)end}end
-function a.bL()local c=a.cache.bL if not c then c={c=b()}a.cache.bL=c end return
+function a.b_()local c=a.cache.b_ if not c then c={c=b()}a.cache.b_=c end return
 c.c end end do local b=function()local b=a.a()local c,d,e=(b.Players)return{Name
 ='viewpart',Aliases={'viewp'},Description='Spectate a part by its name.',Group=
 'DefaultDebug',Args={{Type='string',Name='partName',Description=
@@ -2256,23 +2523,23 @@ not g then if e then e:Disconnect()e=nil end local h,i=workspace.CurrentCamera,c
 Custom d=nil return'Part spectate stopped.'end local h={}for i,j in ipairs(
 workspace:GetDescendants())do if j:IsA'BasePart'and j.Name:lower()==g:lower()
 then table.insert(h,j)end end if#h==0 then return('No part named %q found.'):
-format(g)end local i=h[1]if#h>1 then local j=workspace.CurrentCamera local k,m=j
-.CFrame.p,h[1]local n=(m.Position-k).Magnitude for o=2,#h do local p=(h[o].
-Position-k).Magnitude if p<n then m=h[o]n=p end end i=m end d=i local j=
+format(g)end local i=h[1]if#h>1 then local j=workspace.CurrentCamera local k,l=j
+.CFrame.p,h[1]local m=(l.Position-k).Magnitude for n=2,#h do local o=(h[n].
+Position-k).Magnitude if o<m then l=h[n]m=o end end i=l end d=i local j=
 workspace.CurrentCamera j.CameraType=Enum.CameraType.Attach j.CameraSubject=i if
 e then e:Disconnect()end e=i.AncestryChanged:Connect(function()if not i.Parent
-then local k=c.LocalPlayer local m=k.Character if m then local n=m:
-FindFirstChildWhichIsA'Humanoid'if n then j.CameraSubject=n end end j.CameraType
+then local k=c.LocalPlayer local l=k.Character if l then local m=l:
+FindFirstChildWhichIsA'Humanoid'if m then j.CameraSubject=m end end j.CameraType
 =Enum.CameraType.Custom d=nil e=nil end end)return('Now spectating %s.'):format(
-i:GetFullName())end}end function a.bM()local c=a.cache.bM if not c then c={c=b()
-}a.cache.bM=c end return c.c end end do local b=function()return{Name=
+i:GetFullName())end}end function a.b0()local c=a.cache.b0 if not c then c={c=b()
+}a.cache.b0=c end return c.c end end do local b=function()return{Name=
 'walkspeed',Aliases={'ws','speed'},Description='Set your walkspeed.',Group=
 'DefaultDebug',Args={{Type='number',Name='speed',Description=
 'The walkspeed to set (default: 16)',Default=16}},ClientRun=function(b,c)local d
 =b.Executor.Character if not d then return"You don't have a character."end local
 e=d:FindFirstChildWhichIsA'Humanoid'if not e then return'No humanoid found.'end
-e.WalkSpeed=c return('Walkspeed set to %d.'):format(c)end}end function a.bN()
-local c=a.cache.bN if not c then c={c=b()}a.cache.bN=c end return c.c end end do
+e.WalkSpeed=c return('Walkspeed set to %d.'):format(c)end}end function a.b1()
+local c=a.cache.b1 if not c then c={c=b()}a.cache.b1=c end return c.c end end do
 local b=function()local b=a.a()local c,d=(b.RunService)return{Name='walkto',
 Aliases={'follow'},InverseAliases={'unwalkto','unfollow','nowalkto'},Description
 ='Auto-walk toward a player.',Group='DefaultDebug',Args={{Type='player',Name=
@@ -2285,10 +2552,10 @@ if d then d:Disconnect()d=nil return'Walk-to stopped.'end if not f then return
 not h then return'No humanoid found.'end d=c.RenderStepped:Connect(function()
 local i=e.Executor.Character if not i then return end local j=i:
 FindFirstChildWhichIsA'Humanoid'if not j then return end local k=f.Character if
-not k then return end local m=k:FindFirstChildWhichIsA'Humanoid'if not m then
-return end local n=m.RootPart if not n then return end j:MoveTo(n.Position)end)
-return('Now walking to %s.'):format(f.Name)end}end function a.bO()local c=a.
-cache.bO if not c then c={c=b()}a.cache.bO=c end return c.c end end do local b=
+not k then return end local l=k:FindFirstChildWhichIsA'Humanoid'if not l then
+return end local m=l.RootPart if not m then return end j:MoveTo(m.Position)end)
+return('Now walking to %s.'):format(f.Name)end}end function a.b2()local c=a.
+cache.b2 if not c then c={c=b()}a.cache.b2=c end return c.c end end do local b=
 function()return{Name='walktopos',Aliases={'walktoposition'},Description=
 [[Walk your character to specific coordinates. Usage: walktopos <x> <y> <z>]],
 Group='DefaultDebug',Args={{Type='number',Name='x',Description='X coordinate'},{
@@ -2297,7 +2564,7 @@ Description='Z coordinate'}},ClientRun=function(b,c,d,e)local f=b.Executor.
 Character if not f then return"You don't have a character."end local g=f:
 FindFirstChildWhichIsA'Humanoid'if not g then return'No humanoid found.'end g:
 MoveTo(Vector3.new(c,d,e))return('Walking to (%g, %g, %g).'):format(c,d,e)end}
-end function a.bP()local c=a.cache.bP if not c then c={c=b()}a.cache.bP=c end
+end function a.b3()local c=a.cache.b3 if not c then c={c=b()}a.cache.b3=c end
 return c.c end end do local b=function()return{Name='waypoint',Aliases={'wp',
 'loadposition','loadpos'},Description='Teleport to a saved waypoint.',Group=
 'DefaultDebug',Args={{Type={Transform=function(b)return b end,Validate=function(
@@ -2310,7 +2577,7 @@ not e then return'No humanoid.'end local f=e.RootPart if not f then return
 'No root part.'end local g=b:getStore'Waypoints'local h=g[c:lower()]if not h
 then return('Waypoint "%s" not found.'):format(c)end f.CFrame=CFrame.new(h.x,h.y
 ,h.z)return('Teleported to waypoint "%s" (%d, %d, %d).'):format(h.name,h.x,h.y,h
-.z)end}end function a.bQ()local c=a.cache.bQ if not c then c={c=b()}a.cache.bQ=c
+.z)end}end function a.b4()local c=a.cache.b4 if not c then c={c=b()}a.cache.b4=c
 end return c.c end end do local b=function()local b,c=false,function(b)for c,d
 in ipairs(workspace:GetDescendants())do if d:IsA'BasePart'and not d.Parent:
 FindFirstChildWhichIsA'Humanoid'and not(d.Parent.Parent and d.Parent.Parent:
@@ -2319,8 +2586,8 @@ end end end return{Name='xray',Aliases={},InverseAliases={'unxray','noxray'},
 Description='Toggle x-ray (see through walls).',Group='DefaultDebug',Args={},
 ClientRun=function(d)if d:isInvertedCall()then if not b then return
 'X-ray already disabled.'end b=false c(false)return'X-ray disabled.'end b=not b
-c(b)return b and'X-ray enabled.'or'X-ray disabled.'end}end function a.bR()local
-c=a.cache.bR if not c then c={c=b()}a.cache.bR=c end return c.c end end do local
+c(b)return b and'X-ray enabled.'or'X-ray disabled.'end}end function a.b5()local
+c=a.cache.b5 if not c then c={c=b()}a.cache.b5=c end return c.c end end do local
 b=function()local b={load=true,unload=true,reload=true,loadall=true}return{Name=
 'plugin',Description='Manages plugins: load/unload/reload/loadall.',Group=
 'Plugins',Args={{Type='string',Name='Action',Description=
@@ -2336,40 +2603,40 @@ tostring(h)end elseif d=='unload'then local g,h=f:unload(e)if g then return
 'Unloaded plugin "'..e..'".'else return'Failed to unload "'..e..'": '..tostring(
 h)end elseif d=='reload'then local g,h=f:reload(e)if g then return
 'Reloaded plugin "'..e..'".'else return'Failed to reload "'..e..'": '..tostring(
-h)end end return''end}end function a.bS()local c=a.cache.bS if not c then c={c=
-b()}a.cache.bS=c end return c.c end end do local b=function()local b=a.g()return
+h)end end return''end}end function a.b6()local c=a.cache.b6 if not c then c={c=
+b()}a.cache.b6=c end return c.c end end do local b=function()local b=a.g()return
 {Name='plugins',Description='Lists all plugins (loaded and available).',Group=
 'Plugins',Args={},ClientRun=function(c)local d=c.CoCo.PluginManager:list()if#d==
 0 then c:reply'No plugins found.'return''end c:reply('Plugins',b.Colors.
 TextAccent)for e,f in ipairs(d)do local g,h=if f.Loaded then'[Loaded]'else
 '[---]',''if f.Loaded and#f.Description>0 then h=': '..f.Description end local i
 =''if f.Loaded and#f.Version>0 then i=' (v'..f.Version..')'end c:reply(string.
-format('  %s %s%s%s',g,f.Name,i,h))end return''end}end function a.bT()local c=a.
-cache.bT if not c then c={c=b()}a.cache.bT=c end return c.c end end do local b=
+format('  %s %s%s%s',g,f.Name,i,h))end return''end}end function a.b7()local c=a.
+cache.b7 if not c then c={c=b()}a.cache.b7=c end return c.c end end do local b=
 function()return{Name='remotespy',Aliases={'rspy','cobalt'},Description=
 "Run the 'Cobalt' remote spy.",Group='DefaultScripts',Args={},ClientRun=function
 (b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/Cobalt.luau]]
-)()return'Executed Cobalt'end}end function a.bU()local c=a.cache.bU if not c
-then c={c=b()}a.cache.bU=c end return c.c end end do local b=function()return{
+)()return'Executed Cobalt'end}end function a.b8()local c=a.cache.b8 if not c
+then c={c=b()}a.cache.b8=c end return c.c end end do local b=function()return{
 Name='dex',Aliases={'dex++','dexplusplus'},Description=
 "Run the 'Dex++' version of Dex.",Group='DefaultScripts',Args={},ClientRun=
 function(b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/Dex%2B%2B.lua]]
-)()return'Executed Dex++'end}end function a.bV()local c=a.cache.bV if not c then
-c={c=b()}a.cache.bV=c end return c.c end end do local b=function()return{Name=
+)()return'Executed Dex++'end}end function a.b9()local c=a.cache.b9 if not c then
+c={c=b()}a.cache.b9=c end return c.c end end do local b=function()return{Name=
 'synsaveinstance',Aliases={'saveinstance','save','download'},Description=
 'Run SynSaveInstance.',Group='DefaultScripts',Args={},ClientRun=function(b,c)
 loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/SaveInstance.lua]]
-)()return'Executed SynSaveInstance'end}end function a.bW()local c=a.cache.bW if
-not c then c={c=b()}a.cache.bW=c end return c.c end end do local b=function()
+)()return'Executed SynSaveInstance'end}end function a.ca()local c=a.cache.ca if
+not c then c={c=b()}a.cache.ca=c end return c.c end end do local b=function()
 return{Name='sigmaspy',Aliases={'ss','rspys'},Description=
 "Run the 'Sigma Spy' remote spy.",Group='DefaultScripts',Args={},ClientRun=
 function(b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/panduh16/Sigma-Spy/refs/heads/main/Main.lua]]
-)()return'Executed Sigma Spy'end}end function a.bX()local c=a.cache.bX if not c
-then c={c=b()}a.cache.bX=c end return c.c end end do local b=function()local b,c
+)()return'Executed Sigma Spy'end}end function a.cb()local c=a.cache.cb if not c
+then c={c=b()}a.cache.cb=c end return c.c end end do local b=function()local b,c
 =a.H(),a.g()return{Name='scriptblox',Aliases={'sb','sblox'},Description=
 [[Search and run scripts from ScriptBlox. Autocomplete shows matching scripts as you type.]]
 ,Group='DefaultUtil',Args={{Type='scriptblox',Name='query',Description=
@@ -2378,28 +2645,28 @@ then c={c=b()}a.cache.bX=c end return c.c end end do local b=function()local b,c
 'Usage: scriptblox <search query>'end local g=b.getCachedScript(f)if g then
 return b.runScript(d,g)end local h,i,j=f,f:match'^(.*)%s([^%s]+)$'if i and j and
 j:match'^[0-9a-fA-F]{8,}$'then local k=b.findScriptByPartialId(j)if k then
-return b.runScript(d,k)end local m,n=pcall(b.searchScripts,j)if m and n and n.
-scripts and#n.scripts>0 then local o=n.scripts[1]b.cacheScript(j,o)return b.
-runScript(d,o)end h=i end local k,m,n=pcall(b.searchScripts,h)if not k then
-return string.format('ScriptBlox search threw an error for %q: %s',h,tostring(m)
-)end if not m then local o=n=='bad_response'and'bad response'or n==
+return b.runScript(d,k)end local l,m=pcall(b.searchScripts,j)if l and m and m.
+scripts and#m.scripts>0 then local n=m.scripts[1]b.cacheScript(j,n)return b.
+runScript(d,n)end h=i end local k,l,m=pcall(b.searchScripts,h)if not k then
+return string.format('ScriptBlox search threw an error for %q: %s',h,tostring(l)
+)end if not l then local n=m=='bad_response'and'bad response'or m==
 'parse_failed'and'failed to parse response'or'request failed'return string.
-format('ScriptBlox API error for %q (%s).',h,o)end local o=m.scripts if not o or
-#o==0 then return string.format('No scripts found matching %q.',h)end for p,q in
-ipairs(o)do if q.title and q.title:lower()==h:lower()then return b.runScript(d,q
-)end end if#o==1 then return b.runScript(d,o[1])end d:reply(string.format(
-'=== ScriptBlox Results (%d found) ===',#o),c.Colors.TextAccent)d:reply(b.
-formatResult(o),c.Colors.TextPrimary)d:reply(
+format('ScriptBlox API error for %q (%s).',h,n)end local n=l.scripts if not n or
+#n==0 then return string.format('No scripts found matching %q.',h)end for o,q in
+ipairs(n)do if q.title and q.title:lower()==h:lower()then return b.runScript(d,q
+)end end if#n==1 then return b.runScript(d,n[1])end d:reply(string.format(
+'=== ScriptBlox Results (%d found) ===',#n),c.Colors.TextAccent)d:reply(b.
+formatResult(n),c.Colors.TextPrimary)d:reply(
 [[Tip: Refine your query to get a single result and it will run automatically.]]
 ,c.Colors.TextSecondary)return string.format(
-'Showing %d results for %q. Refine your search.',#o,h)end}end function a.bY()
-local c=a.cache.bY if not c then c={c=b()}a.cache.bY=c end return c.c end end do
+'Showing %d results for %q. Refine your search.',#n,h)end}end function a.cc()
+local c=a.cache.cc if not c then c={c=b()}a.cache.cc=c end return c.c end end do
 local b=function()local b,c,d,e=a.c(),{},function(b)return(b:gsub('\\%$',
 '___!CMDR_DOLLAR!___'))end,function(b)return(b:gsub('___!CMDR_DOLLAR!___','$'))
 end function c.runCommandString(f,g)g=b.parseEscapeSequences(g)g=b.
-encodeEscapedOperators(g)local h,i=g:split'&&',''for j,k in ipairs(h)do local m=
-i:gsub('%$','\\x24'):gsub('%%','%%%%')k=k:gsub('||',i:find'%s'and('%q'):format(m
-)or m)i=tostring(f:evaluateAndRun((c.runEmbeddedCommands(f,k))))if j==#h then
+encodeEscapedOperators(g)local h,i=g:split'&&',''for j,k in ipairs(h)do local l=
+i:gsub('%$','\\x24'):gsub('%%','%%%%')k=k:gsub('||',i:find'%s'and('%q'):format(l
+)or l)i=tostring(f:evaluateAndRun((c.runEmbeddedCommands(f,k))))if j==#h then
 return i end end end function c.runEmbeddedCommands(f,g)g=d(g)local h={}for i in
 g:gmatch'$(%b{})'do local j,k=true,i:sub(2,#i-1)if k:match'^{.+}$'then j=false k
 =k:sub(2,#k-1)end h[i]=c.runCommandString(f,k)if j then if h[i]:find'%s'or h[i]
@@ -2408,40 +2675,40 @@ end function c.substituteArgs(f,g)f=d(f)if type(g)=='table'then local h={}for i=
 1,#g do local j,k=g[i],tostring(i)h[k]=j if j:find'%s'then h[k]=string.format(
 '%q',j)end end g=h end return e(f:gsub('($%d+)%b{}','%1'):gsub('$(%w+)',g))end
 function c.makeAliasCommand(f,g)local h,i=unpack(f:split'|')local j={}g=b.
-encodeEscapedOperators(g)local k={}for m in g:gmatch'$(%d+)'do if k[m]==nil then
-k[m]=true local n,o,p,q,r=(g:match(`${m}(%b\{})`))if n then n=n:sub(2,#n-1)p,q,r
-=unpack(n:split'|')end o=p and not not p:match'%?$'p=if p then p:match'^%w+'else
-'string'q=q or`Argument {m}`r=r or''table.insert(j,{Type=p,Name=q,Description=r,
-Optional=o})end end return{Name=h,Aliases={},Description=`<Alias> {i or g}`,
-Group='UserAlias',Args=j,Run=function(m)return c.runCommandString(m.Dispatcher,c
-.substituteArgs(g,m.RawArguments))end}end return c end function a.bZ()local c=a.
-cache.bZ if not c then c={c=b()}a.cache.bZ=c end return c.c end end do local b=
-function()local b=a.a()local c,d,e,f=b.HttpService,b.UserInputService,a.bZ(),a.
+encodeEscapedOperators(g)local k={}for l in g:gmatch'$(%d+)'do if k[l]==nil then
+k[l]=true local m,n,o,q,r=(g:match(`${l}(%b\{})`))if m then m=m:sub(2,#m-1)o,q,r
+=unpack(m:split'|')end n=o and not not o:match'%?$'o=if o then o:match'^%w+'else
+'string'q=q or`Argument {l}`r=r or''table.insert(j,{Type=o,Name=q,Description=r,
+Optional=n})end end return{Name=h,Aliases={},Description=`<Alias> {i or g}`,
+Group='UserAlias',Args=j,Run=function(l)return c.runCommandString(l.Dispatcher,c
+.substituteArgs(g,l.RawArguments))end}end return c end function a.cd()local c=a.
+cache.cd if not c then c={c=b()}a.cache.cd=c end return c.c end end do local b=
+function()local b=a.a()local c,d,e,f=b.HttpService,b.UserInputService,a.cd(),a.
 g()local g,h=f.Gui.ConfigFile,{_data=nil}function h:ensureData()if not self.
 _data then self:load()end return self._data end function h:load()local i,j=
-pcall(readfile,g)if i and j and#j>0 then local k,m=pcall(c.JSONDecode,c,j)if k
-and type(m)=='table'then self._data=m return self._data end end self._data={
+pcall(readfile,g)if i and j and#j>0 then local k,l=pcall(c.JSONDecode,c,j)if k
+and type(l)=='table'then self._data=l return self._data end end self._data={
 activationKeys={},binds={},aliases={}}return self._data end function h:save()if
 not self._data then return end local i,j=pcall(c.JSONEncode,c,self._data)if not
 i then warn'CoCo: Failed to encode config.'return end local k=pcall(writefile,g,
 j)if not k then warn('CoCo: Failed to write config to '..g)end end function h:
 getActivationKeys()local i=self:ensureData()local j=i.activationKeys if type(j)
-~='table'then return{}end local k={}for m,n in ipairs(j)do local o=Enum.KeyCode[
-n]if o then table.insert(k,o)end end return k end function h:setActivationKeys(i
-)local j,k=self:ensureData(),{}for m,n in ipairs(i)do table.insert(k,n.Name)end
+~='table'then return{}end local k={}for l,m in ipairs(j)do local n=Enum.KeyCode[
+m]if n then table.insert(k,n)end end return k end function h:setActivationKeys(i
+)local j,k=self:ensureData(),{}for l,m in ipairs(i)do table.insert(k,m.Name)end
 j.activationKeys=k self:save()end function h:getBinds()local i=self:ensureData()
 return i.binds or{}end function h:setBinds(i)local j=self:ensureData()j.binds=i
 self:save()end function h:getAliases()local i=self:ensureData()return i.aliases
 or{}end function h:setAliases(i)local j=self:ensureData()j.aliases=i self:save()
 end function h:apply(i)self:ensureData()local j,k=self._data,self:
-getActivationKeys()if#k>0 then i:setActivationKeys(k)end local m=self:
-getAliases()for n,o in pairs(m)do local p=pcall(function()i.Registry:
-registerCommandObject(e.makeAliasCommand(n,o),true)end)if not p then warn(
-'CoCo: Failed to load alias: '..tostring(n))end end local n=self:getBinds()for o
-,p in pairs(n)do local q=pcall(function()self:_createBind(i,o,p)end)if not q
-then warn('CoCo: Failed to load bind: '..tostring(o))end end end function h:
-_createBind(i,j,k)local m,n,o,p=i.Dispatcher,k.command..' '..(k.args or''),k.
-mode or'toggle',Enum.KeyCode[k.key]if not p then return end local q={}for r,s in
+getActivationKeys()if#k>0 then i:setActivationKeys(k)end local l=self:
+getAliases()for m,n in pairs(l)do local o=pcall(function()i.Registry:
+registerCommandObject(e.makeAliasCommand(m,n),true)end)if not o then warn(
+'CoCo: Failed to load alias: '..tostring(m))end end local m=self:getBinds()for n
+,o in pairs(m)do local q=pcall(function()self:_createBind(i,n,o)end)if not q
+then warn('CoCo: Failed to load bind: '..tostring(n))end end end function h:
+_createBind(i,j,k)local l,m,n,o=i.Dispatcher,k.command..' '..(k.args or''),k.
+mode or'toggle',Enum.KeyCode[k.key]if not o then return end local q={}for r,s in
 ipairs(k.modifiers or{})do local t=Enum.KeyCode[s]if t then q[t]=true end end
 local r,s,t,u=function(r)if not r then r={}end local s,t,u=d:IsKeyDown(Enum.
 KeyCode.LeftControl),d:IsKeyDown(Enum.KeyCode.RightControl),r[Enum.KeyCode.
@@ -2451,28 +2718,28 @@ return false end s=d:IsKeyDown(Enum.KeyCode.LeftShift)t=d:IsKeyDown(Enum.KeyCode
 ]==true if v~=(s or t)then return false end s=d:IsKeyDown(Enum.KeyCode.LeftAlt)t
 =d:IsKeyDown(Enum.KeyCode.RightAlt)local w=r[Enum.KeyCode.LeftAlt]==true or r[
 Enum.KeyCode.RightAlt]==true if w~=(s or t)then return false end return true end
-,function()local r=m:evaluateAndRun(e.runEmbeddedCommands(m,n))if r then i.
-Events.AddLine:Fire(tostring(r))end end,{},i.Registry:getStore'COCO_Binds'if o==
+,function()local r=l:evaluateAndRun(e.runEmbeddedCommands(l,m))if r then i.
+Events.AddLine:Fire(tostring(r))end end,{},i.Registry:getStore'COCO_Binds'if n==
 'toggle'then local v=true t[1]=d.InputBegan:Connect(function(w,x)if x then
-return end if w.KeyCode~=p then return end if not v then return end if not r(q)
+return end if w.KeyCode~=o then return end if not v then return end if not r(q)
 then return end v=false s()end)t[#t+1]=d.InputEnded:Connect(function(w)if w.
-KeyCode==p then v=true end end)elseif o=='hold'then t[1]=d.InputBegan:Connect(
-function(v,w)if w then return end if v.KeyCode~=p then return end if not r(q)
-then return end s()end)t[#t+1]=d.InputEnded:Connect(function(v)if v.KeyCode==p
-then s()end end)end u[j]={mode=o,key=p,modifiers=q,command=k.command,args=k.args
-or'',connections=t}end return h end function a.b_()local c=a.cache.b_ if not c
-then c={c=b()}a.cache.b_=c end return c.c end end do local b=function()local b=a
-.bZ()return{Name='alias',Aliases={},Description=
+KeyCode==o then v=true end end)elseif n=='hold'then t[1]=d.InputBegan:Connect(
+function(v,w)if w then return end if v.KeyCode~=o then return end if not r(q)
+then return end s()end)t[#t+1]=d.InputEnded:Connect(function(v)if v.KeyCode==o
+then s()end end)end u[j]={mode=n,key=o,modifiers=q,command=k.command,args=k.args
+or'',connections=t}end return h end function a.ce()local c=a.cache.ce if not c
+then c={c=b()}a.cache.ce=c end return c.c end end do local b=function()local b=a
+.cd()return{Name='alias',Aliases={},Description=
 [[Creates a new, single command out of a command and given arguments.]],Group=
 'DefaultUtil',Args={{Type='string',Name='Alias name',Description=
 "The key or input type you'd like to bind the command to."},{Type='string',Name=
 'Command string',Description=
 [[The command text you want to run. Separate multiple commands with "&&". Accept arguments with $1, $2, $3, etc.]]
 }},ClientRun=function(c,d,e)c.CoCo.Registry:registerCommandObject(b.
-makeAliasCommand(d,e),true)local f=a.b_()local g=f:getAliases()g[d]=e f:
-setAliases(g)return('Created alias %q'):format(d)end}end function a.b0()local c=
-a.cache.b0 if not c then c={c=b()}a.cache.b0=c end return c.c end end do local b
-=function()local b,c=a.bZ(),a.a()local d=c.UserInputService local e=function(e)
+makeAliasCommand(d,e),true)local f=a.ce()local g=f:getAliases()g[d]=e f:
+setAliases(g)return('Created alias %q'):format(d)end}end function a.cf()local c=
+a.cache.cf if not c then c={c=b()}a.cache.cf=c end return c.c end end do local b
+=function()local b,c=a.cd(),a.a()local d=c.UserInputService local e=function(e)
 if not e then e={}end local f,g,h=d:IsKeyDown(Enum.KeyCode.LeftControl),d:
 IsKeyDown(Enum.KeyCode.RightControl),e[Enum.KeyCode.LeftControl]==true or e[Enum
 .KeyCode.RightControl]==true if h~=(f or g)then return false end f=d:IsKeyDown(
@@ -2490,57 +2757,57 @@ if j~=(f or g)then return false end return true end return{Name='bind',Aliases={
 [[Arguments for the command. Append ' hold' for hold-to-repeat mode.]],Default=
 ''}},ClientRun=function(f,g,h,i)local j,k=f:getStore'COCO_Binds',f.RawArguments
 if not k or#k==0 then return
-'Usage: bind <combo> <command> [args...]\n  bind list           \u{2014} show all binds\n  bind F2 fly         \u{2014} fire "fly" on F2\n  bind Ctrl+Shift+F fly speed 100 hold  \u{2014} hold mode'
-end if k[1]:lower()=='list'then local m=0 for n,o in pairs(j)do if type(o)==
-'table'and o.mode then m=m+1 f:reply(('%s  [%s]  %s %s'):format(n,o.mode or
-'toggle',o.command or'',o.args or''))end end if m==0 then return
-'No binds active.'end return('%d bind(s) active.'):format(m)end if not g then
+'Usage: bind <combo> <command> [args...]\r\n  bind list           \u{2014} show all binds\r\n  bind F2 fly         \u{2014} fire "fly" on F2\r\n  bind Ctrl+Shift+F fly speed 100 hold  \u{2014} hold mode'
+end if k[1]:lower()=='list'then local l=0 for m,n in pairs(j)do if type(n)==
+'table'and n.mode then l=l+1 f:reply(('%s  [%s]  %s %s'):format(m,n.mode or
+'toggle',n.command or'',n.args or''))end end if l==0 then return
+'No binds active.'end return('%d bind(s) active.'):format(l)end if not g then
 return'Invalid key combination.'end if not h then return(
-'%s is not currently bound.'):format(g.text)end local m,n=i or'','toggle'local o
-=m:match'(%S+)$'if o=='hold'then n=o m=#m>#o and m:sub(1,#m-#o-1)or''end local p
-,q=g.text,h..' '..m local r=j[p]if r and r.connections then for s,t in ipairs(r.
+'%s is not currently bound.'):format(g.text)end local l,m=i or'','toggle'local n
+=l:match'(%S+)$'if n=='hold'then m=n l=#l>#n and l:sub(1,#l-#n-1)or''end local o
+,q=g.text,h..' '..l local r=j[o]if r and r.connections then for s,t in ipairs(r.
 connections)do t:Disconnect()end end local s,t=function()local s=f.Dispatcher:
 evaluateAndRun(b.runEmbeddedCommands(f.Dispatcher,q))if s then f:reply(tostring(
-s))end end,{}if n=='toggle'then local u=true t[1]=d.InputBegan:Connect(function(
+s))end end,{}if m=='toggle'then local u=true t[1]=d.InputBegan:Connect(function(
 v,w)if w then return end if v.KeyCode~=g.key then return end if not u then
 return end if not e(g.modifiers)then return end u=false s()end)t[#t+1]=d.
-InputEnded:Connect(function(v)if v.KeyCode==g.key then u=true end end)elseif n==
+InputEnded:Connect(function(v)if v.KeyCode==g.key then u=true end end)elseif m==
 'hold'then t[1]=d.InputBegan:Connect(function(u,v)if v then return end if u.
 KeyCode~=g.key then return end if not e(g.modifiers)then return end s()end)t[#t+
-1]=d.InputEnded:Connect(function(u)if u.KeyCode==g.key then s()end end)end j[p]=
-{mode=n,key=g.key,modifiers=g.modifiers,command=h,args=m,connections=t}local u=a
-.b_():getBinds()u[p]={mode=n,key=g.key.Name,modifiers={},command=h,args=m}for v
-in pairs(g.modifiers or{})do table.insert(u[p].modifiers,v.Name)end a.b_():
-setBinds(u)return('Bound %q \u{2192} [%s] %s %s'):format(p,n,h,m)end}end
-function a.b1()local c=a.cache.b1 if not c then c={c=b()}a.cache.b1=c end return
+1]=d.InputEnded:Connect(function(u)if u.KeyCode==g.key then s()end end)end j[o]=
+{mode=m,key=g.key,modifiers=g.modifiers,command=h,args=l,connections=t}local u=a
+.ce():getBinds()u[o]={mode=m,key=g.key.Name,modifiers={},command=h,args=l}for v
+in pairs(g.modifiers or{})do table.insert(u[o].modifiers,v.Name)end a.ce():
+setBinds(u)return('Bound %q \u{2192} [%s] %s %s'):format(o,m,h,l)end}end
+function a.cg()local c=a.cache.cg if not c then c={c=b()}a.cache.cg=c end return
 c.c end end do local b=function()return{Name='clear',Aliases={},Description=
 'Clear all lines above the entry line of the CoCo window.',Group='DefaultUtil',
 Args={},ClientRun=function()local b=pcall(gethui)and gethui():FindFirstChild
 'CoCo'if not b then return''end local c=b:FindFirstChild'Frame'if c then local d
 =c:FindFirstChild'Line'for e,f in pairs(c:GetChildren())do if f~=d and f.Name==
 'Line'and f:IsA'TextBox'then f:Destroy()end end end return''end}end function a.
-b2()local c=a.cache.b2 if not c then c={c=b()}a.cache.b2=c end return c.c end
+ch()local c=a.cache.ch if not c then c={c=b()}a.cache.ch=c end return c.c end
 end do local b=function()return{Name='date',Aliases={'timestamp'},Description=
 'Convert a timestamp to a human-readable format.',Group='DefaultUtil',Args={{
 Type='number',Name='timestamp',Description=
 'A numerical representation of a specific moment in time.',Optional=true}},
 ClientRun=function(b,c)c=c or os.time()return`{os.date('%x',c)} {os.date('%X',c)
-}`end}end function a.b3()local c=a.cache.b3 if not c then c={c=b()}a.cache.b3=c
+}`end}end function a.ci()local c=a.cache.ci if not c then c={c=b()}a.cache.ci=c
 end return c.c end end do local b=function()return{Name='decode',Aliases={},
 Description='Decodes a JSON Array into a comma-separated list',Group=
 'DefaultUtil',Args={{Type='json',Name='JSON',Description='The JSON array.'}},
 ClientRun=function(b,c)if type(c)~='table'then c={c}end return table.concat(c,
-',')end}end function a.b4()local c=a.cache.b4 if not c then c={c=b()}a.cache.b4=
+',')end}end function a.cj()local c=a.cache.cj if not c then c={c=b()}a.cache.cj=
 c end return c.c end end do local b=function()return{Name='echo',Aliases={'='},
 Description='Echoes your text back to you.',Group='DefaultUtil',Args={{Type=
 'string',Name='Text',Description='The text.'}},Run=function(b,c)return c end}end
-function a.b5()local c=a.cache.b5 if not c then c={c=b()}a.cache.b5=c end return
+function a.ck()local c=a.cache.ck if not c then c={c=b()}a.cache.ck=c end return
 c.c end end do local b=function()local b={}function b.new()local c,d={},false
 return function()if d then table.insert(c,coroutine.running())coroutine.yield()
 else d=true end return function()if#c>0 then coroutine.resume(table.remove(c,1))
-else d=false end end end end return b end function a.b6()local c=a.cache.b6 if
-not c then c={c=b()}a.cache.b6=c end return c.c end end do local b=function()
-local b,c,d=a.b6(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.
+else d=false end end end end return b end function a.cl()local c=a.cache.cl if
+not c then c={c=b()}a.cache.cl=c end return c.c end end do local b=function()
+local b,c,d=a.cl(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.
 fromRGB(17,17,17),BackgroundTransparency=0.05,BorderColor3=Color3.fromRGB(17,17,
 17),BorderSizePixel=20,ClearTextOnFocus=false,MultiLine=true,Position=UDim2.new(
 0.5,0,0.5,0),Size=UDim2.new(0.5,0,0.4,0),Font=Enum.Font.Code,TextColor3=Color3.
@@ -2553,17 +2820,17 @@ Description='The character that separates each line',Default=','}},ClientRun=
 function(e,f,g)d=d or b.new()local h=d()e:reply(
 'Right-click on the text area to exit.',Color3.fromRGB(158,158,158))local i=
 Instance.new'ScreenGui'i.Name='CoCoEditBox'i.ResetOnSpawn=false local j=Instance
-.new'TextBox'for k,m in pairs(c)do j[k]=m end j.Text=f:gsub(g,'\n')j.Parent=i i.
+.new'TextBox'for k,l in pairs(c)do j[k]=l end j.Text=f:gsub(g,'\n')j.Parent=i i.
 Parent=pcall(gethui)and gethui()or Players.LocalPlayer:WaitForChild'PlayerGui'
-local k=coroutine.running()j.InputBegan:Connect(function(m)if m.UserInputType==
+local k=coroutine.running()j.InputBegan:Connect(function(l)if l.UserInputType==
 Enum.UserInputType.MouseButton2 then coroutine.resume(k,j.Text:gsub('\n',g))i:
-Destroy()h()end end)return coroutine.yield()end}end function a.b7()local c=a.
-cache.b7 if not c then c={c=b()}a.cache.b7=c end return c.c end end do local b=
+Destroy()h()end end)return coroutine.yield()end}end function a.cm()local c=a.
+cache.cm if not c then c={c=b()}a.cache.cm=c end return c.c end end do local b=
 function()local b=a.a()local c=b.HttpService return{Name='encode',Aliases={},
 Description='Encodes a comma-separated list into a JSON array',Group=
 'DefaultUtil',Args={{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(d,e)return c:JSONEncode(e:split',')end
-}end function a.b8()local c=a.cache.b8 if not c then c={c=b()}a.cache.b8=c end
+}end function a.cn()local c=a.cache.cn if not c then c={c=b()}a.cache.cn=c end
 return c.c end end do local b=function()return{Name='history',Aliases={},
 AutoExec={
 [[alias "!|Displays previous command from history." run ${history $1{number|Line Number}}]]
@@ -2574,25 +2841,25 @@ AutoExec={
 'integer',Name='Line Number',Description=
 'Command line number (can be negative to go from end)'}},ClientRun=function(b,c)
 local d=b.Dispatcher:getHistory()if c<=0 then c=#d+c end return d[c]or''end}end
-function a.b9()local c=a.cache.b9 if not c then c={c=b()}a.cache.b9=c end return
+function a.co()local c=a.cache.co if not c then c={c=b()}a.cache.co=c end return
 c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 'hover',Description='Returns the name of the player you are hovering over.',
 Group='DefaultUtil',Args={},ClientRun=function()local d=c.LocalPlayer:GetMouse()
 local e=d.Target if not e then return''end local f=c:GetPlayerFromCharacter(e:
-FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.ca()
-local c=a.cache.ca if not c then c={c=b()}a.cache.ca=c end return c.c end end do
+FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.cp()
+local c=a.cache.cp if not c then c={c=b()}a.cache.cp=c end return c.c end end do
 local b=function()return{Name='keybind',Aliases={'close','open'},Description=
 'Changes the keybind used to open/close the command menu.',Group='DefaultUtil',
 Args={{Type='userInput',Name='Key',Description=
 'The key to bind the menu toggle to.'}},ClientRun=function(b,c)local d=b.CoCo d:
-setActivationKeys{c}local e=a.b_()e:setActivationKeys{c}return(
-'Menu keybind set to %s.'):format(c.Name or tostring(c))end}end function a.cb()
-local c=a.cache.cb if not c then c={c=b()}a.cache.cb=c end return c.c end end do
+setActivationKeys{c}local e=a.ce()e:setActivationKeys{c}return(
+'Menu keybind set to %s.'):format(c.Name or tostring(c))end}end function a.cq()
+local c=a.cache.cq if not c then c={c=b()}a.cache.cq=c end return c.c end end do
 local b=function()return{Name='len',Aliases={},Description=
 'Returns the length of a comma-separated list',Group='DefaultUtil',Args={{Type=
 'string',Name='CSV',Description='The comma-separated list'}},Run=function(b,c)
-return#(c:split',')end}end function a.cc()local c=a.cache.cc if not c then c={c=
-b()}a.cache.cc=c end return c.c end end do local b=function()return{Name='math',
+return#(c:split',')end}end function a.cr()local c=a.cache.cr if not c then c={c=
+b()}a.cache.cr=c end return c.c end end do local b=function()return{Name='math',
 Aliases={},Description='Perform a math operation on 2 values.',Group=
 'DefaultUtil',AutoExec={
 [[alias "+|Perform an addition." math + $1{number|Number} $2{number|Number}]],
@@ -2604,20 +2871,20 @@ Aliases={},Description='Perform a math operation on 2 values.',Group=
 Args={{Type='mathOperator',Name='Operation',Description='A math operation.'},{
 Type='number',Name='Value',Description='A number value.'},{Type='number',Name=
 'Value',Description='A number value.'}},ClientRun=function(b,c,d,e)return c.
-Perform(d,e)end}end function a.cd()local c=a.cache.cd if not c then c={c=b()}a.
-cache.cd=c end return c.c end end do local b=function()return{Name='pick',
+Perform(d,e)end}end function a.cs()local c=a.cache.cs if not c then c={c=b()}a.
+cache.cs=c end return c.c end end do local b=function()return{Name='pick',
 Aliases={},Description='Picks a value out of a comma-separated list.',Group=
 'DefaultUtil',Args={{Type='integer',Name='Index to pick',Description=
 'The index of the item you want to pick'},{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(b,c,d)return d:split','[c]or''end}end
-function a.ce()local c=a.cache.ce if not c then c={c=b()}a.cache.ce=c end return
+function a.ct()local c=a.cache.ct if not c then c={c=b()}a.cache.ct=c end return
 c.c end end do local b=function()return{Name='rand',Aliases={},Description=
 'Returns a random number between min and max',Group='DefaultUtil',Args={{Type=
 'integer',Name='First number',Description=
 [[If second number is nil, random number is between 1 and this value. If second number is provided, number is between this number and the second number.]]
 },{Type='integer',Name='Second number',Description='The upper bound.',Optional=
 true}},Run=function(b,c,d)return tostring(d and math.random(c,d)or math.random(c
-))end}end function a.cf()local c=a.cache.cf if not c then c={c=b()}a.cache.cf=c
+))end}end function a.cu()local c=a.cache.cu if not c then c={c=b()}a.cache.cu=c
 end return c.c end end do local b=function()return{Name='replace',Aliases={
 'gsub','//'},Description='Replaces text A with text B',Group='DefaultUtil',
 AutoExec={
@@ -2629,8 +2896,8 @@ AutoExec={
 'Needle',Description='The string pattern search for.'},{Type='string',Name=
 'Replacement',Description=
 'The string to replace matches (%1 to insert matches).',Default=''}},Run=
-function(b,c,d,e)return c:gsub(d,e)end}end function a.cg()local c=a.cache.cg if
-not c then c={c=b()}a.cache.cg=c end return c.c end end do local b=function()
+function(b,c,d,e)return c:gsub(d,e)end}end function a.cv()local c=a.cache.cv if
+not c then c={c=b()}a.cache.cv=c end return c.c end end do local b=function()
 return{Name='resolve',Aliases={},Description=
 [[Resolves Argument Value Operators into lists. E.g., resolve players * gives you a list of all players.]]
 ,Group='DefaultUtil',AutoExec={
@@ -2640,15 +2907,15 @@ return{Name='resolve',Aliases={},Description=
 Name='Argument Value Operator',Description=
 'The value operator to resolve. One of: * ** . ? ?N, selectors (allies, enemies, friends, nearest, farthest, alive, dead, cursor, npcs), patterns (ageN, radN, groupN, #N), and +/\u{2212} set operations'
 ,Optional=true}end},Run=function(b)return table.concat(b:getArgument(2).
-RawSegments,',')end}end function a.ch()local c=a.cache.ch if not c then c={c=b()
-}a.cache.ch=c end return c.c end end do local b=function()local b=a.bZ()return{
+RawSegments,',')end}end function a.cw()local c=a.cache.cw if not c then c={c=b()
+}a.cache.cw=c end return c.c end end do local b=function()local b=a.cd()return{
 Name='run',Aliases={'>'},AutoExec={
 [[alias "discard|Run a command and discard the output." replace ${run $1} .* \"\"]]
 },Description='Runs a given command string (replacing embedded commands).',Group
 ='DefaultUtil',Args={{Type='string',Name='Command',Description=
 'The command string to run'}},Run=function(c,d)return b.runCommandString(c.
-Dispatcher,d)end}end function a.ci()local c=a.cache.ci if not c then c={c=b()}a.
-cache.ci=c end return c.c end end do local b=function()return{Name='run-lines',
+Dispatcher,d)end}end function a.cx()local c=a.cache.cx if not c then c={c=b()}a.
+cache.cx=c end return c.c end end do local b=function()return{Name='run-lines',
 Aliases={},Description=
 [[Splits input by newlines and runs each line as its own command. This is used by the init-run command.]]
 ,Group='DefaultUtil',Args={{Type='string',Name='Script',Description=
@@ -2656,8 +2923,8 @@ Aliases={},Description=
 end local d,e=b.Dispatcher:run('var','INIT_PRINT_OUTPUT')~='',c:gsub('\n+','\n')
 :split'\n'for f,g in ipairs(e)do if g:sub(1,1)=='#'then continue end local h=b.
 Dispatcher:evaluateAndRun(g)if d then b:reply(h)end end return''end}end function
-a.cj()local c=a.cache.cj if not c then c={c=b()}a.cache.cj=c end return c.c end
-end do local b=function()local b,c=a.bZ(),{startsWith=function(b,c)if b:sub(1,#c
+a.cy()local c=a.cache.cy if not c then c={c=b()}a.cache.cy=c end return c.c end
+end do local b=function()local b,c=a.cd(),{startsWith=function(b,c)if b:sub(1,#c
 )==c then return b:sub(#c+1)end end}return{Name='runif',Aliases={},Description=
 'Runs a given command string if a certain condition is met.',Group='DefaultUtil'
 ,Args={{Type='conditionFunction',Name='Condition',Description=
@@ -2669,7 +2936,7 @@ Description=
 ,Optional=true}},Run=function(d,e,f,g,h)local i=c[e]if not i then return(
 'Condition %q is not valid.'):format(e)end local j=i(g,f)if j then return d.
 Dispatcher:evaluateAndRun(b.runEmbeddedCommands(d.Dispatcher,h or j))end return
-''end}end function a.ck()local c=a.cache.ck if not c then c={c=b()}a.cache.ck=c
+''end}end function a.cz()local c=a.cache.cz if not c then c={c=b()}a.cache.cz=c
 end return c.c end end do local b=function()return{Name='unbind',Aliases={},
 Description='Unbinds a key combination previously bound with Bind.',Group=
 'DefaultUtil',Args={{Type='keycombo',Name='Combo',Description=
@@ -2677,11 +2944,11 @@ Description='Unbinds a key combination previously bound with Bind.',Group=
 }},ClientRun=function(b,c)if not c then return'Invalid key combination.'end
 local d,e=b:getStore'COCO_Binds',c.text local f=d[e]if f and f.connections then
 for g,h in ipairs(f.connections)do h:Disconnect()end if f.heartbeat then f.
-heartbeat:Disconnect()end d[e]=nil local g=a.b_()local h=g:getBinds()h[e]=nil g:
+heartbeat:Disconnect()end d[e]=nil local g=a.ce()local h=g:getBinds()h[e]=nil g:
 setBinds(h)return('Unbound %q.'):format(e)end if d[c.key]then d[c.key]:
 Disconnect()d[c.key]=nil return('Unbound %q.'):format(e)end return(
-'%q is not bound.'):format(e)end}end function a.cl()local c=a.cache.cl if not c
-then c={c=b()}a.cache.cl=c end return c.c end end do local b=function()return{
+'%q is not bound.'):format(e)end}end function a.cA()local c=a.cache.cA if not c
+then c={c=b()}a.cache.cA=c end return c.c end end do local b=function()return{
 Name='var',Aliases={},Description='Gets a stored variable.',Group='DefaultUtil',
 AutoExec={
 [[alias "init-edit|Edit your initialization script" edit ${var init} \\
@@ -2690,15 +2957,15 @@ AutoExec={
 [[alias "init-run|Re-runs the initialization script manually." run-lines ${var init}]]
 ,'init-run'},Args={{Type='storedKey',Name='Key',Description=
 [[The key to get, retrieved from your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
-}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cm()
-local c=a.cache.cm if not c then c={c=b()}a.cache.cm=c end return c.c end end do
+}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cB()
+local c=a.cache.cB if not c then c={c=b()}a.cache.cB=c end return c.c end end do
 local b=function()return{Name='var=',Aliases={},Description=
 'Sets a stored value.',Group='DefaultUtil',Args={{Type='storedKey',Name='Key',
 Description=
 [[The key to set, saved in your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
 },{Type='string',Name='Value',Description='Value or values to set.',Default=''}}
-,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cn()
-local c=a.cache.cn if not c then c={c=b()}a.cache.cn=c end return c.c end end do
+,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cC()
+local c=a.cache.cC if not c then c={c=b()}a.cache.cC=c end return c.c end end do
 local b=function()local b,c,d=a.g(),
 [[Argument Shorthands
 -------------------
@@ -2724,12 +2991,12 @@ reply(c)e:reply(d)local g=e.CoCo.Registry:getCommands()table.sort(g,function(h,i
 )return if h.Group and i.Group then h.Group<i.Group else h.Group end)local h for
 i,j in ipairs(g)do j.Group=j.Group or'No Group'if h~=j.Group then e:reply(`\n{j.
 Group}\n{string.rep('-',#j.Group)}`)h=j.Group end e:reply(if j.Description then`{
-j.Name} - {j.Description}`else j.Name)end end return''end}end function a.co()
-local c=a.cache.co if not c then c={c=b()}a.cache.co=c end return c.c end end do
+j.Name} - {j.Description}`else j.Name)end end return''end}end function a.cD()
+local c=a.cache.cD if not c then c={c=b()}a.cache.cD=c end return c.c end end do
 local b=function()return{a.J(),a.K(),a.L(),a.M(),a.N(),a.O(),a.P(),a.Q(),a.R(),a
-.S(),a.T(),a.U(),a.W(),a.X(),a.Y(),a.Z(),a._(),a.aa(),a.ab(),a.ac(),a.ad(),a.ae(
-),a.af(),a.ag(),a.ah(),a.ai(),a.aj(),a.ak(),a.al(),a.am(),a.an(),a.aq(),a.ar(),a
-.as(),a.at(),a.au(),a.av(),a.aw(),a.ax(),a.ay(),a.az(),a.aA(),a.aB(),a.aC(),a.
+.S(),a.T(),a.U(),a.V(),a.W(),a.X(),a.Y(),a.Z(),a.aa(),a.ab(),a.ac(),a.ad(),a.ae(
+),a.af(),a.ag(),a.ah(),a.ai(),a.aj(),a.ak(),a.al(),a.am(),a.an(),a.ao(),a.ap(),a
+.aq(),a.ar(),a.as(),a.at(),a.aw(),a.ax(),a.ay(),a.az(),a.aA(),a.aB(),a.aC(),a.
 aD(),a.aE(),a.aF(),a.aG(),a.aH(),a.aI(),a.aJ(),a.aK(),a.aL(),a.aM(),a.aN(),a.aO(
 ),a.aP(),a.aQ(),a.aR(),a.aS(),a.aT(),a.aU(),a.aV(),a.aW(),a.aX(),a.aY(),a.aZ(),a
 .a_(),a.a0(),a.a1(),a.a2(),a.a3(),a.a4(),a.a5(),a.a6(),a.a7(),a.a8(),a.a9(),a.
@@ -2737,11 +3004,12 @@ ba(),a.bb(),a.bc(),a.bd(),a.be(),a.bf(),a.bg(),a.bh(),a.bi(),a.bj(),a.bk(),a.bl(
 ),a.bm(),a.bn(),a.bo(),a.bp(),a.bq(),a.br(),a.bs(),a.bt(),a.bu(),a.bv(),a.bw(),a
 .bx(),a.by(),a.bz(),a.bA(),a.bB(),a.bC(),a.bD(),a.bE(),a.bF(),a.bG(),a.bH(),a.
 bI(),a.bJ(),a.bK(),a.bL(),a.bM(),a.bN(),a.bO(),a.bP(),a.bQ(),a.bR(),a.bS(),a.bT(
-),a.bU(),a.bV(),a.bW(),a.bX(),a.bY(),a.b0(),a.b1(),a.b2(),a.b3(),a.b4(),a.b5(),a
-.b7(),a.b8(),a.b9(),a.ca(),a.cb(),a.cc(),a.cd(),a.ce(),a.cf(),a.cg(),a.ch(),a.
-ci(),a.cj(),a.ck(),a.cl(),a.cm(),a.cn(),a.co()}end function a.cp()local c=a.
-cache.cp if not c then c={c=b()}a.cache.cp=c end return c.c end end do local b=
-function()local b,c,d=a.a(),
+),a.bU(),a.bV(),a.bW(),a.bX(),a.bY(),a.bZ(),a.b_(),a.b0(),a.b1(),a.b2(),a.b3(),a
+.b4(),a.b5(),a.b6(),a.b7(),a.b8(),a.b9(),a.ca(),a.cb(),a.cc(),a.cf(),a.cg(),a.
+ch(),a.ci(),a.cj(),a.ck(),a.cm(),a.cn(),a.co(),a.cp(),a.cq(),a.cr(),a.cs(),a.ct(
+),a.cu(),a.cv(),a.cw(),a.cx(),a.cy(),a.cz(),a.cA(),a.cB(),a.cC(),a.cD()}end
+function a.cE()local c=a.cache.cE if not c then c={c=b()}a.cache.cE=c end return
+c.c end end do local b=function()local b,c,d=a.a(),
 [[https://github.com/Panda-Utilities/Storage/raw/refs/heads/main/ProggyClean.ttf]]
 ,{}d.ProggyClean=nil d.Loaded=false local e,f={},function()return type(writefile
 )=='function'and type(isfile)=='function'and type(getcustomasset)=='function'end
@@ -2757,7 +3025,7 @@ style='normal',assetId=getcustomasset'ProggyClean.ttf'}}}writefile(
 local j,k=pcall(Font.new,getcustomasset'ProggyClean.ttf.json',Enum.FontWeight.
 Regular)if j and k then d.ProggyClean=k end end function d.LoadAll()g()d.Loaded=
 true for h,i in e do i()end end task.spawn(function()task.wait(1)d.LoadAll()end)
-return d end function a.cq()local c=a.cache.cq if not c then c={c=b()}a.cache.cq
+return d end function a.cF()local c=a.cache.cF if not c then c={c=b()}a.cache.cF
 =c end return c.c end end do local b=function()local b,c={'box','box fill',
 'name','health bar','health text','distance','tool text','highlight'},{}function
 c.TeamColor(d,e,f)if d.UseTeamColors and e.teamColor then return e.teamColor end
@@ -2773,28 +3041,28 @@ false for h,i in b do local j=c.IsFeatureVisible(d,e,i)f[i]=j g=g or j end f.any
 =g f.needs2D=f.box or f['box fill']or f.name or f['health bar']or f[
 'health text']or f.distance or f['tool text']return f end function c.
 HasAnyEnabledFeature(d)for e,f in d.Features do if f then return true end end
-return false end return c end function a.cr()local c=a.cache.cr if not c then c=
-{c=b()}a.cache.cr=c end return c.c end end do local b=function()local b,c,d={},
+return false end return c end function a.cG()local c=a.cache.cG if not c then c=
+{c=b()}a.cache.cG=c end return c.c end end do local b=function()local b,c,d={},
 function(b,c,d)if not c then return nil,nil,false end local e=d and d:
 FindFirstChildOfClass'Humanoid'if not e then return nil,nil,false end local f=e.
 RigType==Enum.HumanoidRigType.R6 local g,h=f and 2.8 or 3,f and 3 or 3.5 local i
-,j=c.Position+Vector3.new(0,g,0),c.Position-Vector3.new(0,h,0)local k,m=b:
-WorldToViewportPoint(i),b:WorldToViewportPoint(j)if k.Z<=0 and m.Z<=0 then
-return nil,nil,false end local n,o=math.abs(k.Y-m.Y),b:WorldToViewportPoint(c.
-Position)local p,q=Vector2.new(o.X,(k.Y+m.Y)/2),Vector2.new(n*0.65,n)local r,s,t
-=p-q/2,p+q/2,Vector2.new(2,2)return r-t,s+t,true end,{Vector3.new(-1,-1,-1),
+,j=c.Position+Vector3.new(0,g,0),c.Position-Vector3.new(0,h,0)local k,l=b:
+WorldToViewportPoint(i),b:WorldToViewportPoint(j)if k.Z<=0 and l.Z<=0 then
+return nil,nil,false end local m,n=math.abs(k.Y-l.Y),b:WorldToViewportPoint(c.
+Position)local o,q=Vector2.new(n.X,(k.Y+l.Y)/2),Vector2.new(m*0.65,m)local r,s,t
+=o-q/2,o+q/2,Vector2.new(2,2)return r-t,s+t,true end,{Vector3.new(-1,-1,-1),
 Vector3.new(-1,-1,1),Vector3.new(-1,1,-1),Vector3.new(-1,1,1),Vector3.new(1,-1,-
 1),Vector3.new(1,-1,1),Vector3.new(1,1,-1),Vector3.new(1,1,1)}function b.Get(e,f
-,g,h,i)if e.DynamicBoxes and g and#g>0 then local j,k,m=Vector2.new(math.huge,
-math.huge),Vector2.new(-math.huge,-math.huge),false for n,o in g do if o.Parent
-and o.Parent:IsA'Tool'then continue end if h and(o.Position-h.Position).
-Magnitude>15 then continue end local p,q=o.CFrame,o.Size*0.5 for r,s in d do
-local t=p*(q*s)local u=f:WorldToViewportPoint(t)if u.Z>0 then m=true if u.X<j.X
+,g,h,i)if e.DynamicBoxes and g and#g>0 then local j,k,l=Vector2.new(math.huge,
+math.huge),Vector2.new(-math.huge,-math.huge),false for m,n in g do if n.Parent
+and n.Parent:IsA'Tool'then continue end if h and(n.Position-h.Position).
+Magnitude>15 then continue end local o,q=n.CFrame,n.Size*0.5 for r,s in d do
+local t=o*(q*s)local u=f:WorldToViewportPoint(t)if u.Z>0 then l=true if u.X<j.X
 then j=Vector2.new(u.X,j.Y)end if u.Y<j.Y then j=Vector2.new(j.X,u.Y)end if u.X>
 k.X then k=Vector2.new(u.X,k.Y)end if u.Y>k.Y then k=Vector2.new(k.X,u.Y)end end
-end end if not m then return nil,nil,false end local n=Vector2.new(2,2)return j-
-n,k+n,true end return c(f,h,i)end return b end function a.cs()local c=a.cache.cs
-if not c then c={c=b()}a.cache.cs=c end return c.c end end do local b=function()
+end end if not l then return nil,nil,false end local m=Vector2.new(2,2)return j-
+m,k+m,true end return c(f,h,i)end return b end function a.cH()local c=a.cache.cH
+if not c then c={c=b()}a.cache.cH=c end return c.c end end do local b=function()
 local b,c,d={'Head','Torso','Left Arm','Right Arm','Left Leg','Right Leg'},{
 'Head','UpperTorso','LowerTorso','LeftHand','RightHand','LeftFoot','RightFoot',
 'LeftLowerArm','RightLowerArm','LeftLowerLeg','RightLowerLeg','LeftUpperArm',
@@ -2803,37 +3071,37 @@ Character end local e=function(e)if not e then return nil end local f=e:
 FindFirstChildOfClass'Humanoid'if not f then return nil end local g,h={},f.
 RigType==Enum.HumanoidRigType.R6 and b or c for i,j in h do local k=e:
 FindFirstChild(j)if k and k:IsA'BasePart'then g[#g+1]=k end end return#g>0 and g
-or nil end return{GetCharacter=d,GetBodyParts=e}end function a.ct()local c=a.
-cache.ct if not c then c={c=b()}a.cache.ct=c end return c.c end end do local b=
+or nil end return{GetCharacter=d,GetBodyParts=e}end function a.cI()local c=a.
+cache.cI if not c then c={c=b()}a.cache.cI=c end return c.c end end do local b=
 function()local b,c,d,e=a.k(),a.g(),{},{}function e.ensure(f,g)if d[f]then
 return end local h,i,j=b('Frame',{Parent=f.root,BackgroundColor3=Color3.fromRGB(
 255,255,255),BackgroundTransparency=0.85,BorderSizePixel=0,Visible=false}),b(
 'Frame',{Parent=f.root,BackgroundTransparency=1,BorderSizePixel=0,Visible=false}
 ),b('Frame',{Parent=f.root,BackgroundTransparency=1,BorderSizePixel=0,Visible=
-false})local k,m=b('UIStroke',{Parent=j,Color=c.Colors.Stroke,Thickness=1,
+false})local k,l=b('UIStroke',{Parent=j,Color=c.Colors.Stroke,Thickness=1,
 LineJoinMode=Enum.LineJoinMode.Miter}),b('Frame',{Parent=f.root,
-BackgroundTransparency=1,BorderSizePixel=0,Visible=false})local n,o=b('UIStroke'
-,{Parent=m,Color=c.Colors.Stroke,Thickness=1,LineJoinMode=Enum.LineJoinMode.
+BackgroundTransparency=1,BorderSizePixel=0,Visible=false})local m,n=b('UIStroke'
+,{Parent=l,Color=c.Colors.Stroke,Thickness=1,LineJoinMode=Enum.LineJoinMode.
 Miter}),b('UIStroke',{Parent=i,Color=Color3.fromRGB(255,255,255),Thickness=1,
-Transparency=0,LineJoinMode=Enum.LineJoinMode.Miter})f.box=i f.boxStroke=o f.
-boxOuterOutline=j f.boxOuterStroke=k f.boxInnerOutline=m f.boxInnerStroke=n f.
-boxFill=h d[f]={box=i,boxStroke=o,boxOuterOutline=j,boxOuterStroke=k,
-boxInnerOutline=m,boxInnerStroke=n,boxFill=h}end function e.update(f,g,h)local i
+Transparency=0,LineJoinMode=Enum.LineJoinMode.Miter})f.box=i f.boxStroke=n f.
+boxOuterOutline=j f.boxOuterStroke=k f.boxInnerOutline=l f.boxInnerStroke=m f.
+boxFill=h d[f]={box=i,boxStroke=n,boxOuterOutline=j,boxOuterStroke=k,
+boxInnerOutline=l,boxInnerStroke=m,boxFill=h}end function e.update(f,g,h)local i
 =d[f]if not i then return end if not h then i.box.Visible=false i.boxFill.
 Visible=false i.boxOuterOutline.Visible=false i.boxInnerOutline.Visible=false
-return end local j=f.features local k,m=j.box,j['box fill']if not k and not m
+return end local j=f.features local k,l=j.box,j['box fill']if not k and not l
 then i.box.Visible=false i.boxFill.Visible=false i.boxOuterOutline.Visible=false
-i.boxInnerOutline.Visible=false return end local n,o=h.size,UDim2.fromOffset(0,0
-)local p,q,r,s,t=UDim2.fromOffset(n.X,n.Y),UDim2.fromOffset(-1,-1),UDim2.
-fromOffset(n.X+2,n.Y+2),UDim2.fromOffset(1,1),UDim2.fromOffset(math.max(n.X-2,0)
-,math.max(n.Y-2,0))if i.lastPosition~=o then i.lastPosition=o i.box.Position=o
-end if i.lastSize~=p then i.lastSize=p i.box.Size=p end if i.lastOuterPosition~=
+i.boxInnerOutline.Visible=false return end local m,n=h.size,UDim2.fromOffset(0,0
+)local o,q,r,s,t=UDim2.fromOffset(m.X,m.Y),UDim2.fromOffset(-1,-1),UDim2.
+fromOffset(m.X+2,m.Y+2),UDim2.fromOffset(1,1),UDim2.fromOffset(math.max(m.X-2,0)
+,math.max(m.Y-2,0))if i.lastPosition~=n then i.lastPosition=n i.box.Position=n
+end if i.lastSize~=o then i.lastSize=o i.box.Size=o end if i.lastOuterPosition~=
 q then i.lastOuterPosition=q i.boxOuterOutline.Position=q end if i.lastOuterSize
 ~=r then i.lastOuterSize=r i.boxOuterOutline.Size=r end if i.lastInnerPosition~=
 s then i.lastInnerPosition=s i.boxInnerOutline.Position=s end if i.lastInnerSize
-~=t then i.lastInnerSize=t i.boxInnerOutline.Size=t end if i.lastFillPosition~=o
-then i.lastFillPosition=o i.boxFill.Position=o end if i.lastFillSize~=p then i.
-lastFillSize=p i.boxFill.Size=p end local u,v=h.boxFillColor,h.
+~=t then i.lastInnerSize=t i.boxInnerOutline.Size=t end if i.lastFillPosition~=n
+then i.lastFillPosition=n i.boxFill.Position=n end if i.lastFillSize~=o then i.
+lastFillSize=o i.boxFill.Size=o end local u,v=h.boxFillColor,h.
 boxFillTransparency if i.lastFillColor~=u then i.lastFillColor=u i.boxFill.
 BackgroundColor3=u end if i.lastFillTransparency~=v then i.lastFillTransparency=
 v i.boxFill.BackgroundTransparency=v end local w,x=h.boxColor,h.boxTransparency
@@ -2842,12 +3110,12 @@ lastStrokeTransparency~=x then i.lastStrokeTransparency=x i.boxStroke.
 Transparency=x i.boxOuterStroke.Color=c.Colors.Stroke i.boxOuterStroke.
 Transparency=x i.boxInnerStroke.Color=c.Colors.Stroke i.boxInnerStroke.
 Transparency=x end i.box.Visible=k i.boxOuterOutline.Visible=k i.boxInnerOutline
-.Visible=k i.boxFill.Visible=m end function e.destroy(f)local g=d[f]if g then g.
+.Visible=k i.boxFill.Visible=l end function e.destroy(f)local g=d[f]if g then g.
 box:Destroy()g.boxFill:Destroy()g.boxOuterOutline:Destroy()g.boxInnerOutline:
 Destroy()d[f]=nil end f.box=nil f.boxFill=nil f.boxOuterOutline=nil f.
 boxInnerOutline=nil f.boxStroke=nil f.boxOuterStroke=nil f.boxInnerStroke=nil
-end return e end function a.cu()local c=a.cache.cu if not c then c={c=b()}a.
-cache.cu=c end return c.c end end do local b=function()local b,c,d,e=a.k(),a.g()
+end return e end function a.cJ()local c=a.cache.cJ if not c then c={c=b()}a.
+cache.cJ=c end return c.c end end do local b=function()local b,c,d,e=a.k(),a.g()
 ,{},{}function e.ensure(f,g)if d[f]then return end local h=b('Frame',{Parent=f.
 root,BackgroundColor3=c.Colors.Stroke,BorderSizePixel=0,Visible=false})local i,j
 =b('UIStroke',{Parent=h,Color=c.Colors.Stroke,Enabled=false,Thickness=1,
@@ -2857,15 +3125,15 @@ Color3.fromRGB(255,255,255),BorderSizePixel=0})local k=b('UIGradient',{Rotation=
 healthGradient=k d[f]={healthOutline=h,healthOutlineStroke=i,healthBar=j,
 healthGradient=k}end function e.update(f,g,h)local i=d[f]if not i then return
 end if not h then i.healthOutline.Visible=false return end if not f.features[
-'health bar']then i.healthOutline.Visible=false return end local j,k,m,n,o,p,q=h
+'health bar']then i.healthOutline.Visible=false return end local j,k,l,m,n,o,q=h
 .size,h.healthTransparency,h.healthBarGap,h.healthBarWidth,h.healthBarOutline,h.
-healthBarYOffset,h.displayHealthRatio local r,s=n+o*2,math.max(j.Y-p*2,0)local t
-,u=UDim2.fromOffset(-(m+r),p),UDim2.fromOffset(r,s)if i.lastOutlinePosition~=t
+healthBarYOffset,h.displayHealthRatio local r,s=m+n*2,math.max(j.Y-o*2,0)local t
+,u=UDim2.fromOffset(-(l+r),o),UDim2.fromOffset(r,s)if i.lastOutlinePosition~=t
 then i.lastOutlinePosition=t i.healthOutline.Position=t end if i.lastOutlineSize
 ~=u then i.lastOutlineSize=u i.healthOutline.Size=u end if i.
 lastOutlineTransparency~=k then i.lastOutlineTransparency=k i.healthOutline.
-BackgroundTransparency=k end local v=math.max(s-o*2,0)local w,x=UDim2.
-fromOffset(o,v*(1-q)+o),UDim2.fromOffset(n,math.max(v*q,0))if i.lastBarPosition
+BackgroundTransparency=k end local v=math.max(s-n*2,0)local w,x=UDim2.
+fromOffset(n,v*(1-q)+n),UDim2.fromOffset(m,math.max(v*q,0))if i.lastBarPosition
 ~=w then i.lastBarPosition=w i.healthBar.Position=w end if i.lastBarSize~=x then
 i.lastBarSize=x i.healthBar.Size=x end if i.lastBarTransparency~=k then i.
 lastBarTransparency=k i.healthBar.BackgroundTransparency=k end local y=h.
@@ -2876,7 +3144,7 @@ lastGradientColor~=A then i.lastGradientColor=A i.healthGradient.Color=A end i.
 healthOutline.Visible=true end function e.destroy(f)local g=d[f]if g then g.
 healthOutline:Destroy()g.healthBar:Destroy()d[f]=nil end f.healthOutline=nil f.
 healthBar=nil f.healthOutlineStroke=nil f.healthGradient=nil end return e end
-function a.cv()local c=a.cache.cv if not c then c={c=b()}a.cache.cv=c end return
+function a.cK()local c=a.cache.cK if not c then c={c=b()}a.cache.cK=c end return
 c.c end end do local b=function()local b,c=a.k(),{}function c.ensure(d,e)if d.
 highlight then return end local f=(pcall(gethui)and gethui())or game:GetService
 'CoreGui'd.highlight=(b('Highlight',{Parent=f}))end function c.update(d,e,f)if
@@ -2890,8 +3158,8 @@ highlight.FillTransparency=f.highlightFillTransparency d.highlight.OutlineColor=
 f.highlightOutlineColor d.highlight.OutlineTransparency=f.
 highlightOutlineTransparency d.highlight.Enabled=true end function c.destroy(d)
 if d.highlight then d.highlight:Destroy()d.highlight=nil end end return c end
-function a.cw()local c=a.cache.cw if not c then c={c=b()}a.cache.cw=c end return
-c.c end end do local b=function()local b,c,d=a.k(),a.cq(),a.g()local e=function(
+function a.cL()local c=a.cache.cL if not c then c={c=b()}a.cache.cL=c end return
+c.c end end do local b=function()local b,c,d=a.k(),a.cF(),a.g()local e=function(
 e)local f,g={},{}function g.ensure(h,i)if f[h]then return end local j=b(
 'TextLabel',{Parent=i,AnchorPoint=e.anchorPoint or Vector2.new(0.5,0),
 BackgroundTransparency=1,BorderSizePixel=0,Font=Enum.Font.Code,Size=e.labelSize
@@ -2901,32 +3169,32 @@ TextStrokeTransparency=1,Visible=false})c.Apply(j)local k=b('UIStroke',{Parent=j
 .Miter})h[e.storageKey]=j h[e.strokeKey]=k f[h]={label=j,stroke=k}end function g
 .update(h,i,j)local k=f[h]if not k then return end if not j then k.label.Visible
 =false return end if not h.features[e.featureKey]then k.label.Visible=false
-return end local m=e.positionFn(j.min,j.size,j)if k.lastPosition~=m then k.
-lastPosition=m k.label.Position=m end c.Apply(k.label)local n=e.textFn(j)if k.
-lastText~=n then k.lastText=n k.label.Text=n end local o=j[e.colorKey]if k.
-lastColor~=o then k.lastColor=o k.label.TextColor3=o end local p=j[e.
-transparencyKey]if k.lastTransparency~=p then k.lastTransparency=p k.label.
-TextTransparency=p k.stroke.Transparency=p end if e.visibleFn then k.label.
-Visible=e.visibleFn(n,j)else k.label.Visible=true end end function g.destroy(h)
+return end local l=e.positionFn(j.min,j.size,j)if k.lastPosition~=l then k.
+lastPosition=l k.label.Position=l end c.Apply(k.label)local m=e.textFn(j)if k.
+lastText~=m then k.lastText=m k.label.Text=m end local n=j[e.colorKey]if k.
+lastColor~=n then k.lastColor=n k.label.TextColor3=n end local o=j[e.
+transparencyKey]if k.lastTransparency~=o then k.lastTransparency=o k.label.
+TextTransparency=o k.stroke.Transparency=o end if e.visibleFn then k.label.
+Visible=e.visibleFn(m,j)else k.label.Visible=true end end function g.destroy(h)
 local i=f[h]if i then i.label:Destroy()f[h]=nil end h[e.storageKey]=nil h[e.
-strokeKey]=nil end return g end return e end function a.cx()local c=a.cache.cx
-if not c then c={c=b()}a.cache.cx=c end return c.c end end do local aa=function(
-)local b,c,d,e,f,g,h,i,j,k,m=a.k(),a.a(),a.ap(),a.cq(),a.cr(),a.cs(),a.ct(),a.
-cu(),a.cv(),a.cw(),a.cx()local n,o,p,q,r=c.Players,c.RunService,c.
+strokeKey]=nil end return g end return e end function a.cM()local c=a.cache.cM
+if not c then c={c=b()}a.cache.cM=c end return c.c end end do local aa=function(
+)local b,c,d,e,f,g,h,i,j,k,l=a.k(),a.a(),a.av(),a.cF(),a.cG(),a.cH(),a.cI(),a.
+cJ(),a.cK(),a.cL(),a.cM()local m,n,o,q,r=c.Players,c.RunService,c.
 UserInputService,d.create(),(pcall(gethui)and gethui())or c.CoreGui local s,t,u,
 v,w=b('ScreenGui',{Name='CoCo_ESP',DisplayOrder=999999,IgnoreGuiInset=true,
-ResetOnSpawn=false,Parent=r}),m{storageKey='name',strokeKey='nameStroke',
+ResetOnSpawn=false,Parent=r}),l{storageKey='name',strokeKey='nameStroke',
 featureKey='name',positionFn=function(s,t)return UDim2.fromOffset(s.X+t.X/2,s.Y-
 17)end,textFn=function(s)return s.nameText end,colorKey='nameColor',
-transparencyKey='nameTransparency'},m{storageKey='distanceText',strokeKey=
+transparencyKey='nameTransparency'},l{storageKey='distanceText',strokeKey=
 'distanceTextStroke',featureKey='distance',positionFn=function(s,t)return UDim2.
 fromOffset(s.X+t.X/2,s.Y+t.Y+1)end,textFn=function(s)return tostring(s.distance)
-..'M'end,colorKey='distanceColor',transparencyKey='distanceTransparency'},m{
+..'M'end,colorKey='distanceColor',transparencyKey='distanceTransparency'},l{
 storageKey='healthText',strokeKey='healthTextStroke',featureKey='health text',
 positionFn=function(s,t,u)return UDim2.fromOffset(s.X-23,s.Y+t.Y*(1-u.
 displayHealthRatio)-3)end,textFn=function(s)if s.hideFullHealth and s.
 healthRatio>=1 then return''end return tostring(math.floor(s.healthValue+0.5))..
-'%'end,colorKey='healthTextColor',transparencyKey='healthTextTransparency'},m{
+'%'end,colorKey='healthTextColor',transparencyKey='healthTextTransparency'},l{
 storageKey='toolText',strokeKey='toolTextStroke',featureKey='tool text',
 positionFn=function(s,t,u)return UDim2.fromOffset(s.X+t.X/2,s.Y+t.Y+(u.
 distanceEnabled and 15 or 1))end,textFn=function(s)return s.toolText end,
@@ -2934,7 +3202,7 @@ colorKey='toolTextColor',transparencyKey='toolTextTransparency',visibleFn=
 function(s)return s~=''end}local x,y,z,A,B,C,D,E,F={{keys={'box','box fill'},mod
 =i},{keys={'health bar'},mod=j},{keys={'health text'},mod=v},{keys={'name'},mod=
 t},{keys={'distance'},mod=u},{keys={'tool text'},mod=w},{keys={'highlight'},mod=
-k}},{},false,0,c.Workspace.CurrentCamera,n.LocalPlayer,function(x)if q.
+k}},{},false,0,c.Workspace.CurrentCamera,m.LocalPlayer,function(x)if q.
 TextCasing=='uppercase'then return string.upper(x)elseif q.TextCasing==
 'lowercase'then return string.lower(x)end return x end,function(x)if not x then
 return''end local y=x:FindFirstChildOfClass'Tool'if not y then return''end local
@@ -3049,16 +3317,16 @@ HasAnyEnabledFeature(q)then ab()return end if q.LimitFPS>0 then local ac=tick()
 if ac-A<(1/q.LimitFPS)then return end A=ac end B=c.Workspace.CurrentCamera h.
 GetCharacter(C)for ac,ad in pairs(y)do if ad and ad.features and ad.features.any
 then aa(ad)elseif ad then G(ad)end end end local ae=function()if F then return
-end if not q.Enabled or not f.HasAnyEnabledFeature(q)then return end F=o.
-RenderStepped:Connect(ac)for ae,af in n:GetPlayers()do if not y[af]then ad(af)
+end if not q.Enabled or not f.HasAnyEnabledFeature(q)then return end F=n.
+RenderStepped:Connect(ac)for ae,af in m:GetPlayers()do if not y[af]then ad(af)
 end end end ad=function(af)if y[af]then return end local ag=b('Frame',{Parent=s,
 BackgroundTransparency=1,BorderSizePixel=0,Size=UDim2.fromOffset(0,0),Visible=
 true})local ah={player=af,root=ag,features={},displayedHealthRatio=1,connections
 ={},characterConns={},character=nil,humanoid=nil,rootPart=nil,health=100,
 maxHealth=100,teamState='neutral',teamColor=nil,tool=nil,bodyParts=nil,
-fadeTransparency=1,leaving=false,lastState=nil}local ai=function()if af==n.
-LocalPlayer then ah.teamState='local'elseif af.Team and af.Team~=n.LocalPlayer.
-Team then ah.teamState='enemy'elseif af.Team and af.Team==n.LocalPlayer.Team
+fadeTransparency=1,leaving=false,lastState=nil}local ai=function()if af==m.
+LocalPlayer then ah.teamState='local'elseif af.Team and af.Team~=m.LocalPlayer.
+Team then ah.teamState='enemy'elseif af.Team and af.Team==m.LocalPlayer.Team
 then ah.teamState='friendly'else ah.teamState='neutral'end ah.teamColor=af.Team
 and af.Team.TeamColor.Color or nil ah.features=f.ComputeFeatures(q,ah)end ai()
 table.insert(ah.connections,af:GetPropertyChangedSignal'Team':Connect(ai))table.
@@ -3067,18 +3335,18 @@ insert(ah.connections,af.CharacterAdded:Connect(function(aj)I(ah)H(ah,aj)ae()end
 if af.Character then H(ah,af.Character)if q.Enabled then ae()end end ah.features
 =f.ComputeFeatures(q,ah)y[af]=ah if ah.features.any then ae()end end local af=
 function()if not q.Enabled or not f.HasAnyEnabledFeature(q)then for af,ag in
-pairs(y)do J(ag)end return false end for af,ag in n:GetPlayers()do if not y[ag]
+pairs(y)do J(ag)end return false end for af,ag in m:GetPlayers()do if not y[ag]
 then ad(ag)end end local af=false for ag,ah in pairs(y)do local ai=f.
 ComputeFeatures(q,ah)ah.features=ai if ai.any then af=true end end return af end
 local ag=function()if z then return end z=true task.defer(function()z=false if
-af()then ae()else ab()end end)end n.PlayerAdded:Connect(ad)for ah,ai in n:
-GetPlayers()do ad(ai)end n.PlayerRemoving:Connect(function(ah)local ai=y[ah]if
+af()then ae()else ab()end end)end m.PlayerAdded:Connect(ad)for ah,ai in m:
+GetPlayers()do ad(ai)end m.PlayerRemoving:Connect(function(ah)local ai=y[ah]if
 ai then if ai.lastState then ai.leaving=true else J(ai)end end end)q.Changed:
 Connect(function()ag()end)e.OnLoaded(function()ag()end)local ah={}setmetatable(
 ah,{__index=function(ai,aj)return q[aj]end,__newindex=function(ai,aj,ak)q[aj]=ak
 q.Changed:Fire()end})return{esp=q,playerData=y,bindings=ah,queueReconcile=ag,
-start=ae,stop=ab}end function a.cy()local ab=a.cache.cy if not ab then ab={c=aa(
-)}a.cache.cy=ab end return ab.c end end do local aa=function()local aa,ab=a.g(),
+start=ae,stop=ab}end function a.cN()local ab=a.cache.cN if not ab then ab={c=aa(
+)}a.cache.cN=ab end return ab.c end end do local aa=function()local aa,ab=a.g(),
 a.b()local ac,ad,ae=aa.Gui.PluginDir,'.coco',{CoCo=nil,Plugins={}}function ae:
 init(af)self.CoCo=af return self end function ae:_getPluginPath(af)return ac..
 '/'..af..ad end function ae:_isPluginFile(af)return af:sub(-#ad)==ad end
@@ -3127,19 +3395,19 @@ insert(af,{Name=ai.Name,Description=ai.Description,Version=ai.Version,Author=ai.
 Author,Loaded=true})ag[ah]=nil end for ah in pairs(ag)do table.insert(af,{Name=
 ah,Description='',Version='',Author='',Loaded=false})end table.sort(af,function(
 ah,ai)return ah.Name:lower()<ai.Name:lower()end)return af end return function(af
-)return ae:init(af)end end function a.cz()local ab=a.cache.cz if not ab then ab=
-{c=aa()}a.cache.cz=ab end return ab.c end end do local aa=function()local aa=a.
+)return ae:init(af)end end function a.cO()local ab=a.cache.cO if not ab then ab=
+{c=aa()}a.cache.cO=ab end return ab.c end end do local aa=function()local aa=a.
 l()return function(ab)aa()local ac={a.m(),a.p(),a.q(),a.r(),a.s(),a.t(),a.u(),a.
 v(),a.w(),a.x(),a.y(),a.z(),a.A(),a.B(),a.C(),a.D(),a.E(),a.F(),a.G(),a.I()}for
-ad,ae in ipairs(ac)do ae(ab)end local ad=a.cp()for ae,af in ipairs(ad)do ab.
-Registry:registerCommandObject(af)end local ae=a.cy()ab.ESP=ae.esp local af=a.
-cz()(ab)ab.PluginManager=af af:loadAll()end end function a.cA()local ab=a.cache.
-cA if not ab then ab={c=aa()}a.cache.cA=ab end return ab.c end end do local aa=
+ad,ae in ipairs(ac)do ae(ab)end local ad=a.cE()for ae,af in ipairs(ad)do ab.
+Registry:registerCommandObject(af)end local ae=a.cN()ab.ESP=ae.esp local af=a.
+cO()(ab)ab.PluginManager=af af:loadAll()end end function a.cP()local ab=a.cache.
+cP if not ab then ab={c=aa()}a.cache.cP=ab end return ab.c end end do local aa=
 function()local aa do aa=setmetatable({},{__index=function(ab,ac)local ad=ab.
 Registry[ac]if ad and type(ad)=='function'then return function(ae,...)return ad(
 ab.Registry,...)end end end})local ab=a.a()local ac=ab.Players aa.Registry=a.e(
-)(aa)aa.Dispatcher=a.j()(aa,ac.LocalPlayer)a.cA()(aa)end return aa end function
-a.cB()local ab=a.cache.cB if not ab then ab={c=aa()}a.cache.cB=ab end return ab.
+)(aa)aa.Dispatcher=a.j()(aa,ac.LocalPlayer)a.cP()(aa)end return aa end function
+a.cQ()local ab=a.cache.cQ if not ab then ab={c=aa()}a.cache.cQ=ab end return ab.
 c end end do local aa=function()local aa,ab,ac=function(aa,...)if type(aa)==
 'thread'then coroutine.resume(aa,...)return aa else local ab=coroutine.create(aa
 )coroutine.resume(ab,...)return ab end end,function(aa)local ab,ac=coroutine.
@@ -3148,11 +3416,11 @@ end end,function(aa)local ab=os.clock()local ac,ad=(ab+(aa or 1))repeat ad=os.
 clock()until ad>=ac return ad-ab end local ad=function(ad,ae,...)local af=aa(
 function(af,ag,...)ac(af)if type(ag)=='thread'then coroutine.resume(ag,...)else
 ag(...)end end,ad,ae,...)return af end return table.freeze{cancel=ab,spawn=aa,
-defer=aa,delay=ad,wait=ac}end function a.cC()local ab=a.cache.cC if not ab then
-ab={c=aa()}a.cache.cC=ab end return ab.c end end do local aa=function()local aa=
+defer=aa,delay=ad,wait=ac}end function a.cR()local ab=a.cache.cR if not ab then
+ab={c=aa()}a.cache.cR=ab end return ab.c end end do local aa=function()local aa=
 function(...)print(`\27[0;33m{table.concat({...},' ')}\27[0m`)end return aa end
-function a.cD()local ab=a.cache.cD if not ab then ab={c=aa()}a.cache.cD=ab end
-return ab.c end end do local aa=function()local aa,ab,ac=a.cC(),a.cD(),if game
+function a.cS()local ab=a.cache.cS if not ab then ab={c=aa()}a.cache.cS=ab end
+return ab.c end end do local aa=function()local aa,ab,ac=a.cR(),a.cS(),if game
 and game.ClassName=='DataModel'and game.GraphicsQualityChangeRequest then
 'ROBLOX'elseif string.find(_VERSION,'Lune')then'LUNE'else'NONE'local ad,ae=warn
 or ab,if task then task elseif ac=='LUNE'then(require)'@lune/task'else aa do
@@ -3160,8 +3428,8 @@ local af=function(af,ag)if not _G[af]then _G[af]=ag end end if not _RUNTIME then
 af('_RUNTIME',ac)_RUNTIME=ac end if not warn then af('warn',ad)warn=ad end if
 not task then af('task',ae)task=ae end end return table.freeze{cancel=ae.cancel,
 spawn=ae.spawn,defer=ae.defer,delay=ae.delay,wait=ae.wait,warn=ad,runtime=ac}end
-function a.cE()local ab=a.cache.cE if not ab then ab={c=aa()}a.cache.cE=ab end
-return ab.c end end do local aa=function()local aa,ab,ac,ad,ae=a.cE(),
+function a.cT()local ab=a.cache.cT if not ab then ab={c=aa()}a.cache.cT=ab end
+return ab.c end end do local aa=function()local aa,ab,ac,ad,ae=a.cT(),
 [[Object is a %* and as such expected `true?` for the method name and instead got %*. Traceback: %*]]
 ,
 [[Object %* doesn't have method %*, are you sure you want to add it? Traceback: %*]]
@@ -3218,12 +3486,12 @@ an)[ao])end)if ap and aq then aq(an)end end al[an]=nil an,ao=next(al,an)end
 local ap=ag[al]if ap then table.clear(ap)ag[al]=nil end al.CurrentlyCleaning=
 false al.UnsafeThreadCleanup=am end end af.Cleanup=al function ae:Destroy()al(
 self)table.clear(self)setmetatable(self,nil)end af.__call=al function af:
-__tostring()return'Janitor'end return ae end function a.cF()local ab=a.cache.cF
-if not ab then ab={c=aa()}a.cache.cF=ab end return ab.c end end do local aa=
+__tostring()return'Janitor'end return ae end function a.cU()local ab=a.cache.cU
+if not ab then ab={c=aa()}a.cache.cU=ab end return ab.c end end do local aa=
 function()local aa=function(aa,ab)local ac=aa for ad,ae in ab do if aa[ad]==ae
 then continue end if ac==aa then ac=table.clone(aa)end ac[ad]=ae end return ac
-end return aa end function a.cG()local ab=a.cache.cG if not ab then ab={c=aa()}a
-.cache.cG=ab end return ab.c end end do local aa=function()local aa,ab,ac=a.cG()
+end return aa end function a.cV()local ab=a.cache.cV if not ab then ab={c=aa()}a
+.cache.cV=ab end return ab.c end end do local aa=function()local aa,ab,ac=a.cV()
 ,{number=function(aa,ab)aa[1]=ab end,vector=function(aa,ab)aa[1]=ab end,table=
 function(aa,ab)for ac,ad in ab do aa[ac]=ad end end},{number=function(aa)return
 aa[1]end,vector=function(aa)return aa[1]end,table=function(aa)return table.
@@ -3242,28 +3510,28 @@ end,function(ai,aj)for ak,al in aj.components do ai.components[ak]=al end ai.
 value=ah(aj)ai.dirty=nil end,function(ai,aj,ak,al)for am,an in ak.components do
 local ao=(aj.components[am])ai.components[am]=ao+(an-ao)*al end ai.dirty=true
 end return{create=ad,copy=ae,zero=af,setValue=ai,addValue=aj,getValue=ah,
-recomputeValue=ag,assign=ak,lerp=al}end function a.cH()local ab=a.cache.cH if
-not ab then ab={c=aa()}a.cache.cH=ab end return ab.c end end do local aa=
+recomputeValue=ag,assign=ak,lerp=al}end function a.cW()local ab=a.cache.cW if
+not ab then ab={c=aa()}a.cache.cW=ab end return ab.c end end do local aa=
 function()local aa=function(aa,ab)local ac,ad={},0 local ae=function(ae)local af
 =table.find(ac,ae)if af then ac[af]=ac[ad]ac[ad]=nil ad-=1 end end local af,ag,
 ah,ai=function(af)for ag=ad,1,-1 do ab(ac[ag],af,ae)end end,function(af,ag)
 return ab(af,ag,ae)end,function(af)if table.find(ac,af)then return end table.
 insert(ac,af)ad+=1 end,function()table.clear(ac)ad=0 end return{states=ac,update
-=ag,step=af,add=ah,remove=ae,clear=ai}end return aa end function a.cI()local ab=
-a.cache.cI if not ab then ab={c=aa()}a.cache.cI=ab end return ab.c end end do
-local aa=function()local aa,ab=nil,(a.cE())local ac=function(ac,ad,...)aa=nil
+=ag,step=af,add=ah,remove=ae,clear=ai}end return aa end function a.cX()local ab=
+a.cache.cX if not ab then ab={c=aa()}a.cache.cX=ab end return ab.c end end do
+local aa=function()local aa,ab=nil,(a.cT())local ac=function(ac,ad,...)aa=nil
 ad(...)aa=ac end local ad=function()while true do ac(coroutine.yield())end end
 local ae=function(ae,...)local af=aa or coroutine.create(ad)aa=nil coroutine.
-resume(af,af,ae,...)end return ae end function a.cJ()local ab=a.cache.cJ if not
-ab then ab={c=aa()}a.cache.cJ=ab end return ab.c end end do local aa=function()
-local aa=a.cJ()local ab=function()local ab,ac={},0 local ad,ae=function(ad)table
+resume(af,af,ae,...)end return ae end function a.cY()local ab=a.cache.cY if not
+ab then ab={c=aa()}a.cache.cY=ab end return ab.c end end do local aa=function()
+local aa=a.cY()local ab=function()local ab,ac={},0 local ad,ae=function(ad)table
 .insert(ab,ad)ac+=1 return function()local ae=table.find(ab,ad)if ae then ab[ae]
 =ab[ac]ab[ac]=nil ac-=1 end end end,function(...)for ad=ac,1,-1 do aa(ab[ad],...
-)end end return ad,ae end return ab end function a.cK()local ab=a.cache.cK if
-not ab then ab={c=aa()}a.cache.cK=ab end return ab.c end end do local aa=
-function()return{}end function a.cL()local ab=a.cache.cL if not ab then ab={c=
-aa()}a.cache.cL=ab end return ab.c end end do local aa=function()local aa,ab,ac,
-ad=a.cH(),a.cI(),a.cK(),a.cL()local ae,af,ag,ah,ai=aa.getValue,aa.recomputeValue
+)end end return ad,ae end return ab end function a.cZ()local ab=a.cache.cZ if
+not ab then ab={c=aa()}a.cache.cZ=ab end return ab.c end end do local aa=
+function()return{}end function a.c_()local ab=a.cache.c_ if not ab then ab={c=
+aa()}a.cache.c_=ab end return ab.c end end do local aa=function()local aa,ab,ac,
+ad=a.cW(),a.cX(),a.cZ(),a.c_()local ae,af,ag,ah,ai=aa.getValue,aa.recomputeValue
 ,1e-3,62.5,{}(ai).__index=ai local aj=function(aj,ak)if type(aj)=='number'then
 return math.abs(aj)<=ak else local al=vector.abs(aj)return math.max(al.x,al.y,al
 .z)<=ak end end local ak,al=ab('Spring',function(ak,al,am)if ak.complete then
@@ -3315,14 +3583,14 @@ impulse(am)aa.addValue(self.state.velocity,am)self:scheduleUpdate()end function
 ai:halt()aa.zero(self.state.velocity)end function ai:onChange(am)return self.
 state.onChange(am)end function ai:onComplete(am)return self.state.onComplete(am)
 end function ai:destroy()self:stop()end return{scheduler=ak,createSpring=al}end
-function a.cM()local ab=a.cache.cM if not ab then ab={c=aa()}a.cache.cM=ab end
-return ab.c end end do local aa=function()a.cM()return{default={tension=170,
+function a.c0()local ab=a.cache.c0 if not ab then ab={c=aa()}a.cache.c0=ab end
+return ab.c end end do local aa=function()a.c0()return{default={tension=170,
 friction=26},gentle={tension=120,friction=14},wobbly={tension=180,friction=12},
 stiff={tension=210,friction=20},slow={tension=280,friction=60},molasses={tension
 =280,friction=120},figmaGentle={tension=100,friction=15},figmaQuick={tension=300
 ,friction=20},figmaBouncy={tension=600,friction=15},figmaSlow={tension=80,
-friction=20}}end function a.cN()local ab=a.cache.cN if not ab then ab={c=aa()}a.
-cache.cN=ab end return ab.c end end do local aa=function()local aa,ab=math.pi,
+friction=20}}end function a.c1()local ab=a.cache.c1 if not ab then ab={c=aa()}a.
+cache.c1=ab end return ab.c end end do local aa=function()local aa,ab=math.pi,
 1.70158 local ac,ad,ae,af,ag,ah,ai,aj,ak,al,am,an,ao,ap,aq,ar,as,at,au,av,aw,ax,
 ay,az,aA,aB,aC,aD=ab*1.525,ab+1,(2*aa)/3,(2*aa)/4.5,function(ac)return ac end,
 function(ac)return if ac==0 then 0 else 1 end,function(ac)return ac*ac*(3-2*ac)
@@ -3357,16 +3625,16 @@ quadInOut=al,cubicIn=am,cubicOut=an,cubicInOut=ao,quartIn=ap,quartOut=aq,
 quartInOut=ar,quintIn=as,quintOut=at,quintInOut=au,sineIn=av,sineOut=aw,
 sineInOut=ax,expoIn=ay,expoOut=az,expoInOut=aA,circIn=aB,circOut=aC,circInOut=aD
 ,backIn=aE,backOut=aF,backInOut=b,elasticIn=c,elasticOut=d,elasticInOut=e,
-bounceIn=g,bounceOut=f,bounceInOut=h}end function a.cO()local ab=a.cache.cO if
-not ab then ab={c=aa()}a.cache.cO=ab end return ab.c end end do local aa=
-function()local aa,ab=a.cL(),function(aa,ab,ac)local ad=typeof(aa)if ad==
+bounceIn=g,bounceOut=f,bounceInOut=h}end function a.c2()local ab=a.cache.c2 if
+not ab then ab={c=aa()}a.cache.c2=ab end return ab.c end end do local aa=
+function()local aa,ab=a.c_(),function(aa,ab,ac)local ad=typeof(aa)if ad==
 'number'or ad=='vector'then return aa+(ab-aa)*ac elseif ad=='table'then local ae
 =aa for af,ag in ab do local ah=aa[af]if not ah then continue end local ai=ah+(
 ag-ah)*ac if ae[af]~=ai then if ae==aa then ae=table.clone(aa)end ae[af]=ai end
 end return ae else error(`Unsupported type for interpolation: {ad}`)end end
-return ab end function a.cP()local ab=a.cache.cP if not ab then ab={c=aa()}a.
-cache.cP=ab end return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,
-af,ag=a.cO(),a.cP(),a.cG(),a.cI(),a.cK(),a.cL(),{}(ag).__index=ag local ah=
+return ab end function a.c3()local ab=a.cache.c3 if not ab then ab={c=aa()}a.
+cache.c3=ab end return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,
+af,ag=a.c2(),a.c3(),a.cV(),a.cX(),a.cZ(),a.c_(),{}(ag).__index=ag local ah=
 function(ah,ai,aj)if ai<0 then ai=math.huge end if ai>1 and ah>=1 then if aj
 then return math.abs((ah-1)%2-1)elseif ah<ai then return ah%1 end return 1 end
 return ah end local ai,aj=ad('Tween',function(ai,aj,ak)if ai.complete then ak(ai
@@ -3399,9 +3667,9 @@ end local am=if type(ak)=='table'then ac(self.state.goal,ak)else ak if self.
 state.goal~=am then self.state.goal=am self:resumeFromCurrentPosition()end end
 function ag:onChange(ak)return self.state.onChange(ak)end function ag:onComplete
 (ak)return self.state.onComplete(ak)end function ag:destroy()self:stop()end
-return{scheduler=ai,createTween=aj}end function a.cQ()local ab=a.cache.cQ if not
-ab then ab={c=aa()}a.cache.cQ=ab end return ab.c end end do local aa=function()
-local aa,ab,ac,ad,ae,af=a.cI(),a.cK(),a.cM(),a.cQ(),a.cL(),{}(af).__index=af
+return{scheduler=ai,createTween=aj}end function a.c4()local ab=a.cache.c4 if not
+ab then ab={c=aa()}a.cache.c4=ab end return ab.c end end do local aa=function()
+local aa,ab,ac,ad,ae,af=a.cX(),a.cZ(),a.c0(),a.c4(),a.c_(),{}(af).__index=af
 local ag,ah=aa('Motion',function(ag,ah,ai)if ag.complete then ai(ag)return ag.
 current:getPosition()end local aj=ag.current:step(ah)if ag.current:idle()then
 ai(ag)ag.complete=true ag.fireComplete(aj)end return aj end),function(ag)local
@@ -3440,20 +3708,20 @@ aj,ak)self:prepareTween()self.state.tween:setGoal(aj,ak)if not self.state.tween:
 idle()then self:scheduleUpdate()end end function af:onChange(aj)return self.
 state.onChange(aj)end function af:onComplete(aj)return self.state.onComplete(aj)
 end function af:destroy()self:stop()end return{scheduler=ag,createMotion=ai}end
-function a.cR()local ab=a.cache.cR if not ab then ab={c=aa()}a.cache.cR=ab end
-return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,af=a.cN(),a.cO(),
-a.cR(),a.cM(),a.cQ(),a.cL()return{config=aa,easing=ab,createMotion=ac.
+function a.c5()local ab=a.cache.c5 if not ab then ab={c=aa()}a.cache.c5=ab end
+return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,af=a.c1(),a.c2(),
+a.c5(),a.c0(),a.c4(),a.c_()return{config=aa,easing=ab,createMotion=ac.
 createMotion,motionScheduler=ac.scheduler,createSpring=ad.createSpring,
 springScheduler=ad.scheduler,createTween=ae.createTween,tweenScheduler=ae.
-scheduler}end function a.cS()local ab=a.cache.cS if not ab then ab={c=aa()}a.
-cache.cS=ab end return ab.c end end do local aa=function()local aa=a.cS()return
-aa end function a.cT()local ab=a.cache.cT if not ab then ab={c=aa()}a.cache.cT=
+scheduler}end function a.c6()local ab=a.cache.c6 if not ab then ab={c=aa()}a.
+cache.c6=ab end return ab.c end end do local aa=function()local aa=a.c6()return
+aa end function a.c7()local ab=a.cache.c7 if not ab then ab={c=aa()}a.cache.c7=
 ab end return ab.c end end do local aa=function()local aa=game:GetService
 'UserInputService'return{IsTouchDevice=rawget(_G,'__COCO_MOBILE_TEST')or aa.
-TouchEnabled}end function a.cU()local ab=a.cache.cU if not ab then ab={c=aa()}a.
-cache.cU=ab end return ab.c end end do local aa=function()local aa=a.a()local ab
+TouchEnabled}end function a.c8()local ab=a.cache.c8 if not ab then ab={c=aa()}a.
+cache.c8=ab end return ab.c end end do local aa=function()local aa=a.a()local ab
 ,ac,ad,ae,af,ag,ah,ai,aj,ak=aa.GuiService,aa.UserInputService,aa.RunService,aa.
-Lighting,a.cF(),a.cT(),a.c(),a.cU(),300,{Enum.UserInputType.MouseButton1,Enum.
+Lighting,a.cU(),a.c7(),a.c(),a.c8(),300,{Enum.UserInputType.MouseButton1,Enum.
 UserInputType.MouseButton2,Enum.UserInputType.Touch}local al,am,an={Valid=true,
 AutoComplete=nil,ProcessEntry=nil,OnTextChanged=nil,CoCo=nil,GuiRoot=nil,
 HistoryState=nil,Janitor=af.new(),LastLineText=nil,LastLineGui=nil,
@@ -3549,9 +3817,9 @@ getSelectedItem(),self:getEntryText()if d and not(e:sub(#e,#e):match'%s'and self
 .AutoComplete.LastItem)then local f,g,h,i=d[2]:gsub('"',''),true,(self.
 AutoComplete.Command)if h then local j=self.AutoComplete.Arg i=h.Alias g=self.
 AutoComplete.NumArgs~=#h.ArgumentDefinitions and self.AutoComplete.IsPartial==
-false local k=h.Arguments for m=1,#k do local n=k[m]local o=n.RawSegments if n==
-j then o[#o]=f end local p=n.Prefix..table.concat(o,',')i=('%s %s'):format(i,p)
-if n==j then break end end else i=f end task.wait()self:setEntryText(i..(g and
+false local k=h.Arguments for l=1,#k do local m=k[l]local n=m.RawSegments if m==
+j then n[#n]=f end local o=m.Prefix..table.concat(n,',')i=('%s %s'):format(i,o)
+if m==j then break end end else i=f end task.wait()self:setEntryText(i..(g and
 ' 'or''))else task.wait()self:setEntryText(self:getEntryText())end else self:
 clearHistoryState()end end function al:destroy()self.Janitor:Destroy()aw:
 Destroy()end local b,c=function()local b=aD()if not b then return end al.Janitor
@@ -3570,17 +3838,17 @@ j=ao:step(d),ap:step(d),aq:step(d),at:step(d),au:step(d)e.Position=UDim2.new(ai.
 IsTouchDevice and 0 or 0.025,0,0,an+f)e.BackgroundTransparency=g e.Size=UDim2.
 new(ai.IsTouchDevice and 1 or 0.95,0,0,h)local k=workspace.CurrentCamera if k
 then k.FieldOfView=i end aw.Size=j if not aq:idle()then e.CanvasPosition=Vector2
-.new(0,ax)end if e.Visible then local m=math.clamp((g-0.4)/0.6,0,1)for n,o in
-ipairs(e:GetDescendants())do if o:IsA'TextBox'or o:IsA'TextLabel'then o.
-TextTransparency=m end end end if ao:idle()and ay then ay=false e.Visible=false
+.new(0,ax)end if e.Visible then local l=math.clamp((g-0.4)/0.6,0,1)for m,n in
+ipairs(e:GetDescendants())do if n:IsA'TextBox'or n:IsA'TextLabel'then n.
+TextTransparency=l end end end if ao:idle()and ay then ay=false e.Visible=false
 end end),'Disconnect')end,function()local b=al.GuiRoot if not b then return nil
 end return b:FindFirstChild'CoCo'end local d=function()local d=c()if not d then
 return nil end return d:FindFirstChild'MobileToggle'end task.spawn(function()
 while not aA()do task.wait()end b()aB=d()if aB then aB.Visible=ai.IsTouchDevice
 aB.MouseButton1Click:Connect(function()al:show()end)end end)return al end
-function a.cV()local ab=a.cache.cV if not ab then ab={c=aa()}a.cache.cV=ab end
+function a.c9()local ab=a.cache.c9 if not ab then ab={c=aa()}a.cache.c9=ab end
 return ab.c end end do local aa=function()return function(aa,ab)local ac,ad,ae=a
-.c(),a.cF(),a.a()local af,ag,ah,ai=ae.TweenService,a.cU(),{Items={},ItemOptions=
+.c(),a.cU(),a.a()local af,ag,ah,ai=ae.TweenService,a.c8(),{Items={},ItemOptions=
 {},SelectedItem=0,Janitor=ad.new()},ab:WaitForChild'Autocomplete'local aj,ak,al,
 am=ai:WaitForChild'TextButton',ai:WaitForChild'Title',ai:WaitForChild
 'Description',ab:WaitForChild'Frame':WaitForChild'Entry'aj.Parent=nil local an,
@@ -3638,58 +3906,62 @@ ai.Size.Y.Offset))if self.Items[self.SelectedItem]and self.Items[self.
 SelectedItem].options then at(self.Items[self.SelectedItem].options or{})end end
 ah.Janitor:Add(ai.Parent:GetPropertyChangedSignal'AbsoluteSize':Connect(as),
 'Disconnect')function ah:destroy()self.Janitor:Destroy()end return ah end end
-function a.cW()local ab=a.cache.cW if not ab then ab={c=aa()}a.cache.cW=ab end
+function a.da()local ab=a.cache.da if not ab then ab={c=aa()}a.cache.da=ab end
 return ab.c end end do local aa=function()local aa=a.c()return function(ab,ac)
-local ad=a.cV()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local af
-=a.cW()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
+local ad=a.c9()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local af
+=a.da()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
 trimString(ag)if#ag==0 then return end ad:addLine(ad:getLabel()..' '..ag,Color3.
 fromRGB(255,223,93))ad:addLine(ab.Dispatcher:evaluateAndRun(ag))end local ag,ah=
-0.3 function ad.OnTextChanged(ai)local aj,ak=ab.Dispatcher:evaluate(ai,ab.
-Dispatcher._defaultExecutor,true),aa.splitString(ai)local al,am=table.remove(ak,
-1),false if aj then ak=aa.mashExcessArguments(ak,#aj.Object.Args)am=#ak==#aj.
-Object.Args end local an=al and#ak>0 if ai:sub(#ai,#ai):match'%s'and not am then
-an=true ak[#ak+1]=''end if aj and an then local ao,ap=aj:validate()ad:
-setIsValidInput(ao,('Validation errors: %s'):format(ap or''))local aq,ar=
-function()local aq,ar=ab.Dispatcher:evaluate(ai,ab.Dispatcher._defaultExecutor,
-true),aa.splitString(ai)local as,at=table.remove(ar,1),false if aq then ar=aa.
-mashExcessArguments(ar,#aq.Object.Args)at=#ar==#aq.Object.Args end local au=as
-and#ar>0 if ai:sub(#ai,#ai):match'%s'and not at then au=true ar[#ar+1]=''end if
-aq and au then local av,aw={},aq:getArgument(#ar)if aw then local ax,ay=aw.
-TextSegmentInProgress,false if aw.RawSegmentsAreAutocomplete then for az,aA in
-ipairs(aw.RawSegments)do av[az]={aA,aA}end else local az,aA=aw:GetAutocomplete()
-aA=aA or{}ay=aA.IsPartial or false for aB,aC in ipairs(az)do if type(aC)==
-'table'then av[aB]={ax,aC.title,aC.name or aC.title,options={name=aC.name or aC.
-title,type='Script',description=aC.metaDesc}}else av[aB]={ax,aC}end end end af:
-show(av,{at=at and#ai-#ax+(ai:sub(#ai,#ai):match'%s'and-1 or 0),prefix=#aw.
-RawSegments==1 and aw.Prefix or'',isLast=#aq.Arguments==#aq.ArgumentDefinitions
-and#ax>0,numArgs=#ar,command=aq,arg=aw,name=aw.Name..(aw.Required and''or'?'),
-type=aw.Type.DisplayName,description=aw.Object.Description,isPartial=ay})end end
-end,aj:getArgument(#ak)if ar and ar.Type and ar.Type.Debounce then if ah then
-task.cancel(ah)end af:hide()ah=task.delay(ag,function()ah=nil aq()end)else if ah
-then task.cancel(ah)ah=nil end aq()end elseif al and#ak==0 then ad:
-setIsValidInput(true)local ao,ap=(ab.Registry:getCommand(al))if ao then ap={ao.
-Name,ao.Name,options={name=ao.Name,description=ao.Description}}local aq=ao.Args
-and ao.Args[1]if type(aq)=='function'then aq=aq(aj)end if aq and(not aq.Optional
-and aq.Default==nil)then ad:setIsValidInput(false,
-'This command has required arguments.')ad:hideInvalidState()end end local aq,ar=
-ap and{ap}or{},{}if ao then ar[ao]=true end for as,at in ipairs(ab.Registry:
-getCommandNames())do if al:lower()==at:lower():sub(1,#al)then local au=ab.
-Registry:getCommand(at)if au and not ar[au]then ar[au]=true aq[#aq+1]={al,at,
-options={name=au.Name,description=au.Description}}end end end if#aq>0 then
-return af:show(aq)end ad:setIsValidInput(false,(
+0.3 function ad.OnTextChanged(ai)local aj=ai local ak,al,am=ab.Dispatcher.
+splitByAndRespectingQuotes(aj),0,aj if#ak>1 then local an=0 for ao=1,#ak-1 do an
++=#ak[ao]+2 end al=an am=aa.trimString(ak[#ak])if#am==0 then ad:setIsValidInput(
+true)af:hide()return end end local an,ao,ap=ab.Dispatcher.parseLoopSyntax(am)
+local aq=am if an then local ar=#am-#ap al+=ar aq=ap end local ar,as=ab.
+Dispatcher:evaluate(aq,ab.Dispatcher._defaultExecutor,true),aa.splitString(am)
+local at,au=table.remove(as,1),false if ar then as=aa.mashExcessArguments(as,#ar
+.Object.Args)au=#as==#ar.Object.Args end local av=at and#as>0 if am:sub(#am,#am)
+:match'%s'and not au then av=true as[#as+1]=''end if ar and av then local aw,ax=
+ar:validate()ad:setIsValidInput(aw,('Validation errors: %s'):format(ax or''))
+local ay,az=function()local ay,az=ab.Dispatcher:evaluate(aq,ab.Dispatcher.
+_defaultExecutor,true),aa.splitString(am)local aA,aB=table.remove(az,1),false if
+ay then az=aa.mashExcessArguments(az,#ay.Object.Args)aB=#az==#ay.Object.Args end
+local aC=aA and#az>0 if am:sub(#am,#am):match'%s'and not aB then aC=true az[#az+
+1]=''end if ay and aC then local aD,aE={},ay:getArgument(#az)if aE then local aF
+,b=aE.TextSegmentInProgress,false if aE.RawSegmentsAreAutocomplete then for c,d
+in ipairs(aE.RawSegments)do aD[c]={d,d}end else local c,d=aE:GetAutocomplete()d=
+d or{}b=d.IsPartial or false for e,f in ipairs(c)do if type(f)=='table'then aD[e
+]={aF,f.title,f.name or f.title,options={name=f.name or f.title,type='Script',
+description=f.metaDesc}}else aD[e]={aF,f}end end end af:show(aD,{at=aB and al+#
+am-#aF+(am:sub(#am,#am):match'%s'and-1 or 0),prefix=#aE.RawSegments==1 and aE.
+Prefix or'',isLast=#ay.Arguments==#ay.ArgumentDefinitions and#aF>0,numArgs=#az,
+command=ay,arg=aE,name=aE.Name..(aE.Required and''or'?'),type=aE.Type.
+DisplayName,description=aE.Object.Description,isPartial=b})end end end,ar:
+getArgument(#as)if az and az.Type and az.Type.Debounce then if ah then task.
+cancel(ah)end af:hide()ah=task.delay(ag,function()ah=nil ay()end)else if ah then
+task.cancel(ah)ah=nil end ay()end elseif at and#as==0 then ad:setIsValidInput(
+true)local aw,ax=(ab.Registry:getCommand(at))if aw then ax={aw.Name,aw.Name,
+options={name=aw.Name,description=aw.Description}}local ay=aw.Args and aw.Args[1
+]if type(ay)=='function'then ay=ay(ar)end if ay and(not ay.Optional and ay.
+Default==nil)then ad:setIsValidInput(false,
+'This command has required arguments.')ad:hideInvalidState()end end local ay,az=
+ax and{ax}or{},{}if aw then az[aw]=true end for aA,aB in ipairs(ab.Registry:
+getCommandNames())do if at:lower()==aB:lower():sub(1,#at)then local aC=ab.
+Registry:getCommand(aB)if aC and not az[aC]then az[aC]=true ay[#ay+1]={at,aB,
+options={name=aC.Name,description=aC.Description}}end end end if#ay>0 then
+return af:show(ay)end ad:setIsValidInput(false,(
 [[%q is not a valid command name. Use the help command to see all available commands.]]
-):format(al))af:hide()else if ah then task.cancel(ah)ah=nil end ad:
+):format(at))af:hide()else if ah then task.cancel(ah)ah=nil end ad:
 setIsValidInput(false,'Use the help command to see all available commands.')af:
 hide()end end ad:updateLabel()ad:updateWindowHeight()return{Window=ad,
-AutoComplete=af}end end function a.cX()local ab=a.cache.cX if not ab then ab={c=
-aa()}a.cache.cX=ab end return ab.c end end do local aa=function()local aa,ab=a.
-a(),a.cV()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
+AutoComplete=af}end end function a.db()local ab=a.cache.db if not ab then ab={c=
+aa()}a.cache.db=ab end return ab.c end end do local aa=function()local aa,ab=a.
+a(),a.c9()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
 pcall(function()aa.StarterGui:SetCore('ChatMakeSystemMessage',{Text=(
 '[Announcement] %s'):format(ae),Color=Color3.fromRGB(249,217,56)})end)if not af
 then warn'CoCo: Failed to send chat announcement message.'end end)ac.Events.
-AddLine:Connect(function(...)ab:addLine(...)end)end end function a.cY()local ab=
-a.cache.cY if not ab then ab={c=aa()}a.cache.cY=ab end return ab.c end end do
-local aa=function()local aa,ab=a.d(),a.ao()return function(ac,ad)local ae=a.cX(
+AddLine:Connect(function(...)ab:addLine(...)end)end end function a.dc()local ab=
+a.cache.dc if not ab then ab={c=aa()}a.cache.dc=ab end return ab.c end end do
+local aa=function()local aa,ab=a.d(),a.au()return function(ac,ad)local ae=a.db(
 )(ac,ad)ac.ActivationKeys={[Enum.KeyCode.F2]=true}ac.Enabled=true ac.
 MashToEnable=false ac.ActivationUnlocksMouse=false ac.HideOnLostFocus=true ac.
 PlaceName='CoCo'ac.Events={AddLine=ab.new(),Message=ab.new()}function ac:
@@ -3702,9 +3974,9 @@ end ae.Window:show()end function ac:hide()ae.Window:hide()end function ac:toggle
 Window:isVisible())end function ac:setMashToEnable(af)self.MashToEnable=af if af
 then self:setEnabled(false)end end function ac:setHideOnLostFocus(af)self.
 HideOnLostFocus=af end function ac:handleEvent(af,ag)if self.Events[af]then
-return self.Events[af]:Connect(ag)end end local af=a.b_()af:apply(ac)a.cY()(ac,
-ad)return ae end end function a.cZ()local ab=a.cache.cZ if not ab then ab={c=aa(
-)}a.cache.cZ=ab end return ab.c end end end local aa,ab=a.cB(),pcall(gethui)and
+return self.Events[af]:Connect(ag)end end local af=a.ce()af:apply(ac)a.dc()(ac,
+ad)return ae end end function a.dd()local ab=a.cache.dd if not ab then ab={c=aa(
+)}a.cache.dd=ab end return ab.c end end end local aa,ab=a.cQ(),pcall(gethui)and
 gethui()local ac=ab and ab:FindFirstChild'CoCo'if not ac then local ad=os.clock(
 )while not ac and os.clock()-ad<5 do ac=ab and ab:FindFirstChild'CoCo'task.wait(
-)end end a.cZ()(aa,ab or game:GetService'CoreGui')return aa
+)end end a.dd()(aa,ab or game:GetService'CoreGui')return aa

@@ -22,8 +22,35 @@ return function (CoCo, gui)
 	local AC_COOLDOWN = 0.3
 
 	function Window.OnTextChanged(text)
-		local command = CoCo.Dispatcher:evaluate(text, CoCo.Dispatcher._defaultExecutor, true)
-		local arguments = String.splitString(text)
+		local fullText = text
+
+		local chainParts = CoCo.Dispatcher.splitByAndRespectingQuotes(fullText)
+		local chainOffset = 0
+		local activeText = fullText
+		if #chainParts > 1 then
+			local offset = 0
+			for i = 1, #chainParts - 1 do
+				offset += #chainParts[i] + 2
+			end
+			chainOffset = offset
+			activeText = String.trimString(chainParts[#chainParts])
+			if #activeText == 0 then
+				Window:setIsValidInput(true)
+				AutoComplete:hide()
+				return
+			end
+		end
+
+		local countStr, delayStr, cmdText = CoCo.Dispatcher.parseLoopSyntax(activeText)
+		local evalText = activeText
+		if countStr then
+			local cmdOffset = #activeText - #cmdText
+			chainOffset += cmdOffset
+			evalText = cmdText
+		end
+
+		local command = CoCo.Dispatcher:evaluate(evalText, CoCo.Dispatcher._defaultExecutor, true)
+		local arguments = String.splitString(evalText)
 		local commandText = table.remove(arguments, 1)
 		local atEnd = false
 		if command then
@@ -33,7 +60,7 @@ return function (CoCo, gui)
 
 		local entryComplete = commandText and #arguments > 0
 
-		if text:sub(#text, #text):match("%s") and not atEnd then
+		if activeText:sub(#activeText, #activeText):match("%s") and not atEnd then
 			entryComplete = true
 			arguments[#arguments + 1] = ""
 		end
@@ -43,8 +70,8 @@ return function (CoCo, gui)
 			Window:setIsValidInput(commandValid, ("Validation errors: %s"):format(errorText or ""))
 
 			local function showAutocomplete()
-				local cmd = CoCo.Dispatcher:evaluate(text, CoCo.Dispatcher._defaultExecutor, true)
-				local args = String.splitString(text)
+				local cmd = CoCo.Dispatcher:evaluate(evalText, CoCo.Dispatcher._defaultExecutor, true)
+				local args = String.splitString(evalText)
 				local cmdText2 = table.remove(args, 1)
 				local atEnd2 = false
 				if cmd then
@@ -54,7 +81,7 @@ return function (CoCo, gui)
 
 				local entryComplete2 = cmdText2 and #args > 0
 
-				if text:sub(#text, #text):match("%s") and not atEnd2 then
+				if activeText:sub(#activeText, #activeText):match("%s") and not atEnd2 then
 					entryComplete2 = true
 					args[#args + 1] = ""
 				end
@@ -95,7 +122,7 @@ return function (CoCo, gui)
 						end
 
 						AutoComplete:show(acItems, {
-							at = atEnd2 and #text - #typedText + (text:sub(#text, #text):match("%s") and -1 or 0);
+							at = atEnd2 and chainOffset + #activeText - #typedText + (activeText:sub(#activeText, #activeText):match("%s") and -1 or 0);
 							prefix = #lastArgument.RawSegments == 1 and lastArgument.Prefix or "";
 							isLast = #cmd.Arguments == #cmd.ArgumentDefinitions and #typedText > 0;
 							numArgs = #args;
