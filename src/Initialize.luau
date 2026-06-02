@@ -39,4 +39,8 @@ return function(coco)
 
 	local espModule = require("./Visuals/init")
 	coco.ESP = espModule.esp
+
+	local PluginManager = require("./Shared/PluginManager")(coco)
+	coco.PluginManager = PluginManager
+	PluginManager:loadAll()
 end

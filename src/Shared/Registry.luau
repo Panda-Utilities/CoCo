@@ -158,6 +158,38 @@ function Registry:registerCommandObject(commandObject: CommandObject)
 	end
 end
 
+function Registry:removeCommand(name: string)
+	local cmd = self.Commands[name:lower()]
+	if not cmd then return end
+
+	self.Commands[name:lower()] = nil
+
+	if cmd.Aliases then
+		for _, alias in ipairs(cmd.Aliases) do
+			self.Commands[alias:lower()] = nil
+		end
+	end
+
+	if cmd.InverseAliases then
+		for _, alias in ipairs(cmd.InverseAliases) do
+			self.Commands[alias:lower()] = nil
+			self.InvertedCommands[alias:lower()] = nil
+		end
+	end
+
+	for i, c in ipairs(self.CommandsArray) do
+		if c.Name:lower() == name:lower() then
+			table.remove(self.CommandsArray, i)
+			break
+		end
+	end
+end
+
+function Registry:removeType(name: string)
+	self.Types[name] = nil
+	self.TypeAliases[name] = nil
+end
+
 function Registry:getCommand(name: string): CommandObject?
 	name = name or ""
 	return self.Commands[name:lower()]

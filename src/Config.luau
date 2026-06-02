@@ -53,8 +53,9 @@ local Config: {
 
 	Gui = {
 		HistoryFile = "CoCo/History",
-		ConfigFile = "CoCo/Config",
-		DefaultTextSize = 14,
+	ConfigFile = "CoCo/Config",
+	PluginDir = "CoCo/Plugins",
+	DefaultTextSize = 14,
 		ScrollBarThickness = 6,
 		EntryLayoutOrder = 999999999,
 		BackgroundTransparency = 0.4,
