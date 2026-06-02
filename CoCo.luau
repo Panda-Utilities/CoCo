@@ -12,7 +12,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-02T03:35:38.711820971+00:00",
+    genDate = "2026-06-02T03:50:39.618385201+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -374,10 +374,17 @@ Transparency=c.Gui.SectionBackgroundTransparency,LayoutOrder=-1,Name=
 [[The players to teleport. The players to teleport. The players to teleport. The players to teleport. ]]
 ,Font=Enum.Font.SourceSansLight,TextSize=16,TextWrapped=true,Size=UDim2.new(1,0,
 1,0),TextYAlignment=Enum.TextYAlignment.Top},f{left=10,top=10,bottom=10,right=10
-}}},m}}})return n end end function a.l()local c=a.cache.l if not c then c={c=b()
-}a.cache.l=c end return c.c end end do local b=function()local b,c,d,e,f,g,h,i,j
-=a.d(),{Validate=function(b)return b~=nil end,Parse=function(b)return tostring(b
-)end},{Transform=function(b)return tonumber(b)end,Validate=function(b)return b~=
+}}},m}},b('TextButton',{Name='MobileToggle',BackgroundColor3=c.Colors.
+BackgroundDark,BackgroundTransparency=0.3,BorderSizePixel=0,Font=Enum.Font.Code,
+Position=UDim2.new(1,-52,0,8),Selectable=false,Size=UDim2.new(0,44,0,44),Text=''
+,Visible=false,ZIndex=10},{b('UICorner',{CornerRadius=UDim.new(0,22)}),b(
+'UIStroke',{Color=c.Colors.TextAccent,Thickness=1.5,Transparency=0.3}),b(
+'TextLabel',{Name='Label',BackgroundTransparency=1,Font=Enum.Font.Code,Size=
+UDim2.new(1,0,1,0),Text='CoCo',TextColor3=Color3.fromRGB(255,255,255),TextSize=
+14})})})return n end end function a.l()local c=a.cache.l if not c then c={c=b()}
+a.cache.l=c end return c.c end end do local b=function()local b,c,d,e,f,g,h,i,j=
+a.d(),{Validate=function(b)return b~=nil end,Parse=function(b)return tostring(b)
+end},{Transform=function(b)return tonumber(b)end,Validate=function(b)return b~=
 nil end,Parse=function(b)return b end},{Transform=function(b)return tonumber(b)
 end,Validate=function(b)return b~=nil and b==math.floor(b),
 'Only whole numbers are valid.'end,Parse=function(b)return b end},{Transform=
@@ -3350,191 +3357,200 @@ springScheduler=ad.scheduler,createTween=ae.createTween,tweenScheduler=ae.
 scheduler}end function a.cO()local ab=a.cache.cO if not ab then ab={c=aa()}a.
 cache.cO=ab end return ab.c end end do local aa=function()local aa=a.cO()return
 aa end function a.cP()local ab=a.cache.cP if not ab then ab={c=aa()}a.cache.cP=
-ab end return ab.c end end do local aa=function()local aa=a.a()local ab,ac,ad,ae
-,af,ag,ah,ai,aj=aa.GuiService,aa.UserInputService,aa.RunService,aa.Lighting,a.
-cB(),a.cP(),a.c(),300,{Enum.UserInputType.MouseButton1,Enum.UserInputType.
-MouseButton2,Enum.UserInputType.Touch}local ak,al,am={Valid=true,AutoComplete=
-nil,ProcessEntry=nil,OnTextChanged=nil,CoCo=nil,GuiRoot=nil,HistoryState=nil,
-Janitor=af.new(),LastLineText=nil,LastLineGui=nil,DuplicateCount=0},-80,25 local
-an,ao,ap,aq,ar,as,at,au,av=ag.createSpring(al,{frequency=4,dampingRatio=0.75}),
-ag.createSpring(1,{frequency=4,dampingRatio=0.8}),ag.createSpring(0,{frequency=5
-,dampingRatio=0.8}),55,12,ag.createSpring(70,{frequency=4,dampingRatio=0.8}),ag.
-createSpring(0,{frequency=4,dampingRatio=0.8}),70,Instance.new'BlurEffect'av.
-Size=0 av.Parent=ae local aw,ax,ay=0,false,function()local aw=ak.GuiRoot if not
-aw then return nil end local ax=aw:WaitForChild'CoCo':WaitForChild'Frame'return
-ax end function ak:getGui()return ay()end local az,aA=function()local az=ay()
-return az and az:FindFirstChild'Line'end,function()local az=ay()return az and az
-:FindFirstChild'Entry'end function ak:updateLabel()local aB=aA()if aB then aB.
-TextLabel.Text='CoCo$'end end function ak:getLabel()local aB=aA()return aB and
-aB.TextLabel.Text or'CoCo$'end function ak:updateWindowHeight()local aB=ay()if
-not aB then return end aw=aB.UIListLayout.AbsoluteContentSize.Y+aB.UIPadding.
-PaddingTop.Offset+aB.UIPadding.PaddingBottom.Offset local aC=math.clamp(aw,0,ai)
-if math.abs(ap:getPosition()-aC)>0.5 then ap:setGoal(aC)end end function ak:
-addLine(aB,aC)aC=aC or{}aB=tostring(aB)if typeof(aC)=='Color3'then aC={Color=aC}
-end if#aB==0 then ak:updateWindowHeight()return end if aB==ak.LastLineText then
-ak.DuplicateCount+=1 if ak.LastLineGui then ak.LastLineGui.Text=aB..' x'..(ak.
-DuplicateCount+1)end ak:updateWindowHeight()return end ak.LastLineText=aB ak.
-DuplicateCount=0 local aD=ay()if not aD then return end local aE=az()if not aE
-then return end local aF,b=ah.emulateTabstops(aB,8),aE:Clone()b.Text=aF b.
-TextColor3=aC.Color or b.TextColor3 b.RichText=aC.RichText or false b.Parent=aD
-ak.LastLineGui=b end function ak:isVisible()local aB=ay()if not aB then return
-false end if ax then return false end return aB.Visible end function ak:
-setVisible(aB)local aC=ay()if not aC then return end if aB then ax=false an:
-setPosition(al)ao:setPosition(1)aC.Position=UDim2.new(0.025,0,0,am+al)aC.
-BackgroundTransparency=1 aC.Visible=true an:setGoal(0)ao:setGoal(0.4)local aD=
-workspace.CurrentCamera if aD then au=aD.FieldOfView as:setPosition(au)at:
-setPosition(0)as:setGoal(aq)at:setGoal(ar)end else ax=true an:setGoal(al)ao:
-setGoal(1)as:setGoal(au)at:setGoal(0)end local aD=aA()if aB and aD then aD.
-TextBox:CaptureFocus()self:setEntryText''if self.CoCo.ActivationUnlocksMouse
-then self.PreviousMouseBehavior=ac.MouseBehavior ac.MouseBehavior=Enum.
-MouseBehavior.Default end elseif aD then aD.TextBox.Text=''aD.TextBox:
-ReleaseFocus()self.AutoComplete:hide()if self.PreviousMouseBehavior then ac.
-MouseBehavior=self.PreviousMouseBehavior self.PreviousMouseBehavior=nil end end
-end function ak:hide()return self:setVisible(false)end function ak:show()return
-self:setVisible(true)end function ak:setEntryText(aB)local aC=aA()if not aC then
-return end aC.TextBox.Text=aB if self:isVisible()then aC.TextBox:CaptureFocus()
-if#aB>0 then aC.TextBox.CursorPosition=#aB+1 end ak:updateWindowHeight()end if#
-aB==0 then local aD aD=aC.TextBox:GetPropertyChangedSignal'Text':Connect(
-function()aD:Disconnect()if aC.TextBox.Text~=''then aC.TextBox.Text=''end end)
-task.defer(function()if aD then aD:Disconnect()end end)end end function ak:
-getEntryText()local aB=aA()if not aB then return''end return aB.TextBox.Text:
-gsub('\t','')end function ak:setIsValidInput(aB,aC)local aD=aA()if not aD then
-return end aD.TextBox.TextColor3=aB and Color3.fromRGB(255,255,255)or Color3.
-fromRGB(255,73,73)self.Valid=aB self._errorText=aC end function ak:
-hideInvalidState()local aB=aA()if aB then aB.TextBox.TextColor3=Color3.fromRGB(
-255,255,255)end end function ak:loseFocus(aB)local aC=self:getEntryText()if aB
-then local aD=self.AutoComplete and self.AutoComplete:getSelectedItem()if aD
-then local aE=self.CoCo.Dispatcher:evaluate(aC,nil,true)local aF=aE and aE:
-getLastArgument()and aE:getLastArgument().RawValue==aD[2]if not aF then local b=
-aC:match'^(.*)[%s]'if b then if b~=aD[2]then aC=b..' '..aD[2]end else aC=aD[2]
-end self:setEntryText(aC)aC=self:getEntryText()end end if self.Valid then task.
-wait()self:setEntryText''self.ProcessEntry(aC)else self:addLine(self._errorText,
-Color3.fromRGB(255,153,153))task.wait()self:setEntryText''end for aE=1,5 do task
-.defer(function()local aF=aA()if aF and aF.TextBox.Text:match'^%s'then aF.
-TextBox.Text=aF.TextBox.Text:gsub('^%s+','')end end)end local aE=ay()if aE then
-aE.CanvasPosition=Vector2.new(0,aE.AbsoluteCanvasSize.Y)end return end self:
-clearHistoryState()local aD=ay()if aD and self:isVisible()and not ab.MenuIsOpen
-then local aE=aA()if aE then aE.TextBox:CaptureFocus()end elseif ab.MenuIsOpen
-and aD and aD.Visible then self:hide()end end function ak:traverseHistory(aB)
-local aC=self.CoCo.Dispatcher:getHistory()if self.HistoryState==nil then self.
-HistoryState={Position=#aC+1,InitialText=self:getEntryText()}end self.
-HistoryState.Position=math.clamp(self.HistoryState.Position+aB,1,#aC+1)self:
-setEntryText(self.HistoryState.Position==#aC+1 and self.HistoryState.InitialText
-or aC[self.HistoryState.Position])end function ak:clearHistoryState()self.
-HistoryState=nil end function ak:selectVertical(aB)if self.AutoComplete:
-isVisible()and not self.HistoryState then self.AutoComplete:select(aB)else self:
-traverseHistory(aB)end end local aB,aC=0,0 function ak:beginInput(aD,aE)if ab.
-MenuIsOpen then self:hide()end if aE and self:isVisible()==false then return end
-if self.CoCo.ActivationKeys[aD.KeyCode]then if self.CoCo.MashToEnable and not
-self.CoCo.Enabled then if os.clock()-aB<1 then if aC>=5 then return self.CoCo:
-setEnabled(true)else aC+=1 end else aC=1 end aB=os.clock()elseif self.CoCo.
-Enabled then self:setVisible(not self:isVisible())task.wait()self:setEntryText''
-if ab.MenuIsOpen then self:hide()end end return end if self.CoCo.Enabled==false
-or not self:isVisible()then if self:isVisible()then self:hide()end return end if
-self.CoCo.HideOnLostFocus and table.find(aj,aD.UserInputType)then local aF=ay()
-if not aF then return end local b,c,d=aD.Position,aF.AbsolutePosition,aF.
-AbsoluteSize if b.X<c.X or b.X>c.X+d.X or b.Y<c.Y or b.Y>c.Y+d.Y then self:hide(
-)end elseif aD.KeyCode==Enum.KeyCode.Down then self:selectVertical(1)elseif aD.
-KeyCode==Enum.KeyCode.Up then self:selectVertical(-1)elseif aD.KeyCode==Enum.
-KeyCode.Return then if self.AutoComplete and self.AutoComplete:isVisible()then
-local aF=self.AutoComplete:getSelectedItem()if aF then local b=self:
-getEntryText()local c=self.CoCo.Dispatcher:evaluate(b,nil,true)local d=c and c:
-getLastArgument()and c:getLastArgument().RawValue==aF[2]if not d then local e=b:
-match'^(.*)[%s]'if e then if e~=aF[2]then b=e..' '..aF[2]end else b=aF[2]end
-self:setEntryText(b)end end end return elseif aD.KeyCode==Enum.KeyCode.Tab then
-local aF,b=self.AutoComplete:getSelectedItem(),self:getEntryText()if aF and not(
-b:sub(#b,#b):match'%s'and self.AutoComplete.LastItem)then local c,d,e,f=aF[2]:
-gsub('"',''),true,(self.AutoComplete.Command)if e then local g=self.AutoComplete
-.Arg f=e.Alias d=self.AutoComplete.NumArgs~=#e.ArgumentDefinitions and self.
-AutoComplete.IsPartial==false local h=e.Arguments for i=1,#h do local j=h[i]
-local k=j.RawSegments if j==g then k[#k]=c end local m=j.Prefix..table.concat(k,
-',')f=('%s %s'):format(f,m)if j==g then break end end else f=c end task.wait()
-self:setEntryText(f..(d and' 'or''))else task.wait()self:setEntryText(self:
-getEntryText())end else self:clearHistoryState()end end function ak:destroy()
-self.Janitor:Destroy()av:Destroy()end local aD=function()local aD=aA()if not aD
-then return end ak.Janitor:Add(aD.TextBox.FocusLost:Connect(function(aE)return
-ak:loseFocus(aE)end),'Disconnect')ak.Janitor:Add(ac.InputBegan:Connect(function(
-aE,aF)return ak:beginInput(aE,aF)end),'Disconnect')ak.Janitor:Add(aD.TextBox:
-GetPropertyChangedSignal'Text':Connect(function()local aE=ay()if not aE then
-return end aE.CanvasPosition=Vector2.new(0,aE.AbsoluteCanvasSize.Y)if aD.TextBox
-.Text:match'\t'then aD.TextBox.Text=aD.TextBox.Text:gsub('\t','')return end if
-aD.TextBox.Text:match'^%s'then aD.TextBox.Text=aD.TextBox.Text:gsub('^%s+','')
-return end if ak.OnTextChanged then return ak.OnTextChanged(aD.TextBox.Text)end
-end),'Disconnect')local aE=ay()if aE then ak.Janitor:Add(aE.ChildAdded:Connect(
-function()task.defer(ak.updateWindowHeight)end),'Disconnect')end ak.Janitor:Add(
-ad.Heartbeat:Connect(function(aF)local b=ay()if not b then return end local c,d,
-e,f,g=an:step(aF),ao:step(aF),ap:step(aF),as:step(aF),at:step(aF)b.Position=
-UDim2.new(0.025,0,0,am+c)b.BackgroundTransparency=d b.Size=UDim2.new(b.Size.X.
-Scale,b.Size.X.Offset,0,e)local h=workspace.CurrentCamera if h then h.
-FieldOfView=f end av.Size=g if not ap:idle()then b.CanvasPosition=Vector2.new(0,
-aw)end if b.Visible then local i=math.clamp((d-0.4)/0.6,0,1)for j,k in ipairs(b:
-GetDescendants())do if k:IsA'TextBox'or k:IsA'TextLabel'then k.TextTransparency=
-i end end end if an:idle()and ax then ax=false b.Visible=false end end),
-'Disconnect')end task.spawn(function()while not ay()do task.wait()end aD()end)
-return ak end function a.cQ()local ab=a.cache.cQ if not ab then ab={c=aa()}a.
-cache.cQ=ab end return ab.c end end do local aa=function()return function(aa,ab)
-local ac,ad,ae=a.c(),a.cB(),a.a()local af,ag,ah=ae.TweenService,{Items={},
-ItemOptions={},SelectedItem=0,Janitor=ad.new()},ab:WaitForChild'Autocomplete'
-local ai,aj,ak,al=ah:WaitForChild'TextButton',ah:WaitForChild'Title',ah:
-WaitForChild'Description',ab:WaitForChild'Frame':WaitForChild'Entry'ai.Parent=
-nil local am,an,ao,ap=ah.ScrollBarThickness,TweenInfo.new(0.08,Enum.EasingStyle.
-Quad,Enum.EasingDirection.Out),function(am,an,ao,ap)am.Visible=ao~=nil an.Text=
-ao or''if ap then an.Size=UDim2.new(0,an.TextBounds.X,am.Size.Y.Scale,am.Size.Y.
-Offset)end end,10 local aq=function()ah.Size=UDim2.new(0,math.max(aj.Field.
-TextBounds.X+aj.Field.Type.TextBounds.X+ap,ah.Size.X.Offset),0,math.min(ah.
-UIListLayout.AbsoluteContentSize.Y,ah.Parent.AbsoluteSize.Y-ah.AbsolutePosition.
-Y-ap))end local ar=function(ar)ao(aj,aj.Field,ar.name,true)ao(aj.Field.Type,aj.
-Field.Type,ar.type and': '..ar.type:sub(1,1):upper()..ar.type:sub(2),true)aj.
-Field.Type.Position=UDim2.new(0,aj.Field.Size.X.Offset,0,0)ao(ak,ak.Label,ar.
-description)ak.Label.TextColor3=ar.invalid and Color3.fromRGB(255,73,73)or
-Color3.fromRGB(255,255,255)ak.Size=UDim2.new(1,0,0,40)while not ak.Label.
-TextFits do ak.Size=ak.Size+UDim2.new(0,0,0,2)if ak.Size.Y.Offset>500 then break
-end end ah.UIListLayout:ApplyLayout()aq()ah.ScrollBarThickness=am end function
-ag:show(as,at)at=at or{}for au,av in ipairs(self.Items)do if av.gui then av.gui:
-Destroy()end end self.SelectedItem=1 self.Items=as self.Prefix=at.prefix or''
-self.LastItem=at.isLast or false self.Command=at.command self.Arg=at.arg self.
-NumArgs=at.numArgs self.IsPartial=at.isPartial local au=200 ah.
-ScrollBarThickness=0 for av,aw in ipairs(self.Items)do local ax,ay=aw[1],aw[3]or
-aw[2]local az,aA=ay,ai:Clone()aA.Name=ax..tostring(az)aA.BackgroundTransparency=
-av==self.SelectedItem and 0.5 or 1 local aB,aC=string.find(az:lower(),ax:lower()
-,1,true)if not aB then aA.Typed.Text=''aA.Suggest.Text=az else aA.Typed.Text=
-string.rep(' ',aB-1)..ax aA.Suggest.Text=string.sub(az,0,aB-1)..string.rep(' ',#
-ax)..string.sub(az,aC+1)end aA.Parent=ah aA.LayoutOrder=av local aD=math.max(aA.
-Typed.TextBounds.X,aA.Suggest.TextBounds.X)+20 if aD>au then au=aD end aw.gui=aA
-end ah.UIListLayout:ApplyLayout()for av,aw in ipairs(self.Items)do if aw.gui
-then local ax=aw.gui.BackgroundTransparency aw.gui.BackgroundTransparency=1 af:
-Create(aw.gui,an,{BackgroundTransparency=ax}):Play()end end af:Create(ah,an,{
-BackgroundTransparency=0.5}):Play()for av,aw in ipairs(ah:GetDescendants())do if
-aw:IsA'TextLabel'or aw:IsA'TextBox'then aw.TextTransparency=1 af:Create(aw,an,{
-TextTransparency=0}):Play()end end local av=al.TextBox.Text local aw=ac.
-splitString(av)if av:sub(#av,#av)==' 'and not at.at then aw[#aw+1]='e'end table.
-remove(aw,#aw)local ax=(at.at and at.at or(#table.concat(aw,' ')+1))*7 ah.
-Position=UDim2.new(0,al.TextBox.AbsolutePosition.X-10+ax,0,al.TextBox.
-AbsolutePosition.Y+30)ah.Size=UDim2.new(0,au,0,ah.UIListLayout.
-AbsoluteContentSize.Y)ah.Visible=true ar(self.Items[1]and self.Items[1].options
-or at)end function ag:getSelectedItem()if ah.Visible==false then return nil end
-return ag.Items[ag.SelectedItem]end function ag:hide()local as=af:Create(ah,
+ab end return ab.c end end do local aa=function()local aa=game:GetService
+'UserInputService'return{IsTouchDevice=rawget(_G,'__COCO_MOBILE_TEST')or aa.
+TouchEnabled}end function a.cQ()local ab=a.cache.cQ if not ab then ab={c=aa()}a.
+cache.cQ=ab end return ab.c end end do local aa=function()local aa=a.a()local ab
+,ac,ad,ae,af,ag,ah,ai,aj,ak=aa.GuiService,aa.UserInputService,aa.RunService,aa.
+Lighting,a.cB(),a.cP(),a.c(),a.cQ(),300,{Enum.UserInputType.MouseButton1,Enum.
+UserInputType.MouseButton2,Enum.UserInputType.Touch}local al,am,an={Valid=true,
+AutoComplete=nil,ProcessEntry=nil,OnTextChanged=nil,CoCo=nil,GuiRoot=nil,
+HistoryState=nil,Janitor=af.new(),LastLineText=nil,LastLineGui=nil,
+DuplicateCount=0},-80,25 local ao,ap,aq,ar,as,at,au,av,aw=ag.createSpring(am,{
+frequency=4,dampingRatio=0.75}),ag.createSpring(1,{frequency=4,dampingRatio=0.8}
+),ag.createSpring(0,{frequency=5,dampingRatio=0.8}),55,12,ag.createSpring(70,{
+frequency=4,dampingRatio=0.8}),ag.createSpring(0,{frequency=4,dampingRatio=0.8})
+,70,Instance.new'BlurEffect'aw.Size=0 aw.Parent=ae local ax,ay,az,aA,aB=0,false,
+false,function()local ax=al.GuiRoot if not ax then return nil end local ay=ax:
+WaitForChild'CoCo':WaitForChild'Frame'return ay end function al:getGui()return
+aA()end local aC,aD=function()local aC=aA()return aC and aC:FindFirstChild'Line'
+end,function()local aC=aA()return aC and aC:FindFirstChild'Entry'end function al
+:updateLabel()local aE=aD()if aE then aE.TextLabel.Text='CoCo$'end end function
+al:getLabel()local aE=aD()return aE and aE.TextLabel.Text or'CoCo$'end function
+al:updateWindowHeight()local aE=aA()if not aE then return end ax=aE.UIListLayout
+.AbsoluteContentSize.Y+aE.UIPadding.PaddingTop.Offset+aE.UIPadding.PaddingBottom
+.Offset local aF=math.clamp(ax,0,aj)if math.abs(aq:getPosition()-aF)>0.5 then aq
+:setGoal(aF)end end function al:addLine(aE,aF)aF=aF or{}aE=tostring(aE)if
+typeof(aF)=='Color3'then aF={Color=aF}end if#aE==0 then al:updateWindowHeight()
+return end if aE==al.LastLineText then al.DuplicateCount+=1 if al.LastLineGui
+then al.LastLineGui.Text=aE..' x'..(al.DuplicateCount+1)end al:
+updateWindowHeight()return end al.LastLineText=aE al.DuplicateCount=0 local b=
+aA()if not b then return end local c=aC()if not c then return end local d,e=ah.
+emulateTabstops(aE,8),c:Clone()e.Text=d e.TextColor3=aF.Color or e.TextColor3 e.
+RichText=aF.RichText or false e.Parent=b al.LastLineGui=e end function al:
+isVisible()local aE=aA()if not aE then return false end if ay then return false
+end return aE.Visible end function al:setVisible(aE)local aF=aA()if not aF then
+return end if aE then ay=false ao:setPosition(am)ap:setPosition(1)aF.Position=
+UDim2.new(ai.IsTouchDevice and 0 or 0.025,0,0,an+am)aF.BackgroundTransparency=1
+aF.Visible=true ao:setGoal(0)ap:setGoal(0.4)az=true task.delay(0.3,function()az=
+false end)local b=workspace.CurrentCamera if b then av=b.FieldOfView at:
+setPosition(av)au:setPosition(0)at:setGoal(ar)au:setGoal(as)end else ay=true ao:
+setGoal(am)ap:setGoal(1)at:setGoal(av)au:setGoal(0)end local b=aD()if aE and b
+then b.TextBox:CaptureFocus()self:setEntryText''if self.CoCo.
+ActivationUnlocksMouse then self.PreviousMouseBehavior=ac.MouseBehavior ac.
+MouseBehavior=Enum.MouseBehavior.Default end elseif b then b.TextBox.Text=''b.
+TextBox:ReleaseFocus()self.AutoComplete:hide()if self.PreviousMouseBehavior then
+ac.MouseBehavior=self.PreviousMouseBehavior self.PreviousMouseBehavior=nil end
+end if aB then aB.Visible=ai.IsTouchDevice and not aE end end function al:hide()
+return self:setVisible(false)end function al:show()return self:setVisible(true)
+end function al:setEntryText(aE)local aF=aD()if not aF then return end aF.
+TextBox.Text=aE if self:isVisible()then aF.TextBox:CaptureFocus()if#aE>0 then aF
+.TextBox.CursorPosition=#aE+1 end al:updateWindowHeight()end if#aE==0 then local
+b b=aF.TextBox:GetPropertyChangedSignal'Text':Connect(function()b:Disconnect()if
+aF.TextBox.Text~=''then aF.TextBox.Text=''end end)task.defer(function()if b then
+b:Disconnect()end end)end end function al:getEntryText()local aE=aD()if not aE
+then return''end return aE.TextBox.Text:gsub('\t','')end function al:
+setIsValidInput(aE,aF)local b=aD()if not b then return end b.TextBox.TextColor3=
+aE and Color3.fromRGB(255,255,255)or Color3.fromRGB(255,73,73)self.Valid=aE self
+._errorText=aF end function al:hideInvalidState()local aE=aD()if aE then aE.
+TextBox.TextColor3=Color3.fromRGB(255,255,255)end end function al:loseFocus(aE)
+local aF=self:getEntryText()if aE then local b=self.AutoComplete and self.
+AutoComplete:getSelectedItem()if b then local c=self.CoCo.Dispatcher:evaluate(aF
+,nil,true)local d=c and c:getLastArgument()and c:getLastArgument().RawValue==b[2
+]if not d then local e=aF:match'^(.*)[%s]'if e then if e~=b[2]then aF=e..' '..b[
+2]end else aF=b[2]end self:setEntryText(aF)aF=self:getEntryText()end end if self
+.Valid then task.wait()self:setEntryText''self.ProcessEntry(aF)else self:
+addLine(self._errorText,Color3.fromRGB(255,153,153))task.wait()self:setEntryText
+''end for c=1,5 do task.defer(function()local d=aD()if d and d.TextBox.Text:
+match'^%s'then d.TextBox.Text=d.TextBox.Text:gsub('^%s+','')end end)end local c=
+aA()if c then c.CanvasPosition=Vector2.new(0,c.AbsoluteCanvasSize.Y)end return
+end self:clearHistoryState()local b=aA()if b and self:isVisible()and not ab.
+MenuIsOpen then local c=aD()if c then c.TextBox:CaptureFocus()end elseif ab.
+MenuIsOpen and b and b.Visible then self:hide()end end function al:
+traverseHistory(aE)local aF=self.CoCo.Dispatcher:getHistory()if self.
+HistoryState==nil then self.HistoryState={Position=#aF+1,InitialText=self:
+getEntryText()}end self.HistoryState.Position=math.clamp(self.HistoryState.
+Position+aE,1,#aF+1)self:setEntryText(self.HistoryState.Position==#aF+1 and self
+.HistoryState.InitialText or aF[self.HistoryState.Position])end function al:
+clearHistoryState()self.HistoryState=nil end function al:selectVertical(aE)if
+self.AutoComplete:isVisible()and not self.HistoryState then self.AutoComplete:
+select(aE)else self:traverseHistory(aE)end end local aE,aF=0,0 function al:
+beginInput(b,c)if ab.MenuIsOpen then self:hide()end if c and self:isVisible()==
+false then return end if self.CoCo.ActivationKeys[b.KeyCode]then if self.CoCo.
+MashToEnable and not self.CoCo.Enabled then if os.clock()-aE<1 then if aF>=5
+then return self.CoCo:setEnabled(true)else aF+=1 end else aF=1 end aE=os.clock()
+elseif self.CoCo.Enabled then self:setVisible(not self:isVisible())task.wait()
+self:setEntryText''if ab.MenuIsOpen then self:hide()end end return end if self.
+CoCo.Enabled==false or not self:isVisible()then if self:isVisible()then self:
+hide()end return end if az then return end if self.CoCo.HideOnLostFocus and
+table.find(ak,b.UserInputType)then local d=aA()if not d then return end local e,
+f,g=b.Position,d.AbsolutePosition,d.AbsoluteSize if e.X<f.X or e.X>f.X+g.X or e.
+Y<f.Y or e.Y>f.Y+g.Y then self:hide()end elseif b.KeyCode==Enum.KeyCode.Down
+then self:selectVertical(1)elseif b.KeyCode==Enum.KeyCode.Up then self:
+selectVertical(-1)elseif b.KeyCode==Enum.KeyCode.Return then if self.
+AutoComplete and self.AutoComplete:isVisible()then local d=self.AutoComplete:
+getSelectedItem()if d then local e=self:getEntryText()local f=self.CoCo.
+Dispatcher:evaluate(e,nil,true)local g=f and f:getLastArgument()and f:
+getLastArgument().RawValue==d[2]if not g then local h=e:match'^(.*)[%s]'if h
+then if h~=d[2]then e=h..' '..d[2]end else e=d[2]end self:setEntryText(e)end end
+end return elseif b.KeyCode==Enum.KeyCode.Tab then local d,e=self.AutoComplete:
+getSelectedItem(),self:getEntryText()if d and not(e:sub(#e,#e):match'%s'and self
+.AutoComplete.LastItem)then local f,g,h,i=d[2]:gsub('"',''),true,(self.
+AutoComplete.Command)if h then local j=self.AutoComplete.Arg i=h.Alias g=self.
+AutoComplete.NumArgs~=#h.ArgumentDefinitions and self.AutoComplete.IsPartial==
+false local k=h.Arguments for m=1,#k do local n=k[m]local o=n.RawSegments if n==
+j then o[#o]=f end local p=n.Prefix..table.concat(o,',')i=('%s %s'):format(i,p)
+if n==j then break end end else i=f end task.wait()self:setEntryText(i..(g and
+' 'or''))else task.wait()self:setEntryText(self:getEntryText())end else self:
+clearHistoryState()end end function al:destroy()self.Janitor:Destroy()aw:
+Destroy()end local b,c=function()local b=aD()if not b then return end al.Janitor
+:Add(b.TextBox.FocusLost:Connect(function(c)return al:loseFocus(c)end),
+'Disconnect')al.Janitor:Add(ac.InputBegan:Connect(function(c,d)return al:
+beginInput(c,d)end),'Disconnect')al.Janitor:Add(b.TextBox:
+GetPropertyChangedSignal'Text':Connect(function()local c=aA()if not c then
+return end c.CanvasPosition=Vector2.new(0,c.AbsoluteCanvasSize.Y)if b.TextBox.
+Text:match'\t'then b.TextBox.Text=b.TextBox.Text:gsub('\t','')return end if b.
+TextBox.Text:match'^%s'then b.TextBox.Text=b.TextBox.Text:gsub('^%s+','')return
+end if al.OnTextChanged then return al.OnTextChanged(b.TextBox.Text)end end),
+'Disconnect')local c=aA()if c then al.Janitor:Add(c.ChildAdded:Connect(function(
+)task.defer(al.updateWindowHeight)end),'Disconnect')end al.Janitor:Add(ad.
+Heartbeat:Connect(function(d)local e=aA()if not e then return end local f,g,h,i,
+j=ao:step(d),ap:step(d),aq:step(d),at:step(d),au:step(d)e.Position=UDim2.new(ai.
+IsTouchDevice and 0 or 0.025,0,0,an+f)e.BackgroundTransparency=g e.Size=UDim2.
+new(ai.IsTouchDevice and 1 or 0.95,0,0,h)local k=workspace.CurrentCamera if k
+then k.FieldOfView=i end aw.Size=j if not aq:idle()then e.CanvasPosition=Vector2
+.new(0,ax)end if e.Visible then local m=math.clamp((g-0.4)/0.6,0,1)for n,o in
+ipairs(e:GetDescendants())do if o:IsA'TextBox'or o:IsA'TextLabel'then o.
+TextTransparency=m end end end if ao:idle()and ay then ay=false e.Visible=false
+end end),'Disconnect')end,function()local b=al.GuiRoot if not b then return nil
+end return b:FindFirstChild'CoCo'end local d=function()local d=c()if not d then
+return nil end return d:FindFirstChild'MobileToggle'end task.spawn(function()
+while not aA()do task.wait()end b()aB=d()if aB then aB.Visible=ai.IsTouchDevice
+aB.MouseButton1Click:Connect(function()al:show()end)end end)return al end
+function a.cR()local ab=a.cache.cR if not ab then ab={c=aa()}a.cache.cR=ab end
+return ab.c end end do local aa=function()return function(aa,ab)local ac,ad,ae=a
+.c(),a.cB(),a.a()local af,ag,ah,ai=ae.TweenService,a.cQ(),{Items={},ItemOptions=
+{},SelectedItem=0,Janitor=ad.new()},ab:WaitForChild'Autocomplete'local aj,ak,al,
+am=ai:WaitForChild'TextButton',ai:WaitForChild'Title',ai:WaitForChild
+'Description',ab:WaitForChild'Frame':WaitForChild'Entry'aj.Parent=nil local an,
+ao,ap,aq,ar=ai.ScrollBarThickness,TweenInfo.new(0.08,Enum.EasingStyle.Quad,Enum.
+EasingDirection.Out),ag.IsTouchDevice and 44 or 30,function(an,ao,ap,aq)an.
+Visible=ap~=nil ao.Text=ap or''if aq then ao.Size=UDim2.new(0,ao.TextBounds.X,an
+.Size.Y.Scale,an.Size.Y.Offset)end end,10 local as=function()ai.Size=UDim2.new(0
+,math.max(ak.Field.TextBounds.X+ak.Field.Type.TextBounds.X+ar,ai.Size.X.Offset),
+0,math.min(ai.UIListLayout.AbsoluteContentSize.Y,ai.Parent.AbsoluteSize.Y-ai.
+AbsolutePosition.Y-ar))end local at=function(at)aq(ak,ak.Field,at.name,true)aq(
+ak.Field.Type,ak.Field.Type,at.type and': '..at.type:sub(1,1):upper()..at.type:
+sub(2),true)ak.Field.Type.Position=UDim2.new(0,ak.Field.Size.X.Offset,0,0)aq(al,
+al.Label,at.description)al.Label.TextColor3=at.invalid and Color3.fromRGB(255,73
+,73)or Color3.fromRGB(255,255,255)al.Size=UDim2.new(1,0,0,40)while not al.Label.
+TextFits do al.Size=al.Size+UDim2.new(0,0,0,2)if al.Size.Y.Offset>500 then break
+end end ai.UIListLayout:ApplyLayout()as()ai.ScrollBarThickness=an end function
+ah:show(au,av)av=av or{}for aw,ax in ipairs(self.Items)do if ax.gui then ax.gui:
+Destroy()end end self.SelectedItem=1 self.Items=au self.Prefix=av.prefix or''
+self.LastItem=av.isLast or false self.Command=av.command self.Arg=av.arg self.
+NumArgs=av.numArgs self.IsPartial=av.isPartial local aw=200 ai.
+ScrollBarThickness=0 for ax,ay in ipairs(self.Items)do local az,aA=ay[1],ay[3]or
+ay[2]local aB,aC=aA,aj:Clone()aC.Name=az..tostring(aB)aC.Size=UDim2.new(1,0,0,ap
+)aC.BackgroundTransparency=ax==self.SelectedItem and 0.5 or 1 local aD,aE=string
+.find(aB:lower(),az:lower(),1,true)if not aD then aC.Typed.Text=''aC.Suggest.
+Text=aB else aC.Typed.Text=string.rep(' ',aD-1)..az aC.Suggest.Text=string.sub(
+aB,0,aD-1)..string.rep(' ',#az)..string.sub(aB,aE+1)end aC.Parent=ai aC.
+LayoutOrder=ax local aF=math.max(aC.Typed.TextBounds.X,aC.Suggest.TextBounds.X)+
+20 if aF>aw then aw=aF end ay.gui=aC end ai.UIListLayout:ApplyLayout()for ax,ay
+in ipairs(self.Items)do if ay.gui then local az=ay.gui.BackgroundTransparency ay
+.gui.BackgroundTransparency=1 af:Create(ay.gui,ao,{BackgroundTransparency=az}):
+Play()end end af:Create(ai,ao,{BackgroundTransparency=0.5}):Play()for ax,ay in
+ipairs(ai:GetDescendants())do if ay:IsA'TextLabel'or ay:IsA'TextBox'then ay.
+TextTransparency=1 af:Create(ay,ao,{TextTransparency=0}):Play()end end local ax=
+am.TextBox.Text local ay=ac.splitString(ax)if ax:sub(#ax,#ax)==' 'and not av.at
+then ay[#ay+1]='e'end table.remove(ay,#ay)local az=(av.at and av.at or(#table.
+concat(ay,' ')+1))*7 ai.Position=UDim2.new(0,am.TextBox.AbsolutePosition.X-10+az
+,0,am.TextBox.AbsolutePosition.Y+30)ai.Size=UDim2.new(0,aw,0,ai.UIListLayout.
+AbsoluteContentSize.Y)ai.Visible=true at(self.Items[1]and self.Items[1].options
+or av)end function ah:getSelectedItem()if ai.Visible==false then return nil end
+return ah.Items[ah.SelectedItem]end function ah:hide()local au=af:Create(ai,
 TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
-BackgroundTransparency=1})as.Completed:Connect(function()ah.Visible=false end)as
-:Play()for at,au in ipairs(self.Items)do if au.gui then af:Create(au.gui,
+BackgroundTransparency=1})au.Completed:Connect(function()ai.Visible=false end)au
+:Play()for av,aw in ipairs(self.Items)do if aw.gui then af:Create(aw.gui,
 TweenInfo.new(0.06,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
-BackgroundTransparency=1}):Play()end end for at,au in ipairs(ah:GetDescendants()
-)do if au:IsA'TextLabel'or au:IsA'TextBox'then af:Create(au,TweenInfo.new(0.06,
+BackgroundTransparency=1}):Play()end end for av,aw in ipairs(ai:GetDescendants()
+)do if aw:IsA'TextLabel'or aw:IsA'TextBox'then af:Create(aw,TweenInfo.new(0.06,
 Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{TextTransparency=1}):Play()end
-end end function ag:isVisible()return ah.Visible end function ag:select(as)if
-not ah.Visible then return end self.SelectedItem=self.SelectedItem+as if self.
+end end function ah:isVisible()return ai.Visible end function ah:select(au)if
+not ai.Visible then return end self.SelectedItem=self.SelectedItem+au if self.
 SelectedItem>#self.Items then self.SelectedItem=1 elseif self.SelectedItem<1
-then self.SelectedItem=#self.Items end for at,au in ipairs(self.Items)do au.gui.
-BackgroundTransparency=at==self.SelectedItem and 0.5 or 1 end ah.CanvasPosition=
-Vector2.new(0,math.max(0,aj.Size.Y.Offset+ak.Size.Y.Offset+self.SelectedItem*ai.
-Size.Y.Offset-ah.Size.Y.Offset))if self.Items[self.SelectedItem]and self.Items[
-self.SelectedItem].options then ar(self.Items[self.SelectedItem].options or{})
-end end ag.Janitor:Add(ah.Parent:GetPropertyChangedSignal'AbsoluteSize':Connect(
-aq),'Disconnect')function ag:destroy()self.Janitor:Destroy()end return ag end
-end function a.cR()local ab=a.cache.cR if not ab then ab={c=aa()}a.cache.cR=ab
-end return ab.c end end do local aa=function()local aa=a.c()return function(ab,
-ac)local ad=a.cQ()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local
-af=a.cR()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
+then self.SelectedItem=#self.Items end for av,aw in ipairs(self.Items)do aw.gui.
+BackgroundTransparency=av==self.SelectedItem and 0.5 or 1 end ai.CanvasPosition=
+Vector2.new(0,math.max(0,ak.Size.Y.Offset+al.Size.Y.Offset+self.SelectedItem*ap-
+ai.Size.Y.Offset))if self.Items[self.SelectedItem]and self.Items[self.
+SelectedItem].options then at(self.Items[self.SelectedItem].options or{})end end
+ah.Janitor:Add(ai.Parent:GetPropertyChangedSignal'AbsoluteSize':Connect(as),
+'Disconnect')function ah:destroy()self.Janitor:Destroy()end return ah end end
+function a.cS()local ab=a.cache.cS if not ab then ab={c=aa()}a.cache.cS=ab end
+return ab.c end end do local aa=function()local aa=a.c()return function(ab,ac)
+local ad=a.cR()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local af
+=a.cS()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
 trimString(ag)if#ag==0 then return end ad:addLine(ad:getLabel()..' '..ag,Color3.
 fromRGB(255,223,93))ad:addLine(ab.Dispatcher:evaluateAndRun(ag))end local ag,ah=
 0.3 function ad.OnTextChanged(ai)local aj,ak=ab.Dispatcher:evaluate(ai,ab.
@@ -3574,15 +3590,15 @@ return af:show(aq)end ad:setIsValidInput(false,(
 ):format(al))af:hide()else if ah then task.cancel(ah)ah=nil end ad:
 setIsValidInput(false,'Use the help command to see all available commands.')af:
 hide()end end ad:updateLabel()ad:updateWindowHeight()return{Window=ad,
-AutoComplete=af}end end function a.cS()local ab=a.cache.cS if not ab then ab={c=
-aa()}a.cache.cS=ab end return ab.c end end do local aa=function()local aa,ab=a.
-a(),a.cQ()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
+AutoComplete=af}end end function a.cT()local ab=a.cache.cT if not ab then ab={c=
+aa()}a.cache.cT=ab end return ab.c end end do local aa=function()local aa,ab=a.
+a(),a.cR()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
 pcall(function()aa.StarterGui:SetCore('ChatMakeSystemMessage',{Text=(
 '[Announcement] %s'):format(ae),Color=Color3.fromRGB(249,217,56)})end)if not af
 then warn'CoCo: Failed to send chat announcement message.'end end)ac.Events.
-AddLine:Connect(function(...)ab:addLine(...)end)end end function a.cT()local ab=
-a.cache.cT if not ab then ab={c=aa()}a.cache.cT=ab end return ab.c end end do
-local aa=function()local aa,ab=a.d(),a.ao()return function(ac,ad)local ae=a.cS(
+AddLine:Connect(function(...)ab:addLine(...)end)end end function a.cU()local ab=
+a.cache.cU if not ab then ab={c=aa()}a.cache.cU=ab end return ab.c end end do
+local aa=function()local aa,ab=a.d(),a.ao()return function(ac,ad)local ae=a.cT(
 )(ac,ad)ac.ActivationKeys={[Enum.KeyCode.F2]=true}ac.Enabled=true ac.
 MashToEnable=false ac.ActivationUnlocksMouse=false ac.HideOnLostFocus=true ac.
 PlaceName='CoCo'ac.Events={AddLine=ab.new(),Message=ab.new()}function ac:
@@ -3595,9 +3611,9 @@ end ae.Window:show()end function ac:hide()ae.Window:hide()end function ac:toggle
 Window:isVisible())end function ac:setMashToEnable(af)self.MashToEnable=af if af
 then self:setEnabled(false)end end function ac:setHideOnLostFocus(af)self.
 HideOnLostFocus=af end function ac:handleEvent(af,ag)if self.Events[af]then
-return self.Events[af]:Connect(ag)end end local af=a.bX()af:apply(ac)a.cT()(ac,
-ad)return ae end end function a.cU()local ab=a.cache.cU if not ab then ab={c=aa(
-)}a.cache.cU=ab end return ab.c end end end local aa,ab=a.cx(),pcall(gethui)and
+return self.Events[af]:Connect(ag)end end local af=a.bX()af:apply(ac)a.cU()(ac,
+ad)return ae end end function a.cV()local ab=a.cache.cV if not ab then ab={c=aa(
+)}a.cache.cV=ab end return ab.c end end end local aa,ab=a.cx(),pcall(gethui)and
 gethui()local ac=ab and ab:FindFirstChild'CoCo'if not ac then local ad=os.clock(
 )while not ac and os.clock()-ad<5 do ac=ab and ab:FindFirstChild'CoCo'task.wait(
-)end end a.cU()(aa,ab or game:GetService'CoreGui')return aa
+)end end a.cV()(aa,ab or game:GetService'CoreGui')return aa
