@@ -12,7 +12,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-01T23:54:16.569638300+00:00",
+    genDate = "2026-06-02T00:55:59.209368959+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -3384,79 +3384,79 @@ AbsoluteSize if b.X<c.X or b.X>c.X+d.X or b.Y<c.Y or b.Y>c.Y+d.Y then self:hide(
 KeyCode==Enum.KeyCode.Up then self:selectVertical(-1)elseif aD.KeyCode==Enum.
 KeyCode.Return then if self.AutoComplete and self.AutoComplete:isVisible()then
 local aF=self.AutoComplete:getSelectedItem()if aF then local b=self:
-getEntryText()local aG=self.CoCo.Dispatcher:evaluate(b,nil,true)local aH=aG and
-aG:getLastArgument()and aG:getLastArgument().RawValue==aF[2]if not aH then local
-c=b:match'^(.*)[%s]'if c then if c~=aF[2]then b=c..' '..aF[2]end else b=aF[2]end
-self:setEntryText(b)end end end return elseif aD.KeyCode==Enum.
-KeyCode.Tab then local aF,b=self.AutoComplete:getSelectedItem(),self:
-getEntryText()if aF and not(b:sub(#b,#b):match'%s'and self.AutoComplete.LastItem
-)then local c,d,e,f=aF[2],true,(self.AutoComplete.Command)if e then local g=self
-.AutoComplete.Arg f=e.Alias d=self.AutoComplete.NumArgs~=#e.ArgumentDefinitions
-and self.AutoComplete.IsPartial==false local h=e.Arguments for i=1,#h do local j
-=h[i]if j==g then f=('%s %s'):format(f,j.Prefix..c)break end local l=j.
-RawSegments f=('%s %s'):format(f,j.Prefix..table.concat(l,','))end else f=c end
-task.wait()self:setEntryText(f..(d and' 'or''))else task.wait()self:
-setEntryText(self:getEntryText())end else self:clearHistoryState()end end
-function ak:destroy()self.Janitor:Destroy()av:Destroy()end local aD=function()
-local aD=aA()if not aD then return end ak.Janitor:Add(aD.TextBox.FocusLost:
-Connect(function(aE)return ak:loseFocus(aE)end),'Disconnect')ak.Janitor:Add(ac.
-InputBegan:Connect(function(aE,aF)return ak:beginInput(aE,aF)end),'Disconnect')
-ak.Janitor:Add(aD.TextBox:GetPropertyChangedSignal'Text':Connect(function()local
-aE=ay()if not aE then return end aE.CanvasPosition=Vector2.new(0,aE.
-AbsoluteCanvasSize.Y)if aD.TextBox.Text:match'\t'then aD.TextBox.Text=aD.TextBox
-.Text:gsub('\t','')return end if aD.TextBox.Text:match'^%s'then aD.TextBox.Text=
-aD.TextBox.Text:gsub('^%s+','')return end if ak.OnTextChanged then return ak.
-OnTextChanged(aD.TextBox.Text)end end),'Disconnect')local aE=ay()if aE then ak.
-Janitor:Add(aE.ChildAdded:Connect(function()task.defer(ak.updateWindowHeight)end
-),'Disconnect')end ak.Janitor:Add(ad.Heartbeat:Connect(function(aF)local b=ay()
-if not b then return end local c,d,e,f,g=an:step(aF),ao:step(aF),ap:step(aF),as:
-step(aF),at:step(aF)b.Position=UDim2.new(0.025,0,0,am+c)b.BackgroundTransparency
-=d b.Size=UDim2.new(b.Size.X.Scale,b.Size.X.Offset,0,e)local h=workspace.
-CurrentCamera if h then h.FieldOfView=f end av.Size=g if not ap:idle()then b.
-CanvasPosition=Vector2.new(0,aw)end if b.Visible then local i=math.clamp((d-0.4)
-/0.6,0,1)for j,l in ipairs(b:GetDescendants())do if l:IsA'TextBox'or l:IsA
-'TextLabel'then l.TextTransparency=i end end end if an:idle()and ax then ax=
-false b.Visible=false end end),'Disconnect')end task.spawn(function()while not
-ay()do task.wait()end aD()end)return ak end function a.cP()local ab=a.cache.cP
-if not ab then ab={c=aa()}a.cache.cP=ab end return ab.c end end do local aa=
-function()return function(aa,ab)local ac,ad,ae=a.c(),a.cA(),a.a()local af,ag,ah=
-ae.TweenService,{Items={},ItemOptions={},SelectedItem=0,Janitor=ad.new()},ab:
-WaitForChild'Autocomplete'local ai,aj,ak,al=ah:WaitForChild'TextButton',ah:
-WaitForChild'Title',ah:WaitForChild'Description',ab:WaitForChild'Frame':
-WaitForChild'Entry'ai.Parent=nil local am,an,ao,ap=ah.ScrollBarThickness,
-TweenInfo.new(0.08,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),function(am,
-an,ao,ap)am.Visible=ao~=nil an.Text=ao or''if ap then an.Size=UDim2.new(0,an.
-TextBounds.X,am.Size.Y.Scale,am.Size.Y.Offset)end end,10 local aq=function()ah.
-Size=UDim2.new(0,math.max(aj.Field.TextBounds.X+aj.Field.Type.TextBounds.X+ap,ah
-.Size.X.Offset),0,math.min(ah.UIListLayout.AbsoluteContentSize.Y,ah.Parent.
-AbsoluteSize.Y-ah.AbsolutePosition.Y-ap))end local ar=function(ar)ao(aj,aj.Field
-,ar.name,true)ao(aj.Field.Type,aj.Field.Type,ar.type and': '..ar.type:sub(1,1):
-upper()..ar.type:sub(2),true)aj.Field.Type.Position=UDim2.new(0,aj.Field.Size.X.
-Offset,0,0)ao(ak,ak.Label,ar.description)ak.Label.TextColor3=ar.invalid and
-Color3.fromRGB(255,73,73)or Color3.fromRGB(255,255,255)ak.Size=UDim2.new(1,0,0,
-40)while not ak.Label.TextFits do ak.Size=ak.Size+UDim2.new(0,0,0,2)if ak.Size.Y
-.Offset>500 then break end end ah.UIListLayout:ApplyLayout()aq()ah.
-ScrollBarThickness=am end function ag:show(as,at)at=at or{}for au,av in ipairs(
-self.Items)do if av.gui then av.gui:Destroy()end end self.SelectedItem=1 self.
-Items=as self.Prefix=at.prefix or''self.LastItem=at.isLast or false self.Command
-=at.command self.Arg=at.arg self.NumArgs=at.numArgs self.IsPartial=at.isPartial
-local au=200 ah.ScrollBarThickness=0 for av,aw in ipairs(self.Items)do local ax,
-ay=aw[1],aw[3]or aw[2]local az,aA=ay,ai:Clone()aA.Name=ax..tostring(az)aA.
-BackgroundTransparency=av==self.SelectedItem and 0.5 or 1 local aB,aC=string.
-find(az:lower(),ax:lower(),1,true)if not aB then aA.Typed.Text=''aA.Suggest.Text
-=az else aA.Typed.Text=string.rep(' ',aB-1)..ax aA.Suggest.Text=string.sub(az,0,
-aB-1)..string.rep(' ',#ax)..string.sub(az,aC+1)end aA.Parent=ah aA.LayoutOrder=
-av local aD=math.max(aA.Typed.TextBounds.X,aA.Suggest.TextBounds.X)+20 if aD>au
-then au=aD end aw.gui=aA end ah.UIListLayout:ApplyLayout()for av,aw in ipairs(
-self.Items)do if aw.gui then local ax=aw.gui.BackgroundTransparency aw.gui.
-BackgroundTransparency=1 af:Create(aw.gui,an,{BackgroundTransparency=ax}):Play()
-end end af:Create(ah,an,{BackgroundTransparency=0.5}):Play()for av,aw in ipairs(
-ah:GetDescendants())do if aw:IsA'TextLabel'or aw:IsA'TextBox'then aw.
-TextTransparency=1 af:Create(aw,an,{TextTransparency=0}):Play()end end local av=
-al.TextBox.Text local aw=ac.splitString(av)if av:sub(#av,#av)==' 'and not at.at
-then aw[#aw+1]='e'end table.remove(aw,#aw)local ax=(at.at and at.at or(#table.
-concat(aw,' ')+1))*7 ah.Position=UDim2.new(0,al.TextBox.AbsolutePosition.X-10+ax
-,0,al.TextBox.AbsolutePosition.Y+30)ah.Size=UDim2.new(0,au,0,ah.UIListLayout.
+getEntryText()local c=self.CoCo.Dispatcher:evaluate(b,nil,true)local d=c and c:
+getLastArgument()and c:getLastArgument().RawValue==aF[2]if not d then local e=b:
+match'^(.*)[%s]'if e then if e~=aF[2]then b=e..' '..aF[2]end else b=aF[2]end
+self:setEntryText(b)end end end return elseif aD.KeyCode==Enum.KeyCode.Tab then
+local aF,b=self.AutoComplete:getSelectedItem(),self:getEntryText()if aF and not(
+b:sub(#b,#b):match'%s'and self.AutoComplete.LastItem)then local c,d,e,f=aF[2]:
+gsub('"',''),true,(self.AutoComplete.Command)if e then local g=self.AutoComplete
+.Arg f=e.Alias d=self.AutoComplete.NumArgs~=#e.ArgumentDefinitions and self.
+AutoComplete.IsPartial==false local h=e.Arguments for i=1,#h do local j=h[i]
+local l=j.RawSegments if j==g then l[#l]=c end local m=j.Prefix..table.concat(l,
+',')f=('%s %s'):format(f,m)if j==g then break end end else f=c end task.wait()
+self:setEntryText(f..(d and' 'or''))else task.wait()self:setEntryText(self:
+getEntryText())end else self:clearHistoryState()end end function ak:destroy()
+self.Janitor:Destroy()av:Destroy()end local aD=function()local aD=aA()if not aD
+then return end ak.Janitor:Add(aD.TextBox.FocusLost:Connect(function(aE)return
+ak:loseFocus(aE)end),'Disconnect')ak.Janitor:Add(ac.InputBegan:Connect(function(
+aE,aF)return ak:beginInput(aE,aF)end),'Disconnect')ak.Janitor:Add(aD.TextBox:
+GetPropertyChangedSignal'Text':Connect(function()local aE=ay()if not aE then
+return end aE.CanvasPosition=Vector2.new(0,aE.AbsoluteCanvasSize.Y)if aD.TextBox
+.Text:match'\t'then aD.TextBox.Text=aD.TextBox.Text:gsub('\t','')return end if
+aD.TextBox.Text:match'^%s'then aD.TextBox.Text=aD.TextBox.Text:gsub('^%s+','')
+return end if ak.OnTextChanged then return ak.OnTextChanged(aD.TextBox.Text)end
+end),'Disconnect')local aE=ay()if aE then ak.Janitor:Add(aE.ChildAdded:Connect(
+function()task.defer(ak.updateWindowHeight)end),'Disconnect')end ak.Janitor:Add(
+ad.Heartbeat:Connect(function(aF)local b=ay()if not b then return end local c,d,
+e,f,g=an:step(aF),ao:step(aF),ap:step(aF),as:step(aF),at:step(aF)b.Position=
+UDim2.new(0.025,0,0,am+c)b.BackgroundTransparency=d b.Size=UDim2.new(b.Size.X.
+Scale,b.Size.X.Offset,0,e)local h=workspace.CurrentCamera if h then h.
+FieldOfView=f end av.Size=g if not ap:idle()then b.CanvasPosition=Vector2.new(0,
+aw)end if b.Visible then local i=math.clamp((d-0.4)/0.6,0,1)for j,l in ipairs(b:
+GetDescendants())do if l:IsA'TextBox'or l:IsA'TextLabel'then l.TextTransparency=
+i end end end if an:idle()and ax then ax=false b.Visible=false end end),
+'Disconnect')end task.spawn(function()while not ay()do task.wait()end aD()end)
+return ak end function a.cP()local ab=a.cache.cP if not ab then ab={c=aa()}a.
+cache.cP=ab end return ab.c end end do local aa=function()return function(aa,ab)
+local ac,ad,ae=a.c(),a.cA(),a.a()local af,ag,ah=ae.TweenService,{Items={},
+ItemOptions={},SelectedItem=0,Janitor=ad.new()},ab:WaitForChild'Autocomplete'
+local ai,aj,ak,al=ah:WaitForChild'TextButton',ah:WaitForChild'Title',ah:
+WaitForChild'Description',ab:WaitForChild'Frame':WaitForChild'Entry'ai.Parent=
+nil local am,an,ao,ap=ah.ScrollBarThickness,TweenInfo.new(0.08,Enum.EasingStyle.
+Quad,Enum.EasingDirection.Out),function(am,an,ao,ap)am.Visible=ao~=nil an.Text=
+ao or''if ap then an.Size=UDim2.new(0,an.TextBounds.X,am.Size.Y.Scale,am.Size.Y.
+Offset)end end,10 local aq=function()ah.Size=UDim2.new(0,math.max(aj.Field.
+TextBounds.X+aj.Field.Type.TextBounds.X+ap,ah.Size.X.Offset),0,math.min(ah.
+UIListLayout.AbsoluteContentSize.Y,ah.Parent.AbsoluteSize.Y-ah.AbsolutePosition.
+Y-ap))end local ar=function(ar)ao(aj,aj.Field,ar.name,true)ao(aj.Field.Type,aj.
+Field.Type,ar.type and': '..ar.type:sub(1,1):upper()..ar.type:sub(2),true)aj.
+Field.Type.Position=UDim2.new(0,aj.Field.Size.X.Offset,0,0)ao(ak,ak.Label,ar.
+description)ak.Label.TextColor3=ar.invalid and Color3.fromRGB(255,73,73)or
+Color3.fromRGB(255,255,255)ak.Size=UDim2.new(1,0,0,40)while not ak.Label.
+TextFits do ak.Size=ak.Size+UDim2.new(0,0,0,2)if ak.Size.Y.Offset>500 then break
+end end ah.UIListLayout:ApplyLayout()aq()ah.ScrollBarThickness=am end function
+ag:show(as,at)at=at or{}for au,av in ipairs(self.Items)do if av.gui then av.gui:
+Destroy()end end self.SelectedItem=1 self.Items=as self.Prefix=at.prefix or''
+self.LastItem=at.isLast or false self.Command=at.command self.Arg=at.arg self.
+NumArgs=at.numArgs self.IsPartial=at.isPartial local au=200 ah.
+ScrollBarThickness=0 for av,aw in ipairs(self.Items)do local ax,ay=aw[1],aw[3]or
+aw[2]local az,aA=ay,ai:Clone()aA.Name=ax..tostring(az)aA.BackgroundTransparency=
+av==self.SelectedItem and 0.5 or 1 local aB,aC=string.find(az:lower(),ax:lower()
+,1,true)if not aB then aA.Typed.Text=''aA.Suggest.Text=az else aA.Typed.Text=
+string.rep(' ',aB-1)..ax aA.Suggest.Text=string.sub(az,0,aB-1)..string.rep(' ',#
+ax)..string.sub(az,aC+1)end aA.Parent=ah aA.LayoutOrder=av local aD=math.max(aA.
+Typed.TextBounds.X,aA.Suggest.TextBounds.X)+20 if aD>au then au=aD end aw.gui=aA
+end ah.UIListLayout:ApplyLayout()for av,aw in ipairs(self.Items)do if aw.gui
+then local ax=aw.gui.BackgroundTransparency aw.gui.BackgroundTransparency=1 af:
+Create(aw.gui,an,{BackgroundTransparency=ax}):Play()end end af:Create(ah,an,{
+BackgroundTransparency=0.5}):Play()for av,aw in ipairs(ah:GetDescendants())do if
+aw:IsA'TextLabel'or aw:IsA'TextBox'then aw.TextTransparency=1 af:Create(aw,an,{
+TextTransparency=0}):Play()end end local av=al.TextBox.Text local aw=ac.
+splitString(av)if av:sub(#av,#av)==' 'and not at.at then aw[#aw+1]='e'end table.
+remove(aw,#aw)local ax=(at.at and at.at or(#table.concat(aw,' ')+1))*7 ah.
+Position=UDim2.new(0,al.TextBox.AbsolutePosition.X-10+ax,0,al.TextBox.
+AbsolutePosition.Y+30)ah.Size=UDim2.new(0,au,0,ah.UIListLayout.
 AbsoluteContentSize.Y)ah.Visible=true ar(self.Items[1]and self.Items[1].options
 or at)end function ag:getSelectedItem()if ah.Visible==false then return nil end
 return ag.Items[ag.SelectedItem]end function ag:hide()local as=af:Create(ah,
