@@ -15,10 +15,11 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-02T16:42:46.8373619-04:00",
+    genDate = "2026-06-02T22:15:36.183272124+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
+
 local a={cache={}}do do local b=function()local b=cloneref or function(b)return
 b end local c={UserInputService=b(game:GetService'UserInputService'),RunService=
 b(game:GetService'RunService'),GuiService=b(game:GetService'GuiService'),Players
@@ -2757,7 +2758,7 @@ if j~=(f or g)then return false end return true end return{Name='bind',Aliases={
 [[Arguments for the command. Append ' hold' for hold-to-repeat mode.]],Default=
 ''}},ClientRun=function(f,g,h,i)local j,k=f:getStore'COCO_Binds',f.RawArguments
 if not k or#k==0 then return
-'Usage: bind <combo> <command> [args...]\r\n  bind list           \u{2014} show all binds\r\n  bind F2 fly         \u{2014} fire "fly" on F2\r\n  bind Ctrl+Shift+F fly speed 100 hold  \u{2014} hold mode'
+'Usage: bind <combo> <command> [args...]\n  bind list           \u{2014} show all binds\n  bind F2 fly         \u{2014} fire "fly" on F2\n  bind Ctrl+Shift+F fly speed 100 hold  \u{2014} hold mode'
 end if k[1]:lower()=='list'then local l=0 for m,n in pairs(j)do if type(n)==
 'table'and n.mode then l=l+1 f:reply(('%s  [%s]  %s %s'):format(m,n.mode or
 'toggle',n.command or'',n.args or''))end end if l==0 then return
@@ -3917,13 +3918,13 @@ splitByAndRespectingQuotes(aj),0,aj if#ak>1 then local an=0 for ao=1,#ak-1 do an
 +=#ak[ao]+2 end al=an am=aa.trimString(ak[#ak])if#am==0 then ad:setIsValidInput(
 true)af:hide()return end end local an,ao,ap=ab.Dispatcher.parseLoopSyntax(am)
 local aq=am if an then local ar=#am-#ap al+=ar aq=ap end local ar,as=ab.
-Dispatcher:evaluate(aq,ab.Dispatcher._defaultExecutor,true),aa.splitString(am)
+Dispatcher:evaluate(aq,ab.Dispatcher._defaultExecutor,true),aa.splitString(aq)
 local at,au=table.remove(as,1),false if ar then as=aa.mashExcessArguments(as,#ar
 .Object.Args)au=#as==#ar.Object.Args end local av=at and#as>0 if am:sub(#am,#am)
 :match'%s'and not au then av=true as[#as+1]=''end if ar and av then local aw,ax=
 ar:validate()ad:setIsValidInput(aw,('Validation errors: %s'):format(ax or''))
 local ay,az=function()local ay,az=ab.Dispatcher:evaluate(aq,ab.Dispatcher.
-_defaultExecutor,true),aa.splitString(am)local aA,aB=table.remove(az,1),false if
+_defaultExecutor,true),aa.splitString(aq)local aA,aB=table.remove(az,1),false if
 ay then az=aa.mashExcessArguments(az,#ay.Object.Args)aB=#az==#ay.Object.Args end
 local aC=aA and#az>0 if am:sub(#am,#am):match'%s'and not aB then aC=true az[#az+
 1]=''end if ay and aC then local aD,aE={},ay:getArgument(#az)if aE then local aF
