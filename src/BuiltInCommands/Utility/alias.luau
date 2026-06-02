@@ -25,6 +25,11 @@ return {
 			true
 		)
 
+		local ConfigManager = require("../../Shared/ConfigManager")
+		local aliases = ConfigManager:getAliases()
+		aliases[name] = commandString
+		ConfigManager:setAliases(aliases)
+
 		return ("Created alias %q"):format(name)
 	end
 }

@@ -15,6 +15,10 @@ return {
 	ClientRun = function(context, key)
 		local coco = context.CoCo
 		coco:setActivationKeys({key})
+
+		local ConfigManager = require("../../Shared/ConfigManager")
+		ConfigManager:setActivationKeys({key})
+
 		return ("Menu keybind set to %s."):format(key.Name or tostring(key))
 	end;
 }

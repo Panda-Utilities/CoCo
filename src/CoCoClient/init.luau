@@ -62,6 +62,9 @@ return function(coco, gui)
 		end
 	end
 
+	local ConfigManager = require("../Shared/ConfigManager")
+	ConfigManager:apply(coco)
+
 	local _ = require("./DefaultEventHandlers")(coco, gui)
 
 	return Interface

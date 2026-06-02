@@ -16,6 +16,7 @@ export type Colors = {
 
 export type Gui = {
 	HistoryFile: string,
+	ConfigFile: string,
 	DefaultTextSize: number,
 	ScrollBarThickness: number,
 	EntryLayoutOrder: number,
@@ -51,7 +52,8 @@ local Config: {
 	},
 
 	Gui = {
-		HistoryFile = "coco_history.txt",
+		HistoryFile = "CoCo/History",
+		ConfigFile = "CoCo/Config",
 		DefaultTextSize = 14,
 		ScrollBarThickness = 6,
 		EntryLayoutOrder = 999999999,

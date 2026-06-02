@@ -29,6 +29,12 @@ return {
 				data.heartbeat:Disconnect()
 			end
 			binds[comboText] = nil
+
+			local ConfigManager = require("../../Shared/ConfigManager")
+			local serializableBinds = ConfigManager:getBinds()
+			serializableBinds[comboText] = nil
+			ConfigManager:setBinds(serializableBinds)
+
 			return ("Unbound %q."):format(comboText)
 		end
 

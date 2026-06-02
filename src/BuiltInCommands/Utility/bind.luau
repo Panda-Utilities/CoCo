@@ -153,6 +153,19 @@ return {
 			connections = connections,
 		}
 
-		return ("Bound %q → [%s] %s %s"):format(comboText, mode, command, args)
+		local serializableBinds = require("../../Shared/ConfigManager"):getBinds()
+		serializableBinds[comboText] = {
+			mode = mode,
+			key = combo.key.Name,
+			modifiers = {},
+			command = command,
+			args = args,
+		}
+		for modKey in pairs(combo.modifiers or {}) do
+			table.insert(serializableBinds[comboText].modifiers, modKey.Name)
+		end
+		require("../../Shared/ConfigManager"):setBinds(serializableBinds)
+
+		return ("Bound %q \u{2192} [%s] %s %s"):format(comboText, mode, command, args)
 	end,
 }

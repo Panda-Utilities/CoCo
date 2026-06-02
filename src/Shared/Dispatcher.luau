@@ -4,6 +4,7 @@ local Command = require("./Command")
 local Config = require("../Config")
 
 local HISTORY_FILE = Config.Gui.HistoryFile
+local HISTORY_MAX = 1000
 
 local Dispatcher = {
 	CoCo = nil,
@@ -125,6 +126,12 @@ function Dispatcher:pushHistory(text: string)
 	end
 
 	history[#history + 1] = text
+
+	if #history > HISTORY_MAX then
+		for i = 1, #history - HISTORY_MAX do
+			table.remove(history, 1)
+		end
+	end
 
 	local writeSuccess = pcall(writefile, HISTORY_FILE, table.concat(history, "\n"))
 	if not writeSuccess then
