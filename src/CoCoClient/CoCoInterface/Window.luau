@@ -7,6 +7,7 @@ local Lighting = Services.Lighting
 local Janitor = require("../../../packages/janitor")
 local Ripple = require("../../../packages/ripple")
 local String = require("../../Shared/String")
+local MobileSupport = require("./MobileSupport")
 
 local WINDOW_MAX_HEIGHT = 300
 local MOUSE_TOUCH_ENUM = { Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.Touch }
@@ -64,6 +65,8 @@ blurEffect.Parent = Lighting
 
 local contentHeight = 0
 local isHiding = false
+local mobileToggle = nil
+local justShown = false
 
 local function getGui()
 	local root = Window.GuiRoot
@@ -164,11 +167,16 @@ function Window:setVisible(visible)
 		isHiding = false
 		slideSpring:setPosition(ANIM_SLIDE_DISTANCE)
 		fadeSpring:setPosition(1)
-		gui.Position = UDim2.new(0.025, 0, 0, BASE_Y_OFFSET + ANIM_SLIDE_DISTANCE)
+		gui.Position = UDim2.new(MobileSupport.IsTouchDevice and 0 or 0.025, 0, 0, BASE_Y_OFFSET + ANIM_SLIDE_DISTANCE)
 		gui.BackgroundTransparency = 1
 		gui.Visible = true
 		slideSpring:setGoal(0)
 		fadeSpring:setGoal(0.4)
+
+		justShown = true
+		task.delay(0.3, function()
+			justShown = false
+		end)
 
 		local camera = workspace.CurrentCamera
 		if camera then
@@ -204,6 +212,10 @@ function Window:setVisible(visible)
 			UserInputService.MouseBehavior = self.PreviousMouseBehavior
 			self.PreviousMouseBehavior = nil
 		end
+	end
+
+	if mobileToggle then
+		mobileToggle.Visible = MobileSupport.IsTouchDevice and not visible
 	end
 end
 
@@ -401,6 +413,10 @@ function Window:beginInput(input, gameProcessed)
 		return
 	end
 
+	if justShown then
+		return
+	end
+
 	if self.CoCo.HideOnLostFocus and table.find(MOUSE_TOUCH_ENUM, input.UserInputType) then
 		local gui = getGui()
 		if not gui then return end
@@ -535,9 +551,9 @@ local function hookEvents()
 		local fov = fovSpring:step(dt)
 		local blur = blurSpring:step(dt)
 
-		frame.Position = UDim2.new(0.025, 0, 0, BASE_Y_OFFSET + slide)
+		frame.Position = UDim2.new(MobileSupport.IsTouchDevice and 0 or 0.025, 0, 0, BASE_Y_OFFSET + slide)
 		frame.BackgroundTransparency = fade
-		frame.Size = UDim2.new(frame.Size.X.Scale, frame.Size.X.Offset, 0, height)
+		frame.Size = UDim2.new(MobileSupport.IsTouchDevice and 1 or 0.95, 0, 0, height)
 
 		local camera = workspace.CurrentCamera
 		if camera then
@@ -565,11 +581,31 @@ local function hookEvents()
 	end), "Disconnect")
 end
 
+local function getCocoGui()
+	local root = Window.GuiRoot
+	if not root then return nil end
+	return root:FindFirstChild("CoCo")
+end
+
+local function findMobileToggle()
+	local cocoGui = getCocoGui()
+	if not cocoGui then return nil end
+	return cocoGui:FindFirstChild("MobileToggle")
+end
+
 task.spawn(function()
 	while not getGui() do
 		task.wait()
 	end
 	hookEvents()
+
+	mobileToggle = findMobileToggle()
+	if mobileToggle then
+		mobileToggle.Visible = MobileSupport.IsTouchDevice
+		mobileToggle.MouseButton1Click:Connect(function()
+			Window:show()
+		end)
+	end
 end)
 
 return Window

@@ -224,6 +224,36 @@ return function()
 			autocompleteButton,
 		},
 		}),
+
+		Element("TextButton", {
+			Name = "MobileToggle",
+			BackgroundColor3 = Config.Colors.BackgroundDark,
+			BackgroundTransparency = 0.3,
+			BorderSizePixel = 0,
+			Font = Enum.Font.Code,
+			Position = UDim2.new(1, -52, 0, 8),
+			Selectable = false,
+			Size = UDim2.new(0, 44, 0, 44),
+			Text = "",
+			Visible = false,
+			ZIndex = 10,
+		}, {
+			Element("UICorner", { CornerRadius = UDim.new(0, 22) }),
+			Element("UIStroke", {
+				Color = Config.Colors.TextAccent,
+				Thickness = 1.5,
+				Transparency = 0.3,
+			}),
+			Element("TextLabel", {
+				Name = "Label",
+				BackgroundTransparency = 1,
+				Font = Enum.Font.Code,
+				Size = UDim2.new(1, 0, 1, 0),
+				Text = "CoCo",
+				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextSize = 14,
+			}),
+		}),
 	})
 
 	return root

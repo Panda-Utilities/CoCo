@@ -4,6 +4,7 @@
 	local Janitor = require("../../../packages/janitor")
 	local Services = require("../../Shared/Services")
 	local TweenService = Services.TweenService
+	local MobileSupport = require("./MobileSupport")
 
 	local AutoComplete = {
 		Items = {},
@@ -23,6 +24,7 @@
 
 	local defaultBarThickness = Gui.ScrollBarThickness
 	local acTweenInfo = TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local ITEM_HEIGHT = MobileSupport.IsTouchDevice and 44 or 30
 
 	local function SetText(obj, textObj, text, sizeFromContents)
 		obj.Visible = text ~= nil
@@ -106,6 +108,7 @@
 
 			local btn = AutoItem:Clone()
 			btn.Name = leftText .. tostring(rightText)
+			btn.Size = UDim2.new(1, 0, 0, ITEM_HEIGHT)
 			btn.BackgroundTransparency = i == self.SelectedItem and 0.5 or 1
 
 			local start, stop = string.find(rightText:lower(), leftText:lower(), 1, true)
@@ -217,7 +220,7 @@
 				0,
 				Title.Size.Y.Offset
 					+ Description.Size.Y.Offset
-					+ self.SelectedItem * AutoItem.Size.Y.Offset
+					+ self.SelectedItem * ITEM_HEIGHT
 					- Gui.Size.Y.Offset
 			)
 		)
