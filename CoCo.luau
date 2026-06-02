@@ -15,7 +15,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-02T19:57:52.566568192+00:00",
+    genDate = "2026-06-02T20:14:57.401772252+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
