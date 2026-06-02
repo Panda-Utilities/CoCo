@@ -419,15 +419,19 @@ function Window:beginInput(input, gameProcessed)
 			local item = self.AutoComplete:getSelectedItem()
 			if item then
 				local text = self:getEntryText()
-				local lastSpace = text:match("^(.*)[%s]")
-				if lastSpace then
-					if lastSpace ~= item[2] then
-						text = lastSpace .. " " .. item[2]
+				local cmd = self.CoCo.Dispatcher:evaluate(text, nil, true)
+				local alreadyComplete = cmd and cmd:getLastArgument() and cmd:getLastArgument().RawValue == item[2]
+				if not alreadyComplete then
+					local lastSpace = text:match("^(.*)[%s]")
+					if lastSpace then
+						if lastSpace ~= item[2] then
+							text = lastSpace .. " " .. item[2]
+						end
+					else
+						text = item[2]
 					end
-				else
-					text = item[2]
+					self:setEntryText(text)
 				end
-				self:setEntryText(text)
 			end
 		end
 		return
@@ -435,7 +439,7 @@ function Window:beginInput(input, gameProcessed)
 		local item = self.AutoComplete:getSelectedItem()
 		local text = self:getEntryText()
 		if item and not (text:sub(#text, #text):match("%s") and self.AutoComplete.LastItem) then
-			local replace = item[2]
+			local replace = item[2]:gsub('"', "")
 			local newText
 			local insertSpace = true
 			local command = self.AutoComplete.Command
@@ -456,10 +460,6 @@ function Window:beginInput(input, gameProcessed)
 					end
 
 					local argText = arg.Prefix .. table.concat(segments, ",")
-
-					if argText == "" then
-						argText = ("%q"):format(argText)
-					end
 
 					newText = ("%s %s"):format(newText, argText)
 
