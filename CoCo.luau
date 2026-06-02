@@ -15,7 +15,7 @@ if getgenv().CoCo then return end
 getgenv().CoCo = true
 
 _P = {
-    genDate = "2026-06-02T18:53:19.966642221+00:00",
+    genDate = "2026-06-02T19:57:52.566568192+00:00",
     cfg = "Release",
     vers = "0.1.0"
 }
@@ -127,9 +127,16 @@ InverseAliases then for g,h in ipairs(f.InverseAliases)do self.Commands[h:lower(
 insert(self.CommandsArray,e)end self.Commands[e.Name:lower()]=e if e.Aliases
 then for g,h in ipairs(e.Aliases)do self.Commands[h:lower()]=e end end if e.
 InverseAliases then for g,h in ipairs(e.InverseAliases)do self.Commands[h:lower(
-)]=e self.InvertedCommands[h:lower()]=true end end end function d:getCommand(e)e
-=e or''return self.Commands[e:lower()]end function d:isInvertedCommand(e)return
-self.InvertedCommands[e:lower()]==true end function d:getCommands()return self.
+)]=e self.InvertedCommands[h:lower()]=true end end end function d:removeCommand(
+e)local f=self.Commands[e:lower()]if not f then return end self.Commands[e:
+lower()]=nil if f.Aliases then for g,h in ipairs(f.Aliases)do self.Commands[h:
+lower()]=nil end end if f.InverseAliases then for g,h in ipairs(f.InverseAliases
+)do self.Commands[h:lower()]=nil self.InvertedCommands[h:lower()]=nil end end
+for g,h in ipairs(self.CommandsArray)do if h.Name:lower()==e:lower()then table.
+remove(self.CommandsArray,g)break end end end function d:removeType(e)self.Types
+[e]=nil self.TypeAliases[e]=nil end function d:getCommand(e)e=e or''return self.
+Commands[e:lower()]end function d:isInvertedCommand(e)return self.
+InvertedCommands[e:lower()]==true end function d:getCommands()return self.
 CommandsArray end function d:getCommandNames()local e={}for f,g in ipairs(self.
 CommandsArray)do table.insert(e,g.Name)if g.Aliases then for h,i in ipairs(g.
 Aliases)do table.insert(e,i)end end if g.InverseAliases then for h,i in ipairs(g
@@ -155,8 +162,8 @@ BackgroundDark=Color3.fromRGB(17,17,17),BackgroundMedium=Color3.fromRGB(59,59,59
 ,34),TextSecondary=Color3.fromRGB(131,222,255),AutocompleteItem=Color3.fromRGB(
 131,222,255),HelpOrange=Color3.fromRGB(230,126,34),HelpGray=Color3.fromRGB(230,
 230,230),Stroke=Color3.fromRGB(30,30,30)},Gui={HistoryFile='CoCo/History',
-ConfigFile='CoCo/Config',DefaultTextSize=14,ScrollBarThickness=6,
-EntryLayoutOrder=999999999,BackgroundTransparency=0.4,
+ConfigFile='CoCo/Config',PluginDir='CoCo/Plugins',DefaultTextSize=14,
+ScrollBarThickness=6,EntryLayoutOrder=999999999,BackgroundTransparency=0.4,
 AutocompleteBackgroundTransparency=0.5,SectionBackgroundTransparency=0.2,
 DefaultPadding=10},Argument={KeywordResolverMaxDepth=20}}return b end function a
 .g()local c=a.cache.g if not c then c={c=b()}a.cache.g=c end return c.c end end
@@ -2314,30 +2321,55 @@ ClientRun=function(d)if d:isInvertedCall()then if not b then return
 'X-ray already disabled.'end b=false c(false)return'X-ray disabled.'end b=not b
 c(b)return b and'X-ray enabled.'or'X-ray disabled.'end}end function a.bR()local
 c=a.cache.bR if not c then c={c=b()}a.cache.bR=c end return c.c end end do local
-b=function()return{Name='remotespy',Aliases={'rspy','cobalt'},Description=
+b=function()local b={load=true,unload=true,reload=true,loadall=true}return{Name=
+'plugin',Description='Manages plugins: load/unload/reload/loadall.',Group=
+'Plugins',Args={{Type='string',Name='Action',Description=
+'load, unload, reload, or loadall'},{Type='string',Name='Plugin name',
+Description='The plugin to manage',Optional=true}},ClientRun=function(c,d,e)d=d:
+lower()if not b[d]then return
+'Invalid action. Use: load, unload, reload, or loadall.'end local f=c.CoCo.
+PluginManager if d=='loadall'then f:loadAll()return
+'Loaded all plugins from disk.'end if not e or#e==0 then return
+'Please specify a plugin name.'end if d=='load'then local g,h=f:load(e)if g then
+return'Loaded plugin "'..e..'".'else return'Failed to load "'..e..'": '..
+tostring(h)end elseif d=='unload'then local g,h=f:unload(e)if g then return
+'Unloaded plugin "'..e..'".'else return'Failed to unload "'..e..'": '..tostring(
+h)end elseif d=='reload'then local g,h=f:reload(e)if g then return
+'Reloaded plugin "'..e..'".'else return'Failed to reload "'..e..'": '..tostring(
+h)end end return''end}end function a.bS()local c=a.cache.bS if not c then c={c=
+b()}a.cache.bS=c end return c.c end end do local b=function()local b=a.g()return
+{Name='plugins',Description='Lists all plugins (loaded and available).',Group=
+'Plugins',Args={},ClientRun=function(c)local d=c.CoCo.PluginManager:list()if#d==
+0 then c:reply'No plugins found.'return''end c:reply('Plugins',b.Colors.
+TextAccent)for e,f in ipairs(d)do local g,h=if f.Loaded then'[Loaded]'else
+'[---]',''if f.Loaded and#f.Description>0 then h=': '..f.Description end local i
+=''if f.Loaded and#f.Version>0 then i=' (v'..f.Version..')'end c:reply(string.
+format('  %s %s%s%s',g,f.Name,i,h))end return''end}end function a.bT()local c=a.
+cache.bT if not c then c={c=b()}a.cache.bT=c end return c.c end end do local b=
+function()return{Name='remotespy',Aliases={'rspy','cobalt'},Description=
 "Run the 'Cobalt' remote spy.",Group='DefaultScripts',Args={},ClientRun=function
 (b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/Cobalt.luau]]
-)()return'Executed Cobalt'end}end function a.bS()local c=a.cache.bS if not c
-then c={c=b()}a.cache.bS=c end return c.c end end do local b=function()return{
+)()return'Executed Cobalt'end}end function a.bU()local c=a.cache.bU if not c
+then c={c=b()}a.cache.bU=c end return c.c end end do local b=function()return{
 Name='dex',Aliases={'dex++','dexplusplus'},Description=
 "Run the 'Dex++' version of Dex.",Group='DefaultScripts',Args={},ClientRun=
 function(b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/Dex%2B%2B.lua]]
-)()return'Executed Dex++'end}end function a.bT()local c=a.cache.bT if not c then
-c={c=b()}a.cache.bT=c end return c.c end end do local b=function()return{Name=
+)()return'Executed Dex++'end}end function a.bV()local c=a.cache.bV if not c then
+c={c=b()}a.cache.bV=c end return c.c end end do local b=function()return{Name=
 'synsaveinstance',Aliases={'saveinstance','save','download'},Description=
 'Run SynSaveInstance.',Group='DefaultScripts',Args={},ClientRun=function(b,c)
 loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/Panda-Utilities/Storage/refs/heads/main/SaveInstance.lua]]
-)()return'Executed SynSaveInstance'end}end function a.bU()local c=a.cache.bU if
-not c then c={c=b()}a.cache.bU=c end return c.c end end do local b=function()
+)()return'Executed SynSaveInstance'end}end function a.bW()local c=a.cache.bW if
+not c then c={c=b()}a.cache.bW=c end return c.c end end do local b=function()
 return{Name='sigmaspy',Aliases={'ss','rspys'},Description=
 "Run the 'Sigma Spy' remote spy.",Group='DefaultScripts',Args={},ClientRun=
 function(b,c)loadstring(game:HttpGet
 [[https://raw.githubusercontent.com/panduh16/Sigma-Spy/refs/heads/main/Main.lua]]
-)()return'Executed Sigma Spy'end}end function a.bV()local c=a.cache.bV if not c
-then c={c=b()}a.cache.bV=c end return c.c end end do local b=function()local b,c
+)()return'Executed Sigma Spy'end}end function a.bX()local c=a.cache.bX if not c
+then c={c=b()}a.cache.bX=c end return c.c end end do local b=function()local b,c
 =a.H(),a.g()return{Name='scriptblox',Aliases={'sb','sblox'},Description=
 [[Search and run scripts from ScriptBlox. Autocomplete shows matching scripts as you type.]]
 ,Group='DefaultUtil',Args={{Type='scriptblox',Name='query',Description=
@@ -2360,8 +2392,8 @@ ipairs(o)do if q.title and q.title:lower()==h:lower()then return b.runScript(d,q
 formatResult(o),c.Colors.TextPrimary)d:reply(
 [[Tip: Refine your query to get a single result and it will run automatically.]]
 ,c.Colors.TextSecondary)return string.format(
-'Showing %d results for %q. Refine your search.',#o,h)end}end function a.bW()
-local c=a.cache.bW if not c then c={c=b()}a.cache.bW=c end return c.c end end do
+'Showing %d results for %q. Refine your search.',#o,h)end}end function a.bY()
+local c=a.cache.bY if not c then c={c=b()}a.cache.bY=c end return c.c end end do
 local b=function()local b,c,d,e=a.c(),{},function(b)return(b:gsub('\\%$',
 '___!CMDR_DOLLAR!___'))end,function(b)return(b:gsub('___!CMDR_DOLLAR!___','$'))
 end function c.runCommandString(f,g)g=b.parseEscapeSequences(g)g=b.
@@ -2382,9 +2414,9 @@ k[m]=true local n,o,p,q,r=(g:match(`${m}(%b\{})`))if n then n=n:sub(2,#n-1)p,q,r
 'string'q=q or`Argument {m}`r=r or''table.insert(j,{Type=p,Name=q,Description=r,
 Optional=o})end end return{Name=h,Aliases={},Description=`<Alias> {i or g}`,
 Group='UserAlias',Args=j,Run=function(m)return c.runCommandString(m.Dispatcher,c
-.substituteArgs(g,m.RawArguments))end}end return c end function a.bX()local c=a.
-cache.bX if not c then c={c=b()}a.cache.bX=c end return c.c end end do local b=
-function()local b=a.a()local c,d,e,f=b.HttpService,b.UserInputService,a.bX(),a.
+.substituteArgs(g,m.RawArguments))end}end return c end function a.bZ()local c=a.
+cache.bZ if not c then c={c=b()}a.cache.bZ=c end return c.c end end do local b=
+function()local b=a.a()local c,d,e,f=b.HttpService,b.UserInputService,a.bZ(),a.
 g()local g,h=f.Gui.ConfigFile,{_data=nil}function h:ensureData()if not self.
 _data then self:load()end return self._data end function h:load()local i,j=
 pcall(readfile,g)if i and j and#j>0 then local k,m=pcall(c.JSONDecode,c,j)if k
@@ -2428,19 +2460,19 @@ KeyCode==p then v=true end end)elseif o=='hold'then t[1]=d.InputBegan:Connect(
 function(v,w)if w then return end if v.KeyCode~=p then return end if not r(q)
 then return end s()end)t[#t+1]=d.InputEnded:Connect(function(v)if v.KeyCode==p
 then s()end end)end u[j]={mode=o,key=p,modifiers=q,command=k.command,args=k.args
-or'',connections=t}end return h end function a.bY()local c=a.cache.bY if not c
-then c={c=b()}a.cache.bY=c end return c.c end end do local b=function()local b=a
-.bX()return{Name='alias',Aliases={},Description=
+or'',connections=t}end return h end function a.b_()local c=a.cache.b_ if not c
+then c={c=b()}a.cache.b_=c end return c.c end end do local b=function()local b=a
+.bZ()return{Name='alias',Aliases={},Description=
 [[Creates a new, single command out of a command and given arguments.]],Group=
 'DefaultUtil',Args={{Type='string',Name='Alias name',Description=
 "The key or input type you'd like to bind the command to."},{Type='string',Name=
 'Command string',Description=
 [[The command text you want to run. Separate multiple commands with "&&". Accept arguments with $1, $2, $3, etc.]]
 }},ClientRun=function(c,d,e)c.CoCo.Registry:registerCommandObject(b.
-makeAliasCommand(d,e),true)local f=a.bY()local g=f:getAliases()g[d]=e f:
-setAliases(g)return('Created alias %q'):format(d)end}end function a.bZ()local c=
-a.cache.bZ if not c then c={c=b()}a.cache.bZ=c end return c.c end end do local b
-=function()local b,c=a.bX(),a.a()local d=c.UserInputService local e=function(e)
+makeAliasCommand(d,e),true)local f=a.b_()local g=f:getAliases()g[d]=e f:
+setAliases(g)return('Created alias %q'):format(d)end}end function a.b0()local c=
+a.cache.b0 if not c then c={c=b()}a.cache.b0=c end return c.c end end do local b
+=function()local b,c=a.bZ(),a.a()local d=c.UserInputService local e=function(e)
 if not e then e={}end local f,g,h=d:IsKeyDown(Enum.KeyCode.LeftControl),d:
 IsKeyDown(Enum.KeyCode.RightControl),e[Enum.KeyCode.LeftControl]==true or e[Enum
 .KeyCode.RightControl]==true if h~=(f or g)then return false end f=d:IsKeyDown(
@@ -2477,38 +2509,38 @@ InputEnded:Connect(function(v)if v.KeyCode==g.key then u=true end end)elseif n==
 KeyCode~=g.key then return end if not e(g.modifiers)then return end s()end)t[#t+
 1]=d.InputEnded:Connect(function(u)if u.KeyCode==g.key then s()end end)end j[p]=
 {mode=n,key=g.key,modifiers=g.modifiers,command=h,args=m,connections=t}local u=a
-.bY():getBinds()u[p]={mode=n,key=g.key.Name,modifiers={},command=h,args=m}for v
-in pairs(g.modifiers or{})do table.insert(u[p].modifiers,v.Name)end a.bY():
+.b_():getBinds()u[p]={mode=n,key=g.key.Name,modifiers={},command=h,args=m}for v
+in pairs(g.modifiers or{})do table.insert(u[p].modifiers,v.Name)end a.b_():
 setBinds(u)return('Bound %q \u{2192} [%s] %s %s'):format(p,n,h,m)end}end
-function a.b_()local c=a.cache.b_ if not c then c={c=b()}a.cache.b_=c end return
+function a.b1()local c=a.cache.b1 if not c then c={c=b()}a.cache.b1=c end return
 c.c end end do local b=function()return{Name='clear',Aliases={},Description=
 'Clear all lines above the entry line of the CoCo window.',Group='DefaultUtil',
 Args={},ClientRun=function()local b=pcall(gethui)and gethui():FindFirstChild
 'CoCo'if not b then return''end local c=b:FindFirstChild'Frame'if c then local d
 =c:FindFirstChild'Line'for e,f in pairs(c:GetChildren())do if f~=d and f.Name==
 'Line'and f:IsA'TextBox'then f:Destroy()end end end return''end}end function a.
-b0()local c=a.cache.b0 if not c then c={c=b()}a.cache.b0=c end return c.c end
+b2()local c=a.cache.b2 if not c then c={c=b()}a.cache.b2=c end return c.c end
 end do local b=function()return{Name='date',Aliases={'timestamp'},Description=
 'Convert a timestamp to a human-readable format.',Group='DefaultUtil',Args={{
 Type='number',Name='timestamp',Description=
 'A numerical representation of a specific moment in time.',Optional=true}},
 ClientRun=function(b,c)c=c or os.time()return`{os.date('%x',c)} {os.date('%X',c)
-}`end}end function a.b1()local c=a.cache.b1 if not c then c={c=b()}a.cache.b1=c
+}`end}end function a.b3()local c=a.cache.b3 if not c then c={c=b()}a.cache.b3=c
 end return c.c end end do local b=function()return{Name='decode',Aliases={},
 Description='Decodes a JSON Array into a comma-separated list',Group=
 'DefaultUtil',Args={{Type='json',Name='JSON',Description='The JSON array.'}},
 ClientRun=function(b,c)if type(c)~='table'then c={c}end return table.concat(c,
-',')end}end function a.b2()local c=a.cache.b2 if not c then c={c=b()}a.cache.b2=
+',')end}end function a.b4()local c=a.cache.b4 if not c then c={c=b()}a.cache.b4=
 c end return c.c end end do local b=function()return{Name='echo',Aliases={'='},
 Description='Echoes your text back to you.',Group='DefaultUtil',Args={{Type=
 'string',Name='Text',Description='The text.'}},Run=function(b,c)return c end}end
-function a.b3()local c=a.cache.b3 if not c then c={c=b()}a.cache.b3=c end return
+function a.b5()local c=a.cache.b5 if not c then c={c=b()}a.cache.b5=c end return
 c.c end end do local b=function()local b={}function b.new()local c,d={},false
 return function()if d then table.insert(c,coroutine.running())coroutine.yield()
 else d=true end return function()if#c>0 then coroutine.resume(table.remove(c,1))
-else d=false end end end end return b end function a.b4()local c=a.cache.b4 if
-not c then c={c=b()}a.cache.b4=c end return c.c end end do local b=function()
-local b,c,d=a.b4(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.
+else d=false end end end end return b end function a.b6()local c=a.cache.b6 if
+not c then c={c=b()}a.cache.b6=c end return c.c end end do local b=function()
+local b,c,d=a.b6(),{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.
 fromRGB(17,17,17),BackgroundTransparency=0.05,BorderColor3=Color3.fromRGB(17,17,
 17),BorderSizePixel=20,ClearTextOnFocus=false,MultiLine=true,Position=UDim2.new(
 0.5,0,0.5,0),Size=UDim2.new(0.5,0,0.4,0),Font=Enum.Font.Code,TextColor3=Color3.
@@ -2525,13 +2557,13 @@ Instance.new'ScreenGui'i.Name='CoCoEditBox'i.ResetOnSpawn=false local j=Instance
 Parent=pcall(gethui)and gethui()or Players.LocalPlayer:WaitForChild'PlayerGui'
 local k=coroutine.running()j.InputBegan:Connect(function(m)if m.UserInputType==
 Enum.UserInputType.MouseButton2 then coroutine.resume(k,j.Text:gsub('\n',g))i:
-Destroy()h()end end)return coroutine.yield()end}end function a.b5()local c=a.
-cache.b5 if not c then c={c=b()}a.cache.b5=c end return c.c end end do local b=
+Destroy()h()end end)return coroutine.yield()end}end function a.b7()local c=a.
+cache.b7 if not c then c={c=b()}a.cache.b7=c end return c.c end end do local b=
 function()local b=a.a()local c=b.HttpService return{Name='encode',Aliases={},
 Description='Encodes a comma-separated list into a JSON array',Group=
 'DefaultUtil',Args={{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(d,e)return c:JSONEncode(e:split',')end
-}end function a.b6()local c=a.cache.b6 if not c then c={c=b()}a.cache.b6=c end
+}end function a.b8()local c=a.cache.b8 if not c then c={c=b()}a.cache.b8=c end
 return c.c end end do local b=function()return{Name='history',Aliases={},
 AutoExec={
 [[alias "!|Displays previous command from history." run ${history $1{number|Line Number}}]]
@@ -2542,25 +2574,25 @@ AutoExec={
 'integer',Name='Line Number',Description=
 'Command line number (can be negative to go from end)'}},ClientRun=function(b,c)
 local d=b.Dispatcher:getHistory()if c<=0 then c=#d+c end return d[c]or''end}end
-function a.b7()local c=a.cache.b7 if not c then c={c=b()}a.cache.b7=c end return
+function a.b9()local c=a.cache.b9 if not c then c={c=b()}a.cache.b9=c end return
 c.c end end do local b=function()local b=a.a()local c=b.Players return{Name=
 'hover',Description='Returns the name of the player you are hovering over.',
 Group='DefaultUtil',Args={},ClientRun=function()local d=c.LocalPlayer:GetMouse()
 local e=d.Target if not e then return''end local f=c:GetPlayerFromCharacter(e:
-FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.b8()
-local c=a.cache.b8 if not c then c={c=b()}a.cache.b8=c end return c.c end end do
+FindFirstAncestorOfClass'Model')return f and f.Name or''end}end function a.ca()
+local c=a.cache.ca if not c then c={c=b()}a.cache.ca=c end return c.c end end do
 local b=function()return{Name='keybind',Aliases={'close','open'},Description=
 'Changes the keybind used to open/close the command menu.',Group='DefaultUtil',
 Args={{Type='userInput',Name='Key',Description=
 'The key to bind the menu toggle to.'}},ClientRun=function(b,c)local d=b.CoCo d:
-setActivationKeys{c}local e=a.bY()e:setActivationKeys{c}return(
-'Menu keybind set to %s.'):format(c.Name or tostring(c))end}end function a.b9()
-local c=a.cache.b9 if not c then c={c=b()}a.cache.b9=c end return c.c end end do
+setActivationKeys{c}local e=a.b_()e:setActivationKeys{c}return(
+'Menu keybind set to %s.'):format(c.Name or tostring(c))end}end function a.cb()
+local c=a.cache.cb if not c then c={c=b()}a.cache.cb=c end return c.c end end do
 local b=function()return{Name='len',Aliases={},Description=
 'Returns the length of a comma-separated list',Group='DefaultUtil',Args={{Type=
 'string',Name='CSV',Description='The comma-separated list'}},Run=function(b,c)
-return#(c:split',')end}end function a.ca()local c=a.cache.ca if not c then c={c=
-b()}a.cache.ca=c end return c.c end end do local b=function()return{Name='math',
+return#(c:split',')end}end function a.cc()local c=a.cache.cc if not c then c={c=
+b()}a.cache.cc=c end return c.c end end do local b=function()return{Name='math',
 Aliases={},Description='Perform a math operation on 2 values.',Group=
 'DefaultUtil',AutoExec={
 [[alias "+|Perform an addition." math + $1{number|Number} $2{number|Number}]],
@@ -2572,20 +2604,20 @@ Aliases={},Description='Perform a math operation on 2 values.',Group=
 Args={{Type='mathOperator',Name='Operation',Description='A math operation.'},{
 Type='number',Name='Value',Description='A number value.'},{Type='number',Name=
 'Value',Description='A number value.'}},ClientRun=function(b,c,d,e)return c.
-Perform(d,e)end}end function a.cb()local c=a.cache.cb if not c then c={c=b()}a.
-cache.cb=c end return c.c end end do local b=function()return{Name='pick',
+Perform(d,e)end}end function a.cd()local c=a.cache.cd if not c then c={c=b()}a.
+cache.cd=c end return c.c end end do local b=function()return{Name='pick',
 Aliases={},Description='Picks a value out of a comma-separated list.',Group=
 'DefaultUtil',Args={{Type='integer',Name='Index to pick',Description=
 'The index of the item you want to pick'},{Type='string',Name='CSV',Description=
 'The comma-separated list'}},Run=function(b,c,d)return d:split','[c]or''end}end
-function a.cc()local c=a.cache.cc if not c then c={c=b()}a.cache.cc=c end return
+function a.ce()local c=a.cache.ce if not c then c={c=b()}a.cache.ce=c end return
 c.c end end do local b=function()return{Name='rand',Aliases={},Description=
 'Returns a random number between min and max',Group='DefaultUtil',Args={{Type=
 'integer',Name='First number',Description=
 [[If second number is nil, random number is between 1 and this value. If second number is provided, number is between this number and the second number.]]
 },{Type='integer',Name='Second number',Description='The upper bound.',Optional=
 true}},Run=function(b,c,d)return tostring(d and math.random(c,d)or math.random(c
-))end}end function a.cd()local c=a.cache.cd if not c then c={c=b()}a.cache.cd=c
+))end}end function a.cf()local c=a.cache.cf if not c then c={c=b()}a.cache.cf=c
 end return c.c end end do local b=function()return{Name='replace',Aliases={
 'gsub','//'},Description='Replaces text A with text B',Group='DefaultUtil',
 AutoExec={
@@ -2597,8 +2629,8 @@ AutoExec={
 'Needle',Description='The string pattern search for.'},{Type='string',Name=
 'Replacement',Description=
 'The string to replace matches (%1 to insert matches).',Default=''}},Run=
-function(b,c,d,e)return c:gsub(d,e)end}end function a.ce()local c=a.cache.ce if
-not c then c={c=b()}a.cache.ce=c end return c.c end end do local b=function()
+function(b,c,d,e)return c:gsub(d,e)end}end function a.cg()local c=a.cache.cg if
+not c then c={c=b()}a.cache.cg=c end return c.c end end do local b=function()
 return{Name='resolve',Aliases={},Description=
 [[Resolves Argument Value Operators into lists. E.g., resolve players * gives you a list of all players.]]
 ,Group='DefaultUtil',AutoExec={
@@ -2608,15 +2640,15 @@ return{Name='resolve',Aliases={},Description=
 Name='Argument Value Operator',Description=
 'The value operator to resolve. One of: * ** . ? ?N, selectors (allies, enemies, friends, nearest, farthest, alive, dead, cursor, npcs), patterns (ageN, radN, groupN, #N), and +/\u{2212} set operations'
 ,Optional=true}end},Run=function(b)return table.concat(b:getArgument(2).
-RawSegments,',')end}end function a.cf()local c=a.cache.cf if not c then c={c=b()
-}a.cache.cf=c end return c.c end end do local b=function()local b=a.bX()return{
+RawSegments,',')end}end function a.ch()local c=a.cache.ch if not c then c={c=b()
+}a.cache.ch=c end return c.c end end do local b=function()local b=a.bZ()return{
 Name='run',Aliases={'>'},AutoExec={
 [[alias "discard|Run a command and discard the output." replace ${run $1} .* \"\"]]
 },Description='Runs a given command string (replacing embedded commands).',Group
 ='DefaultUtil',Args={{Type='string',Name='Command',Description=
 'The command string to run'}},Run=function(c,d)return b.runCommandString(c.
-Dispatcher,d)end}end function a.cg()local c=a.cache.cg if not c then c={c=b()}a.
-cache.cg=c end return c.c end end do local b=function()return{Name='run-lines',
+Dispatcher,d)end}end function a.ci()local c=a.cache.ci if not c then c={c=b()}a.
+cache.ci=c end return c.c end end do local b=function()return{Name='run-lines',
 Aliases={},Description=
 [[Splits input by newlines and runs each line as its own command. This is used by the init-run command.]]
 ,Group='DefaultUtil',Args={{Type='string',Name='Script',Description=
@@ -2624,8 +2656,8 @@ Aliases={},Description=
 end local d,e=b.Dispatcher:run('var','INIT_PRINT_OUTPUT')~='',c:gsub('\n+','\n')
 :split'\n'for f,g in ipairs(e)do if g:sub(1,1)=='#'then continue end local h=b.
 Dispatcher:evaluateAndRun(g)if d then b:reply(h)end end return''end}end function
-a.ch()local c=a.cache.ch if not c then c={c=b()}a.cache.ch=c end return c.c end
-end do local b=function()local b,c=a.bX(),{startsWith=function(b,c)if b:sub(1,#c
+a.cj()local c=a.cache.cj if not c then c={c=b()}a.cache.cj=c end return c.c end
+end do local b=function()local b,c=a.bZ(),{startsWith=function(b,c)if b:sub(1,#c
 )==c then return b:sub(#c+1)end end}return{Name='runif',Aliases={},Description=
 'Runs a given command string if a certain condition is met.',Group='DefaultUtil'
 ,Args={{Type='conditionFunction',Name='Condition',Description=
@@ -2637,7 +2669,7 @@ Description=
 ,Optional=true}},Run=function(d,e,f,g,h)local i=c[e]if not i then return(
 'Condition %q is not valid.'):format(e)end local j=i(g,f)if j then return d.
 Dispatcher:evaluateAndRun(b.runEmbeddedCommands(d.Dispatcher,h or j))end return
-''end}end function a.ci()local c=a.cache.ci if not c then c={c=b()}a.cache.ci=c
+''end}end function a.ck()local c=a.cache.ck if not c then c={c=b()}a.cache.ck=c
 end return c.c end end do local b=function()return{Name='unbind',Aliases={},
 Description='Unbinds a key combination previously bound with Bind.',Group=
 'DefaultUtil',Args={{Type='keycombo',Name='Combo',Description=
@@ -2645,11 +2677,11 @@ Description='Unbinds a key combination previously bound with Bind.',Group=
 }},ClientRun=function(b,c)if not c then return'Invalid key combination.'end
 local d,e=b:getStore'COCO_Binds',c.text local f=d[e]if f and f.connections then
 for g,h in ipairs(f.connections)do h:Disconnect()end if f.heartbeat then f.
-heartbeat:Disconnect()end d[e]=nil local g=a.bY()local h=g:getBinds()h[e]=nil g:
+heartbeat:Disconnect()end d[e]=nil local g=a.b_()local h=g:getBinds()h[e]=nil g:
 setBinds(h)return('Unbound %q.'):format(e)end if d[c.key]then d[c.key]:
 Disconnect()d[c.key]=nil return('Unbound %q.'):format(e)end return(
-'%q is not bound.'):format(e)end}end function a.cj()local c=a.cache.cj if not c
-then c={c=b()}a.cache.cj=c end return c.c end end do local b=function()return{
+'%q is not bound.'):format(e)end}end function a.cl()local c=a.cache.cl if not c
+then c={c=b()}a.cache.cl=c end return c.c end end do local b=function()return{
 Name='var',Aliases={},Description='Gets a stored variable.',Group='DefaultUtil',
 AutoExec={
 [[alias "init-edit|Edit your initialization script" edit ${var init} \\
@@ -2658,15 +2690,15 @@ AutoExec={
 [[alias "init-run|Re-runs the initialization script manually." run-lines ${var init}]]
 ,'init-run'},Args={{Type='storedKey',Name='Key',Description=
 [[The key to get, retrieved from your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
-}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.ck()
-local c=a.cache.ck if not c then c={c=b()}a.cache.ck=c end return c.c end end do
+}},ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cm()
+local c=a.cache.cm if not c then c={c=b()}a.cache.cm=c end return c.c end end do
 local b=function()return{Name='var=',Aliases={},Description=
 'Sets a stored value.',Group='DefaultUtil',Args={{Type='storedKey',Name='Key',
 Description=
 [[The key to set, saved in your user data store. Keys prefixed with . are not saved. Keys prefixed with $ are game-wide. Keys prefixed with $. are game-wide and non-saved.]]
 },{Type='string',Name='Value',Description='Value or values to set.',Default=''}}
-,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cl()
-local c=a.cache.cl if not c then c={c=b()}a.cache.cl=c end return c.c end end do
+,ClientRun=function(b,c)b:getStore'vars_used'[c]=true end}end function a.cn()
+local c=a.cache.cn if not c then c={c=b()}a.cache.cn=c end return c.c end end do
 local b=function()local b,c,d=a.g(),
 [[Argument Shorthands
 -------------------
@@ -2692,8 +2724,8 @@ reply(c)e:reply(d)local g=e.CoCo.Registry:getCommands()table.sort(g,function(h,i
 )return if h.Group and i.Group then h.Group<i.Group else h.Group end)local h for
 i,j in ipairs(g)do j.Group=j.Group or'No Group'if h~=j.Group then e:reply(`\n{j.
 Group}\n{string.rep('-',#j.Group)}`)h=j.Group end e:reply(if j.Description then`{
-j.Name} - {j.Description}`else j.Name)end end return''end}end function a.cm()
-local c=a.cache.cm if not c then c={c=b()}a.cache.cm=c end return c.c end end do
+j.Name} - {j.Description}`else j.Name)end end return''end}end function a.co()
+local c=a.cache.co if not c then c={c=b()}a.cache.co=c end return c.c end end do
 local b=function()return{a.J(),a.K(),a.L(),a.M(),a.N(),a.O(),a.P(),a.Q(),a.R(),a
 .S(),a.T(),a.U(),a.W(),a.X(),a.Y(),a.Z(),a._(),a.aa(),a.ab(),a.ac(),a.ad(),a.ae(
 ),a.af(),a.ag(),a.ah(),a.ai(),a.aj(),a.ak(),a.al(),a.am(),a.an(),a.aq(),a.ar(),a
@@ -2705,11 +2737,11 @@ ba(),a.bb(),a.bc(),a.bd(),a.be(),a.bf(),a.bg(),a.bh(),a.bi(),a.bj(),a.bk(),a.bl(
 ),a.bm(),a.bn(),a.bo(),a.bp(),a.bq(),a.br(),a.bs(),a.bt(),a.bu(),a.bv(),a.bw(),a
 .bx(),a.by(),a.bz(),a.bA(),a.bB(),a.bC(),a.bD(),a.bE(),a.bF(),a.bG(),a.bH(),a.
 bI(),a.bJ(),a.bK(),a.bL(),a.bM(),a.bN(),a.bO(),a.bP(),a.bQ(),a.bR(),a.bS(),a.bT(
-),a.bU(),a.bV(),a.bW(),a.bZ(),a.b_(),a.b0(),a.b1(),a.b2(),a.b3(),a.b5(),a.b6(),a
+),a.bU(),a.bV(),a.bW(),a.bX(),a.bY(),a.b0(),a.b1(),a.b2(),a.b3(),a.b4(),a.b5(),a
 .b7(),a.b8(),a.b9(),a.ca(),a.cb(),a.cc(),a.cd(),a.ce(),a.cf(),a.cg(),a.ch(),a.
-ci(),a.cj(),a.ck(),a.cl(),a.cm()}end function a.cn()local c=a.cache.cn if not c
-then c={c=b()}a.cache.cn=c end return c.c end end do local b=function()local b,c
-,d=a.a(),
+ci(),a.cj(),a.ck(),a.cl(),a.cm(),a.cn(),a.co()}end function a.cp()local c=a.
+cache.cp if not c then c={c=b()}a.cache.cp=c end return c.c end end do local b=
+function()local b,c,d=a.a(),
 [[https://github.com/Panda-Utilities/Storage/raw/refs/heads/main/ProggyClean.ttf]]
 ,{}d.ProggyClean=nil d.Loaded=false local e,f={},function()return type(writefile
 )=='function'and type(isfile)=='function'and type(getcustomasset)=='function'end
@@ -2725,7 +2757,7 @@ style='normal',assetId=getcustomasset'ProggyClean.ttf'}}}writefile(
 local j,k=pcall(Font.new,getcustomasset'ProggyClean.ttf.json',Enum.FontWeight.
 Regular)if j and k then d.ProggyClean=k end end function d.LoadAll()g()d.Loaded=
 true for h,i in e do i()end end task.spawn(function()task.wait(1)d.LoadAll()end)
-return d end function a.co()local c=a.cache.co if not c then c={c=b()}a.cache.co
+return d end function a.cq()local c=a.cache.cq if not c then c={c=b()}a.cache.cq
 =c end return c.c end end do local b=function()local b,c={'box','box fill',
 'name','health bar','health text','distance','tool text','highlight'},{}function
 c.TeamColor(d,e,f)if d.UseTeamColors and e.teamColor then return e.teamColor end
@@ -2741,8 +2773,8 @@ false for h,i in b do local j=c.IsFeatureVisible(d,e,i)f[i]=j g=g or j end f.any
 =g f.needs2D=f.box or f['box fill']or f.name or f['health bar']or f[
 'health text']or f.distance or f['tool text']return f end function c.
 HasAnyEnabledFeature(d)for e,f in d.Features do if f then return true end end
-return false end return c end function a.cp()local c=a.cache.cp if not c then c=
-{c=b()}a.cache.cp=c end return c.c end end do local b=function()local b,c,d={},
+return false end return c end function a.cr()local c=a.cache.cr if not c then c=
+{c=b()}a.cache.cr=c end return c.c end end do local b=function()local b,c,d={},
 function(b,c,d)if not c then return nil,nil,false end local e=d and d:
 FindFirstChildOfClass'Humanoid'if not e then return nil,nil,false end local f=e.
 RigType==Enum.HumanoidRigType.R6 local g,h=f and 2.8 or 3,f and 3 or 3.5 local i
@@ -2761,8 +2793,8 @@ local t=p*(q*s)local u=f:WorldToViewportPoint(t)if u.Z>0 then m=true if u.X<j.X
 then j=Vector2.new(u.X,j.Y)end if u.Y<j.Y then j=Vector2.new(j.X,u.Y)end if u.X>
 k.X then k=Vector2.new(u.X,k.Y)end if u.Y>k.Y then k=Vector2.new(k.X,u.Y)end end
 end end if not m then return nil,nil,false end local n=Vector2.new(2,2)return j-
-n,k+n,true end return c(f,h,i)end return b end function a.cq()local c=a.cache.cq
-if not c then c={c=b()}a.cache.cq=c end return c.c end end do local b=function()
+n,k+n,true end return c(f,h,i)end return b end function a.cs()local c=a.cache.cs
+if not c then c={c=b()}a.cache.cs=c end return c.c end end do local b=function()
 local b,c,d={'Head','Torso','Left Arm','Right Arm','Left Leg','Right Leg'},{
 'Head','UpperTorso','LowerTorso','LeftHand','RightHand','LeftFoot','RightFoot',
 'LeftLowerArm','RightLowerArm','LeftLowerLeg','RightLowerLeg','LeftUpperArm',
@@ -2771,8 +2803,8 @@ Character end local e=function(e)if not e then return nil end local f=e:
 FindFirstChildOfClass'Humanoid'if not f then return nil end local g,h={},f.
 RigType==Enum.HumanoidRigType.R6 and b or c for i,j in h do local k=e:
 FindFirstChild(j)if k and k:IsA'BasePart'then g[#g+1]=k end end return#g>0 and g
-or nil end return{GetCharacter=d,GetBodyParts=e}end function a.cr()local c=a.
-cache.cr if not c then c={c=b()}a.cache.cr=c end return c.c end end do local b=
+or nil end return{GetCharacter=d,GetBodyParts=e}end function a.ct()local c=a.
+cache.ct if not c then c={c=b()}a.cache.ct=c end return c.c end end do local b=
 function()local b,c,d,e=a.k(),a.g(),{},{}function e.ensure(f,g)if d[f]then
 return end local h,i,j=b('Frame',{Parent=f.root,BackgroundColor3=Color3.fromRGB(
 255,255,255),BackgroundTransparency=0.85,BorderSizePixel=0,Visible=false}),b(
@@ -2814,8 +2846,8 @@ Transparency=x end i.box.Visible=k i.boxOuterOutline.Visible=k i.boxInnerOutline
 box:Destroy()g.boxFill:Destroy()g.boxOuterOutline:Destroy()g.boxInnerOutline:
 Destroy()d[f]=nil end f.box=nil f.boxFill=nil f.boxOuterOutline=nil f.
 boxInnerOutline=nil f.boxStroke=nil f.boxOuterStroke=nil f.boxInnerStroke=nil
-end return e end function a.cs()local c=a.cache.cs if not c then c={c=b()}a.
-cache.cs=c end return c.c end end do local b=function()local b,c,d,e=a.k(),a.g()
+end return e end function a.cu()local c=a.cache.cu if not c then c={c=b()}a.
+cache.cu=c end return c.c end end do local b=function()local b,c,d,e=a.k(),a.g()
 ,{},{}function e.ensure(f,g)if d[f]then return end local h=b('Frame',{Parent=f.
 root,BackgroundColor3=c.Colors.Stroke,BorderSizePixel=0,Visible=false})local i,j
 =b('UIStroke',{Parent=h,Color=c.Colors.Stroke,Enabled=false,Thickness=1,
@@ -2844,7 +2876,7 @@ lastGradientColor~=A then i.lastGradientColor=A i.healthGradient.Color=A end i.
 healthOutline.Visible=true end function e.destroy(f)local g=d[f]if g then g.
 healthOutline:Destroy()g.healthBar:Destroy()d[f]=nil end f.healthOutline=nil f.
 healthBar=nil f.healthOutlineStroke=nil f.healthGradient=nil end return e end
-function a.ct()local c=a.cache.ct if not c then c={c=b()}a.cache.ct=c end return
+function a.cv()local c=a.cache.cv if not c then c={c=b()}a.cache.cv=c end return
 c.c end end do local b=function()local b,c=a.k(),{}function c.ensure(d,e)if d.
 highlight then return end local f=(pcall(gethui)and gethui())or game:GetService
 'CoreGui'd.highlight=(b('Highlight',{Parent=f}))end function c.update(d,e,f)if
@@ -2858,8 +2890,8 @@ highlight.FillTransparency=f.highlightFillTransparency d.highlight.OutlineColor=
 f.highlightOutlineColor d.highlight.OutlineTransparency=f.
 highlightOutlineTransparency d.highlight.Enabled=true end function c.destroy(d)
 if d.highlight then d.highlight:Destroy()d.highlight=nil end end return c end
-function a.cu()local c=a.cache.cu if not c then c={c=b()}a.cache.cu=c end return
-c.c end end do local b=function()local b,c,d=a.k(),a.co(),a.g()local e=function(
+function a.cw()local c=a.cache.cw if not c then c={c=b()}a.cache.cw=c end return
+c.c end end do local b=function()local b,c,d=a.k(),a.cq(),a.g()local e=function(
 e)local f,g={},{}function g.ensure(h,i)if f[h]then return end local j=b(
 'TextLabel',{Parent=i,AnchorPoint=e.anchorPoint or Vector2.new(0.5,0),
 BackgroundTransparency=1,BorderSizePixel=0,Font=Enum.Font.Code,Size=e.labelSize
@@ -2877,10 +2909,10 @@ transparencyKey]if k.lastTransparency~=p then k.lastTransparency=p k.label.
 TextTransparency=p k.stroke.Transparency=p end if e.visibleFn then k.label.
 Visible=e.visibleFn(n,j)else k.label.Visible=true end end function g.destroy(h)
 local i=f[h]if i then i.label:Destroy()f[h]=nil end h[e.storageKey]=nil h[e.
-strokeKey]=nil end return g end return e end function a.cv()local c=a.cache.cv
-if not c then c={c=b()}a.cache.cv=c end return c.c end end do local aa=function(
-)local b,c,d,e,f,g,h,i,j,k,m=a.k(),a.a(),a.ap(),a.co(),a.cp(),a.cq(),a.cr(),a.
-cs(),a.ct(),a.cu(),a.cv()local n,o,p,q,r=c.Players,c.RunService,c.
+strokeKey]=nil end return g end return e end function a.cx()local c=a.cache.cx
+if not c then c={c=b()}a.cache.cx=c end return c.c end end do local aa=function(
+)local b,c,d,e,f,g,h,i,j,k,m=a.k(),a.a(),a.ap(),a.cq(),a.cr(),a.cs(),a.ct(),a.
+cu(),a.cv(),a.cw(),a.cx()local n,o,p,q,r=c.Players,c.RunService,c.
 UserInputService,d.create(),(pcall(gethui)and gethui())or c.CoreGui local s,t,u,
 v,w=b('ScreenGui',{Name='CoCo_ESP',DisplayOrder=999999,IgnoreGuiInset=true,
 ResetOnSpawn=false,Parent=r}),m{storageKey='name',strokeKey='nameStroke',
@@ -3045,31 +3077,82 @@ ai then if ai.lastState then ai.leaving=true else J(ai)end end end)q.Changed:
 Connect(function()ag()end)e.OnLoaded(function()ag()end)local ah={}setmetatable(
 ah,{__index=function(ai,aj)return q[aj]end,__newindex=function(ai,aj,ak)q[aj]=ak
 q.Changed:Fire()end})return{esp=q,playerData=y,bindings=ah,queueReconcile=ag,
-start=ae,stop=ab}end function a.cw()local ab=a.cache.cw if not ab then ab={c=aa(
-)}a.cache.cw=ab end return ab.c end end do local aa=function()local aa=a.l()
-return function(ab)aa()local ac={a.m(),a.p(),a.q(),a.r(),a.s(),a.t(),a.u(),a.v()
-,a.w(),a.x(),a.y(),a.z(),a.A(),a.B(),a.C(),a.D(),a.E(),a.F(),a.G(),a.I()}for ad,
-ae in ipairs(ac)do ae(ab)end local ad=a.cn()for ae,af in ipairs(ad)do ab.
-Registry:registerCommandObject(af)end local ae=a.cw()ab.ESP=ae.esp end end
-function a.cx()local ab=a.cache.cx if not ab then ab={c=aa()}a.cache.cx=ab end
-return ab.c end end do local aa=function()local aa do aa=setmetatable({},{
-__index=function(ab,ac)local ad=ab.Registry[ac]if ad and type(ad)=='function'
-then return function(ae,...)return ad(ab.Registry,...)end end end})local ab=a.a(
-)local ac=ab.Players aa.Registry=a.e()(aa)aa.Dispatcher=a.j()(aa,ac.LocalPlayer)
-a.cx()(aa)end return aa end function a.cy()local ab=a.cache.cy if not ab then ab
-={c=aa()}a.cache.cy=ab end return ab.c end end do local aa=function()local aa,ab
-,ac=function(aa,...)if type(aa)=='thread'then coroutine.resume(aa,...)return aa
-else local ab=coroutine.create(aa)coroutine.resume(ab,...)return ab end end,
-function(aa)local ab,ac=coroutine.close(aa)if not ab then error(`[TASK] could not cancel thread\n\terror: {
-ac}`)end end,function(aa)local ab=os.clock()local ac,ad=(ab+(aa or 1))repeat ad=
-os.clock()until ad>=ac return ad-ab end local ad=function(ad,ae,...)local af=aa(
+start=ae,stop=ab}end function a.cy()local ab=a.cache.cy if not ab then ab={c=aa(
+)}a.cache.cy=ab end return ab.c end end do local aa=function()local aa,ab=a.g(),
+a.b()local ac,ad,ae=aa.Gui.PluginDir,'.coco',{CoCo=nil,Plugins={}}function ae:
+init(af)self.CoCo=af return self end function ae:_getPluginPath(af)return ac..
+'/'..af..ad end function ae:_isPluginFile(af)return af:sub(-#ad)==ad end
+function ae:_snapshotKeys()return{commands=ab.Dictionary.keys(self.CoCo.Registry
+.Commands),types=ab.Dictionary.keys(self.CoCo.Registry.Types)}end function ae:
+_diffKeys(af,ag)local ah={}for ai,aj in ipairs(ag)do local ak=false for al,am in
+ipairs(af)do if aj==am then ak=true break end end if not ak then table.insert(ah
+,aj)end end return ah end function ae:load(af)if self.Plugins[af]then return nil
+,'Plugin "'..af..'" is already loaded.'end local ag=self:_getPluginPath(af)local
+ah,ai=pcall(readfile,ag)if not ah or not ai or#ai==0 then return nil,
+'Could not read plugin file: '..ag end local aj,ak=pcall(loadstring,ai,'='..ag)
+if not aj then return nil,'Failed to compile plugin "'..af..'": '..tostring(ak)
+end local al,am=pcall(ak)if not al or type(am)~='table'then return nil,
+'Plugin "'..af..'" did not return a valid table.'end if type(am.Name)~='string'
+or#am.Name==0 then return nil,'Plugin "'..af..'" is missing a valid Name field.'
+end local an=am.Name if self.Plugins[an]then return nil,'Plugin "'..an..
+'" is already loaded (duplicate name).'end if type(am.Init)~='function'then
+return nil,'Plugin "'..an..'" is missing required Init function.'end local ao,ap
+,aq=self:_snapshotKeys(),pcall(am.Init,self.CoCo)if not ap then return nil,
+'Plugin "'..an..'" Init failed: '..tostring(aq)end local ar=self:_snapshotKeys()
+local as={Def=am,Name=an,Description=am.Description or'',Version=am.Version or''
+,Author=am.Author or'',Commands=self:_diffKeys(ao.commands,ar.commands),Types=
+self:_diffKeys(ao.types,ar.types)}self.Plugins[an]=as return true,nil end
+function ae:unload(af)local ag=self.Plugins[af]if not ag then return nil,
+'Plugin "'..af..'" is not loaded.'end if ag.Def.Deinit then local ah,ai=pcall(ag
+.Def.Deinit,self.CoCo)if not ah then warn('CoCo Plugin: Deinit failed for "'..af
+..'": '..tostring(ai))end end for ah,ai in ipairs(ag.Commands)do self.CoCo.
+Registry:removeCommand(ai)end for ah,ai in ipairs(ag.Types)do self.CoCo.Registry
+:removeType(ai)end self.Plugins[af]=nil return true,nil end function ae:reload(
+af)local ag=self.Plugins[af]if not ag then return nil,'Plugin "'..af..
+'" is not loaded.'end local ah,ai,aj,ak,al=ag.Description,ag.Version,ag.Author,
+self:unload(af)if not ak then return nil,'Failed to unload plugin "'..af..'": '
+..tostring(al)end local am,an=self:load(af)if not am then return nil,
+'Failed to reload plugin "'..af..'": '..tostring(an)end return true,nil end
+function ae:_scanPluginDir()local af,ag=pcall(listfiles,ac)if not af or type(ag)
+~='table'then return{}end local ah={}for ai,aj in ipairs(ag)do if isfile(aj)then
+local ak=aj:match'([^/\\]+)$'if ak and self:_isPluginFile(ak)then local al=ak:
+sub(1,-#ad-1)if#al>0 then table.insert(ah,al)end end end end return ah end
+function ae:loadAll()local af=pcall(isfolder,ac)if not af then pcall(makefolder,
+ac)return end if not isfolder(ac)then pcall(makefolder,ac)return end local ag=
+self:_scanPluginDir()table.sort(ag)for ah,ai in ipairs(ag)do local aj,ak=self:
+load(ai)if not aj then warn('CoCo Plugin: Failed to load "'..ai..'": '..
+tostring(ak))end end end function ae:list()local af,ag={},{}for ah,ai in ipairs(
+self:_scanPluginDir())do ag[ai]=true end for ah,ai in self.Plugins do table.
+insert(af,{Name=ai.Name,Description=ai.Description,Version=ai.Version,Author=ai.
+Author,Loaded=true})ag[ah]=nil end for ah in pairs(ag)do table.insert(af,{Name=
+ah,Description='',Version='',Author='',Loaded=false})end table.sort(af,function(
+ah,ai)return ah.Name:lower()<ai.Name:lower()end)return af end return function(af
+)return ae:init(af)end end function a.cz()local ab=a.cache.cz if not ab then ab=
+{c=aa()}a.cache.cz=ab end return ab.c end end do local aa=function()local aa=a.
+l()return function(ab)aa()local ac={a.m(),a.p(),a.q(),a.r(),a.s(),a.t(),a.u(),a.
+v(),a.w(),a.x(),a.y(),a.z(),a.A(),a.B(),a.C(),a.D(),a.E(),a.F(),a.G(),a.I()}for
+ad,ae in ipairs(ac)do ae(ab)end local ad=a.cp()for ae,af in ipairs(ad)do ab.
+Registry:registerCommandObject(af)end local ae=a.cy()ab.ESP=ae.esp local af=a.
+cz()(ab)ab.PluginManager=af af:loadAll()end end function a.cA()local ab=a.cache.
+cA if not ab then ab={c=aa()}a.cache.cA=ab end return ab.c end end do local aa=
+function()local aa do aa=setmetatable({},{__index=function(ab,ac)local ad=ab.
+Registry[ac]if ad and type(ad)=='function'then return function(ae,...)return ad(
+ab.Registry,...)end end end})local ab=a.a()local ac=ab.Players aa.Registry=a.e(
+)(aa)aa.Dispatcher=a.j()(aa,ac.LocalPlayer)a.cA()(aa)end return aa end function
+a.cB()local ab=a.cache.cB if not ab then ab={c=aa()}a.cache.cB=ab end return ab.
+c end end do local aa=function()local aa,ab,ac=function(aa,...)if type(aa)==
+'thread'then coroutine.resume(aa,...)return aa else local ab=coroutine.create(aa
+)coroutine.resume(ab,...)return ab end end,function(aa)local ab,ac=coroutine.
+close(aa)if not ab then error(`[TASK] could not cancel thread\n\terror: {ac}`)
+end end,function(aa)local ab=os.clock()local ac,ad=(ab+(aa or 1))repeat ad=os.
+clock()until ad>=ac return ad-ab end local ad=function(ad,ae,...)local af=aa(
 function(af,ag,...)ac(af)if type(ag)=='thread'then coroutine.resume(ag,...)else
 ag(...)end end,ad,ae,...)return af end return table.freeze{cancel=ab,spawn=aa,
-defer=aa,delay=ad,wait=ac}end function a.cz()local ab=a.cache.cz if not ab then
-ab={c=aa()}a.cache.cz=ab end return ab.c end end do local aa=function()local aa=
+defer=aa,delay=ad,wait=ac}end function a.cC()local ab=a.cache.cC if not ab then
+ab={c=aa()}a.cache.cC=ab end return ab.c end end do local aa=function()local aa=
 function(...)print(`\27[0;33m{table.concat({...},' ')}\27[0m`)end return aa end
-function a.cA()local ab=a.cache.cA if not ab then ab={c=aa()}a.cache.cA=ab end
-return ab.c end end do local aa=function()local aa,ab,ac=a.cz(),a.cA(),if game
+function a.cD()local ab=a.cache.cD if not ab then ab={c=aa()}a.cache.cD=ab end
+return ab.c end end do local aa=function()local aa,ab,ac=a.cC(),a.cD(),if game
 and game.ClassName=='DataModel'and game.GraphicsQualityChangeRequest then
 'ROBLOX'elseif string.find(_VERSION,'Lune')then'LUNE'else'NONE'local ad,ae=warn
 or ab,if task then task elseif ac=='LUNE'then(require)'@lune/task'else aa do
@@ -3077,8 +3160,8 @@ local af=function(af,ag)if not _G[af]then _G[af]=ag end end if not _RUNTIME then
 af('_RUNTIME',ac)_RUNTIME=ac end if not warn then af('warn',ad)warn=ad end if
 not task then af('task',ae)task=ae end end return table.freeze{cancel=ae.cancel,
 spawn=ae.spawn,defer=ae.defer,delay=ae.delay,wait=ae.wait,warn=ad,runtime=ac}end
-function a.cB()local ab=a.cache.cB if not ab then ab={c=aa()}a.cache.cB=ab end
-return ab.c end end do local aa=function()local aa,ab,ac,ad,ae=a.cB(),
+function a.cE()local ab=a.cache.cE if not ab then ab={c=aa()}a.cache.cE=ab end
+return ab.c end end do local aa=function()local aa,ab,ac,ad,ae=a.cE(),
 [[Object is a %* and as such expected `true?` for the method name and instead got %*. Traceback: %*]]
 ,
 [[Object %* doesn't have method %*, are you sure you want to add it? Traceback: %*]]
@@ -3135,12 +3218,12 @@ an)[ao])end)if ap and aq then aq(an)end end al[an]=nil an,ao=next(al,an)end
 local ap=ag[al]if ap then table.clear(ap)ag[al]=nil end al.CurrentlyCleaning=
 false al.UnsafeThreadCleanup=am end end af.Cleanup=al function ae:Destroy()al(
 self)table.clear(self)setmetatable(self,nil)end af.__call=al function af:
-__tostring()return'Janitor'end return ae end function a.cC()local ab=a.cache.cC
-if not ab then ab={c=aa()}a.cache.cC=ab end return ab.c end end do local aa=
+__tostring()return'Janitor'end return ae end function a.cF()local ab=a.cache.cF
+if not ab then ab={c=aa()}a.cache.cF=ab end return ab.c end end do local aa=
 function()local aa=function(aa,ab)local ac=aa for ad,ae in ab do if aa[ad]==ae
 then continue end if ac==aa then ac=table.clone(aa)end ac[ad]=ae end return ac
-end return aa end function a.cD()local ab=a.cache.cD if not ab then ab={c=aa()}a
-.cache.cD=ab end return ab.c end end do local aa=function()local aa,ab,ac=a.cD()
+end return aa end function a.cG()local ab=a.cache.cG if not ab then ab={c=aa()}a
+.cache.cG=ab end return ab.c end end do local aa=function()local aa,ab,ac=a.cG()
 ,{number=function(aa,ab)aa[1]=ab end,vector=function(aa,ab)aa[1]=ab end,table=
 function(aa,ab)for ac,ad in ab do aa[ac]=ad end end},{number=function(aa)return
 aa[1]end,vector=function(aa)return aa[1]end,table=function(aa)return table.
@@ -3159,28 +3242,28 @@ end,function(ai,aj)for ak,al in aj.components do ai.components[ak]=al end ai.
 value=ah(aj)ai.dirty=nil end,function(ai,aj,ak,al)for am,an in ak.components do
 local ao=(aj.components[am])ai.components[am]=ao+(an-ao)*al end ai.dirty=true
 end return{create=ad,copy=ae,zero=af,setValue=ai,addValue=aj,getValue=ah,
-recomputeValue=ag,assign=ak,lerp=al}end function a.cE()local ab=a.cache.cE if
-not ab then ab={c=aa()}a.cache.cE=ab end return ab.c end end do local aa=
+recomputeValue=ag,assign=ak,lerp=al}end function a.cH()local ab=a.cache.cH if
+not ab then ab={c=aa()}a.cache.cH=ab end return ab.c end end do local aa=
 function()local aa=function(aa,ab)local ac,ad={},0 local ae=function(ae)local af
 =table.find(ac,ae)if af then ac[af]=ac[ad]ac[ad]=nil ad-=1 end end local af,ag,
 ah,ai=function(af)for ag=ad,1,-1 do ab(ac[ag],af,ae)end end,function(af,ag)
 return ab(af,ag,ae)end,function(af)if table.find(ac,af)then return end table.
 insert(ac,af)ad+=1 end,function()table.clear(ac)ad=0 end return{states=ac,update
-=ag,step=af,add=ah,remove=ae,clear=ai}end return aa end function a.cF()local ab=
-a.cache.cF if not ab then ab={c=aa()}a.cache.cF=ab end return ab.c end end do
-local aa=function()local aa,ab=nil,(a.cB())local ac=function(ac,ad,...)aa=nil
+=ag,step=af,add=ah,remove=ae,clear=ai}end return aa end function a.cI()local ab=
+a.cache.cI if not ab then ab={c=aa()}a.cache.cI=ab end return ab.c end end do
+local aa=function()local aa,ab=nil,(a.cE())local ac=function(ac,ad,...)aa=nil
 ad(...)aa=ac end local ad=function()while true do ac(coroutine.yield())end end
 local ae=function(ae,...)local af=aa or coroutine.create(ad)aa=nil coroutine.
-resume(af,af,ae,...)end return ae end function a.cG()local ab=a.cache.cG if not
-ab then ab={c=aa()}a.cache.cG=ab end return ab.c end end do local aa=function()
-local aa=a.cG()local ab=function()local ab,ac={},0 local ad,ae=function(ad)table
+resume(af,af,ae,...)end return ae end function a.cJ()local ab=a.cache.cJ if not
+ab then ab={c=aa()}a.cache.cJ=ab end return ab.c end end do local aa=function()
+local aa=a.cJ()local ab=function()local ab,ac={},0 local ad,ae=function(ad)table
 .insert(ab,ad)ac+=1 return function()local ae=table.find(ab,ad)if ae then ab[ae]
 =ab[ac]ab[ac]=nil ac-=1 end end end,function(...)for ad=ac,1,-1 do aa(ab[ad],...
-)end end return ad,ae end return ab end function a.cH()local ab=a.cache.cH if
-not ab then ab={c=aa()}a.cache.cH=ab end return ab.c end end do local aa=
-function()return{}end function a.cI()local ab=a.cache.cI if not ab then ab={c=
-aa()}a.cache.cI=ab end return ab.c end end do local aa=function()local aa,ab,ac,
-ad=a.cE(),a.cF(),a.cH(),a.cI()local ae,af,ag,ah,ai=aa.getValue,aa.recomputeValue
+)end end return ad,ae end return ab end function a.cK()local ab=a.cache.cK if
+not ab then ab={c=aa()}a.cache.cK=ab end return ab.c end end do local aa=
+function()return{}end function a.cL()local ab=a.cache.cL if not ab then ab={c=
+aa()}a.cache.cL=ab end return ab.c end end do local aa=function()local aa,ab,ac,
+ad=a.cH(),a.cI(),a.cK(),a.cL()local ae,af,ag,ah,ai=aa.getValue,aa.recomputeValue
 ,1e-3,62.5,{}(ai).__index=ai local aj=function(aj,ak)if type(aj)=='number'then
 return math.abs(aj)<=ak else local al=vector.abs(aj)return math.max(al.x,al.y,al
 .z)<=ak end end local ak,al=ab('Spring',function(ak,al,am)if ak.complete then
@@ -3232,14 +3315,14 @@ impulse(am)aa.addValue(self.state.velocity,am)self:scheduleUpdate()end function
 ai:halt()aa.zero(self.state.velocity)end function ai:onChange(am)return self.
 state.onChange(am)end function ai:onComplete(am)return self.state.onComplete(am)
 end function ai:destroy()self:stop()end return{scheduler=ak,createSpring=al}end
-function a.cJ()local ab=a.cache.cJ if not ab then ab={c=aa()}a.cache.cJ=ab end
-return ab.c end end do local aa=function()a.cJ()return{default={tension=170,
+function a.cM()local ab=a.cache.cM if not ab then ab={c=aa()}a.cache.cM=ab end
+return ab.c end end do local aa=function()a.cM()return{default={tension=170,
 friction=26},gentle={tension=120,friction=14},wobbly={tension=180,friction=12},
 stiff={tension=210,friction=20},slow={tension=280,friction=60},molasses={tension
 =280,friction=120},figmaGentle={tension=100,friction=15},figmaQuick={tension=300
 ,friction=20},figmaBouncy={tension=600,friction=15},figmaSlow={tension=80,
-friction=20}}end function a.cK()local ab=a.cache.cK if not ab then ab={c=aa()}a.
-cache.cK=ab end return ab.c end end do local aa=function()local aa,ab=math.pi,
+friction=20}}end function a.cN()local ab=a.cache.cN if not ab then ab={c=aa()}a.
+cache.cN=ab end return ab.c end end do local aa=function()local aa,ab=math.pi,
 1.70158 local ac,ad,ae,af,ag,ah,ai,aj,ak,al,am,an,ao,ap,aq,ar,as,at,au,av,aw,ax,
 ay,az,aA,aB,aC,aD=ab*1.525,ab+1,(2*aa)/3,(2*aa)/4.5,function(ac)return ac end,
 function(ac)return if ac==0 then 0 else 1 end,function(ac)return ac*ac*(3-2*ac)
@@ -3274,16 +3357,16 @@ quadInOut=al,cubicIn=am,cubicOut=an,cubicInOut=ao,quartIn=ap,quartOut=aq,
 quartInOut=ar,quintIn=as,quintOut=at,quintInOut=au,sineIn=av,sineOut=aw,
 sineInOut=ax,expoIn=ay,expoOut=az,expoInOut=aA,circIn=aB,circOut=aC,circInOut=aD
 ,backIn=aE,backOut=aF,backInOut=b,elasticIn=c,elasticOut=d,elasticInOut=e,
-bounceIn=g,bounceOut=f,bounceInOut=h}end function a.cL()local ab=a.cache.cL if
-not ab then ab={c=aa()}a.cache.cL=ab end return ab.c end end do local aa=
-function()local aa,ab=a.cI(),function(aa,ab,ac)local ad=typeof(aa)if ad==
+bounceIn=g,bounceOut=f,bounceInOut=h}end function a.cO()local ab=a.cache.cO if
+not ab then ab={c=aa()}a.cache.cO=ab end return ab.c end end do local aa=
+function()local aa,ab=a.cL(),function(aa,ab,ac)local ad=typeof(aa)if ad==
 'number'or ad=='vector'then return aa+(ab-aa)*ac elseif ad=='table'then local ae
 =aa for af,ag in ab do local ah=aa[af]if not ah then continue end local ai=ah+(
 ag-ah)*ac if ae[af]~=ai then if ae==aa then ae=table.clone(aa)end ae[af]=ai end
 end return ae else error(`Unsupported type for interpolation: {ad}`)end end
-return ab end function a.cM()local ab=a.cache.cM if not ab then ab={c=aa()}a.
-cache.cM=ab end return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,
-af,ag=a.cL(),a.cM(),a.cD(),a.cF(),a.cH(),a.cI(),{}(ag).__index=ag local ah=
+return ab end function a.cP()local ab=a.cache.cP if not ab then ab={c=aa()}a.
+cache.cP=ab end return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,
+af,ag=a.cO(),a.cP(),a.cG(),a.cI(),a.cK(),a.cL(),{}(ag).__index=ag local ah=
 function(ah,ai,aj)if ai<0 then ai=math.huge end if ai>1 and ah>=1 then if aj
 then return math.abs((ah-1)%2-1)elseif ah<ai then return ah%1 end return 1 end
 return ah end local ai,aj=ad('Tween',function(ai,aj,ak)if ai.complete then ak(ai
@@ -3316,9 +3399,9 @@ end local am=if type(ak)=='table'then ac(self.state.goal,ak)else ak if self.
 state.goal~=am then self.state.goal=am self:resumeFromCurrentPosition()end end
 function ag:onChange(ak)return self.state.onChange(ak)end function ag:onComplete
 (ak)return self.state.onComplete(ak)end function ag:destroy()self:stop()end
-return{scheduler=ai,createTween=aj}end function a.cN()local ab=a.cache.cN if not
-ab then ab={c=aa()}a.cache.cN=ab end return ab.c end end do local aa=function()
-local aa,ab,ac,ad,ae,af=a.cF(),a.cH(),a.cJ(),a.cN(),a.cI(),{}(af).__index=af
+return{scheduler=ai,createTween=aj}end function a.cQ()local ab=a.cache.cQ if not
+ab then ab={c=aa()}a.cache.cQ=ab end return ab.c end end do local aa=function()
+local aa,ab,ac,ad,ae,af=a.cI(),a.cK(),a.cM(),a.cQ(),a.cL(),{}(af).__index=af
 local ag,ah=aa('Motion',function(ag,ah,ai)if ag.complete then ai(ag)return ag.
 current:getPosition()end local aj=ag.current:step(ah)if ag.current:idle()then
 ai(ag)ag.complete=true ag.fireComplete(aj)end return aj end),function(ag)local
@@ -3357,20 +3440,20 @@ aj,ak)self:prepareTween()self.state.tween:setGoal(aj,ak)if not self.state.tween:
 idle()then self:scheduleUpdate()end end function af:onChange(aj)return self.
 state.onChange(aj)end function af:onComplete(aj)return self.state.onComplete(aj)
 end function af:destroy()self:stop()end return{scheduler=ag,createMotion=ai}end
-function a.cO()local ab=a.cache.cO if not ab then ab={c=aa()}a.cache.cO=ab end
-return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,af=a.cK(),a.cL(),
-a.cO(),a.cJ(),a.cN(),a.cI()return{config=aa,easing=ab,createMotion=ac.
+function a.cR()local ab=a.cache.cR if not ab then ab={c=aa()}a.cache.cR=ab end
+return ab.c end end do local aa=function()local aa,ab,ac,ad,ae,af=a.cN(),a.cO(),
+a.cR(),a.cM(),a.cQ(),a.cL()return{config=aa,easing=ab,createMotion=ac.
 createMotion,motionScheduler=ac.scheduler,createSpring=ad.createSpring,
 springScheduler=ad.scheduler,createTween=ae.createTween,tweenScheduler=ae.
-scheduler}end function a.cP()local ab=a.cache.cP if not ab then ab={c=aa()}a.
-cache.cP=ab end return ab.c end end do local aa=function()local aa=a.cP()return
-aa end function a.cQ()local ab=a.cache.cQ if not ab then ab={c=aa()}a.cache.cQ=
+scheduler}end function a.cS()local ab=a.cache.cS if not ab then ab={c=aa()}a.
+cache.cS=ab end return ab.c end end do local aa=function()local aa=a.cS()return
+aa end function a.cT()local ab=a.cache.cT if not ab then ab={c=aa()}a.cache.cT=
 ab end return ab.c end end do local aa=function()local aa=game:GetService
 'UserInputService'return{IsTouchDevice=rawget(_G,'__COCO_MOBILE_TEST')or aa.
-TouchEnabled}end function a.cR()local ab=a.cache.cR if not ab then ab={c=aa()}a.
-cache.cR=ab end return ab.c end end do local aa=function()local aa=a.a()local ab
+TouchEnabled}end function a.cU()local ab=a.cache.cU if not ab then ab={c=aa()}a.
+cache.cU=ab end return ab.c end end do local aa=function()local aa=a.a()local ab
 ,ac,ad,ae,af,ag,ah,ai,aj,ak=aa.GuiService,aa.UserInputService,aa.RunService,aa.
-Lighting,a.cC(),a.cQ(),a.c(),a.cR(),300,{Enum.UserInputType.MouseButton1,Enum.
+Lighting,a.cF(),a.cT(),a.c(),a.cU(),300,{Enum.UserInputType.MouseButton1,Enum.
 UserInputType.MouseButton2,Enum.UserInputType.Touch}local al,am,an={Valid=true,
 AutoComplete=nil,ProcessEntry=nil,OnTextChanged=nil,CoCo=nil,GuiRoot=nil,
 HistoryState=nil,Janitor=af.new(),LastLineText=nil,LastLineGui=nil,
@@ -3495,9 +3578,9 @@ end return b:FindFirstChild'CoCo'end local d=function()local d=c()if not d then
 return nil end return d:FindFirstChild'MobileToggle'end task.spawn(function()
 while not aA()do task.wait()end b()aB=d()if aB then aB.Visible=ai.IsTouchDevice
 aB.MouseButton1Click:Connect(function()al:show()end)end end)return al end
-function a.cS()local ab=a.cache.cS if not ab then ab={c=aa()}a.cache.cS=ab end
+function a.cV()local ab=a.cache.cV if not ab then ab={c=aa()}a.cache.cV=ab end
 return ab.c end end do local aa=function()return function(aa,ab)local ac,ad,ae=a
-.c(),a.cC(),a.a()local af,ag,ah,ai=ae.TweenService,a.cR(),{Items={},ItemOptions=
+.c(),a.cF(),a.a()local af,ag,ah,ai=ae.TweenService,a.cU(),{Items={},ItemOptions=
 {},SelectedItem=0,Janitor=ad.new()},ab:WaitForChild'Autocomplete'local aj,ak,al,
 am=ai:WaitForChild'TextButton',ai:WaitForChild'Title',ai:WaitForChild
 'Description',ab:WaitForChild'Frame':WaitForChild'Entry'aj.Parent=nil local an,
@@ -3555,10 +3638,10 @@ ai.Size.Y.Offset))if self.Items[self.SelectedItem]and self.Items[self.
 SelectedItem].options then at(self.Items[self.SelectedItem].options or{})end end
 ah.Janitor:Add(ai.Parent:GetPropertyChangedSignal'AbsoluteSize':Connect(as),
 'Disconnect')function ah:destroy()self.Janitor:Destroy()end return ah end end
-function a.cT()local ab=a.cache.cT if not ab then ab={c=aa()}a.cache.cT=ab end
+function a.cW()local ab=a.cache.cW if not ab then ab={c=aa()}a.cache.cW=ab end
 return ab.c end end do local aa=function()local aa=a.c()return function(ab,ac)
-local ad=a.cS()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local af
-=a.cT()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
+local ad=a.cV()ad.CoCo=ab ad.GuiRoot=ac local ae=ac:FindFirstChild'CoCo'local af
+=a.cW()(ab,ae or ac)ad.AutoComplete=af function ad.ProcessEntry(ag)ag=aa.
 trimString(ag)if#ag==0 then return end ad:addLine(ad:getLabel()..' '..ag,Color3.
 fromRGB(255,223,93))ad:addLine(ab.Dispatcher:evaluateAndRun(ag))end local ag,ah=
 0.3 function ad.OnTextChanged(ai)local aj,ak=ab.Dispatcher:evaluate(ai,ab.
@@ -3598,15 +3681,15 @@ return af:show(aq)end ad:setIsValidInput(false,(
 ):format(al))af:hide()else if ah then task.cancel(ah)ah=nil end ad:
 setIsValidInput(false,'Use the help command to see all available commands.')af:
 hide()end end ad:updateLabel()ad:updateWindowHeight()return{Window=ad,
-AutoComplete=af}end end function a.cU()local ab=a.cache.cU if not ab then ab={c=
-aa()}a.cache.cU=ab end return ab.c end end do local aa=function()local aa,ab=a.
-a(),a.cS()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
+AutoComplete=af}end end function a.cX()local ab=a.cache.cX if not ab then ab={c=
+aa()}a.cache.cX=ab end return ab.c end end do local aa=function()local aa,ab=a.
+a(),a.cV()return function(ac,ad)ac.Events.Message:Connect(function(ae)local af=
 pcall(function()aa.StarterGui:SetCore('ChatMakeSystemMessage',{Text=(
 '[Announcement] %s'):format(ae),Color=Color3.fromRGB(249,217,56)})end)if not af
 then warn'CoCo: Failed to send chat announcement message.'end end)ac.Events.
-AddLine:Connect(function(...)ab:addLine(...)end)end end function a.cV()local ab=
-a.cache.cV if not ab then ab={c=aa()}a.cache.cV=ab end return ab.c end end do
-local aa=function()local aa,ab=a.d(),a.ao()return function(ac,ad)local ae=a.cU(
+AddLine:Connect(function(...)ab:addLine(...)end)end end function a.cY()local ab=
+a.cache.cY if not ab then ab={c=aa()}a.cache.cY=ab end return ab.c end end do
+local aa=function()local aa,ab=a.d(),a.ao()return function(ac,ad)local ae=a.cX(
 )(ac,ad)ac.ActivationKeys={[Enum.KeyCode.F2]=true}ac.Enabled=true ac.
 MashToEnable=false ac.ActivationUnlocksMouse=false ac.HideOnLostFocus=true ac.
 PlaceName='CoCo'ac.Events={AddLine=ab.new(),Message=ab.new()}function ac:
@@ -3619,9 +3702,9 @@ end ae.Window:show()end function ac:hide()ae.Window:hide()end function ac:toggle
 Window:isVisible())end function ac:setMashToEnable(af)self.MashToEnable=af if af
 then self:setEnabled(false)end end function ac:setHideOnLostFocus(af)self.
 HideOnLostFocus=af end function ac:handleEvent(af,ag)if self.Events[af]then
-return self.Events[af]:Connect(ag)end end local af=a.bY()af:apply(ac)a.cV()(ac,
-ad)return ae end end function a.cW()local ab=a.cache.cW if not ab then ab={c=aa(
-)}a.cache.cW=ab end return ab.c end end end local aa,ab=a.cy(),pcall(gethui)and
+return self.Events[af]:Connect(ag)end end local af=a.b_()af:apply(ac)a.cY()(ac,
+ad)return ae end end function a.cZ()local ab=a.cache.cZ if not ab then ab={c=aa(
+)}a.cache.cZ=ab end return ab.c end end end local aa,ab=a.cB(),pcall(gethui)and
 gethui()local ac=ab and ab:FindFirstChild'CoCo'if not ac then local ad=os.clock(
 )while not ac and os.clock()-ad<5 do ac=ab and ab:FindFirstChild'CoCo'task.wait(
-)end end a.cW()(aa,ab or game:GetService'CoreGui')return aa
+)end end a.cZ()(aa,ab or game:GetService'CoreGui')return aa
