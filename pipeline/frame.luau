@@ -2,9 +2,12 @@
 --!nolint
 
 --[[
-    @panduhpanduhpanduhpanduh on Discord
-    https://github.com/Panda-Utilities/CoCo/
+    @link https://github.com/Panda-Utilities/CoCo/
+    @author @panduhpanduhpanduhpanduh on Discord
+    @repository CoCo
+    @license GPL-3.0 with additional terms
 
+    Copyright © 2026 CoCo, GPL-3.0 license with additional terms.
     This file was automatically generated with darklua, it is not intended for manual editing.
 --]]
 
